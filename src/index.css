@@ -1,13 +1,67 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.page-layout-content {
+  background-color: #ffffff;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.auth-layout-content {
+  background-color: #ffffff;
+}
+
+.auth-layout-row {
+  min-height: 100vh;
+  padding: 25px;
+}
+
+.dashboard-layout .dashboard-layout-header {
+  background-color: #ffffff;
+}
+
+.dashboard-layout-content {
+  min-height: 100vh;
+}
+
+.logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.home-background {
+  background-image: url(./assets/images/spiral.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  transform: rotate(270deg);
+}
+
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.google-button {
+  background-color: #4885ed;
+  color: #fff;
+}
+
+.facebook-button {
+  background-color: #3b5998;
+  color: #fff;
 }

@@ -1,0 +1,8 @@
+export const LOGIN_USER = 'LOGIN_USER';
+export const REGISTER_USER = 'REGISTER_USER';
+export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
+export const GOOGLE_OAUTH = 'GOOGLE_OAUTH';
+export const FACEBOOK_OAUTH = 'FACEBOOK_OAUTH';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAILURE = 'AUTH_FAILURE';
