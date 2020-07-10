@@ -6,7 +6,8 @@ import {
 export const initialState = {
   user: {},
   loading: false,
-  errors: {}
+  errors: {},
+  token: '' || localStorage.getItem('access-token'),
 }
 
 export default function authReducer(state = initialState, action) {
