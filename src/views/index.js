@@ -8,6 +8,9 @@ import ForgotPassword from './Auth/ForgotPassword';
 import ResetPassword from './Auth/ResetPassword';
 
 import Overview from './Dashboard/Overview';
+
+import CasesList from './Dashboard/Cases/CasesList';
+
 import OrganizationsList from './Dashboard/Organizations/OrganizationsList';
 import Organization from './Dashboard/Organizations/Organization';
 
@@ -22,6 +25,9 @@ export {
   ResetPassword,
 
   Overview,
+
+  CasesList,
+
   OrganizationsList,
   Organization,
 }

@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
+import { Link } from 'react-router-dom';
+
+import {
+  DeleteOutlined,
+  EyeOutlined,
+} from '@ant-design/icons';
 
 class CasesTable extends Component {
 
@@ -11,6 +17,7 @@ class CasesTable extends Component {
           title: 'Case No.',
           dataIndex: 'number',
           key: 'number',
+          render: number => <Link to="/case/case">{number}</Link>,
         }, {
           title: 'Title',
           dataIndex: 'title',
@@ -23,6 +30,15 @@ class CasesTable extends Component {
           title: 'Status',
           dataIndex: 'status',
           key: 'status',
+        }, {
+          title: 'Actions',
+          key: 'action',
+          render: (text, record) => (
+            <>
+              <Button type="danger" icon={<DeleteOutlined />} />
+              <Button type="primary" icon={<EyeOutlined />}/>
+            </>
+          ),
         },
       ]
     }
@@ -30,7 +46,7 @@ class CasesTable extends Component {
 
   render() {
     return (
-      <Table columns={this.state.columns} />
+      <Table columns={this.state.columns} dataSource={this.props.cases} />
     )
   }
 }

@@ -5,6 +5,7 @@ import {
   Home, Help, ClientsList,
   Login, Register, ForgotPassword, ResetPassword,
   Overview,
+  CasesList,
   OrganizationsList, Organization
 } from './views';
 
@@ -22,6 +23,8 @@ function App() {
         <Route path="/reset-password" component={ResetPassword}/>
 
         <Route path="/dashboard/overview" component={Overview}/>
+
+        <Route path="/dashboard/cases" component={CasesList}/>
 
         <Route path="/dashboard/organizations" component={OrganizationsList}/>
         <Route path="/dashboard/organization" component={Organization}/>

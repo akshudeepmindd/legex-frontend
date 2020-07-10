@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
+import Logo from '../assets/images/logo.png';
 import { Sidebar } from '../components';
 
 const { Header, Sider, Content, Footer } = Layout;
@@ -29,7 +30,7 @@ class DashboardLayout extends Component {
     return (
       <Layout>
         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo">LEGEX</div>
+          <img src={Logo} alt="Legex" className="logo"/>
           <Sidebar/>
         </Sider>
         <Layout className="dashboard-layout">

@@ -17,6 +17,9 @@ import CaseCard from './Case/CaseCard';
 import CaseForm from './Case/CaseForm';
 import CasesTable from './Case/CasesTable';
 
+import PartyCard from './Party/PartyCard';
+import PartyForm from './Party/PartyForm';
+
 export {
   Navbar,
   Sidebar,
@@ -36,4 +39,7 @@ export {
   CaseCard,
   CaseForm,
   CasesTable,
+
+  PartyCard,
+  PartyForm,
 }
