@@ -1,4 +1,6 @@
 import Home from './Home';
+import Help from './Help';
+import ClientsList from './Clients/ClientsList';
 
 import Login from './Auth/Login';
 import Register from './Auth/Register';
@@ -11,6 +13,8 @@ import Organization from './Dashboard/Organizations/Organization';
 
 export {
   Home,
+  Help,
+  ClientsList,
 
   Login,
   Register,

@@ -34,6 +34,14 @@ class Login extends Component {
     })
   }
 
+  googleLogin = () => {
+
+  }
+
+  facebookLogin = () => {
+
+  }
+
   render() {
     return (
       <AuthLayout>

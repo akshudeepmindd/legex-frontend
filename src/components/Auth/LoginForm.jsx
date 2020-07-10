@@ -4,7 +4,6 @@ import { Form, Input, Button, Checkbox, Row, Col, Divider } from 'antd';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
-
 class LoginForm extends Component {
   render() {
     return (
@@ -20,7 +19,6 @@ class LoginForm extends Component {
             type="email"
             placeholder="Email"
             value={this.props.email}
-            id="email"
             onChange={this.props.onEmailChange}
           />
         </Form.Item>
@@ -32,7 +30,6 @@ class LoginForm extends Component {
           <Input.Password
             placeholder="Password"
             value={this.props.password}
-            id="password"
             onChange={this.props.onPasswordChange}
           />
         </Form.Item>
@@ -57,10 +54,24 @@ class LoginForm extends Component {
 
         <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 16 }}>
           <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-            <Button icon={<GoogleOutlined />} className="google-button" block>Google</Button>
+            <Button
+              icon={<GoogleOutlined />}
+              className="google-button"
+              block
+              onClick={this.props.googleLogin}
+            >
+              Google
+            </Button>
           </Col>
           <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-            <Button icon={<FacebookOutlined />} className="facebook-button" block>Facebook</Button>
+            <Button
+              icon={<FacebookOutlined />}
+              className="facebook-button"
+              block
+              onClick={this.props.facebookLogin}
+            >
+              Facebook
+            </Button>
           </Col>
         </Row>
       </Form>

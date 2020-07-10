@@ -1,3 +1,7 @@
+.ant-layout-header {
+  background-color: #ffffff;
+}
+
 .page-layout-content {
   background-color: #ffffff;
 }
@@ -8,7 +12,18 @@
 
 .auth-layout-row {
   min-height: 100vh;
+}
+
+.auth-layout-form {
   padding: 25px;
+}
+
+.auth-layout-image {
+  background-image: url(./assets/images/darkbg.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
 }
 
 .dashboard-layout .dashboard-layout-header {
@@ -25,6 +40,10 @@
   margin: 16px;
 }
 
+.text-white {
+  color: #fff;
+}
+
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -39,14 +58,36 @@
   height: 100vh;
 }
 
-.home-background {
-  background-image: url(./assets/images/spiral.png);
-  background-size: cover;
-  background-position: center;
+.home-hero-image {
+  height: 100vh;
+  width: 100%;
+}
+
+.home-hero {
+  height: 100vh;
+}
+
+.home-hero-container {
+  padding: 25px;
+}
+
+.help-hero {
+  height: 100vh;
+  background-image: url(./assets/images/darkbg.png);
+  background-repeat: no-repeat;
+}
+
+.help-hero-container {
+  color: #fff;
+  padding: 25px;
+}
+
+.clients-hero {
+  background-image: url(./assets/images/darkbg.png);
   background-repeat: no-repeat;
   height: 100vh;
-  transform: rotate(270deg);
 }
+
 
 .ant-col-rtl .login-form-forgot {
   float: left;

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import {
-  Home,
+  Home, Help, ClientsList,
   Login, Register, ForgotPassword, ResetPassword,
   Overview,
   OrganizationsList, Organization
@@ -13,16 +13,18 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" component={Home} exact/>
+        <Route path="/how-we-help-you" component={Help} />
+        <Route path="/our-clients" component={ClientsList} />
 
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
         <Route path="/forgot-password" component={ForgotPassword}/>
         <Route path="/reset-password" component={ResetPassword}/>
 
-        <Route path="/overview" component={Overview}/>
+        <Route path="/dashboard/overview" component={Overview}/>
 
-        <Route path="/organizations" component={OrganizationsList}/>
-        <Route path="/organization" component={Organization}/>
+        <Route path="/dashboard/organizations" component={OrganizationsList}/>
+        <Route path="/dashboard/organization" component={Organization}/>
 
       </Switch>
     </Router>
