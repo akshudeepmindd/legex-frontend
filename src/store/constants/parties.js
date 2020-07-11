@@ -1,0 +1,6 @@
+export const FETCH_PARTIES = 'FETCH_PARTIES';
+export const FETCH_PARTY = 'FETCH_PARTY';
+export const CREATE_PARTY = 'CREATE_PARTY';
+export const UPDATE_PARTY = 'UPDATE_PARTY';
+export const DELETE_PARTY = 'DELETE_PARTY';
+export const REQUEST_FAILURE = 'REQUEST_FAILURE';

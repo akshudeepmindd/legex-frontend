@@ -27,6 +27,9 @@ export default function caseReducers(state = initialState, action) {
     case DELETE_CASE:
       return { ...state, loading: true }
 
+    case REQUEST_FAILURE:
+      return { ...state, error: action.payload, loading: false }
+
     default:
       return state;
   }

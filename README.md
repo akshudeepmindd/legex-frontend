@@ -1,6 +1,6 @@
 # Legex O.D.R. Client.
 
->
+> Online platform that extends the functionalities of Alternative dispute resolution.
 
 ## Installation
 
