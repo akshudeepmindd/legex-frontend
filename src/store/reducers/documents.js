@@ -1,7 +1,7 @@
 import {
   FETCH_DOCUMENTS, FETCH_DOCUMENT, UPDATE_DOCUMENT, DELETE_DOCUMENT,
   REQUEST_FAILURE,
-} from '../constants/cases';
+} from '../constants/documents';
 
 export const initialState = {
   document: {},

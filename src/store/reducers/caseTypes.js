@@ -1,0 +1,35 @@
+import {
+  FETCH_CASE_TYPES, FETCH_CASE_TYPE, CREATE_CASE_TYPE, UPDATE_CASE_TYPE, DELETE_CASE_TYPE,
+  REQUEST_FAILURE,
+} from '../constants/caseTypes';
+
+export const initialState = {
+  caseTypes: {},
+  caseType: [],
+  loading: false,
+  error: {}
+}
+export default function caseTypeReducers(state = initialState, action) {
+  switch (action.type) {
+    case FETCH_CASE_TYPES:
+      return { ...state, caseTypes: action.payload, loading: true }
+
+    case FETCH_CASE_TYPE:
+      return { ...state, caseType: action.payload, loading: true }
+
+    case CREATE_CASE_TYPE:
+      return { ...state, loading: true }
+
+    case UPDATE_CASE_TYPE:
+      return { ...state, loading: true }
+
+    case DELETE_CASE_TYPE:
+      return { ...state, loading: true }
+
+    case REQUEST_FAILURE:
+      return { ...state, error: action.payload, loading: false }
+
+    default:
+      return state;
+  }
+}

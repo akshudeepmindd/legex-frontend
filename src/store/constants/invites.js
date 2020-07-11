@@ -1,0 +1,6 @@
+export const FETCH_INVITES = 'FETCH_INVITES';
+export const FETCH_INVITE = 'FETCH_INVITE';
+export const CREATE_INVITE = 'CREATE_INVITE';
+export const UPDATE_INVITE = 'UPDATE_INVITE';
+export const DELETE_INVITE = 'DELETE_INVITE';
+export const REQUEST_FAILURE = 'REQUEST_FAILURE';
