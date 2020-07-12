@@ -6,64 +6,75 @@ import { Link } from 'react-router-dom';
 import { AuthLayout } from '../../layouts';
 import { RegisterForm } from '../../components';
 import { registerUser } from '../../store/actions/auth';
-const {Title} = Typography;
+
+const { Title } = Typography;
 
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-       firstName: '',
-       lastName: '',
-       email: '',
-       phone: '',
-       password: '',
-       confirmPassword: '',
-    }
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+    };
   }
 
   onFinish = (values) => {
     this.props.registerUser(values);
-  }
+  };
 
   onChangeFirstName = (firstName) => {
     this.setState({
-      firstName: firstName,
-    })
-  }
+      firstName,
+    });
+  };
 
   onChangeLastName = (lastName) => {
     this.setState({
-      lastName: lastName,
-    })
-  }
+      lastName,
+    });
+  };
 
   onChangeEmail = (email) => {
     this.setState({
-      email: email
-    })
-  }
+      email,
+    });
+  };
 
   onChangePassword = (password) => {
     this.setState({
-      password: password
-    })
-  }
+      password,
+    });
+  };
 
   onChangeConfirmPassword = (confirmPassword) => {
     this.setState({
-      confirmPassword: confirmPassword
-    })
-  }
+      confirmPassword,
+    });
+  };
 
   render() {
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+      confirmPassword,
+    } = this.state;
+    const { loading, error } = this.props;
+
     return (
       <AuthLayout>
-        <p>Already have an IBM Cloud account? <Link to="/login">Log in</Link></p>
+        <p>
+          Already have an IBM Cloud account? <Link to="/login">Log in</Link>
+        </p>
         <Title>Create an account</Title>
-        <Spin spinning={this.props.loading} />
-        {
-          this.props.length > 0 ? <Alert>Hey</Alert> : <div></div>
-        }
+        <Spin spinning={loading} />
+        {error ? <Alert>Hey</Alert> : <div />}
         <RegisterForm
           onFinish={this.onFinish}
           onChangeFirstName={this.onChangeFirstName}
@@ -72,25 +83,25 @@ class Register extends Component {
           onChangePhone={this.onChangePhone}
           onChangePassword={this.onChangePassword}
           onChangeConfirmPassword={this.onChangeConfirmPassword}
-          firstName={this.state.firstName}
-          lastName={this.state.lastName}
-          email={this.state.email}
-          phone={this.state.phone}
-          password={this.state.password}
-          confirmPassword={this.state.confirmPassword}
+          firstName={firstName}
+          lastName={lastName}
+          email={email}
+          phone={phone}
+          password={password}
+          confirmPassword={confirmPassword}
         />
       </AuthLayout>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  registerUser: payload => dispatch(registerUser(payload))
-})
+  registerUser: (payload) => dispatch(registerUser(payload)),
+});
 
 const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

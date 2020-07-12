@@ -78,8 +78,4 @@ class OrganizationsList extends Component {
   }
 }
 
-OrganizationsList.propTypes = {
-  organizations: PropTypes.array,
-};
-
 export default OrganizationsList;

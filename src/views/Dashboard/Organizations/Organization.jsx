@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { DashboardLayout } from '../../../layouts';
 
-class Organization extends Component {
-  render() {
-    return <DashboardLayout />;
-  }
+function Organization() {
+  return <DashboardLayout />;
 }
 
 export default Organization;
