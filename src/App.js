@@ -11,6 +11,9 @@ import {
   ResetPassword,
   Overview,
   CasesList,
+  Case,
+  DocumentsList,
+  Document,
   OrganizationsList,
   Organization,
   Activity,
@@ -31,10 +34,21 @@ function App() {
 
         <Route path="/dashboard/overview" component={Overview} />
 
-        <Route path="/dashboard/cases" component={CasesList} />
+        <Route path="/dashboard/cases" component={CasesList} exact />
+        <Route path="/dashboard/cases/:case" component={Case} />
 
-        <Route path="/dashboard/organizations" component={OrganizationsList} />
-        <Route path="/dashboard/organization" component={Organization} />
+        <Route path="/dashboard/documents" component={DocumentsList} exact />
+        <Route path="/dashboard/documents/:document" component={Document} />
+
+        <Route
+          path="/dashboard/organizations"
+          component={OrganizationsList}
+          exact
+        />
+        <Route
+          path="/dashboard/organizations/:organization"
+          component={Organization}
+        />
 
         <Route path="/dashboard/activities" component={Activity} />
       </Switch>
