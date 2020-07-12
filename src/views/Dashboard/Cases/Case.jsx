@@ -31,7 +31,7 @@ class Case extends Component {
             extra={[
               <Button key="2">Suspend case</Button>,
               <Button key="1" type="primary">
-                Give verdict
+                Add Party
               </Button>,
             ]}
           >

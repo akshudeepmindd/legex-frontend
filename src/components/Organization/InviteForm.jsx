@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, Button } from 'antd';
 
 class InviteForm extends Component {
@@ -10,6 +11,7 @@ class InviteForm extends Component {
       >
         <Form.Item
           name="name"
+          rules={[{ required: true, message: 'Please input invite name!' }]}
         >
           <Input
             type="text"
@@ -21,6 +23,7 @@ class InviteForm extends Component {
 
         <Form.Item
           name="email"
+          rules={[{ required: true, message: 'Please input invite email!' }]}
         >
           <Input
             type="email"
@@ -32,6 +35,7 @@ class InviteForm extends Component {
 
         <Form.Item
           name="phone"
+          rules={[{ required: true, message: 'Please input invite phone!' }]}
         >
           <Input
             type="phone"
@@ -47,6 +51,16 @@ class InviteForm extends Component {
       </Form>
     )
   }
+}
+
+InviteForm.propTypes = {
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  onNameChange: PropTypes.func,
+  onEmailChange: PropTypes.func,
+  onPhoneChange: PropTypes.func,
+  onFinish: PropTypes.func,
 }
 
 export default InviteForm;

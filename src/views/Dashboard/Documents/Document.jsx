@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 import { DashboardLayout } from '../../../layouts';
 
-class Organization extends Component {
+class Document extends Component {
   render() {
     return <DashboardLayout />;
   }
 }
 
-export default Organization;
+export default Document;

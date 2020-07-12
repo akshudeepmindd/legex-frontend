@@ -7,18 +7,25 @@ import {
   WalletOutlined,
   SettingOutlined,
   InfoCircleOutlined,
+  CalendarOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 class Sidebar extends Component {
-  render(){
+  render() {
     return (
       <div className="sidebar">
         <Menu theme="dark" mode="inline">
           <Menu.Item key="/dashboard/overview" icon={<HomeOutlined />}>
             <Link to="/dashboard/overview">Home</Link>
           </Menu.Item>
-          <Menu.Item key="/dashboard/organizations" icon={<ApartmentOutlined />}>
+          <Menu.Item key="/dashboard/activities" icon={<CalendarOutlined />}>
+            <Link to="/dashboard/activities">Activities</Link>
+          </Menu.Item>
+          <Menu.Item
+            key="/dashboard/organizations"
+            icon={<ApartmentOutlined />}
+          >
             <Link to="/dashboard/organizations">Organizations</Link>
           </Menu.Item>
           <Menu.Item key="/dashboard/documents" icon={<FolderOutlined />}>
@@ -37,7 +44,7 @@ class Sidebar extends Component {
           </Menu.Item>
         </Menu>
       </div>
-    )
+    );
   }
 }
 

@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 
 import { DashboardLayout } from '../../../layouts';
-import { CaseCard, CasesTable } from '../../../components';
+import { CaseCard, CasesTable, CaseForm } from '../../../components';
 
 class CasesList extends Component {
 

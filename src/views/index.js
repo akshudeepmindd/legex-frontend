@@ -14,20 +14,19 @@ import CasesList from './Dashboard/Cases/CasesList';
 import OrganizationsList from './Dashboard/Organizations/OrganizationsList';
 import Organization from './Dashboard/Organizations/Organization';
 
+import Activity from './Dashboard/Activity';
+
 export {
   Home,
   Help,
   ClientsList,
-
   Login,
   Register,
   ForgotPassword,
   ResetPassword,
-
   Overview,
-
   CasesList,
-
   OrganizationsList,
   Organization,
-}
+  Activity,
+};

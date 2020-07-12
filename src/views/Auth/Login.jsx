@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Typography } from 'antd';
+import { Typography, Spin } from 'antd';
 
 import { AuthLayout } from '../../layouts';
 import { LoginForm } from '../../components';
-import { loginUser } from '../../store/actions/auth';
+import { loginUser, googleOAuth, facebookOAuth } from '../../store/actions/auth';
 
 const { Title } = Typography;
 
@@ -35,24 +35,27 @@ class Login extends Component {
   }
 
   googleLogin = () => {
-
+    this.props.googleOAuth();
   }
 
   facebookLogin = () => {
-
+    this.props.facebookOAuth();
   }
 
   render() {
     return (
       <AuthLayout>
-        <Title>Log in to Legex O.D.R.</Title>
+        <Title>Log in</Title>
         <p>Don't have an account? <Link to="/register">Create an account</Link></p>
+        <Spin/>
         <LoginForm
           onEmailChange={this.onEmailChange}
           onPasswordChange={this.onPasswordChange}
           email={this.state.email}
           password={this.state.password}
           onFinish={this.onFinish}
+          googleLogin={this.googleLogin}
+          facebookLogin={this.facebookLogin}
         />
       </AuthLayout>
     )
@@ -60,7 +63,9 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  loginUser: payload => dispatch(loginUser(payload))
+  loginUser: payload => dispatch(loginUser(payload)),
+  googleOAuth: () => (dispatch(googleOAuth())),
+  facebookOAuth: () => (dispatch(facebookOAuth())),
 })
 
 const mapStateToProps = (state) => ({

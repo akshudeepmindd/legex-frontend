@@ -2,33 +2,41 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import {
-  Home, Help, ClientsList,
-  Login, Register, ForgotPassword, ResetPassword,
+  Home,
+  Help,
+  ClientsList,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
   Overview,
   CasesList,
-  OrganizationsList, Organization
+  OrganizationsList,
+  Organization,
+  Activity,
 } from './views';
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" component={Home} exact/>
+        <Route path="/" component={Home} exact />
         <Route path="/how-we-help-you" component={Help} />
         <Route path="/our-clients" component={ClientsList} />
 
-        <Route path="/login" component={Login}/>
-        <Route path="/register" component={Register}/>
-        <Route path="/forgot-password" component={ForgotPassword}/>
-        <Route path="/reset-password" component={ResetPassword}/>
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/forgot-password" component={ForgotPassword} />
+        <Route path="/reset-password" component={ResetPassword} />
 
-        <Route path="/dashboard/overview" component={Overview}/>
+        <Route path="/dashboard/overview" component={Overview} />
 
-        <Route path="/dashboard/cases" component={CasesList}/>
+        <Route path="/dashboard/cases" component={CasesList} />
 
-        <Route path="/dashboard/organizations" component={OrganizationsList}/>
-        <Route path="/dashboard/organization" component={Organization}/>
+        <Route path="/dashboard/organizations" component={OrganizationsList} />
+        <Route path="/dashboard/organization" component={Organization} />
 
+        <Route path="/dashboard/activities" component={Activity} />
       </Switch>
     </Router>
   );

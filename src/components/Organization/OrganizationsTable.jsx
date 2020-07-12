@@ -20,7 +20,7 @@ class OgranizationsTable extends Component {
   }
   render() {
     return (
-      <Table columns={this.state.columns} />
+      <Table columns={this.state.columns} dataSource={this.props.organizations}/>
     )
   }
 }

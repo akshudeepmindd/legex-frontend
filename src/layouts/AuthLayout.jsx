@@ -10,26 +10,40 @@ class AuthLayout extends Component {
     super(props);
     this.state = {
       year: new Date().getFullYear(),
-    }
+    };
   }
 
   render() {
     return (
       <Layout>
         <Header>
-          <Navbar/>
+          <Navbar />
         </Header>
         <Content className="auth-layout-content">
           <Row justify="center" align="middle" className="auth-layout-row">
-            <Col xs={24} sm={24} md={12} lg={8} xl={8} className="auth-layout-form">
+            <Col
+              xs={24}
+              sm={24}
+              md={12}
+              lg={8}
+              xl={8}
+              className="auth-layout-form"
+            >
               {this.props.children}
             </Col>
-            <Col xs={0} sm={0} md={12} lg={16} xl={16} className="auth-layout-image"></Col>
+            <Col
+              xs={0}
+              sm={0}
+              md={12}
+              lg={16}
+              xl={16}
+              className="auth-layout-image"
+            />
           </Row>
         </Content>
       </Layout>
-    )
+    );
   }
 }
 
-export default AuthLayout
+export default AuthLayout;

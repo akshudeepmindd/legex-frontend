@@ -23,23 +23,18 @@ import PartyForm from './Party/PartyForm';
 export {
   Navbar,
   Sidebar,
-
   LoginForm,
   RegisterForm,
   ForgotPasswordForm,
   ResetPasswordForm,
-
   ClientCard,
-
   InviteForm,
   OrganizationCard,
   OrganizationForm,
   OrganizationsTable,
-
   CaseCard,
   CaseForm,
   CasesTable,
-
   PartyCard,
   PartyForm,
-}
+};

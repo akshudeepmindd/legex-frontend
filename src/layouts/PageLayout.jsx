@@ -5,21 +5,19 @@ import { Navbar } from '../components';
 
 const { Header, Content, Footer } = Layout;
 
-
 export class PageLayout extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       date: new Date().getFullYear(),
-    }
+    };
   }
 
   render() {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Header className="page-layout-header">
-          <Navbar/>
+          <Navbar />
         </Header>
         <Content className="page-layout-content">
           {this.props.children};
@@ -29,8 +27,8 @@ export class PageLayout extends Component {
           <a href="https://www.legex.in/">Legex</a> product.
         </Footer>
       </Layout>
-    )
+    );
   }
 }
 
-export default PageLayout
+export default PageLayout;

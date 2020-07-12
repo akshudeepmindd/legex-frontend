@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Typography } from 'antd';
+import { Typography, Spin, Alert } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { AuthLayout } from '../../layouts';
@@ -21,8 +21,8 @@ class Register extends Component {
     }
   }
 
-  onFinish = (value) => {
-
+  onFinish = (values) => {
+    this.props.registerUser(values);
   }
 
   onChangeFirstName = (firstName) => {
@@ -60,6 +60,10 @@ class Register extends Component {
       <AuthLayout>
         <p>Already have an IBM Cloud account? <Link to="/login">Log in</Link></p>
         <Title>Create an account</Title>
+        <Spin spinning={this.props.loading} />
+        {
+          this.props.length > 0 ? <Alert>Hey</Alert> : <div></div>
+        }
         <RegisterForm
           onFinish={this.onFinish}
           onChangeFirstName={this.onChangeFirstName}

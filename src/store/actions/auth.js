@@ -19,7 +19,9 @@ export function loginUser(payload) {
     dispatch({type: LOGIN_USER});
     try {
       const response = await $http({ url: '/auth/login', data: payload, method: 'POST' });
-      dispatch(authSuccess(response));
+      const token = response.data.token;
+      localStorage.setItem('access-token', token);
+      dispatch(authSuccess(response.data));
     } catch (error) {
       dispatch(authFailure(error));
     }
@@ -31,18 +33,19 @@ export function registerUser(payload) {
     dispatch({type: REGISTER_USER});
     try {
       const response = await $http({ url: '/auth/register', data: payload, method: 'POST' });
-      dispatch(authSuccess(response));
+      dispatch(authSuccess(response.data.data));
     } catch (error) {
+      console.log(JSON.stringify(error));
       dispatch(authFailure(error));
     }
   }
 }
 
-export function googleOAuth(payload) {
+export function googleOAuth() {
   return async (dispatch) => {
     dispatch({type: GOOGLE_OAUTH});
     try {
-      const response = await $http({ url: '/auth/google', data: payload, method: 'POST' });
+      const response = await $http({ url: '/auth/google', method: 'GET' });
       dispatch(authSuccess(response));
     } catch (error) {
       dispatch(authFailure(error));
@@ -50,11 +53,11 @@ export function googleOAuth(payload) {
   }
 }
 
-export function facebookOAuth(payload) {
+export function facebookOAuth() {
   return async (dispatch) => {
     dispatch({type: FACEBOOK_OAUTH});
     try {
-      const response = await $http({ url: '/auth/facebook', data: payload, method: 'POST' });
+      const response = await $http({ url: '/auth/facebook', method: 'GET' });
       dispatch(authSuccess(response));
     } catch (error) {
       dispatch(authFailure(error));
