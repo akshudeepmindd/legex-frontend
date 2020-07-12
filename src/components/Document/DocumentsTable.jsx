@@ -1,32 +1,30 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import { Link } from 'react-router-dom';
 
-class DocumentsTable extends Component {
+function DocumentsTable(props) {
+  const { documents } = props;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      columns: [
-        {
-          title: 'Doc No.',
-          dataIndex: 'number',
-          key: 'number',
-          render: number => <Link to="/case/case">{number}</Link>,
-        }, {
-          title: 'Title',
-          dataIndex: 'title',
-          key: 'title',
-        },
-      ]
-    }
-  }
+  const [columns] = useState([
+    {
+      title: 'Doc No.',
+      dataIndex: 'number',
+      key: 'number',
+      render: (number) => <Link to="/case/case">{number}</Link>,
+    },
+    {
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
+    },
+  ]);
 
-  render() {
-    return (
-      <Table columns={this.state.columns} dataSource={this.props.documents}/>
-    )
-  }
+  return <Table columns={columns} dataSource={documents} />;
 }
+
+DocumentsTable.propTypes = {
+  documents: PropTypes.array.isRequired,
+};
 
 export default DocumentsTable;

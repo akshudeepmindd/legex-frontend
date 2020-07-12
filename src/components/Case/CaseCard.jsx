@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card } from 'antd';
 
-class CaseCard extends Component {
-  render() {
-    return (
-      <Card>
-      </Card>
-    )
-  }
+function CaseCard(props) {
+  return <Card bordered={false} />;
 }
 
 export default CaseCard;

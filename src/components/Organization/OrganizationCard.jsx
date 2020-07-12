@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Card } from 'antd';
 
-class OrganizationCard extends Component {
-  render() {
-    return (
-      <Card title={this.props.organizationName} bordered={false}>
-      </Card>
-    )
-  }
+function OrganizationCard(props) {
+  const { name } = props;
+  return <Card title={name} bordered={false} />;
 }
+
+OrganizationCard.propTypes = {
+  name: PropTypes.string.isRequired,
+};
 
 export default OrganizationCard;

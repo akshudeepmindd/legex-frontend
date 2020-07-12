@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card } from 'antd';
 
-class PartyCard extends Component {
-  render() {
-    return (
-      <Card>
-      </Card>
-    )
-  }
+function PartyCard(props) {
+  return <Card />;
 }
 
 export default PartyCard;

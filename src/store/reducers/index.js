@@ -9,7 +9,7 @@ import inviteReducers from './invites';
 import hearingReducers from './hearings';
 import caseTypeReducers from './caseTypes';
 
-const rootReducer =combineReducers({
+const rootReducer = combineReducers({
   auth: authReducer,
   cases: caseReducers,
   organizations: organizationReducers,
@@ -18,6 +18,6 @@ const rootReducer =combineReducers({
   invites: inviteReducers,
   hearings: hearingReducers,
   caseTypes: caseTypeReducers,
-})
+});
 
 export default rootReducer;

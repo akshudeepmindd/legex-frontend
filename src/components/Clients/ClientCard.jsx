@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card } from 'antd';
 
-class ClientCard extends Component {
-  render() {
-    return (
-      <Card bordered={false}>
-      </Card>
-    )
-  }
+function ClientCard(props) {
+  return <Card bordered={false} />;
 }
 
 export default ClientCard;

@@ -1,28 +1,27 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Table } from 'antd';
 
-class OgranizationsTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      columns: [
-        {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
-        }, {
-          title: 'Domain',
-          dataIndex: 'domain',
-          key: 'domain',
-        },
-      ]
-    }
-  }
-  render() {
-    return (
-      <Table columns={this.state.columns} dataSource={this.props.organizations}/>
-    )
-  }
+function OrganizationsTable(props) {
+  const { organizations } = props;
+  const [columns] = useState([
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Domain',
+      dataIndex: 'domain',
+      key: 'domain',
+    },
+  ]);
+
+  return <Table columns={columns} dataSource={organizations} />;
 }
 
-export default OgranizationsTable;
+OrganizationsTable.propTypes = {
+  organizations: PropTypes.array.isRequired,
+};
+
+export default OrganizationsTable;
