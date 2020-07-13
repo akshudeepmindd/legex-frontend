@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Row, Col, PageHeader, Button } from 'antd';
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
 

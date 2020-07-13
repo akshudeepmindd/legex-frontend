@@ -4,7 +4,6 @@ import {
   CREATE_CASE,
   UPDATE_CASE,
   DELETE_CASE,
-  REQUEST_SUCCESS,
   REQUEST_FAILURE,
 } from '../constants/cases';
 

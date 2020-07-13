@@ -4,7 +4,6 @@ import {
   CREATE_ORGANIZATION,
   UPDATE_ORGANIZATION,
   DELETE_ORGANIZATION,
-  REQUEST_FAILURE,
 } from '../constants/organizations';
 
 export const initialState = {
