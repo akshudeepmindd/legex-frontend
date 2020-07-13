@@ -18,7 +18,7 @@ import Document from './Dashboard/Documents/Document';
 import OrganizationsList from './Dashboard/Organizations/OrganizationsList';
 import Organization from './Dashboard/Organizations/Organization';
 
-import Activity from './Dashboard/Activity';
+import Appointments from './Dashboard/Appointments';
 
 export {
   Home,
@@ -35,5 +35,5 @@ export {
   Document,
   OrganizationsList,
   Organization,
-  Activity,
+  Appointments,
 };

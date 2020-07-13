@@ -1,3 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+*,
+html,
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+@font-face {
+  font-family: 'Palatino';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Palatino'), local('Palatino'),
+       url('./assets/fonts/Palatino.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+
+.ant-card-head-title,
+.ant-page-header-heading-title,
+h1.ant-typography, .ant-typography h1 {
+  font-family: 'Palatino', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 .text-white {
+  color: #ffffff;
+}
+
 .ant-layout-header {
   background-color: #ffffff;
 }

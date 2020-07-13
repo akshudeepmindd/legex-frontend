@@ -35,7 +35,7 @@ function DashboardLayout(props) {
         </Header>
         <Content className="dashboard-layout-content">{children}</Content>
         <Footer className="dashboard-layout-footer">
-          <b>Legex ODR</b> &copy; {year}. A &nbsp;
+          <b>Legex ODR</b> &copy; {year} A &nbsp;
           <Link href="https://www.legex.in/">Legex</Link> product.
         </Footer>
       </Layout>

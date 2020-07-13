@@ -16,7 +16,7 @@ import {
   Document,
   OrganizationsList,
   Organization,
-  Activity,
+  Appointments,
 } from './views';
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
           component={Organization}
         />
 
-        <Route path="/dashboard/activities" component={Activity} />
+        <Route path="/dashboard/appointments" component={Appointments} />
       </Switch>
     </Router>
   );

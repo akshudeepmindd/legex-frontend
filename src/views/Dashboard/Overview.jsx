@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, PageHeader, Card, Statistic } from 'antd';
+import { Row, Col, PageHeader, Card, Statistic, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 import { DashboardLayout } from '../../layouts';
 import { CasesTable } from '../../components';
@@ -22,6 +23,7 @@ class Overview extends Component {
   }
 
   render() {
+    const { routes } = this.state;
     return (
       <DashboardLayout>
         <Row
@@ -36,7 +38,7 @@ class Overview extends Component {
               onBack={() => window.history.back()}
               title="Overview"
               subTitle="An overview of the current state"
-              breadcrumb={this.state.routes}
+              breadcrumbs={routes}
             />
           </Col>
         </Row>
@@ -47,7 +49,7 @@ class Overview extends Component {
             { xs: 8, sm: 16, md: 24, lg: 32 },
           ]}
         >
-          <Col xs={24} sm={24} md={24} lg={14} xl={14}>
+          <Col xs={24} sm={24} md={24} lg={16} xl={16}>
             <Row
               gutter={[
                 { xs: 8, sm: 16, md: 24, lg: 32 },
@@ -85,6 +87,12 @@ class Overview extends Component {
                 </Card>
               </Col>
             </Row>
+          </Col>
+
+          <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+            <Card bordered={false}>
+              <Avatar size="large" icon={<UserOutlined />} />
+            </Card>
           </Col>
         </Row>
       </DashboardLayout>
