@@ -1,11 +1,10 @@
-image: node:latest
-
 stages:
   - build
   - test
   - deploy
 
 build:
+  image: node:latest
   stage: build
   script:
     - yarn build
@@ -14,6 +13,7 @@ build:
       - build
 
 deploy:
+  image: node:latest
   stage: deploy
   script:
     - npm i -g netlify-cli
