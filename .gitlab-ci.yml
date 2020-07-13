@@ -1,3 +1,5 @@
+image: node:latest
+
 stages:
   - build
   - test
@@ -13,7 +15,6 @@ build:
   script:
     - yarn build
   artifacts:
-    expires_in: 1 week
     paths:
       - build
 
