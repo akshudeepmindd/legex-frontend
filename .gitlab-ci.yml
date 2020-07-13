@@ -5,11 +5,6 @@ stages:
   - test
   - deploy
 
-cache:
-  untracked: true
-  paths:
-    - node_modules/
-
 build:
   stage: build
   script:
