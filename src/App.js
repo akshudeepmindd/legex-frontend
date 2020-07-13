@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import {
   Home,
+  Clients,
   Help,
-  ClientsList,
+  Services,
+  People,
   Login,
   Register,
   ForgotPassword,
@@ -24,8 +26,10 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" component={Home} exact />
+        <Route path="/our-clients" component={Clients} />
         <Route path="/how-we-help-you" component={Help} />
-        <Route path="/our-clients" component={ClientsList} />
+        <Route path="/our-services" component={Services} />
+        <Route path="/our-people" component={People} />
 
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />

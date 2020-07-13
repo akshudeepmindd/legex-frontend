@@ -1,0 +1,28 @@
+stages:
+  - build
+  - test
+  - deploy
+
+cache:
+  untracked: true
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  script:
+    - yarn build
+  artifacts:
+    expires_in: 1 week
+    paths:
+      - build
+
+deploy:
+  stage: deploy
+  script:
+    - npm i -g netlify-cli
+    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
+  dependencies:
+    - build
+  only:
+    - staging

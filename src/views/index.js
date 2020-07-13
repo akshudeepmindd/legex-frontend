@@ -1,6 +1,8 @@
 import Home from './Home';
+import Clients from './Clients';
 import Help from './Help';
-import ClientsList from './Clients/ClientsList';
+import Services from './Services';
+import People from './People';
 
 import Login from './Auth/Login';
 import Register from './Auth/Register';
@@ -22,8 +24,10 @@ import Appointments from './Dashboard/Appointments';
 
 export {
   Home,
+  Clients,
   Help,
-  ClientsList,
+  Services,
+  People,
   Login,
   Register,
   ForgotPassword,
