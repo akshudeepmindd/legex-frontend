@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
-import { Row, Col, PageHeader, Card, Statistic, Avatar } from 'antd';
+import React from 'react';
+import { Row, Col, Card, Avatar, Comment, List } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 import { DashboardLayout } from '../../layouts';
-import { CasesTable } from '../../components';
+import { ProfileForm, CasesTable } from '../../components';
 
-function Overview() {
-  const [routes] = useState([
-    {
-      path: '/dashboard/overview',
-      breadcrumbName: 'Dashboard',
-    },
-    {
-      path: '/dashboard/overview',
-      breadcrumbName: 'Overview',
-    },
-  ]);
+const { Meta } = Card;
+
+function Overview({ messages }) {
   return (
     <DashboardLayout>
       <Row
@@ -23,15 +15,37 @@ function Overview() {
           { xs: 8, sm: 16, md: 24, lg: 32 },
           { xs: 8, sm: 16, md: 24, lg: 32 },
         ]}
+        justify="center"
+        align="top"
       >
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <PageHeader
-            ghost={false}
-            onBack={() => window.history.back()}
-            title="Overview"
-            subTitle="An overview of the current state"
-            breadcrumbs={routes}
-          />
+        <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+          <Card>
+            <div />
+          </Card>
+        </Col>
+
+        <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+          <Card bordered={false}>
+            <Meta
+              avatar={
+                <Avatar
+                  size={64}
+                  shape="square"
+                  className="avatar-placeholder"
+                  icon={<UserOutlined />}
+                />
+              }
+              title="John Doe"
+              description={
+                <>
+                  <p>johndoe@mail.com</p>
+                  <p>0716560444</p>
+                </>
+              }
+            />
+
+            <ProfileForm />
+          </Card>
         </Col>
       </Row>
 
@@ -41,49 +55,29 @@ function Overview() {
           { xs: 8, sm: 16, md: 24, lg: 32 },
         ]}
       >
-        <Col xs={24} sm={24} md={24} lg={16} xl={16}>
-          <Row
-            gutter={[
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-            ]}
-          >
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              <Card>
-                <Statistic title="Cases" value={100} suffix="+" />
-              </Card>
-            </Col>
-
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              <Card>
-                <Statistic title="Organizations" value={100} suffix="+" />
-              </Card>
-            </Col>
-
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              <Card>
-                <Statistic title="Documents" value={100} suffix="+" />
-              </Card>
-            </Col>
-          </Row>
-
-          <Row
-            gutter={[
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-            ]}
-          >
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Card title="All Cases">
-                <CasesTable />
-              </Card>
-            </Col>
-          </Row>
+        <Col xs={24} sm={24} md={14} lg={14} xl={14}>
+          <Card title="All Cases">
+            <CasesTable />
+          </Card>
         </Col>
-
-        <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-          <Card bordered={false}>
-            <Avatar size="large" icon={<UserOutlined />} />
+        <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+          <Card bordered={false} title="Messages">
+            <List
+              className="comment-list"
+              itemLayout="horizontal"
+              dataSource={messages}
+              renderItem={(message) => (
+                <li>
+                  <Comment
+                    actions={message.actions}
+                    author={message.author}
+                    avatar={message.avatar}
+                    content={message.content}
+                    datetime={message.datetime}
+                  />
+                </li>
+              )}
+            />
           </Card>
         </Col>
       </Row>

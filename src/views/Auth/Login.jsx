@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Typography, Spin } from 'antd';
+import { Typography, Alert, Space } from 'antd';
 
 import { AuthLayout } from '../../layouts';
 import { LoginForm } from '../../components';
@@ -14,80 +14,77 @@ import {
 
 const { Title } = Typography;
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-    };
-  }
+const Login = ({ login, google, facebook, processing, error }) => {
+  const [email] = useState('');
+  const [password] = useState('');
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
-  onFinish = (values) => {
-    const { loginUser } = this.props;
-    loginUser(values);
+  const onFinish = (values) => {
+    login(values);
   };
 
-  onEmailChange = (email) => {
-    this.setState({
-      email,
-    });
+  const onFinishFailed = () => {
+    setAlert(true);
+    setAlertMessage('Validate the forms');
   };
 
-  onPasswordChange = (password) => {
-    this.setState({
-      password,
-    });
+  const googleLogin = () => {
+    google();
   };
 
-  googleLogin = () => {
-    const { googleOAuth } = this.props;
-    googleOAuth();
+  const facebookLogin = () => {
+    facebook();
   };
 
-  facebookLogin = () => {
-    const { facebookOAuth } = this.props;
-    facebookOAuth();
-  };
-
-  render() {
-    const { email, password } = this.state;
-    return (
-      <AuthLayout>
-        <Title>Log in</Title>
-        <p>
-          Don't have an account? <Link to="/register">Create an account</Link>
-        </p>
-        <Spin />
-        <LoginForm
-          onEmailChange={this.onEmailChange}
-          onPasswordChange={this.onPasswordChange}
-          email={email}
-          password={password}
-          onFinish={this.onFinish}
-          googleLogin={this.googleLogin}
-          facebookLogin={this.facebookLogin}
-        />
-      </AuthLayout>
-    );
-  }
-}
+  return (
+    <AuthLayout>
+      <Title>Log in</Title>
+      <p>
+        Don&apos;t have an account?{' '}
+        <Link to="/register">Create an account</Link>
+      </p>
+      {alert ? (
+        <Space direction="vertical">
+          <Alert message={alertMessage} type="error" showIcon />
+        </Space>
+      ) : (
+        ''
+      )}
+      <LoginForm
+        email={email}
+        password={password}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        googleLogin={googleLogin}
+        facebookLogin={facebookLogin}
+        processing={processing}
+      />
+    </AuthLayout>
+  );
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  loginUser: (payload) => dispatch(loginUser(payload)),
-  googleOAuth: () => dispatch(googleOAuth()),
-  facebookOAuth: () => dispatch(facebookOAuth()),
+  login: (payload) => dispatch(loginUser(payload)),
+  google: () => dispatch(googleOAuth()),
+  facebook: () => dispatch(facebookOAuth()),
 });
 
 const mapStateToProps = (state) => ({
-  loading: state.auth.loading,
+  processing: state.auth.loading,
   error: state.auth.error,
 });
 
 Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  googleOAuth: PropTypes.func.isRequired,
-  facebookOAuth: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  google: PropTypes.func.isRequired,
+  facebook: PropTypes.func.isRequired,
+  processing: PropTypes.bool.isRequired,
+  error: PropTypes.instanceOf(Object),
+};
+
+Login.defaultProps = {
+  error: {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

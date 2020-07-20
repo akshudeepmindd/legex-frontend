@@ -12,7 +12,7 @@ import {
 export const initialState = {
   user: {},
   loading: false,
-  errors: {},
+  error: {},
   token: '' || localStorage.getItem('access-token'),
 };
 

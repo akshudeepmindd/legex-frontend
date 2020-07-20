@@ -4,17 +4,18 @@ import { Form, Input, Button, Checkbox, Row, Col, Divider } from 'antd';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
-function LoginForm(props) {
-  const {
-    onFinish,
-    handleChange,
-    googleLogin,
-    facebookLogin,
-    email,
-    password,
-  } = props;
+function LoginForm({
+  onFinish,
+  handleChange,
+  googleLogin,
+  facebookLogin,
+  email,
+  password,
+  processing,
+  onFinishFailed,
+}) {
   return (
-    <Form name="loginForm" onFinish={onFinish}>
+    <Form name="loginForm" onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item
         name="email"
         rules={[{ required: true, message: 'Please input your email!' }]}
@@ -49,7 +50,7 @@ function LoginForm(props) {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" block>
+        <Button type="primary" htmlType="submit" block loading={processing}>
           Login
         </Button>
       </Form.Item>
@@ -84,11 +85,13 @@ function LoginForm(props) {
 
 LoginForm.propTypes = {
   onFinish: PropTypes.func.isRequired,
+  onFinishFailed: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   facebookLogin: PropTypes.func.isRequired,
   googleLogin: PropTypes.func.isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
+  processing: PropTypes.bool.isRequired,
 };
 
 export default LoginForm;
