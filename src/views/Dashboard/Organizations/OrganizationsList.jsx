@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, PageHeader, Modal, Button } from 'antd';
+import {
+  Row,
+  Col,
+  PageHeader,
+  Modal,
+  Button,
+  Card,
+  Skeleton,
+  Avatar,
+} from 'antd';
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,46 +21,73 @@ import {
 } from '../../../components';
 import { fetchOrganizations } from '../../../store/actions/organizations';
 
-function OrganizationsList({ dispatch, loading, organizations }) {
-  const [routes] = useState([
-    {
-      path: '/dashboard/overview',
-      breadcrumbName: 'Dashboard',
-    },
-    {
-      path: '/dashboard/organizations',
-      breadcrumbName: 'Organizations',
-    },
-  ]);
+const { Meta } = Card;
 
+const OrganizationsList = ({ dispatch, loading, organizations }) => {
   const [view, setView] = useState(false);
   const [modal, setModal] = useState(false);
-  const [name, setName] = useState('');
-  const [domain, setDomain] = useState('');
+  const [name] = useState('');
+  const [domain] = useState('');
 
   useEffect(() => {
     dispatch(fetchOrganizations());
   }, [dispatch]);
 
-  function showModal() {
+  const showModal = () => {
     setModal(true);
-  }
+  };
 
-  function handleOk() {
+  const handleOk = () => {
     setModal(false);
-  }
+  };
 
-  function handleCancel() {
+  const handleCancel = () => {
     setModal(false);
-  }
+  };
 
-  function toggleView() {
+  const toggleView = () => {
     setView(!view);
-  }
+  };
 
-  function onFinish(values) {}
+  const onFinish = (values) => {};
 
-  function handleChange() {}
+  const handleChange = () => {};
+
+  const renderOrganizations = () => {
+    if (loading)
+      return (
+        <Skeleton loading={loading} avatar active>
+          <Meta
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                className="avatar-placeholder"
+              />
+            }
+            title="Card title"
+            description="This is the description"
+          />
+        </Skeleton>
+      );
+
+    if (view)
+      return (
+        <Row
+          gutter={[
+            { xs: 8, sm: 16, md: 24, lg: 32 },
+            { xs: 8, sm: 16, md: 24, lg: 32 },
+          ]}
+        >
+          {organizations.map((organization) => (
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+              <OrganizationCard organization={organization} />
+            </Col>
+          ))}
+        </Row>
+      );
+
+    return <OrganizationsTable organizations={organizations} />;
+  };
 
   return (
     <DashboardLayout>
@@ -67,7 +103,6 @@ function OrganizationsList({ dispatch, loading, organizations }) {
             onBack={() => window.history.back()}
             title="Organizations"
             subTitle="Manage all your organizations"
-            breadcrumbs={routes}
             extra={[
               <Button
                 key="2"
@@ -82,29 +117,7 @@ function OrganizationsList({ dispatch, loading, organizations }) {
         </Col>
       </Row>
 
-      {view ? (
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-        >
-          <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-            <OrganizationCard />
-          </Col>
-        </Row>
-      ) : (
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-        >
-          <Col xs={24} sm={24} md={14} lg={14} xl={14}>
-            <OrganizationsTable organizations={organizations} />
-          </Col>
-        </Row>
-      )}
+      {renderOrganizations()}
 
       <Modal
         title="Organization Form"
@@ -121,7 +134,7 @@ function OrganizationsList({ dispatch, loading, organizations }) {
       </Modal>
     </DashboardLayout>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   loading: state.organizations.loading,
@@ -129,11 +142,16 @@ const mapStateToProps = (state) => ({
   error: state.organizations.error,
 });
 
-OrganizationsTable.propTypes = {
-  dispatch: PropTypes.func,
-  loading: PropTypes.boolean,
+OrganizationsList.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
   error: PropTypes.instanceOf(Object),
   organizations: PropTypes.instanceOf(Array),
+};
+
+OrganizationsList.defaultProps = {
+  error: {},
+  organizations: [],
 };
 
 export default connect(mapStateToProps)(OrganizationsList);

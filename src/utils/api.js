@@ -9,7 +9,7 @@ const $http = axios.create({
   },
 });
 
-const token = localStorage.getItem('access_token');
+const token = localStorage.getItem('access-token');
 if (token) {
   $http.defaults.headers.common.Authorization = `Bearer ${token}`;
 }

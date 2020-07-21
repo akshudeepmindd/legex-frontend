@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Layout } from 'antd';
 import PropTypes from 'prop-types';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 
 import Logo from '../assets/images/logo.png';
 import { Sidebar } from '../components';
@@ -36,7 +35,7 @@ function DashboardLayout(props) {
         <Content className="dashboard-layout-content">{children}</Content>
         <Footer className="dashboard-layout-footer">
           <b>Legex ODR</b> &copy; {year} A &nbsp;
-          <Link href="https://www.legex.in/">Legex</Link> product.
+          <a href="https://www.legex.in/">Legex</a> product.
         </Footer>
       </Layout>
     </Layout>

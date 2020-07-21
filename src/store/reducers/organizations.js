@@ -4,6 +4,7 @@ import {
   CREATE_ORGANIZATION,
   UPDATE_ORGANIZATION,
   DELETE_ORGANIZATION,
+  ORGANIZATIONS_SUCCESS,
 } from '../constants/organizations';
 
 export const initialState = {
@@ -15,10 +16,10 @@ export const initialState = {
 export default function organizationReducers(state = initialState, action) {
   switch (action.type) {
     case FETCH_ORGANIZATIONS:
-      return { ...state, organizations: action.payload, loading: true };
+      return { ...state, loading: true };
 
     case FETCH_ORGANIZATION:
-      return { ...state, organization: action.payload, loading: true };
+      return { ...state, loading: true };
 
     case CREATE_ORGANIZATION:
       return { ...state, loading: true };
@@ -28,6 +29,9 @@ export default function organizationReducers(state = initialState, action) {
 
     case DELETE_ORGANIZATION:
       return { ...state, loading: true };
+
+    case ORGANIZATIONS_SUCCESS:
+      return { ...state, organizations: action.payload, loading: false };
 
     default:
       return state;

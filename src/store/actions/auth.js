@@ -47,7 +47,7 @@ export function registerUser(payload) {
         data: payload,
         method: 'POST',
       });
-      dispatch(authSuccess(response.data.data));
+      dispatch(authSuccess(response.data));
     } catch (error) {
       console.log(JSON.stringify(error));
       dispatch(authFailure(error));

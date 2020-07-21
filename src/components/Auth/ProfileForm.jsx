@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Button } from 'antd';
+import { Form, Input } from 'antd';
 
 function ProfileForm(props) {
   const { onFinish, handleChange, firstName, lastName, email, phone } = props;

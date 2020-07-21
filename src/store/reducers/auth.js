@@ -37,6 +37,7 @@ export default function authReducer(state = initialState, action) {
       return { ...state, loading: true };
 
     case AUTH_SUCCESS:
+      console.log(action.payload.data);
       return {
         user: action.payload.data,
         token: action.payload.token,

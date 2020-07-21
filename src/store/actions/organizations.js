@@ -5,6 +5,7 @@ import {
   CREATE_ORGANIZATION,
   UPDATE_ORGANIZATION,
   DELETE_ORGANIZATION,
+  ORGANIZATIONS_SUCCESS,
   REQUEST_FAILURE,
 } from '../constants/organizations';
 
@@ -13,11 +14,17 @@ export const requestFailure = (error) => ({
   payload: error,
 });
 
+export const organizationsSuccess = (organizations) => ({
+  type: ORGANIZATIONS_SUCCESS,
+  payload: organizations,
+});
+
 export function fetchOrganizations() {
   return async (dispatch) => {
     dispatch({ type: FETCH_ORGANIZATIONS });
     try {
-      const response = $http({ url: '/organizations', method: 'GET' });
+      const response = await $http({ url: '/organizations', method: 'GET' });
+      dispatch(organizationsSuccess(response.data.data));
       return response;
     } catch (error) {
       return dispatch(requestFailure(error));

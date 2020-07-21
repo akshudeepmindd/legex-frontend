@@ -10,7 +10,7 @@ import { forgotPassword } from '../../store/actions/auth';
 const { Title } = Typography;
 
 function ForgotPassword({ forgot }) {
-  const [email, setEmail] = useState('');
+  const [email] = useState('');
 
   function onFinish(values) {
     forgot(values);

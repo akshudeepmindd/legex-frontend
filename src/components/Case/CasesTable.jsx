@@ -1,51 +1,52 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button } from 'antd';
+import { Table, Button, Tag, Space } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 
 function CasesTable(props) {
-  const { cases } = props;
+  const { cases, loading } = props;
   const [columns] = useState([
     {
-      title: 'Case No.',
-      dataIndex: 'number',
-      key: 'number',
-      render: (number) => <Link to="/case/case">{number}</Link>,
-    },
-    {
       title: 'Title',
-      dataIndex: 'title',
       key: 'title',
+      render: (data) => <Link to={`/cases/${data._id}`}>{data.title}</Link>,
     },
     {
       title: 'Type',
-      dataIndex: 'type',
+      dataIndex: 'caseType',
       key: 'type',
+      render: (caseType) => <>{caseType.name}</>,
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
+      render: (status) => (
+        <Tag color="blue" key={status}>
+          {status}
+        </Tag>
+      ),
     },
     {
       title: 'Actions',
       key: 'action',
       render: (text, record) => (
-        <>
-          <Button type="danger" icon={<DeleteOutlined />} />
-          <Button type="primary" icon={<EyeOutlined />} />
-        </>
+        <Space>
+          <Button icon={<DeleteOutlined />} />
+          <Button icon={<EyeOutlined />} />
+        </Space>
       ),
     },
   ]);
 
-  return <Table columns={columns} dataSource={cases} />;
+  return <Table columns={columns} dataSource={cases} loading={loading} />;
 }
 
 CasesTable.propTypes = {
   cases: PropTypes.string.isRequired,
+  loading: PropTypes.string.isRequired,
 };
 
 export default CasesTable;

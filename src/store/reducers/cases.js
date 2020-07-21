@@ -4,11 +4,12 @@ import {
   CREATE_CASE,
   UPDATE_CASE,
   DELETE_CASE,
+  CASES_SUCCESS,
   REQUEST_FAILURE,
 } from '../constants/cases';
 
 export const initialState = {
-  case: {},
+  singleCase: {},
   cases: [],
   loading: false,
   error: {},
@@ -30,6 +31,9 @@ export default function caseReducers(state = initialState, action) {
 
     case DELETE_CASE:
       return { ...state, loading: true };
+
+    case CASES_SUCCESS:
+      return { ...state, cases: action.payload, loading: false };
 
     case REQUEST_FAILURE:
       return { ...state, error: action.payload, loading: false };
