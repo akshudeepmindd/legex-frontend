@@ -30,7 +30,9 @@ export function loginUser(payload) {
         method: 'POST',
       });
       const { token } = response.data;
+      const { _id } = response.data.data;
       localStorage.setItem('access-token', token);
+      localStorage.setItem('user-id', _id);
       dispatch(authSuccess(response.data));
     } catch (error) {
       dispatch(authFailure(error));
@@ -49,7 +51,6 @@ export function registerUser(payload) {
       });
       dispatch(authSuccess(response.data));
     } catch (error) {
-      console.log(JSON.stringify(error));
       dispatch(authFailure(error));
     }
   };

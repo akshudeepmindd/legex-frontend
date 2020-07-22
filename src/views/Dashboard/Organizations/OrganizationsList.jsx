@@ -109,7 +109,12 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
                 icon={view ? <TableOutlined /> : <AppstoreOutlined />}
                 onClick={toggleView}
               />,
-              <Button key="1" type="primary" onClick={showModal}>
+              <Button
+                className="dashboard-btn-primary dashboard-layout-btn"
+                key="1"
+                type="primary"
+                onClick={showModal}
+              >
                 Create new organization
               </Button>,
             ]}

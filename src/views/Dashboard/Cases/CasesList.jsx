@@ -1,92 +1,124 @@
-import React, { Component } from 'react';
-import { Row, Col, PageHeader, Statistic, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Row, Col, PageHeader, Modal, Button } from 'antd';
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { DashboardLayout } from '../../../layouts';
-import { CaseCard, CasesTable } from '../../../components';
+import { CaseCard, CasesTable, CaseForm } from '../../../components';
+import { fetchCases } from '../../../store/actions/cases';
 
-class CasesList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      routes: [
-        {
-          path: '/dashboard/overview',
-          breadcrumbName: 'Dashboard',
-        },
-        {
-          path: '/dashboard/cases',
-          breadcrumbName: 'Cases',
-        },
-      ],
-    };
-  }
+const CasesList = ({ dispatch, loading, cases }) => {
+  const [view, setView] = useState(false);
+  const [modal, setModal] = useState(false);
 
-  render() {
-    const { routes } = this.state;
+  useEffect(() => {
+    dispatch(fetchCases());
+  }, [dispatch]);
 
-    return (
-      <DashboardLayout>
+  const showModal = () => {
+    setModal(true);
+  };
+
+  const handleOk = () => {
+    setModal(false);
+  };
+
+  const handleCancel = () => {
+    setModal(false);
+  };
+
+  const toggleView = () => {
+    setView(!view);
+  };
+
+  const onFinish = (values) => {};
+
+  const handleChange = () => {};
+
+  const renderCases = () => {
+    if (view)
+      return (
         <Row
           gutter={[
             { xs: 8, sm: 16, md: 24, lg: 32 },
             { xs: 8, sm: 16, md: 24, lg: 32 },
           ]}
         >
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <PageHeader
-              ghost={false}
-              onBack={() => window.history.back()}
-              title="Cases"
-              subTitle="Manage all your cases"
-              breadcrumbs={routes}
-              extra={[
-                <Button key="3" icon={<TableOutlined />} />,
-                <Button key="2" icon={<AppstoreOutlined />} />,
-                <Button key="1" type="primary">
-                  Create new case
-                </Button>,
-              ]}
-            >
-              <Row>
-                <Col xs={4} sm={4} md={2} lg={2} xl={2}>
-                  <Statistic title="Cases" value="100" />
-                </Col>
-                <Col xs={4} sm={4} md={2} lg={2} xl={2}>
-                  <Statistic title="Active" value={60} />
-                </Col>
-                <Col xs={4} sm={4} md={2} lg={2} xl={2}>
-                  <Statistic title="Closed" value={30} />
-                </Col>
-              </Row>
-            </PageHeader>
-          </Col>
+          {cases.map((data) => (
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+              <CaseCard data={data} />
+            </Col>
+          ))}
         </Row>
+      );
 
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-        >
-          <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-            <CaseCard />
-          </Col>
-        </Row>
+    return <CasesTable cases={cases} loading={loading} />;
+  };
 
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-        >
-          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-            <CasesTable />
-          </Col>
-        </Row>
-      </DashboardLayout>
-    );
-  }
-}
+  return (
+    <DashboardLayout>
+      <Row
+        gutter={[
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+        ]}
+      >
+        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+          <PageHeader
+            ghost={false}
+            onBack={() => window.history.back()}
+            title="Cases"
+            subTitle="Manage all your cases"
+            extra={[
+              <Button
+                key="2"
+                icon={view ? <TableOutlined /> : <AppstoreOutlined />}
+                onClick={toggleView}
+              />,
+              <Button
+                className="dashboard-btn-primary dashboard-layout-btn"
+                key="1"
+                type="primary"
+                onClick={showModal}
+              >
+                Create new cases
+              </Button>,
+            ]}
+          />
+        </Col>
+      </Row>
 
-export default CasesList;
+      {renderCases()}
+
+      <Modal
+        title="Case Form"
+        visible={modal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <CaseForm onFinish={onFinish} handleChange={handleChange} />
+      </Modal>
+    </DashboardLayout>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  loading: state.cases.loading,
+  cases: state.cases.cases,
+  error: state.cases.error,
+});
+
+CasesList.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.instanceOf(Object),
+  cases: PropTypes.instanceOf(Array),
+};
+
+CasesList.defaultProps = {
+  error: {},
+  cases: [],
+};
+
+export default connect(mapStateToProps)(CasesList);

@@ -17,7 +17,7 @@ import { DashboardLayout } from '../../../layouts';
 const { TabPane } = Tabs;
 const { Step } = Steps;
 
-function Case(props) {
+const Case = (props) => {
   const [routes] = useState([
     {
       path: '/dashboard/overview',
@@ -118,6 +118,6 @@ function Case(props) {
       </Row>
     </DashboardLayout>
   );
-}
+};
 
 export default Case;

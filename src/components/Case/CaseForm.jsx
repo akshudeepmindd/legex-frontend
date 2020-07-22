@@ -56,4 +56,8 @@ CaseForm.propTypes = {
   description: PropTypes.string,
 };
 
+CaseForm.defaultProps = {
+  description: '',
+};
+
 export default CaseForm;

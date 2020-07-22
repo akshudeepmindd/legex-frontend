@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Card, Avatar, Form, Select, Comment, List } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import {
+  Row,
+  Col,
+  Card,
+  Avatar,
+  Form,
+  Select,
+  Comment,
+  List,
+  Button,
+  Typography,
+  Modal,
+} from 'antd';
+import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 
 import { DashboardLayout } from '../../layouts';
-import { CasesTable } from '../../components';
+import { CasesTable, ProfileForm } from '../../components';
 
 import { fetchCases } from '../../store/actions/cases';
 import { fetchOrganizations } from '../../store/actions/organizations';
+import { fetchUser } from '../../store/actions/users';
 
+const { Paragraph } = Typography;
 const { Meta } = Card;
 const { Option } = Select;
 
@@ -23,6 +37,12 @@ const Overview = ({
   messages,
 }) => {
   const [selectedOrganization, setSelectedOrganization] = useState([]);
+  const [userId] = useState(localStorage.getItem('user-id'));
+  const [profileModal, setProfileModal] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchUser(userId));
+  }, [dispatch, userId]);
 
   useEffect(() => {
     dispatch(fetchCases());
@@ -32,27 +52,50 @@ const Overview = ({
     dispatch(fetchOrganizations());
   }, [dispatch]);
 
+  const toggleModal = () => {
+    setProfileModal(true);
+  };
+  const handleOk = (e) => {
+    setProfileModal(false);
+  };
+
+  const handleCancel = (e) => {
+    setProfileModal(false);
+  };
+
   const renderCasesTable = () => {
     return <CasesTable cases={cases} loading={casesLoading} />;
   };
 
   const renderUserProfile = () => {
     return (
-      <Card bordered={false}>
+      <Card
+        bordered={false}
+        actions={[
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            block
+            onClick={toggleModal}
+          >
+            Edit Profile
+          </Button>,
+        ]}
+      >
         <Meta
           avatar={
             <Avatar
-              size={64}
+              size="large"
               icon={<UserOutlined />}
               className="avatar-placeholder"
               shape="square"
             />
           }
-          title={user.firstName}
+          title={`${user.firstName} ${user.lastName}`}
           description={
             <>
-              <p>{user.email}</p>
-              <p>{user.phone}</p>
+              <Paragraph>{user.email}</Paragraph>
+              <Paragraph>{user.phone}</Paragraph>
             </>
           }
         />
@@ -72,11 +115,11 @@ const Overview = ({
               shape="square"
             />
           }
-          title={user.firstName}
+          title={member.firstName}
           description={
             <>
-              <p>{user.email}</p>
-              <p>{user.phone}</p>
+              <p>{member.email}</p>
+              <p>{member.phone}</p>
             </>
           }
         />
@@ -106,20 +149,10 @@ const Overview = ({
         align="top"
       >
         <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-          <Card>
-            <div />
-          </Card>
-        </Col>
-
-        <Col xs={24} sm={24} md={4} lg={4} xl={4}>
-          <Card>
-            <div />
-          </Card>
-        </Col>
-
-        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
           {renderUserProfile()}
         </Col>
+
+        <Col xs={24} sm={24} md={6} lg={6} xl={6} />
 
         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
           <Card bordered={false} title="My Organizations">
@@ -165,12 +198,21 @@ const Overview = ({
           </Card>
         </Col>
       </Row>
+
+      <Modal
+        title="Edit Profile"
+        visible={profileModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <ProfileForm />
+      </Modal>
     </DashboardLayout>
   );
 };
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
+  user: state.users.user,
   cases: state.cases.cases,
   casesLoading: state.cases.loading,
   caseErrors: state.cases.error,

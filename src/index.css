@@ -16,13 +16,14 @@ body {
 }
 
 .ant-card-head-title,
+.ant-card-meta-title,
+.ant-modal-title,
 .ant-page-header-heading-title,
 h1.ant-typography,
 .ant-typography h1 {
-  /* font-family: 'Palatino', sans-serif; */
-  font-family: 'Lato', sans-serif;
+  font-family: 'Palatino', sans-serif;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  text-transform: capitalize;
+  font-weight: 400;
 }
 
 h1 .text-white {
@@ -149,35 +150,38 @@ h1 .text-white {
   max-height: 85vh;
 }
 
-.dashboard-layout-btn {
-  font-size: .875rem;
-  font-weight: 400;
-  line-height: 1.125rem;
-  letter-spacing: .16px;
-  cursor: pointer;
+.ant-btn {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   vertical-align: top;
-  flex-shrink: 0;
-  min-height: 3rem;
-  padding: calc(0.875rem - 3px) 60px calc(0.875rem - 3px) 12px;
   border-radius: 0;
-  text-align: left;
-  text-decoration: none;
-  transition: all 70ms cubic-bezier(0, 0, 0.38, 0.9);
-  outline: none;
-  position: relative;
-  max-width: 20rem;
-  margin: 0;
 }
 
-.dashboard-layout-btn:active,
-.dashboard-layout-btn:hover {
+.ant-btn:active,
+.ant-btn:hover,
+.ant-btn:focus {
   background-color: #002d9c;
+  color: #fff;
 }
 
-.dashboard-btn-primary {
+.ant-btn-primary {
+  background: #1F40E6;
+  border-color: #1F40E6;
+}
+
+.ant-btn-primary:hover {
+  color: #fff;
+}
+
+.ant-btn:active,
+.ant-btn:hover {
+  border-color: #1F40E6;
+  color: #fff;
+}
+
+.ant-tag-blue {
+  color: #fff;
   background: #1F40E6;
   border-color: #1F40E6;
 }
@@ -191,6 +195,15 @@ h1 .text-white {
 
 .ant-card {
   border-radius: 0px;
+}
+
+.ant-card-actions {
+  background: #fff;
+  border-top: none;
+}
+
+.ant-card-actions>li {
+  margin: 0;
 }
 
 .ant-input {
@@ -240,4 +253,9 @@ a {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.dark-card {
+  background: #0A1725;
+  color: #fff;
 }

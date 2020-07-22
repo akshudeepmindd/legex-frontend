@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import authReducer from './auth';
+import userReducers from './users';
 import caseReducers from './cases';
 import organizationReducers from './organizations';
 import partyReducers from './parties';
@@ -11,6 +12,7 @@ import caseTypeReducers from './caseTypes';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  users: userReducers,
   cases: caseReducers,
   organizations: organizationReducers,
   parties: partyReducers,
