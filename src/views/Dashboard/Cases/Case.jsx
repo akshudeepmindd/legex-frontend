@@ -10,14 +10,16 @@ import {
   Steps,
   List,
   Modal,
+  Comment,
+  Avatar,
 } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 import { DashboardLayout } from '../../../layouts';
-import { InviteForm } from '../../../components';
+import { InviteForm, DocumentForm } from '../../../components';
 
 import { fetchCase } from '../../../store/actions/cases';
 
@@ -80,7 +82,7 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
                 subTitle={<a href={singleCase.meetingUrl}>meeting url</a>}
                 tags={<Tag color="blue">{singleCase.status}</Tag>}
                 extra={[
-                  <Button key="2">Create Hearing</Button>,
+                  <Button key="2">Suspend case</Button>,
                   <Button key="1" type="primary">
                     Make Verdict
                   </Button>,
@@ -113,7 +115,29 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
           </Row>
         </Col>
         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card title="Case Forum" />
+          <Card title="Case Forum" bordered={false}>
+            <Comment
+              actions={[<span key="comment-basic-reply-to">Reply to</span>]}
+              author={<Link to="/s">Han Solo</Link>}
+              avatar={
+                <Avatar
+                  size="large"
+                  icon={<UserOutlined />}
+                  className="avatar-placeholder"
+                  shape="square"
+                />
+              }
+              content={
+                <p>
+                  We supply a series of design principles, practical patterns
+                  and high quality design resources (Sketch and Axure), to help
+                  people create their product prototypes beautifully and
+                  efficiently.
+                </p>
+              }
+              datetime={new Date(singleCase.createdAt).toLocaleDateString()}
+            />
+          </Card>
         </Col>
       </Row>
 
@@ -199,6 +223,7 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
         onOk={handleOk}
         onCancel={handleCancel}
       />
+      <DocumentForm />
     </DashboardLayout>
   );
 };

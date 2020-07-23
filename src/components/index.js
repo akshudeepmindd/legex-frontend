@@ -19,6 +19,8 @@ import CaseCard from './Case/CaseCard';
 import CaseForm from './Case/CaseForm';
 import CasesTable from './Case/CasesTable';
 
+import DocumentForm from './Document/DocumentForm';
+
 import PartyCard from './Party/PartyCard';
 
 export {
@@ -37,5 +39,6 @@ export {
   CaseCard,
   CaseForm,
   CasesTable,
+  DocumentForm,
   PartyCard,
 };
