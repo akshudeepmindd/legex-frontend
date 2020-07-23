@@ -11,7 +11,9 @@ function CasesTable(props) {
     {
       title: 'Title',
       key: 'title',
-      render: (data) => <Link to={`/cases/${data._id}`}>{data.title}</Link>,
+      render: (data) => (
+        <Link to={`/dashboard/cases/${data._id}`}>{data.title}</Link>
+      ),
     },
     {
       title: 'Type',

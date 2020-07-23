@@ -6,10 +6,11 @@ import RegisterForm from './Auth/RegisterForm';
 import ForgotPasswordForm from './Auth/ForgotPasswordForm';
 import ResetPasswordForm from './Auth/ResetPasswordForm';
 import ProfileForm from './Auth/ProfileForm';
+import InviteForm from './Auth/InviteForm';
 
 import ClientCard from './Clients/ClientCard';
 
-import InviteForm from './Organization/InviteForm';
+// import InviteForm from './Organization/InviteForm';
 import OrganizationCard from './Organization/OrganizationCard';
 import OrganizationForm from './Organization/OrganizationForm';
 import OrganizationsTable from './Organization/OrganizationsTable';
@@ -19,7 +20,6 @@ import CaseForm from './Case/CaseForm';
 import CasesTable from './Case/CasesTable';
 
 import PartyCard from './Party/PartyCard';
-import PartyForm from './Party/PartyForm';
 
 export {
   Navbar,
@@ -29,8 +29,8 @@ export {
   ForgotPasswordForm,
   ResetPasswordForm,
   ProfileForm,
-  ClientCard,
   InviteForm,
+  ClientCard,
   OrganizationCard,
   OrganizationForm,
   OrganizationsTable,
@@ -38,5 +38,4 @@ export {
   CaseForm,
   CasesTable,
   PartyCard,
-  PartyForm,
 };

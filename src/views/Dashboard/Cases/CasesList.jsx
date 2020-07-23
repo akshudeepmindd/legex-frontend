@@ -6,14 +6,20 @@ import PropTypes from 'prop-types';
 
 import { DashboardLayout } from '../../../layouts';
 import { CaseCard, CasesTable, CaseForm } from '../../../components';
-import { fetchCases } from '../../../store/actions/cases';
 
-const CasesList = ({ dispatch, loading, cases }) => {
+import { fetchCases } from '../../../store/actions/cases';
+import { fetchCaseTypes } from '../../../store/actions/caseTypes';
+
+const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
   const [view, setView] = useState(false);
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCases());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCaseTypes());
   }, [dispatch]);
 
   const showModal = () => {
@@ -97,7 +103,11 @@ const CasesList = ({ dispatch, loading, cases }) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <CaseForm onFinish={onFinish} handleChange={handleChange} />
+        <CaseForm
+          onFinish={onFinish}
+          handleChange={handleChange}
+          caseTypes={caseTypes}
+        />
       </Modal>
     </DashboardLayout>
   );
@@ -106,6 +116,7 @@ const CasesList = ({ dispatch, loading, cases }) => {
 const mapStateToProps = (state) => ({
   loading: state.cases.loading,
   cases: state.cases.cases,
+  caseTypes: state.caseTypes.caseTypes,
   error: state.cases.error,
 });
 
@@ -114,11 +125,13 @@ CasesList.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.instanceOf(Object),
   cases: PropTypes.instanceOf(Array),
+  caseTypes: PropTypes.instanceOf(Array),
 };
 
 CasesList.defaultProps = {
   error: {},
   cases: [],
+  caseTypes: [],
 };
 
 export default connect(mapStateToProps)(CasesList);

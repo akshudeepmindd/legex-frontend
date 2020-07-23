@@ -30,8 +30,7 @@ export function fetchCases() {
     dispatch({ type: FETCH_CASES });
     try {
       const response = await $http({ url: '/cases', method: 'GET' });
-      dispatch(casesSuccess(response.data.data));
-      return response;
+      return dispatch(casesSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -43,7 +42,7 @@ export function fetchCase(payload) {
     dispatch({ type: FETCH_CASE });
     try {
       const response = await $http({ url: `/cases/${payload}`, method: 'GET' });
-      return response;
+      return dispatch(caseSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }

@@ -39,7 +39,7 @@ function App() {
         <Route path="/dashboard/overview" component={Overview} />
 
         <Route path="/dashboard/cases" component={CasesList} exact />
-        <Route path="/dashboard/cases/:case" component={Case} />
+        <Route path="/dashboard/cases/:caseId" component={Case} />
 
         <Route path="/dashboard/documents" component={DocumentsList} exact />
         <Route path="/dashboard/documents/:document" component={Document} />

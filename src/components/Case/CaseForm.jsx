@@ -2,8 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, Button, Select } from 'antd';
 
-function CaseForm(props) {
-  const { onFinish, handleChange, title, description } = props;
+const { Option } = Select;
+
+const CaseForm = ({
+  onFinish,
+  handleChange,
+  title,
+  description,
+  caseTypes,
+  caseType,
+}) => {
+  const renderCaseTypes = () => {
+    caseTypes.map((d) => <Option value={d.name}>{d.name}</Option>);
+  };
+
   return (
     <Form name="CaseForm" onFinish={onFinish}>
       <Form.Item
@@ -32,11 +44,11 @@ function CaseForm(props) {
       </Form.Item>
 
       <Form.Item
-        name="case_type"
+        name="caseType"
         rules={[{ required: true, message: 'Please input the case type!' }]}
       >
-        <Select>
-          <Select.Option value="option">option</Select.Option>
+        <Select value={caseType} onChange={handleChange}>
+          {renderCaseTypes()}
         </Select>
       </Form.Item>
 
@@ -47,17 +59,21 @@ function CaseForm(props) {
       </Form.Item>
     </Form>
   );
-}
+};
 
 CaseForm.propTypes = {
   onFinish: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   description: PropTypes.string,
+  caseType: PropTypes.string,
+  caseTypes: PropTypes.instanceOf(Array).isRequired,
 };
 
 CaseForm.defaultProps = {
+  title: '',
   description: '',
+  caseType: '',
 };
 
 export default CaseForm;

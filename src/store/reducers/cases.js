@@ -5,6 +5,7 @@ import {
   UPDATE_CASE,
   DELETE_CASE,
   CASES_SUCCESS,
+  CASE_SUCCESS,
   REQUEST_FAILURE,
 } from '../constants/cases';
 
@@ -34,6 +35,9 @@ export default function caseReducers(state = initialState, action) {
 
     case CASES_SUCCESS:
       return { ...state, cases: action.payload, loading: false };
+
+    case CASE_SUCCESS:
+      return { ...state, singleCase: action.payload, loading: false };
 
     case REQUEST_FAILURE:
       return { ...state, error: action.payload, loading: false };
