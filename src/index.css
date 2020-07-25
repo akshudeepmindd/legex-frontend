@@ -22,8 +22,7 @@ body {
 h1.ant-typography,
 .ant-typography h1 {
   font-family: 'Palatino', sans-serif;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-weight: 400;
+  text-transform: capitalize;
 }
 
 h1 .text-white {
@@ -114,31 +113,17 @@ h1 .text-white {
   padding: 25px;
 }
 
-.help-hero {
+.hero {
   height: 100vh;
-  padding: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 15px;
   overflow-y: auto;
   background: url(./assets/images/darkbg.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
-
-.help-hero-container {
-  color: #fff;
-  padding: 25px;
-}
-
-.clients-hero {
-  height: 100vh;
-  padding: 15px;
-  overflow-y: auto;
-  background: url(./assets/images/darkbg.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 
 .ant-col-rtl .login-form-forgot {
   float: left;

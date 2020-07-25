@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Input, Button, Select } from 'antd';
 
 const { Option } = Select;
+const { TextArea } = Input;
 
 const CaseForm = ({
   onFinish,
@@ -13,7 +14,7 @@ const CaseForm = ({
   caseType,
 }) => {
   const renderCaseTypes = () => {
-    caseTypes.map((d) => <Option value={d.name}>{d.name}</Option>);
+    return caseTypes.map((d) => <Option value={d._id}>{d.name}</Option>);
   };
 
   return (
@@ -36,7 +37,8 @@ const CaseForm = ({
           { required: true, message: 'Please input the case description!' },
         ]}
       >
-        <Input.TextArea
+        <TextArea
+          rows={2}
           placeholder="Description"
           value={description}
           onChange={handleChange}

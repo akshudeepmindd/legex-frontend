@@ -8,7 +8,7 @@ const { Title, Paragraph } = Typography;
 function Help() {
   return (
     <PageLayout>
-      <Row justify="center" align="middle" className="help-hero">
+      <Row justify="start" align="center" className="hero">
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <div className="help-hero-container">
             <iframe

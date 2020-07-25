@@ -16,8 +16,10 @@ function PageLayout(props) {
       </Header>
       <Content className="page-layout-content">{children};</Content>
       <Footer>
-        <b>Legex ODR</b> &copy; {year}. A &nbsp;.
-        <a href="https://www.legex.in/">Legex</a> product.
+        <a href="https://legex.in">
+          <b>Legex</b>
+        </a>{' '}
+        ODR &copy; {year}. A &nbsp;
       </Footer>
     </Layout>
   );

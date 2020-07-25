@@ -82,12 +82,7 @@ const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
                 icon={view ? <TableOutlined /> : <AppstoreOutlined />}
                 onClick={toggleView}
               />,
-              <Button
-                className="dashboard-btn-primary dashboard-layout-btn"
-                key="1"
-                type="primary"
-                onClick={showModal}
-              >
+              <Button key="1" type="primary" onClick={showModal}>
                 Create new cases
               </Button>,
             ]}

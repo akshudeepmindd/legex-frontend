@@ -12,6 +12,7 @@ import {
   Button,
   Typography,
   Modal,
+  Space,
 } from 'antd';
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
@@ -23,7 +24,7 @@ import { fetchCases } from '../../store/actions/cases';
 import { fetchOrganizations } from '../../store/actions/organizations';
 import { fetchUser } from '../../store/actions/users';
 
-const { Paragraph } = Typography;
+const { Paragraph, Text } = Typography;
 const { Meta } = Card;
 const { Option } = Select;
 
@@ -92,12 +93,7 @@ const Overview = ({
             />
           }
           title={`${user.firstName} ${user.lastName}`}
-          description={
-            <>
-              <Paragraph>{user.email}</Paragraph>
-              <Paragraph>{user.phone}</Paragraph>
-            </>
-          }
+          description={[<Text>{user.email}</Text>, <Text>{user.phone}</Text>]}
         />
       </Card>
     );
@@ -116,12 +112,10 @@ const Overview = ({
             />
           }
           title={member.firstName}
-          description={
-            <>
-              <p>{member.email}</p>
-              <p>{member.phone}</p>
-            </>
-          }
+          description={[
+            <Text>{member.email}</Text>,
+            <Text>{member.phone}</Text>,
+          ]}
         />
       </Card>
     ));

@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Row,
-  Col,
-  PageHeader,
-  Modal,
-  Button,
-  Card,
-  Skeleton,
-  Avatar,
-} from 'antd';
+import { Row, Col, PageHeader, Modal, Button } from 'antd';
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -20,8 +11,6 @@ import {
   OrganizationForm,
 } from '../../../components';
 import { fetchOrganizations } from '../../../store/actions/organizations';
-
-const { Meta } = Card;
 
 const OrganizationsList = ({ dispatch, loading, organizations }) => {
   const [view, setView] = useState(false);
@@ -54,22 +43,6 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
   const handleChange = () => {};
 
   const renderOrganizations = () => {
-    if (loading)
-      return (
-        <Skeleton loading={loading} avatar active>
-          <Meta
-            avatar={
-              <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                className="avatar-placeholder"
-              />
-            }
-            title="Card title"
-            description="This is the description"
-          />
-        </Skeleton>
-      );
-
     if (view)
       return (
         <Row

@@ -8,7 +8,7 @@ const { Title, Paragraph } = Typography;
 function Services() {
   return (
     <PageLayout>
-      <Row>
+      <Row className="hero">
         <Col>
           <Title>Our Services</Title>
           <Paragraph>Lorem</Paragraph>

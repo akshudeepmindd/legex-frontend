@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Button, Tag, Space, Badge } from 'antd';
 import { Link } from 'react-router-dom';
+import { Table, Tag, Badge, Typography } from 'antd';
 
-import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+const { Text } = Typography;
 
 function CasesTable(props) {
   const { cases, loading } = props;
@@ -16,10 +16,28 @@ function CasesTable(props) {
       ),
     },
     {
+      title: 'description',
+      key: 'description',
+      dataIndex: 'description',
+      render: (description) => <Text>{description}</Text>,
+    },
+    {
       title: 'Type',
       dataIndex: 'caseType',
       key: 'type',
       render: (caseType) => <>{caseType.name}</>,
+    },
+    {
+      title: 'Hearings',
+      dataIndex: 'hearings',
+      key: 'hearings',
+      render: (hearings) => (
+        <Badge
+          count={hearings.length}
+          style={{ backgroundColor: '#1F40E6' }}
+          showZero
+        />
+      ),
     },
     {
       title: 'Parties',
@@ -41,16 +59,6 @@ function CasesTable(props) {
         <Tag color="blue" key={status}>
           {status}
         </Tag>
-      ),
-    },
-    {
-      title: 'Actions',
-      key: 'action',
-      render: (text, record) => (
-        <Space>
-          <Button icon={<DeleteOutlined />} />
-          <Button icon={<EyeOutlined />} />
-        </Space>
       ),
     },
   ]);
