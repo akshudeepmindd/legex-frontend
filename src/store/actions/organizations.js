@@ -6,6 +6,7 @@ import {
   UPDATE_ORGANIZATION,
   DELETE_ORGANIZATION,
   ORGANIZATIONS_SUCCESS,
+  ORGANIZATION_SUCCESS,
   REQUEST_FAILURE,
 } from '../constants/organizations';
 
@@ -19,13 +20,17 @@ export const organizationsSuccess = (organizations) => ({
   payload: organizations,
 });
 
+export const organizationSuccess = (organization) => ({
+  type: ORGANIZATION_SUCCESS,
+  payload: organization,
+});
+
 export function fetchOrganizations() {
   return async (dispatch) => {
     dispatch({ type: FETCH_ORGANIZATIONS });
     try {
       const response = await $http({ url: '/organizations', method: 'GET' });
-      dispatch(organizationsSuccess(response.data.data));
-      return response;
+      return dispatch(organizationsSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -36,11 +41,11 @@ export function fetchOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: FETCH_ORGANIZATION });
     try {
-      const response = $http({
+      const response = await $http({
         url: `/organizations/${payload}`,
         method: 'GET',
       });
-      return response;
+      return dispatch(organizationSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -51,12 +56,12 @@ export function createOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: CREATE_ORGANIZATION });
     try {
-      const response = $http({
+      const response = await $http({
         url: '/organizations',
         data: payload,
         method: 'POST',
       });
-      return response;
+      return dispatch(organizationSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -67,12 +72,12 @@ export function updateOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: UPDATE_ORGANIZATION });
     try {
-      const response = $http({
+      const response = await $http({
         url: `/organizations/${payload._id}`,
         data: payload,
         method: 'PUT',
       });
-      return response;
+      return dispatch(organizationSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -83,11 +88,11 @@ export function deleteOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: DELETE_ORGANIZATION });
     try {
-      const response = $http({
+      const response = await $http({
         url: `/organizations/${payload._id}`,
         method: 'DELETE',
       });
-      return response;
+      return dispatch(organizationSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }

@@ -206,7 +206,8 @@ h1 .text-white {
   margin: 0;
 }
 
-.ant-input {
+.ant-input,
+.ant-picker {
   font-size: .875rem;
   font-weight: 400;
   line-height: 1.125rem;
@@ -248,7 +249,10 @@ h1 .text-white {
 
 a {
   color: #1F40E6;
-  text-transform: capitalize;
+}
+
+a:hover {
+  color: #0f62fe;
 }
 
 .capitalize {
@@ -258,4 +262,8 @@ a {
 .dark-card {
   background: #0A1725;
   color: #fff;
+}
+
+.full-width-picker {
+  width: 100%;
 }

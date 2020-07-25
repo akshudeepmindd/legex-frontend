@@ -5,10 +5,12 @@ import {
   UPDATE_ORGANIZATION,
   DELETE_ORGANIZATION,
   ORGANIZATIONS_SUCCESS,
+  ORGANIZATION_SUCCESS,
+  REQUEST_FAILURE,
 } from '../constants/organizations';
 
 export const initialState = {
-  organization: {},
+  organization: [],
   organizations: [],
   loading: false,
   error: {},
@@ -32,6 +34,12 @@ export default function organizationReducers(state = initialState, action) {
 
     case ORGANIZATIONS_SUCCESS:
       return { ...state, organizations: action.payload, loading: false };
+
+    case ORGANIZATION_SUCCESS:
+      return { ...state, organization: action.payload, loading: false };
+
+    case REQUEST_FAILURE:
+      return { ...state, error: action.payload, loading: false };
 
     default:
       return state;

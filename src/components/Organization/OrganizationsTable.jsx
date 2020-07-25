@@ -11,7 +11,9 @@ function OrganizationsTable({ organizations, loading }) {
       title: 'Name',
       key: 'name',
       render: (organization) => (
-        <Link to={`/organizations/${organization._id}`}>{organization.name}</Link>
+        <Link to={`/dashboard/organizations/${organization._id}`}>
+          {organization.name}
+        </Link>
       ),
     },
     {

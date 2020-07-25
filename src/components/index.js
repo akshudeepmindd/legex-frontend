@@ -11,15 +11,19 @@ import InviteForm from './Auth/InviteForm';
 import ClientCard from './Clients/ClientCard';
 
 // import InviteForm from './Organization/InviteForm';
-import OrganizationCard from './Organization/OrganizationCard';
-import OrganizationForm from './Organization/OrganizationForm';
-import OrganizationsTable from './Organization/OrganizationsTable';
 
 import CaseCard from './Case/CaseCard';
 import CaseForm from './Case/CaseForm';
 import CasesTable from './Case/CasesTable';
 
 import DocumentForm from './Document/DocumentForm';
+
+import HearingForm from './Hearing/HearingForm';
+import HearingsList from './Hearing/HearingsList';
+
+import OrganizationCard from './Organization/OrganizationCard';
+import OrganizationForm from './Organization/OrganizationForm';
+import OrganizationsTable from './Organization/OrganizationsTable';
 
 import PartyCard from './Party/PartyCard';
 
@@ -40,5 +44,7 @@ export {
   CaseForm,
   CasesTable,
   DocumentForm,
+  HearingForm,
+  HearingsList,
   PartyCard,
 };

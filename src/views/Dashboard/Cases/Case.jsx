@@ -19,7 +19,7 @@ import { PropTypes } from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 
 import { DashboardLayout } from '../../../layouts';
-import { InviteForm, DocumentForm } from '../../../components';
+import { InviteForm, DocumentForm, HearingForm } from '../../../components';
 
 import { fetchCase } from '../../../store/actions/cases';
 
@@ -206,7 +206,9 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
         visible={hearingModal}
         onOk={handleOk}
         onCancel={handleCancel}
-      />
+      >
+        <HearingForm />
+      </Modal>
 
       <Modal
         title="Invite Form"
@@ -222,8 +224,9 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
         visible={documentModal}
         onOk={handleOk}
         onCancel={handleCancel}
-      />
-      <DocumentForm />
+      >
+        <DocumentForm />
+      </Modal>
     </DashboardLayout>
   );
 };

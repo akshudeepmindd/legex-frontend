@@ -12,7 +12,7 @@ const { Meta } = Card;
 
 const OrganizationCard = ({ organization }) => {
   return (
-    <Link to={`/organizations/${organization._id}`}>
+    <Link to={`/dashboard/organizations/${organization._id}`}>
       <Card bordered={false}>
         <Meta
           avatar={

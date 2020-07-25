@@ -50,7 +50,7 @@ function App() {
           exact
         />
         <Route
-          path="/dashboard/organizations/:organization"
+          path="/dashboard/organizations/:organizationId"
           component={Organization}
         />
 
