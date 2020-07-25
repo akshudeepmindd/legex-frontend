@@ -4,6 +4,9 @@ import {
   CREATE_CASE,
   UPDATE_CASE,
   DELETE_CASE,
+  ADD_PARTY,
+  REMOVE_PARTY,
+  MAKE_VERDICT,
   CASES_SUCCESS,
   CASE_SUCCESS,
   REQUEST_FAILURE,
@@ -31,6 +34,15 @@ export default function caseReducers(state = initialState, action) {
       return { ...state, loading: true };
 
     case DELETE_CASE:
+      return { ...state, loading: true };
+
+    case MAKE_VERDICT:
+      return { ...state, loading: true };
+
+    case ADD_PARTY:
+      return { ...state, loading: true };
+
+    case REMOVE_PARTY:
       return { ...state, loading: true };
 
     case CASES_SUCCESS:

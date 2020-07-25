@@ -5,7 +5,8 @@ import {
   CREATE_CASE_TYPE,
   UPDATE_CASE_TYPE,
   DELETE_CASE_TYPE,
-  REQUEST_SUCCESS,
+  CASE_TYPES_SUCCESS,
+  CASE_TYPE_SUCCESS,
   REQUEST_FAILURE,
 } from '../constants/caseTypes';
 
@@ -14,9 +15,14 @@ export const requestFailure = (error) => ({
   payload: error,
 });
 
-export const requestSuccess = (caseTypes) => ({
-  type: REQUEST_SUCCESS,
+export const caseTypesSuccess = (caseTypes) => ({
+  type: CASE_TYPES_SUCCESS,
   payload: caseTypes,
+});
+
+export const caseTypeSuccess = (caseType) => ({
+  type: CASE_TYPE_SUCCESS,
+  payload: caseType,
 });
 
 export function fetchCaseTypes() {
@@ -24,7 +30,7 @@ export function fetchCaseTypes() {
     dispatch({ type: FETCH_CASE_TYPES });
     try {
       const response = await $http({ url: '/case-types', method: 'GET' });
-      return dispatch(requestSuccess(response.data));
+      return dispatch(caseTypesSuccess(response.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -39,7 +45,7 @@ export function fetchCaseType(payload) {
         url: `/case-types/${payload}`,
         method: 'GET',
       });
-      return response;
+      return dispatch(caseTypeSuccess(response.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -55,7 +61,7 @@ export function createCaseType(payload) {
         data: payload,
         method: 'POST',
       });
-      return response;
+      return dispatch(caseTypeSuccess(response.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -71,7 +77,7 @@ export function updateCaseType(payload) {
         data: payload,
         method: 'PUT',
       });
-      return response;
+      return dispatch(caseTypeSuccess(response.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }

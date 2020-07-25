@@ -19,7 +19,12 @@ import { PropTypes } from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 
 import { DashboardLayout } from '../../../layouts';
-import { InviteForm, DocumentForm, HearingForm } from '../../../components';
+import {
+  CaseHeader,
+  InviteForm,
+  DocumentForm,
+  HearingForm,
+} from '../../../components';
 
 import { fetchCase } from '../../../store/actions/cases';
 
@@ -76,30 +81,7 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
             ]}
           >
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <PageHeader
-                ghost={false}
-                title={singleCase.title}
-                subTitle={<a href={singleCase.meetingUrl}>meeting url</a>}
-                tags={<Tag color="blue">{singleCase.status}</Tag>}
-                extra={[
-                  <Button key="2">Suspend case</Button>,
-                  <Button key="1" type="primary">
-                    Make Verdict
-                  </Button>,
-                ]}
-              >
-                <Descriptions size="small" column={3}>
-                  <Descriptions.Item label="Description">
-                    {singleCase.description}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Creation Time">
-                    {new Date(singleCase.createdAt).toLocaleDateString()}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Est Time">
-                    {new Date(singleCase.updatedAt).toLocaleDateString()}
-                  </Descriptions.Item>
-                </Descriptions>
-              </PageHeader>
+              <CaseHeader singleCase={singleCase} />
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Card bordered={false} title="Case Timeline">
@@ -240,7 +222,7 @@ const mapStateToProps = (state) => ({
 Case.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  singleCase: PropTypes.instanceOf(Array).isRequired,
+  singleCase: PropTypes.instanceOf(Object).isRequired,
   error: PropTypes.instanceOf(Object),
 };
 

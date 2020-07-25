@@ -15,6 +15,8 @@ import ClientCard from './Clients/ClientCard';
 import CaseCard from './Case/CaseCard';
 import CaseForm from './Case/CaseForm';
 import CasesTable from './Case/CasesTable';
+import CaseHeader from './Case/CaseHeader';
+import VerdictForm from './Case/VerdictForm';
 
 import DocumentForm from './Document/DocumentForm';
 
@@ -42,7 +44,9 @@ export {
   OrganizationsTable,
   CaseCard,
   CaseForm,
+  CaseHeader,
   CasesTable,
+  VerdictForm,
   DocumentForm,
   HearingForm,
   HearingsList,

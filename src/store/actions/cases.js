@@ -5,6 +5,9 @@ import {
   CREATE_CASE,
   UPDATE_CASE,
   DELETE_CASE,
+  ADD_PARTY,
+  REMOVE_PARTY,
+  MAKE_VERDICT,
   CASES_SUCCESS,
   CASE_SUCCESS,
   REQUEST_FAILURE,
@@ -90,6 +93,54 @@ export function deleteCase(payload) {
         method: 'DELETE',
       });
       return response;
+    } catch (error) {
+      return dispatch(requestFailure(error));
+    }
+  };
+}
+
+export function addParty(payload) {
+  return async (dispatch) => {
+    dispatch({ type: ADD_PARTY });
+    try {
+      const response = await $http({
+        url: `/cases/${payload._id}/add-party`,
+        data: payload,
+        method: 'PUT',
+      });
+      return dispatch(caseSuccess(response.data.data));
+    } catch (error) {
+      return dispatch(requestFailure(error));
+    }
+  };
+}
+
+export function removeParty(payload) {
+  return async (dispatch) => {
+    dispatch({ type: REMOVE_PARTY });
+    try {
+      const response = await $http({
+        url: `/cases/${payload._id}/remove-party`,
+        data: payload,
+        method: 'PUT',
+      });
+      return dispatch(caseSuccess(response.data.data));
+    } catch (error) {
+      return dispatch(requestFailure(error));
+    }
+  };
+}
+
+export function makeVerdict(payload) {
+  return async (dispatch) => {
+    dispatch({ type: MAKE_VERDICT });
+    try {
+      const response = await $http({
+        url: `/cases/${payload._id}/make-verdict`,
+        data: payload,
+        method: 'PUT',
+      });
+      return dispatch(caseSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
     }

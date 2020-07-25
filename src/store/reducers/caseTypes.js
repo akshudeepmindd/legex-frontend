@@ -4,7 +4,8 @@ import {
   CREATE_CASE_TYPE,
   UPDATE_CASE_TYPE,
   DELETE_CASE_TYPE,
-  REQUEST_SUCCESS,
+  CASE_TYPES_SUCCESS,
+  CASE_TYPE_SUCCESS,
   REQUEST_FAILURE,
 } from '../constants/caseTypes';
 
@@ -31,7 +32,10 @@ export default function caseTypeReducers(state = initialState, action) {
     case DELETE_CASE_TYPE:
       return { ...state, loading: true };
 
-    case REQUEST_SUCCESS:
+    case CASE_TYPES_SUCCESS:
+      return { ...state, loading: false, caseTypes: action.payload.data };
+
+    case CASE_TYPE_SUCCESS:
       return { ...state, loading: false, caseTypes: action.payload.data };
 
     case REQUEST_FAILURE:
