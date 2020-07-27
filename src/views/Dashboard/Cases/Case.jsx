@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Row,
   Col,
-  PageHeader,
-  Tag,
   Button,
-  Descriptions,
   Card,
   Steps,
   List,
@@ -24,6 +21,7 @@ import {
   InviteForm,
   DocumentForm,
   HearingForm,
+  VerdictForm,
 } from '../../../components';
 
 import { fetchCase } from '../../../store/actions/cases';
@@ -34,6 +32,7 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
   const [hearingModal, setHearingModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
   const [documentModal, setDocumentModal] = useState(false);
+  const [verdictModal, setVerdictModal] = useState(false);
 
   const { caseId } = useParams();
 
@@ -51,6 +50,10 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
 
   const showDocumentModal = () => {
     setDocumentModal(true);
+  };
+
+  const showVerdictModal = () => {
+    setVerdictModal(true);
   };
 
   const handleOk = (e) => {
@@ -81,23 +84,101 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
             ]}
           >
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <CaseHeader singleCase={singleCase} />
+              <CaseHeader
+                singleCase={singleCase}
+                showVerdictModal={showVerdictModal}
+              />
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Card bordered={false} title="Case Timeline">
-                <Steps size="small" current={1} status="error">
-                  <Step title="Creation" />
-                  <Step title="Invitations" />
-                  <Step title="Assignment" />
-                  <Step title="Hearings" />
-                  <Step title="Completion" />
-                </Steps>
-              </Card>
+              <Row
+                gutter={[
+                  { xs: 8, sm: 16, md: 24, lg: 32 },
+                  { xs: 8, sm: 16, md: 24, lg: 32 },
+                ]}
+              >
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card bordered={false} title="Case Timeline">
+                    <Steps
+                      size="small"
+                      current={1}
+                      status="error"
+                      direction="vertical"
+                    >
+                      <Step title="Creation" />
+                      <Step title="Invitations" />
+                      <Step title="Assignment" />
+                      <Step title="Hearings" />
+                      <Step title="Completion" />
+                    </Steps>
+                  </Card>
+                </Col>
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Row
+                    gutter={[
+                      { xs: 8, sm: 16, md: 24, lg: 32 },
+                      { xs: 8, sm: 16, md: 24, lg: 32 },
+                    ]}
+                  >
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <Card
+                        bordered={false}
+                        title="Case Parties"
+                        actions={[
+                          <Button
+                            icon={<EditOutlined />}
+                            block
+                            type="primary"
+                            onClick={showInviteModal}
+                          >
+                            Send Invite
+                          </Button>,
+                        ]}
+                      />
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <Card
+                        bordered={false}
+                        title="Case Documents"
+                        actions={[
+                          <Button
+                            icon={<EditOutlined />}
+                            block
+                            type="primary"
+                            onClick={showDocumentModal}
+                          >
+                            Add Document
+                          </Button>,
+                        ]}
+                      />
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                      <Card
+                        bordered={false}
+                        title="Case Hearing"
+                        actions={[
+                          <Button
+                            icon={<EditOutlined />}
+                            block
+                            type="primary"
+                            onClick={showHearingModal}
+                          >
+                            Create Hearing
+                          </Button>,
+                        ]}
+                      >
+                        <List>
+                          <List.Item />
+                        </List>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Col>
         <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card title="Case Forum" bordered={false}>
+          <Card title="Case Forum" bordered={false} style={{ height: '80vh' }}>
             <Comment
               actions={[<span key="comment-basic-reply-to">Reply to</span>]}
               author={<Link to="/s">Han Solo</Link>}
@@ -119,66 +200,6 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
               }
               datetime={new Date(singleCase.createdAt).toLocaleDateString()}
             />
-          </Card>
-        </Col>
-      </Row>
-
-      <Row
-        gutter={[
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-        ]}
-      >
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card
-            bordered={false}
-            title="Case Parties"
-            actions={[
-              <Button
-                icon={<EditOutlined />}
-                block
-                type="primary"
-                onClick={showInviteModal}
-              >
-                Send Invite
-              </Button>,
-            ]}
-          />
-        </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card
-            bordered={false}
-            title="Case Documents"
-            actions={[
-              <Button
-                icon={<EditOutlined />}
-                block
-                type="primary"
-                onClick={showDocumentModal}
-              >
-                Add Document
-              </Button>,
-            ]}
-          />
-        </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card
-            bordered={false}
-            title="Case Hearing"
-            actions={[
-              <Button
-                icon={<EditOutlined />}
-                block
-                type="primary"
-                onClick={showHearingModal}
-              >
-                Create Hearing
-              </Button>,
-            ]}
-          >
-            <List>
-              <List.Item />
-            </List>
           </Card>
         </Col>
       </Row>
@@ -208,6 +229,15 @@ const Case = ({ dispatch, loading, singleCase, error }) => {
         onCancel={handleCancel}
       >
         <DocumentForm />
+      </Modal>
+
+      <Modal
+        title="Verdict Form"
+        visible={verdictModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <VerdictForm />
       </Modal>
     </DashboardLayout>
   );

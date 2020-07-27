@@ -2,7 +2,7 @@ import React from 'react';
 import { PageHeader, Tag, Button, Descriptions } from 'antd';
 import PropTypes from 'prop-types';
 
-const CaseHeader = ({ singleCase }) => {
+const CaseHeader = ({ singleCase, showVerdictModal }) => {
   return (
     <PageHeader
       ghost={false}
@@ -11,7 +11,7 @@ const CaseHeader = ({ singleCase }) => {
       tags={<Tag color="blue">{singleCase.status}</Tag>}
       extra={[
         <Button key="2">Suspend case</Button>,
-        <Button key="1" type="primary">
+        <Button key="1" type="primary" onClick={showVerdictModal}>
           Make Verdict
         </Button>,
       ]}
@@ -32,6 +32,7 @@ const CaseHeader = ({ singleCase }) => {
 };
 
 CaseHeader.propTypes = {
+  showVerdictModal: PropTypes.func.isRequired,
   singleCase: PropTypes.instanceOf(Object).isRequired,
 };
 
