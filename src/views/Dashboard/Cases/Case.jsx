@@ -23,7 +23,6 @@ import {
   HearingForm,
   VerdictForm,
 } from '../../../components';
-
 import { fetchCase } from '../../../store/actions/cases';
 
 const { Step } = Steps;

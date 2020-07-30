@@ -6,12 +6,20 @@ import HeroImage from '../assets/images/spiraltwo.png';
 
 const { Title, Paragraph } = Typography;
 
-function Home() {
+const Home = () => {
   return (
     <PageLayout>
-      <Row justify="center" align="middle" className="home-hero">
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <div className="home-hero-container">
+      <Row
+        justify="space-between"
+        align="middle"
+        className="hero"
+        gutter={[
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+        ]}
+      >
+        <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+          <div className="hero-container">
             <Title>Online Dispute Resolution</Title>
 
             <Paragraph>
@@ -21,12 +29,14 @@ function Home() {
               excepturi.
             </Paragraph>
 
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              <Col>
-                <Button type="primary">How it works</Button>
+            <Row gutter={{ xs: 8, sm: 8, md: 8, lg: 8 }}>
+              <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                <Button type="primary" block>
+                  How it works
+                </Button>
               </Col>
-              <Col>
-                <Button>Get started</Button>
+              <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                <Button block>Get started</Button>
               </Col>
             </Row>
           </div>
@@ -37,6 +47,6 @@ function Home() {
       </Row>
     </PageLayout>
   );
-}
+};
 
 export default Home;

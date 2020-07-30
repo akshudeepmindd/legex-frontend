@@ -7,7 +7,9 @@ import Logo from '../assets/images/logo.png';
 function Navbar() {
   return (
     <nav className="menu">
-      <img src={Logo} alt="Legex" className="logo" />
+      <Link to="/">
+        <img src={Logo} alt="Legex" className="logo" />
+      </Link>
       <Menu theme="light" mode="horizontal" style={{ lineHeight: '64px' }}>
         <Menu.Item key="/how-we-help-you">
           <Link to="/how-we-help-you">How we help you</Link>

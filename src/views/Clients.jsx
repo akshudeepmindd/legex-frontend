@@ -15,34 +15,31 @@ const Clients = () => {
   };
   return (
     <PageLayout>
-      <div className="hero">
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-          justify="start"
-          align="middle"
-          style={{ minHeight: '100vh' }}
-        >
-          <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-            <Title>Our Clients</Title>
-            <Paragraph>Lorem</Paragraph>
-            <Button type="primary">Get Started</Button>
-          </Col>
+      <Row
+        gutter={[
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+          { xs: 8, sm: 16, md: 24, lg: 32 },
+        ]}
+        justify="center"
+        align="middle"
+      >
+        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+          <Title>Our Clients</Title>
+          <Paragraph>Lorem</Paragraph>
+          <Button type="primary">Get Started</Button>
+        </Col>
 
-          <Col xs={24} sm={24} md={20} lg={20} xl={20}>
-            <Row
-              gutter={[
-                { xs: 8, sm: 16, md: 24, lg: 32 },
-                { xs: 8, sm: 16, md: 24, lg: 32 },
-              ]}
-            >
-              {renderClients()}
-            </Row>
-          </Col>
-        </Row>
-      </div>
+        <Col xs={24} sm={24} md={20} lg={20} xl={20}>
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+          >
+            {renderClients()}
+          </Row>
+        </Col>
+      </Row>
     </PageLayout>
   );
 };

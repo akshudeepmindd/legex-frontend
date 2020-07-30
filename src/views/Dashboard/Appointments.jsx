@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col, PageHeader, Calendar } from 'antd';
 
 import { DashboardLayout } from '../../layouts';
 
-function Appointments(props) {
-  const [routes] = useState([
-    {
-      path: '/dashboard/overview',
-      breadcrumbName: 'Dashboard',
-    },
-    {
-      path: '/dashboard/activities',
-      breadcrumbName: 'Activities',
-    },
-  ]);
+const Appointments = () => {
   return (
     <DashboardLayout>
       <Row
@@ -28,7 +18,6 @@ function Appointments(props) {
             onBack={() => window.history.back()}
             title="Appointments"
             subTitle="An overview of your schedule"
-            breadcrumb={routes}
           />
         </Col>
       </Row>
@@ -44,6 +33,6 @@ function Appointments(props) {
       </Row>
     </DashboardLayout>
   );
-}
+};
 
 export default Appointments;

@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// ant design components
 import {
   Row,
   Col,
@@ -12,19 +15,20 @@ import {
   Button,
   Typography,
   Modal,
-  Space,
+  Empty,
 } from 'antd';
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
-import { connect } from 'react-redux';
 
+// components
 import { DashboardLayout } from '../../layouts';
 import { CasesTable, ProfileForm } from '../../components';
 
+// redux actions
 import { fetchCases } from '../../store/actions/cases';
 import { fetchOrganizations } from '../../store/actions/organizations';
 import { fetchUser } from '../../store/actions/users';
 
-const { Paragraph, Text } = Typography;
+const { Text } = Typography;
 const { Meta } = Card;
 const { Option } = Select;
 
@@ -69,32 +73,39 @@ const Overview = ({
   };
 
   const renderUserProfile = () => {
+    if (user.hasOwnProperty('firstName')) {
+      return (
+        <Card
+          bordered={false}
+          actions={[
+            <Button
+              type="primary"
+              icon={<EditOutlined />}
+              block
+              onClick={toggleModal}
+            >
+              Edit Profile
+            </Button>,
+          ]}
+        >
+          <Meta
+            avatar={
+              <Avatar
+                size="large"
+                icon={<UserOutlined />}
+                className="avatar-placeholder"
+                shape="square"
+              />
+            }
+            title={`${user.firstName} ${user.lastName}`}
+            description={[<Text>{user.email}</Text>, <Text>{user.phone}</Text>]}
+          />
+        </Card>
+      );
+    }
     return (
-      <Card
-        bordered={false}
-        actions={[
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            block
-            onClick={toggleModal}
-          >
-            Edit Profile
-          </Button>,
-        ]}
-      >
-        <Meta
-          avatar={
-            <Avatar
-              size="large"
-              icon={<UserOutlined />}
-              className="avatar-placeholder"
-              shape="square"
-            />
-          }
-          title={`${user.firstName} ${user.lastName}`}
-          description={[<Text>{user.email}</Text>, <Text>{user.phone}</Text>]}
-        />
+      <Card title="User Profile">
+        <Empty />
       </Card>
     );
   };

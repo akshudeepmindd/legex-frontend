@@ -19,7 +19,7 @@ function PageLayout(props) {
         <a href="https://legex.in">
           <b>Legex</b>
         </a>{' '}
-        ODR &copy; {year}. A &nbsp;
+        ODR &copy; {year}
       </Footer>
     </Layout>
   );

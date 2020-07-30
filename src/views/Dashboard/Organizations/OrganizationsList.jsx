@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, PageHeader, Modal, Button } from 'antd';
-import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// ant design components
+import {
+  Row,
+  Col,
+  PageHeader,
+  Modal,
+  Button,
+  Card,
+  Empty,
+  Typography,
+} from 'antd';
+import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
+
+// components
 import { DashboardLayout } from '../../../layouts';
 import {
   OrganizationCard,
   OrganizationsTable,
   OrganizationForm,
 } from '../../../components';
+
+// redux actions
 import { fetchOrganizations } from '../../../store/actions/organizations';
+
+const { Text } = Typography;
 
 const OrganizationsList = ({ dispatch, loading, organizations }) => {
   const [view, setView] = useState(false);
@@ -43,23 +59,30 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
   const handleChange = () => {};
 
   const renderOrganizations = () => {
-    if (view)
-      return (
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-        >
-          {organizations.map((organization) => (
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              <OrganizationCard organization={organization} />
-            </Col>
-          ))}
-        </Row>
-      );
-
-    return <OrganizationsTable organizations={organizations} />;
+    if (organizations.length > 0) {
+      if (view) {
+        return (
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+          >
+            {organizations.map((organization) => (
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                <OrganizationCard organization={organization} />
+              </Col>
+            ))}
+          </Row>
+        );
+      }
+      return <OrganizationsTable organizations={organizations} />;
+    }
+    return (
+      <Card bordered={false}>
+        <Empty description={<Text>No Cases Found</Text>} />
+      </Card>
+    );
   };
 
   return (
@@ -88,7 +111,7 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
                 type="primary"
                 onClick={showModal}
               >
-                Create new organization
+                Create a new organization
               </Button>,
             ]}
           />

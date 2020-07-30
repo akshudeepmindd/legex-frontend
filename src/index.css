@@ -25,10 +25,6 @@ h1.ant-typography,
   text-transform: capitalize;
 }
 
-h1 .text-white {
-  color: #ffffff;
-}
-
 .ant-layout-header {
   background-color: #ffffff;
 }
@@ -82,10 +78,6 @@ h1 .text-white {
   margin: 16px;
 }
 
-.text-white {
-  color: #fff;
-}
-
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -105,24 +97,12 @@ h1 .text-white {
   width: 100%;
 }
 
-.home-hero {
-  height: 100vh;
-}
-
-.home-hero-container {
-  padding: 25px;
-}
-
 .hero {
   height: 100vh;
-  padding-right: 15px;
-  padding-left: 15px;
-  padding-top: 15px;
-  overflow-y: auto;
-  background: url(./assets/images/darkbg.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+}
+
+.hero-container {
+  padding: 25px;
 }
 
 .ant-col-rtl .login-form-forgot {

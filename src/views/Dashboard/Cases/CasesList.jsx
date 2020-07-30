@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, PageHeader, Modal, Button } from 'antd';
-import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+// ant design components
+import {
+  Row,
+  Col,
+  PageHeader,
+  Modal,
+  Button,
+  Card,
+  Empty,
+  Typography,
+} from 'antd';
+import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
+
+// components
 import { DashboardLayout } from '../../../layouts';
 import { CaseCard, CasesTable, CaseForm } from '../../../components';
 
+// redux actions
 import { fetchCases } from '../../../store/actions/cases';
 import { fetchCaseTypes } from '../../../store/actions/caseTypes';
 
+const { Text } = Typography;
+
 const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
+  // create state
   const [view, setView] = useState(false);
   const [modal, setModal] = useState(false);
 
@@ -43,23 +59,30 @@ const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
   const handleChange = () => {};
 
   const renderCases = () => {
-    if (view)
-      return (
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-        >
-          {cases.map((data) => (
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              <CaseCard data={data} />
-            </Col>
-          ))}
-        </Row>
-      );
-
-    return <CasesTable cases={cases} loading={loading} />;
+    if (cases.length > 0) {
+      if (view) {
+        return (
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+          >
+            {cases.map((data) => (
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                <CaseCard data={data} />
+              </Col>
+            ))}
+          </Row>
+        );
+      }
+      return <CasesTable cases={cases} loading={loading} />;
+    }
+    return (
+      <Card bordered={false}>
+        <Empty description={<Text>No Cases Found</Text>} />
+      </Card>
+    );
   };
 
   return (
@@ -83,7 +106,7 @@ const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
                 onClick={toggleView}
               />,
               <Button key="1" type="primary" onClick={showModal}>
-                Create new cases
+                Create a new case
               </Button>,
             ]}
           />
