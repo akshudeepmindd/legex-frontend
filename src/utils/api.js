@@ -3,7 +3,7 @@ import axios from 'axios';
 const $http = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 5000,
-  header: {
+  headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   },

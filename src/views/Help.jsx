@@ -3,7 +3,7 @@ import { Row, Col, Button, Typography } from 'antd';
 
 import { PageLayout } from '../layouts';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
 const Help = () => {
   return (

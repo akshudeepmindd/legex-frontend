@@ -80,7 +80,7 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
     }
     return (
       <Card bordered={false}>
-        <Empty description={<Text>No Cases Found</Text>} />
+        <Empty description={<Text>No Organizations Found</Text>} />
       </Card>
     );
   };

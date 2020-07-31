@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, Button } from 'antd';
 
-function OrganizationForm(props) {
-  const { onFinish, handleChange, name, domain } = props;
+const OrganizationForm = ({ onFinish, handleChange, name, domain }) => {
   return (
     <Form name="OrganizationForm" onFinish={onFinish}>
       <Form.Item
@@ -36,13 +35,18 @@ function OrganizationForm(props) {
       </Form.Item>
     </Form>
   );
-}
+};
 
 OrganizationForm.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   domain: PropTypes.string,
-  handleChange: PropTypes.func,
-  onFinish: PropTypes.func,
+  handleChange: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired,
+};
+
+OrganizationForm.defaultProps = {
+  domain: '',
+  name: '',
 };
 
 export default OrganizationForm;
