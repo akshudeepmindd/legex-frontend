@@ -24,8 +24,12 @@ const Login = () => {
 
   const onFinish = async (values) => {
     const response = await dispatch(loginUser(values));
-    message.info(response.message);
-    history.push('/dashboard/overview');
+    if (response.success) {
+      message.success(response.message);
+      history.push('/dashboard/overview');
+    } else {
+      message.error(response.message);
+    }
   };
 
   const googleLogin = () => {

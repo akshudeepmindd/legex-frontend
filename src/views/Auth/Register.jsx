@@ -24,12 +24,15 @@ const Register = () => {
   const [email] = useState('');
   const [phone] = useState('');
   const [password] = useState('');
-  const [confirmPassword] = useState('');
 
   const onFinish = async (values) => {
     const response = await dispatch(registerUser(values));
-    message.success(response.message);
-    history.push('/login');
+    if (response.success) {
+      message.success(response.message);
+      history.push('/dashboard/overview');
+    } else {
+      message.error(response.message);
+    }
   };
 
   const handleChange = () => {};
@@ -58,7 +61,6 @@ const Register = () => {
         email={email}
         phone={phone}
         password={password}
-        confirmPassword={confirmPassword}
         loading={loading}
       />
     </AuthLayout>

@@ -13,7 +13,6 @@ const RegisterForm = ({
   email,
   phone,
   password,
-  confirmPassword,
   loading,
 }) => {
   return (
@@ -64,33 +63,16 @@ const RegisterForm = ({
         <Input placeholder="Email" value={email} onChange={handleChange} />
       </Form.Item>
 
-      <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 16 }}>
-        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input.Password
-              placeholder="Password"
-              value={password}
-              onChange={handleChange}
-            />
-          </Form.Item>
-        </Col>
-
-        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-          <Form.Item
-            name="confirmPassword"
-            rules={[{ required: true, message: 'Password do not match!' }]}
-          >
-            <Input.Password
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={handleChange}
-            />
-          </Form.Item>
-        </Col>
-      </Row>
+      <Form.Item
+        name="password"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+        <Input.Password
+          placeholder="Password"
+          value={password}
+          onChange={handleChange}
+        />
+      </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" block loading={loading}>
