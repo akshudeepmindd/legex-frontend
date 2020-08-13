@@ -34,8 +34,10 @@ export function loginUser(payload) {
       localStorage.setItem('access-token', token);
       localStorage.setItem('user-id', _id);
       dispatch(authSuccess(response.data));
+      return response.data;
     } catch (error) {
       dispatch(authFailure(error));
+      return error;
     }
   };
 }
@@ -50,8 +52,10 @@ export function registerUser(payload) {
         method: 'POST',
       });
       dispatch(authSuccess(response.data));
+      return response.data;
     } catch (error) {
       dispatch(authFailure(error));
+      return error;
     }
   };
 }
@@ -62,6 +66,7 @@ export function googleOAuth() {
     try {
       const response = await $http({ url: '/auth/google', method: 'GET' });
       dispatch(authSuccess(response));
+      return response.data;
     } catch (error) {
       dispatch(authFailure(error));
     }

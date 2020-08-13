@@ -1,107 +1,68 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Typography, Spin, Alert } from 'antd';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Typography, message } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
 
 import { AuthLayout } from '../../layouts';
 import { RegisterForm } from '../../components';
-import { registerUser } from '../../store/actions/auth';
+import {
+  registerUser,
+  googleOAuth,
+  facebookOAuth,
+} from '../../store/actions/auth';
 
 const { Title } = Typography;
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: '',
-    };
-  }
+const Register = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  onFinish = (values) => {
-    this.props.registerUser(values);
+  const loading = useSelector((state) => state.auth.loading);
+
+  const [firstName] = useState('');
+  const [lastName] = useState('');
+  const [email] = useState('');
+  const [phone] = useState('');
+  const [password] = useState('');
+  const [confirmPassword] = useState('');
+
+  const onFinish = async (values) => {
+    const response = await dispatch(registerUser(values));
+    message.success(response.message);
+    history.push('/login');
   };
 
-  onChangeFirstName = (firstName) => {
-    this.setState({
-      firstName,
-    });
+  const handleChange = () => {};
+
+  const googleLogin = () => {
+    dispatch(googleOAuth());
   };
 
-  onChangeLastName = (lastName) => {
-    this.setState({
-      lastName,
-    });
+  const facebookLogin = () => {
+    dispatch(facebookOAuth());
   };
 
-  onChangeEmail = (email) => {
-    this.setState({
-      email,
-    });
-  };
+  return (
+    <AuthLayout>
+      <p>
+        Already have a Legex O.D.R. account? <Link to="/login">Log in</Link>
+      </p>
+      <Title>Create an account</Title>
+      <RegisterForm
+        onFinish={onFinish}
+        googleLogin={googleLogin}
+        facebookLogin={facebookLogin}
+        handleChange={handleChange}
+        firstName={firstName}
+        lastName={lastName}
+        email={email}
+        phone={phone}
+        password={password}
+        confirmPassword={confirmPassword}
+        loading={loading}
+      />
+    </AuthLayout>
+  );
+};
 
-  onChangePassword = (password) => {
-    this.setState({
-      password,
-    });
-  };
-
-  onChangeConfirmPassword = (confirmPassword) => {
-    this.setState({
-      confirmPassword,
-    });
-  };
-
-  render() {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      password,
-      confirmPassword,
-    } = this.state;
-    const { loading, error } = this.props;
-
-    return (
-      <AuthLayout>
-        <p>
-          Already have an IBM Cloud account? <Link to="/login">Log in</Link>
-        </p>
-        <Title>Create an account</Title>
-        <Spin spinning={loading} />
-        {error ? <Alert>Hey</Alert> : <div />}
-        <RegisterForm
-          onFinish={this.onFinish}
-          onChangeFirstName={this.onChangeFirstName}
-          onChangeLastName={this.onChangeLastName}
-          onChangeEmail={this.onChangeEmail}
-          onChangePhone={this.onChangePhone}
-          onChangePassword={this.onChangePassword}
-          onChangeConfirmPassword={this.onChangeConfirmPassword}
-          firstName={firstName}
-          lastName={lastName}
-          email={email}
-          phone={phone}
-          password={password}
-          confirmPassword={confirmPassword}
-        />
-      </AuthLayout>
-    );
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  registerUser: (payload) => dispatch(registerUser(payload)),
-});
-
-const mapStateToProps = (state) => ({
-  loading: state.auth.loading,
-  error: state.auth.error,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default Register;

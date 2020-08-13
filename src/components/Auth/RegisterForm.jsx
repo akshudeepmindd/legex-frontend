@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import { Row, Col, Form, Input, Button, Divider } from 'antd';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 
-function RegisterForm(props) {
-  const {
-    onFinish,
-    handleChange,
-    googleLogin,
-    facebookLogin,
-    firstName,
-    lastName,
-    email,
-    phone,
-    password,
-    confirmPassword,
-  } = props;
+const RegisterForm = ({
+  onFinish,
+  handleChange,
+  googleLogin,
+  facebookLogin,
+  firstName,
+  lastName,
+  email,
+  phone,
+  password,
+  confirmPassword,
+  loading,
+}) => {
   return (
     <Form name="RegisterForm" onFinish={onFinish}>
       <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 16 }}>
@@ -93,7 +93,7 @@ function RegisterForm(props) {
       </Row>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" block>
+        <Button type="primary" htmlType="submit" block loading={loading}>
           Register
         </Button>
       </Form.Item>
@@ -124,7 +124,7 @@ function RegisterForm(props) {
       </Row>
     </Form>
   );
-}
+};
 
 RegisterForm.propTypes = {
   onFinish: PropTypes.func.isRequired,
@@ -137,6 +137,7 @@ RegisterForm.propTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   confirmPassword: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default RegisterForm;

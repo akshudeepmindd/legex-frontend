@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Typography, Alert, Space } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { Typography, message } from 'antd';
 
 import { AuthLayout } from '../../layouts';
 import { LoginForm } from '../../components';
@@ -14,27 +13,27 @@ import {
 
 const { Title } = Typography;
 
-const Login = ({ login, google, facebook, processing, error }) => {
+const Login = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const [email] = useState('');
   const [password] = useState('');
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
 
-  const onFinish = (values) => {
-    login(values);
-  };
+  const loading = useSelector((state) => state.auth.loading);
 
-  const onFinishFailed = () => {
-    setAlert(true);
-    setAlertMessage('Validate the forms');
+  const onFinish = async (values) => {
+    const response = await dispatch(loginUser(values));
+    message.info(response.message);
+    history.push('/dashboard/overview');
   };
 
   const googleLogin = () => {
-    google();
+    dispatch(googleOAuth());
   };
 
   const facebookLogin = () => {
-    facebook();
+    dispatch(facebookOAuth());
   };
 
   return (
@@ -44,47 +43,16 @@ const Login = ({ login, google, facebook, processing, error }) => {
         Don&apos;t have an account?{' '}
         <Link to="/register">Create an account</Link>
       </p>
-      {alert ? (
-        <Space direction="vertical">
-          <Alert message={alertMessage} type="error" showIcon />
-        </Space>
-      ) : (
-        ''
-      )}
       <LoginForm
         email={email}
         password={password}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         googleLogin={googleLogin}
         facebookLogin={facebookLogin}
-        processing={processing}
+        loading={loading}
       />
     </AuthLayout>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  login: (payload) => dispatch(loginUser(payload)),
-  google: () => dispatch(googleOAuth()),
-  facebook: () => dispatch(facebookOAuth()),
-});
-
-const mapStateToProps = (state) => ({
-  processing: state.auth.loading,
-  error: state.auth.error,
-});
-
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-  google: PropTypes.func.isRequired,
-  facebook: PropTypes.func.isRequired,
-  processing: PropTypes.bool.isRequired,
-  error: PropTypes.instanceOf(Object),
-};
-
-Login.defaultProps = {
-  error: {},
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
