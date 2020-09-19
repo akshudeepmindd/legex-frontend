@@ -10,7 +10,8 @@ import {
 } from '../constants/caseTypes';
 
 export const initialState = {
-  caseTypes: {},
+  //caseTypes: {},
+  caseTypes: [],
   caseType: [],
   loading: false,
   error: {},

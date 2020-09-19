@@ -70,6 +70,7 @@ CaseForm.propTypes = {
   description: PropTypes.string,
   caseType: PropTypes.string,
   caseTypes: PropTypes.instanceOf(Array).isRequired,
+  //caseTypes: PropTypes.array,
 };
 
 CaseForm.defaultProps = {
