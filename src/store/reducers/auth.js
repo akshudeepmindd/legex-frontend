@@ -7,6 +7,7 @@ import {
   FACEBOOK_OAUTH,
   AUTH_SUCCESS,
   AUTH_FAILURE,
+  LOGOUT_USER,
 } from '../constants/auth';
 
 export const initialState = {
@@ -42,9 +43,12 @@ export default function authReducer(state = initialState, action) {
         token: action.payload.token,
         loading: false,
       };
-
+    
     case AUTH_FAILURE:
       return { error: action.payload, loading: false };
+
+    case LOGOUT_USER :
+      return { initialState , loading : false};
 
     default:
       return state;

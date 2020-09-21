@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: 0 */
 import $http from '../../utils/api';
 import {
   LOGIN_USER,
@@ -8,6 +9,7 @@ import {
   FACEBOOK_OAUTH,
   AUTH_SUCCESS,
   AUTH_FAILURE,
+  LOGOUT_USER,
 } from '../constants/auth';
 
 export const authSuccess = (user) => ({
@@ -113,6 +115,23 @@ export function resetPassword(payload) {
       dispatch(authSuccess(response));
     } catch (error) {
       dispatch(authFailure(error));
+    }
+  };
+}
+
+export function logout(payload) {
+  return async (dispatch) => {
+    dispatch({ type: LOGOUT_USER });
+    try {
+      const response = await $http({
+        url: 'auth/logout',
+        method: 'GET'
+      });
+      dispatch(authSuccess(response.data));
+      return response.data;
+    } catch (error) {
+      dispatch(authFailure(error));
+      return error;
     }
   };
 }
