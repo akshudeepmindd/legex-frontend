@@ -8,10 +8,25 @@ import {
   SettingOutlined,
   InfoCircleOutlined,
   CalendarOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons';
+
+import {
+  logout,
+} from '../store/actions/auth';
+
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Sidebar() {
+  
+  const dispatch = useDispatch();
+
+  const Logout = () => {
+    localStorage.clear("token");
+    dispatch(logout());
+  }
+  
   return (
     <div className="sidebar">
       <Menu theme="dark" mode="inline">
@@ -37,6 +52,12 @@ function Sidebar() {
         </Menu.Item>
         <Menu.Item key="/dashboard/help" icon={<InfoCircleOutlined />}>
           <Link to="/dashboard/help">Help</Link>
+        </Menu.Item>
+      </Menu>
+
+      <Menu  theme="dark" mode="inline">
+        <Menu.Item key="/login" icon={<LogoutOutlined />} onClick ={Logout}>
+          <Link to="/login">Log Out</Link>
         </Menu.Item>
       </Menu>
     </div>
