@@ -53,6 +53,11 @@ export function registerUser(payload) {
         data: payload,
         method: "POST",
       });
+      console.log(response);
+      const { token } = response.data;
+      const { _id } = response.data.data;
+      localStorage.setItem("access-token", token);
+      localStorage.setItem("user-id", _id);
       dispatch(authSuccess(response.data));
       return response.data;
     } catch (error) {

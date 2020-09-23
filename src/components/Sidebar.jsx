@@ -23,7 +23,8 @@ function Sidebar() {
   const dispatch = useDispatch();
 
   const Logout = () => {
-    localStorage.clear("token");
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("user-id");
     dispatch(logout());
   }
   

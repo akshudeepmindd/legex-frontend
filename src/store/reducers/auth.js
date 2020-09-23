@@ -8,13 +8,13 @@ import {
   AUTH_SUCCESS,
   AUTH_FAILURE,
   LOGOUT_USER,
-} from '../constants/auth';
+} from "../constants/auth";
 
 export const initialState = {
   user: {},
   loading: false,
   error: {},
-  token: '' || localStorage.getItem('access-token'),
+  token: "" || localStorage.getItem("access-token"),
 };
 
 export default function authReducer(state = initialState, action) {
@@ -43,12 +43,12 @@ export default function authReducer(state = initialState, action) {
         token: action.payload.token,
         loading: false,
       };
-    
+
     case AUTH_FAILURE:
       return { error: action.payload, loading: false };
 
-    case LOGOUT_USER :
-      return { initialState , loading : false};
+    case LOGOUT_USER:
+      return initialState;
 
     default:
       return state;
