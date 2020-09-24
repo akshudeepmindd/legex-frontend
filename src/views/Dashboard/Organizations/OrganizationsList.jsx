@@ -12,6 +12,7 @@ import {
   Card,
   Empty,
   Typography,
+  message
 } from 'antd';
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
 
@@ -24,7 +25,8 @@ import {
 } from '../../../components';
 
 // redux actions
-import { fetchOrganizations } from '../../../store/actions/organizations';
+import { createOrganization, fetchOrganizations } from '../../../store/actions/organizations';
+import $http from '../../../utils/api';
 
 const { Text } = Typography;
 
@@ -54,7 +56,15 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
     setView(!view);
   };
 
-  const onFinish = (values) => {};
+  const onFinish =async (values) => {
+    const response = await dispatch(createOrganization(values));
+    console.log(response)
+    if (response.success) {
+      setModal(false)
+    } else {
+      message.error(response.message);
+    }
+  };
 
   const handleChange = () => {};
 

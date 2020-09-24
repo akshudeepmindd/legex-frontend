@@ -28,7 +28,6 @@ const Register = () => {
   const onFinish = async (values) => {
     const response = await dispatch(registerUser(values));
     if (response.success) {
-      message.success(response.message);
       history.push('/dashboard/overview');
     } else {
       message.error(response.message);
