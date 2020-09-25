@@ -1,4 +1,4 @@
-import Organization from "../../views/Dashboard/Organizations/Organization";
+// import Organization from "../../views/Dashboard/Organizations/Organization";
 import {
   FETCH_ORGANIZATIONS,
   FETCH_ORGANIZATION,

@@ -26,7 +26,7 @@ import {
 
 // redux actions
 import { createOrganization, fetchOrganizations } from '../../../store/actions/organizations';
-import $http from '../../../utils/api';
+// import $http from '../../../utils/api';
 
 const { Text } = Typography;
 
