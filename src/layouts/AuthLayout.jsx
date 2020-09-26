@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes, { arrayOf, element } from "prop-types";
-import { Layout, Row, Col } from "antd";
+import React from 'react';
+import {PropTypes, element} from 'prop-types';
+import { Layout, Row, Col } from 'antd';
 
 import { Navbar } from "../components";
 
