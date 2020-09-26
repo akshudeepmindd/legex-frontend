@@ -89,11 +89,13 @@ export function deleteOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: DELETE_ORGANIZATION });
     try {
-      const response = await $http({
-        url: `/organizations/${payload._id}`,
+      console.log(payload);
+      const response = await $http()({
+        url: `/organizations/${payload}`,
         method: "DELETE",
       });
-      return dispatch(organizationSuccess(response.data.data));
+      dispatch(organizationSuccess(response.data.data));
+      return response.data;
     } catch (error) {
       return dispatch(requestFailure(error));
     }
