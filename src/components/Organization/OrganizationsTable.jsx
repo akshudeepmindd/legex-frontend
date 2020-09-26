@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Table, Space, Button, Badge, Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Table, Space, Button, Badge, Typography, message } from "antd";
+import { Link } from "react-router-dom";
 
-import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { useDispatch } from "react-redux";
+
+import { deleteOrganization } from "../../store/actions/organizations";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 
 function OrganizationsTable({ organizations, loading }) {
+  const dispatch = useDispatch();
+
+  const handleDelete = async (orgId) => {
+    const response = await dispatch(deleteOrganization(orgId));
+
+    if (response.status) {
+      window.location.reload();
+    } else {
+      message.error(response.message);
+    }
+  };
+
   const [columns] = useState([
     {
-      title: 'Name',
-      key: 'name',
+      title: "Name",
+      key: "name",
       render: (organization) => (
         <Link to={`/dashboard/organizations/${organization._id}`}>
           {organization.name}
@@ -17,14 +32,14 @@ function OrganizationsTable({ organizations, loading }) {
       ),
     },
     {
-      title: 'Domain',
-      dataIndex: 'domain',
-      key: 'domain',
+      title: "Domain",
+      dataIndex: "domain",
+      key: "domain",
     },
     {
-      title: 'Admin',
-      dataIndex: 'owner',
-      key: 'admin',
+      title: "Admin",
+      dataIndex: "owner",
+      key: "admin",
       render: (owner) => (
         <Typography.Text className="capitalize">
           {owner.firstName} {owner.lastName}
@@ -32,43 +47,58 @@ function OrganizationsTable({ organizations, loading }) {
       ),
     },
     {
-      title: 'Members',
-      dataIndex: 'members',
-      key: 'members',
+      title: "Members",
+      dataIndex: "members",
+      key: "members",
       render: (members) => (
         <Badge
           count={members.length}
-          style={{ backgroundColor: '#1F40E6' }}
+          style={{ backgroundColor: "#1F40E6" }}
           showZero
         />
       ),
     },
     {
-      title: 'Cases',
-      dataIndex: 'cases',
-      key: 'cases',
+      title: "Cases",
+      dataIndex: "cases",
+      key: "cases",
       render: (cases) => (
         <Badge
           count={cases.length}
-          style={{ backgroundColor: '#1F40E6' }}
+          style={{ backgroundColor: "#1F40E6" }}
           showZero
         />
       ),
     },
     {
-      title: 'Actions',
-      key: 'action',
-      render: (text, record) => (
-        <Space>
-          <Button icon={<DeleteOutlined />} />
-          <Button icon={<EyeOutlined />} />
-        </Space>
-      ),
+      title: "Actions",
+      key: "action",
+      render: (organization, a) => {
+        console.log(organization, a);
+
+        return (
+          <Space>
+            <Button
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(organization._id)}
+            />
+            <Button icon={<EyeOutlined />} />
+          </Space>
+        );
+      },
     },
   ]);
 
   return (
-    <Table columns={columns} dataSource={organizations} loading={loading} />
+    <>
+      {organizations ? (
+        <Table
+          columns={columns.filter((column) => column !== null)}
+          dataSource={organizations}
+          loading={loading}
+        />
+      ) : null}
+    </>
   );
 }
 
