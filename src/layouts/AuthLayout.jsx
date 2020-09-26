@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Layout, Row, Col } from 'antd';
+import React from "react";
+import PropTypes, { arrayOf, element } from "prop-types";
+import { Layout, Row, Col } from "antd";
 
-import { Navbar } from '../components';
+import { Navbar } from "../components";
 
 const { Header, Content } = Layout;
 
@@ -40,7 +40,7 @@ function AuthLayout(props) {
 }
 
 AuthLayout.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.arrayOf(element).isRequired,
 };
 
 export default AuthLayout;

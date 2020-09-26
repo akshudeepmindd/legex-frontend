@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col, Form, Input, Button, Divider } from 'antd';
-import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
+import React from "react";
+import PropTypes from "prop-types";
+import { Row, Col, Form, Input, Button, Divider } from "antd";
+import { GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
 
 const RegisterForm = ({
   onFinish,
@@ -22,7 +22,7 @@ const RegisterForm = ({
           <Form.Item
             name="firstName"
             rules={[
-              { required: true, message: 'Please input your first name!' },
+              { required: true, message: "Please input your first name!" },
             ]}
           >
             <Input
@@ -37,7 +37,7 @@ const RegisterForm = ({
           <Form.Item
             name="lastName"
             rules={[
-              { required: true, message: 'Please input your last name!' },
+              { required: true, message: "Please input your last name!" },
             ]}
           >
             <Input
@@ -51,21 +51,21 @@ const RegisterForm = ({
 
       <Form.Item
         name="phone"
-        rules={[{ required: true, message: 'Please input your phone!' }]}
+        rules={[{ required: true, message: "Please input your phone!" }]}
       >
         <Input placeholder="Phone" value={phone} onChange={handleChange} />
       </Form.Item>
 
       <Form.Item
         name="email"
-        rules={[{ required: true, message: 'Please input your email!' }]}
+        rules={[{ required: true, message: "Please input your email!" }]}
       >
         <Input placeholder="Email" value={email} onChange={handleChange} />
       </Form.Item>
 
       <Form.Item
         name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
+        rules={[{ required: true, message: "Please input your password!" }]}
       >
         <Input.Password
           placeholder="Password"
@@ -118,7 +118,7 @@ RegisterForm.propTypes = {
   phone: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  confirmPassword: PropTypes.string.isRequired,
+  // confirmPassword: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
