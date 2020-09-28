@@ -13,9 +13,10 @@ function OrganizationsTable({ organizations, loading }) {
 
   const handleDelete = async (orgId) => {
     const response = await dispatch(deleteOrganization(orgId));
+    window.location.reload();
 
     if (response.status) {
-      window.location.reload();
+      // window.location.reload();
     } else {
       message.error(response.message);
     }

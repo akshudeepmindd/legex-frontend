@@ -14,7 +14,7 @@ const CaseForm = ({
   caseType,
 }) => {
   const renderCaseTypes = () => {
-    return caseTypes.map((d) => <Option value={d._id}>{d.name}</Option>);
+    return caseTypes.map((d, index) => <Option key ={index} value={d._id}>{d.name}</Option>);
   };
 
   return (
