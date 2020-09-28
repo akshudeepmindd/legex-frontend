@@ -1,3 +1,6 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8ca2620d-b07f-4d69-9dd5-214ad9ec2c63/deploy-status)](https://app.netlify.com/sites/odr-legex/deploys)
+
+
 # Legex O.D.R. Client.
 
 >
