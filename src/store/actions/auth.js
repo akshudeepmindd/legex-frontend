@@ -24,13 +24,14 @@ export const authFailure = (error) => ({
 
 export function loginUser(payload) {
   return async (dispatch) => {
-    dispatch({ type: LOGIN_USER });
+    dispatch({ type: LOGIN_USER }); //loaidng start
     try {
       const response = await $http()({
         url: "/auth/login",
         data: payload,
         method: "POST",
       });
+      console.log(response);
       const { token } = response.data;
       const { _id } = response.data.data;
       localStorage.setItem("access-token", token);

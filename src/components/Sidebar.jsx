@@ -22,10 +22,11 @@ function Sidebar() {
   
   const dispatch = useDispatch();
 
-  const Logout = () => {
+  const Logout = async () => {
     localStorage.removeItem("access-token");
     localStorage.removeItem("user-id");
     dispatch(logout());
+    
   }
   
   return (

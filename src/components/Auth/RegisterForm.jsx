@@ -118,7 +118,7 @@ RegisterForm.propTypes = {
   phone: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  confirmPassword: PropTypes.string.isRequired,
+  // confirmPassword: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 

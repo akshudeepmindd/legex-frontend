@@ -1,3 +1,4 @@
+// import Organization from "../../views/Dashboard/Organizations/Organization";
 import {
   FETCH_ORGANIZATIONS,
   FETCH_ORGANIZATION,
@@ -7,14 +8,15 @@ import {
   ORGANIZATIONS_SUCCESS,
   ORGANIZATION_SUCCESS,
   REQUEST_FAILURE,
-} from '../constants/organizations';
+} from "../constants/organizations";
 
 export const initialState = {
-  organization: [],
+  organization: null,
   organizations: [],
   loading: false,
   error: {},
 };
+
 export default function organizationReducers(state = initialState, action) {
   switch (action.type) {
     case FETCH_ORGANIZATIONS:
@@ -36,7 +38,12 @@ export default function organizationReducers(state = initialState, action) {
       return { ...state, organizations: action.payload, loading: false };
 
     case ORGANIZATION_SUCCESS:
-      return { ...state, organization: action.payload, loading: false };
+      return {
+        ...state,
+        organization: action.payload,
+        organizations: [...state.organizations, action.payload],
+        loading: false,
+      };
 
     case REQUEST_FAILURE:
       return { ...state, error: action.payload, loading: false };
