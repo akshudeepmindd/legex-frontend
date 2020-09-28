@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { DashboardLayout } from "../../../layouts";
