@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // ant design components
 import {
@@ -12,20 +12,23 @@ import {
   Card,
   Empty,
   Typography,
-  message
-} from 'antd';
-import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
+  message,
+} from "antd";
+import { AppstoreOutlined, TableOutlined } from "@ant-design/icons";
 
 // components
-import { DashboardLayout } from '../../../layouts';
+import { DashboardLayout } from "../../../layouts";
 import {
   OrganizationCard,
   OrganizationsTable,
   OrganizationForm,
-} from '../../../components';
+} from "../../../components";
 
 // redux actions
-import { createOrganization, fetchOrganizations } from '../../../store/actions/organizations';
+import {
+  createOrganization,
+  fetchOrganizations,
+} from "../../../store/actions/organizations";
 // import $http from '../../../utils/api';
 
 const { Text } = Typography;
@@ -33,8 +36,8 @@ const { Text } = Typography;
 const OrganizationsList = ({ dispatch, loading, organizations }) => {
   const [view, setView] = useState(false);
   const [modal, setModal] = useState(false);
-  const [name] = useState('');
-  const [domain] = useState('');
+  const [name, updateName] = useState("");
+  const [domain, updateDomain] = useState("");
 
   useEffect(() => {
     dispatch(fetchOrganizations());
@@ -56,17 +59,17 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
     setView(!view);
   };
 
-  const onFinish =async (values) => {
+  const onFinish = async (values) => {
     const response = await dispatch(createOrganization(values));
-    console.log(response)
+    console.log(response);
     if (response.success) {
-      setModal(false)
+      setModal(false);
+      updateName("");
+      updateDomain("");
     } else {
       message.error(response.message);
     }
   };
-
-  const handleChange = () => {};
 
   const renderOrganizations = () => {
     if (organizations.length > 0) {
@@ -140,7 +143,6 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
           onFinish={onFinish}
           name={name}
           domain={domain}
-          handleChange={handleChange}
         />
       </Modal>
     </DashboardLayout>

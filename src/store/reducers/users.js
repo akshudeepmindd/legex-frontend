@@ -1,12 +1,13 @@
+import $http from "../../utils/api";
 import {
   FETCH_USERS,
   FETCH_USER,
   USERS_SUCCESS,
   USER_SUCCESS,
   REQUEST_FAILURE,
-} from '../constants/users';
+} from "../constants/users";
 
-export const initialState = {
+const initialState = {
   user: {},
   loading: false,
   users: [],

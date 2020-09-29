@@ -16,7 +16,6 @@ const { Title } = Typography;
 const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-
   const [email] = useState('');
   const [password] = useState('');
 

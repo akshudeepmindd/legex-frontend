@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Layout } from 'antd';
-import PropTypes from 'prop-types';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import React, { useState } from "react";
+import { Layout } from "antd";
+import PropTypes, { element } from "prop-types";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
-import Logo from '../assets/images/logo.png';
-import { Sidebar } from '../components';
+import Logo from "../assets/images/logo.png";
+import { Sidebar } from "../components";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -43,7 +43,7 @@ function DashboardLayout(props) {
 }
 
 DashboardLayout.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any.isRequired,
 };
 
 export default DashboardLayout;

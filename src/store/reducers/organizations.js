@@ -8,6 +8,7 @@ import {
   ORGANIZATIONS_SUCCESS,
   ORGANIZATION_SUCCESS,
   REQUEST_FAILURE,
+  DELETE_ORGANIZATION_SUCCESS,
 } from "../constants/organizations";
 
 export const initialState = {
@@ -42,6 +43,14 @@ export default function organizationReducers(state = initialState, action) {
         ...state,
         organization: action.payload,
         organizations: [...state.organizations, action.payload],
+        loading: false,
+      };
+    case DELETE_ORGANIZATION_SUCCESS:
+      return {
+        ...state,
+        organizations: state.organizations.filter(
+          (org) => org._id != action.payload._id
+        ),
         loading: false,
       };
 

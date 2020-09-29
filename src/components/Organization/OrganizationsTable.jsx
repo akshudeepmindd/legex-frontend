@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import PropTypes, { object } from "prop-types";
 import { Table, Space, Button, Badge, Typography, message } from "antd";
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { deleteOrganization } from "../../store/actions/organizations";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
@@ -13,16 +13,12 @@ function OrganizationsTable({ organizations, loading }) {
 
   const handleDelete = async (orgId) => {
     const response = await dispatch(deleteOrganization(orgId));
-    window.location.reload();
-
-    if (response.status) {
-      // window.location.reload();
-    } else {
+    if (!response.success) {
       message.error(response.message);
     }
   };
 
-  const [columns] = useState([
+  const columns = [
     {
       title: "Name",
       key: "name",
@@ -74,9 +70,7 @@ function OrganizationsTable({ organizations, loading }) {
     {
       title: "Actions",
       key: "action",
-      render: (organization, a) => {
-        console.log(organization, a);
-
+      render: (organization) => {
         return (
           <Space>
             <Button
@@ -88,23 +82,15 @@ function OrganizationsTable({ organizations, loading }) {
         );
       },
     },
-  ]);
+  ];
 
   return (
-    <>
-      {organizations ? (
-        <Table
-          columns={columns.filter((column) => column !== null)}
-          dataSource={organizations}
-          loading={loading}
-        />
-      ) : null}
-    </>
+    <Table columns={columns} dataSource={organizations} loading={loading} />
   );
 }
 
 OrganizationsTable.propTypes = {
-  organizations: PropTypes.instanceOf(Array).isRequired,
+  organizations: PropTypes.arrayOf(object).isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
