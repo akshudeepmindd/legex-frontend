@@ -21,7 +21,9 @@ function OrganizationsTable({ organizations, loading }) {
   const columns = [
     {
       title: "Name",
+      width:100,
       key: "name",
+      //dataIndex:'name',
       render: (organization) => (
         <Link to={`/dashboard/organizations/${organization._id}`}>
           {organization.name}
@@ -30,11 +32,13 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Domain",
+      width:100,
       dataIndex: "domain",
       key: "domain",
     },
     {
       title: "Admin",
+      width:100,
       dataIndex: "owner",
       key: "admin",
       render: (owner) => (
@@ -45,6 +49,7 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Members",
+      width:100,
       dataIndex: "members",
       key: "members",
       render: (members) => (
@@ -57,6 +62,7 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Cases",
+      width:100,
       dataIndex: "cases",
       key: "cases",
       render: (cases) => (
@@ -69,7 +75,9 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Actions",
+      width:100,
       key: "action",
+      //dataIndex:'action',
       render: (organization) => {
         return (
           <Space>
@@ -85,8 +93,7 @@ function OrganizationsTable({ organizations, loading }) {
   ];
 
   return (
-    <Table columns={columns} dataSource={organizations} loading={loading} />
-  );
+    <Table columns={columns} dataSource={organizations} loading={loading} scroll={{x: 600, y:300}}/>);
 }
 
 OrganizationsTable.propTypes = {

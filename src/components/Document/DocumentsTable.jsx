@@ -11,16 +11,18 @@ function DocumentsTable(props) {
       title: 'Doc No.',
       dataIndex: 'number',
       key: 'number',
+      width: 200,
       render: (number) => <Link to="/case/case">{number}</Link>,
     },
     {
       title: 'Title',
       dataIndex: 'title',
+      width: 200,
       key: 'title',
     },
   ]);
 
-  return <Table columns={columns} dataSource={documents} />;
+  return <Table columns={columns} dataSource={documents} scroll={{x: 400, y:300}}/>;
 }
 
 DocumentsTable.propTypes = {

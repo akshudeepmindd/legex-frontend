@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // ant design components
 import {
@@ -16,17 +16,17 @@ import {
   Typography,
   Modal,
   Empty,
-} from 'antd';
-import { UserOutlined, EditOutlined } from '@ant-design/icons';
+} from "antd";
+import { UserOutlined, EditOutlined } from "@ant-design/icons";
 
 // components
-import { DashboardLayout } from '../../layouts';
-import { CasesTable, ProfileForm } from '../../components';
+import { DashboardLayout } from "../../layouts";
+import { CasesTable, ProfileForm } from "../../components";
 
 // redux actions
-import { fetchCases } from '../../store/actions/cases';
-import { fetchOrganizations } from '../../store/actions/organizations';
-import { fetchUser } from '../../store/actions/users';
+import { fetchCases } from "../../store/actions/cases";
+import { fetchOrganizations } from "../../store/actions/organizations";
+import { fetchUser } from "../../store/actions/users";
 
 const { Text } = Typography;
 const { Meta } = Card;
@@ -42,7 +42,7 @@ const Overview = ({
   messages,
 }) => {
   const [selectedOrganization, setSelectedOrganization] = useState([]);
-  const [userId] = useState(localStorage.getItem('user-id'));
+  const [userId] = useState(localStorage.getItem("user-id"));
   const [profileModal, setProfileModal] = useState(false);
 
   useEffect(() => {
@@ -69,11 +69,20 @@ const Overview = ({
   };
 
   const renderCasesTable = () => {
-    return <CasesTable cases={cases} loading={casesLoading} />;
+    return (
+      <CasesTable
+        cases={cases}
+        loading={casesLoading}
+        scroll={{
+          y: 300,
+          x: "100vw",
+        }}
+      />
+    );
   };
 
   const renderUserProfile = () => {
-    if (user.hasOwnProperty('firstName')) {
+    if (user.hasOwnProperty("firstName")) {
       return (
         <Card
           bordered={false}
