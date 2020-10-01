@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import { connect, useSelector } from "react-redux";
+import PropTypes, { object } from "prop-types";
 
 // ant design components
 import {
@@ -12,30 +12,31 @@ import {
   Card,
   Empty,
   Typography,
-} from 'antd';
-import { AppstoreOutlined, TableOutlined } from '@ant-design/icons';
+  message,
+} from "antd";
+import { AppstoreOutlined, TableOutlined } from "@ant-design/icons";
 
 // components
-import { DashboardLayout } from '../../../layouts';
-import { CaseCard, CasesTable, CaseForm } from '../../../components';
+import { DashboardLayout } from "../../../layouts";
+import { CaseCard, CasesTable, CaseForm } from "../../../components";
 
 // redux actions
-import { fetchCases } from '../../../store/actions/cases';
-import { fetchCaseTypes } from '../../../store/actions/caseTypes';
+import { createCase, fetchCases } from "../../../store/actions/cases";
+import { fetchUser } from "../../../store/actions/users";
+import { fetchOrganizations } from "../../../store/actions/organizations";
+import { fetchCaseTypes } from "../../../store/actions/caseTypes";
 
 const { Text } = Typography;
 
-const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
+const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
   // create state
   const [view, setView] = useState(false);
   const [modal, setModal] = useState(false);
-
   useEffect(() => {
+    dispatch(fetchUser(localStorage.getItem("user-id")));
     dispatch(fetchCases());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchCaseTypes());
+    dispatch(fetchOrganizations());
   }, [dispatch]);
 
   const showModal = () => {
@@ -54,9 +55,15 @@ const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
     setView(!view);
   };
 
-  const onFinish = (values) => {};
-
-  const handleChange = () => {};
+  const onFinish = async (values) => {
+    const response = await dispatch(createCase(values));
+    console.log(response);
+    if (response.success) {
+      setModal(false);
+    } else {
+      message.error(response.message);
+    }
+  };
 
   const renderCases = () => {
     if (cases.length > 0) {
@@ -123,8 +130,8 @@ const CasesList = ({ dispatch, loading, cases, caseTypes }) => {
       >
         <CaseForm
           onFinish={onFinish}
-          handleChange={handleChange}
           caseTypes={caseTypes}
+          organizations={organizations}
         />
       </Modal>
     </DashboardLayout>
@@ -136,6 +143,7 @@ const mapStateToProps = (state) => ({
   cases: state.cases.cases,
   caseTypes: state.caseTypes.caseTypes,
   error: state.cases.error,
+  organizations: state.organizations.organizations,
 });
 
 CasesList.propTypes = {
@@ -144,12 +152,14 @@ CasesList.propTypes = {
   error: PropTypes.instanceOf(Object),
   cases: PropTypes.instanceOf(Array),
   caseTypes: PropTypes.instanceOf(Array),
+  organizations: PropTypes.arrayOf(object),
 };
 
 CasesList.defaultProps = {
   error: {},
   cases: [],
   caseTypes: [],
+  organizations: [],
 };
 
 export default connect(mapStateToProps)(CasesList);

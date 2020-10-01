@@ -1,4 +1,4 @@
-import $http from '../../utils/api';
+import $http from "../../utils/api";
 import {
   FETCH_CASES,
   FETCH_CASE,
@@ -11,7 +11,7 @@ import {
   CASES_SUCCESS,
   CASE_SUCCESS,
   REQUEST_FAILURE,
-} from '../constants/cases';
+} from "../constants/cases";
 
 export const requestFailure = (error) => ({
   type: REQUEST_FAILURE,
@@ -32,7 +32,7 @@ export function fetchCases() {
   return async (dispatch) => {
     dispatch({ type: FETCH_CASES });
     try {
-      const response = await $http({ url: '/cases', method: 'GET' });
+      const response = await $http({ url: "/cases", method: "GET" });
       return dispatch(casesSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -44,7 +44,7 @@ export function fetchCase(payload) {
   return async (dispatch) => {
     dispatch({ type: FETCH_CASE });
     try {
-      const response = await $http({ url: `/cases/${payload}`, method: 'GET' });
+      const response = await $http({ url: `/cases/${payload}`, method: "GET" });
       return dispatch(caseSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -56,12 +56,13 @@ export function createCase(payload) {
   return async (dispatch) => {
     dispatch({ type: CREATE_CASE });
     try {
-      const response = await $http({
-        url: '/cases',
+      const response = await $http()({
+        url: "/cases",
         data: payload,
-        method: 'POST',
+        method: "POST",
       });
-      return response;
+      dispatch(caseSuccess(response.data.data));
+      return response.data;
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -75,7 +76,7 @@ export function updateCase(payload) {
       const response = await $http({
         url: `/cases/${payload._id}`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return response;
     } catch (error) {
@@ -90,7 +91,7 @@ export function deleteCase(payload) {
     try {
       const response = await $http({
         url: `/cases/${payload._id}`,
-        method: 'DELETE',
+        method: "DELETE",
       });
       return response;
     } catch (error) {
@@ -106,7 +107,7 @@ export function addParty(payload) {
       const response = await $http({
         url: `/cases/${payload._id}/add-party`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return dispatch(caseSuccess(response.data.data));
     } catch (error) {
@@ -122,7 +123,7 @@ export function removeParty(payload) {
       const response = await $http({
         url: `/cases/${payload._id}/remove-party`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return dispatch(caseSuccess(response.data.data));
     } catch (error) {
@@ -138,7 +139,7 @@ export function makeVerdict(payload) {
       const response = await $http({
         url: `/cases/${payload._id}/make-verdict`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return dispatch(caseSuccess(response.data.data));
     } catch (error) {
