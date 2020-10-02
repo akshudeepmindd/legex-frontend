@@ -20,15 +20,17 @@ import {
   fetchOrganization,
   deleteOrganization,
   updateOrganization,
+  addMember,
 } from "../../../store/actions/organizations";
 import Modal from "antd/lib/modal/Modal";
-import { OrganizationForm } from "../../../components";
+import { OrganizationForm, AddMemForm } from "../../../components";
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
 
 const Organization = ({ dispatch, organization }) => {
   const { organizationId } = useParams();
+  const [email, updateEmail] = useState("");
 
   useEffect(() => {
     dispatch(fetchOrganization(organizationId));
@@ -43,22 +45,31 @@ const Organization = ({ dispatch, organization }) => {
     }
   };
 
-  const [modal, setModal] = useState(false);
-
-  const showModal = () => {
-    setModal(true);
+  const [updateModal, setUpdateModal] = useState(false);
+  const [addModal, setAddModal] = useState(false);
+  const showUpdateModal = () => {
+    setUpdateModal(true);
   };
 
+  const showAddModal = ()=>{
+    setAddModal(true);
+  }
   const handleOk = () => {
-    setModal(false);
+    setUpdateModal(false);
+    setAddModal(false);
   };
 
   const handleCancel = () => {
-    setModal(false);
+    setUpdateModal(false);
+    setAddModal(false);
   };
 
   const handleUpdateClick = () => {
-    showModal();
+    showUpdateModal();
+  };
+
+  const handleAddClick = () => {
+    showAddModal();
   };
 
   const onUpdateFinish = async (values) => {
@@ -68,8 +79,27 @@ const Organization = ({ dispatch, organization }) => {
         data: values,
       })
     );
+    setUpdateModal(false);
     if (!response.success) message.error(response.message);
   };
+
+  const onAddFinish = async(values) =>{
+    const response = await dispatch(
+      addMember({
+        organizationId,
+        data: values,
+      })
+    );
+    setAddModal(false);
+    if(response.success){
+       updateEmail("");
+    }
+    else{
+      message.error(response.message);
+    }
+  };
+  // const onAddFinish = {};
+
   return (
     <DashboardLayout>
       {organization ? (
@@ -92,15 +122,20 @@ const Organization = ({ dispatch, organization }) => {
                     ghost={false}
                     title={organization.name}
                     extra={[
-                      <Button key="2" onClick={handleDelete}>
-                        Delete Organization
+                      <Button 
+                        onClick={handleAddClick}
+                      >
+                        Add Members
+                      </Button>,
+                      <Button key="2" type="danger" onClick={handleDelete}>
+                        Delete 
                       </Button>,
                       <Button
                         key="1"
                         type="primary"
                         onClick={handleUpdateClick}
                       >
-                        Update Organization
+                        Update 
                       </Button>,
                     ]}
                   >
@@ -150,7 +185,7 @@ const Organization = ({ dispatch, organization }) => {
           </Row>
           <Modal
             title="Organization Form"
-            visible={modal}
+            visible={updateModal}
             onOk={handleOk}
             onCancel={handleCancel}
           >
@@ -160,6 +195,19 @@ const Organization = ({ dispatch, organization }) => {
               domain={organization.domain}
             />
           </Modal>
+
+          <Modal
+            title = "Add Member"
+            visible={addModal}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+          <AddMemForm
+              onFinish ={onAddFinish}
+              email={email}
+            />
+          </Modal>
+
         </>
       ) : null}
     </DashboardLayout>

@@ -1,33 +1,34 @@
-import Navbar from './Navbar';
-import Sidebar from './Sidebar';
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
-import LoginForm from './Auth/LoginForm';
-import RegisterForm from './Auth/RegisterForm';
-import ForgotPasswordForm from './Auth/ForgotPasswordForm';
-import ResetPasswordForm from './Auth/ResetPasswordForm';
-import ProfileForm from './Auth/ProfileForm';
-import InviteForm from './Auth/InviteForm';
+import LoginForm from "./Auth/LoginForm";
+import RegisterForm from "./Auth/RegisterForm";
+import ForgotPasswordForm from "./Auth/ForgotPasswordForm";
+import ResetPasswordForm from "./Auth/ResetPasswordForm";
+import ProfileForm from "./Auth/ProfileForm";
+// import InviteForm from './Auth/InviteForm';
 
-import ClientCard from './Clients/ClientCard';
+import ClientCard from "./Clients/ClientCard";
 
-// import InviteForm from './Organization/InviteForm';
+import InviteForm from "./Organization/InviteForm";
 
-import CaseCard from './Case/CaseCard';
-import CaseForm from './Case/CaseForm';
-import CasesTable from './Case/CasesTable';
-import CaseHeader from './Case/CaseHeader';
-import VerdictForm from './Case/VerdictForm';
+import CaseCard from "./Case/CaseCard";
+import CaseForm from "./Case/CaseForm";
+import CasesTable from "./Case/CasesTable";
+import CaseHeader from "./Case/CaseHeader";
+import VerdictForm from "./Case/VerdictForm";
 
-import DocumentForm from './Document/DocumentForm';
+import DocumentForm from "./Document/DocumentForm";
 
-import HearingForm from './Hearing/HearingForm';
-import HearingsList from './Hearing/HearingsList';
+import HearingForm from "./Hearing/HearingForm";
+import HearingsList from "./Hearing/HearingsList";
 
-import OrganizationCard from './Organization/OrganizationCard';
-import OrganizationForm from './Organization/OrganizationForm';
-import OrganizationsTable from './Organization/OrganizationsTable';
+import OrganizationCard from "./Organization/OrganizationCard";
+import OrganizationForm from "./Organization/OrganizationForm";
+import OrganizationsTable from "./Organization/OrganizationsTable";
+import AddMemForm from "./Organization/AddMemForm";
 
-import PartyCard from './Party/PartyCard';
+import PartyCard from "./Party/PartyCard";
 
 export {
   Navbar,
@@ -41,6 +42,7 @@ export {
   ClientCard,
   OrganizationCard,
   OrganizationForm,
+  AddMemForm,
   OrganizationsTable,
   CaseCard,
   CaseForm,

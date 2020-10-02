@@ -9,6 +9,7 @@ import {
   ORGANIZATION_SUCCESS,
   REQUEST_FAILURE,
   DELETE_ORGANIZATION_SUCCESS,
+  ADD_MEMBER,
 } from "../constants/organizations";
 
 export const initialState = {
@@ -33,6 +34,9 @@ export default function organizationReducers(state = initialState, action) {
       return { ...state, loading: true };
 
     case DELETE_ORGANIZATION:
+      return { ...state, loading: true };
+
+    case ADD_MEMBER:
       return { ...state, loading: true };
 
     case ORGANIZATIONS_SUCCESS:

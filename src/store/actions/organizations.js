@@ -9,6 +9,7 @@ import {
   ORGANIZATION_SUCCESS,
   REQUEST_FAILURE,
   DELETE_ORGANIZATION_SUCCESS,
+  ADD_MEMBER,
 } from "../constants/organizations";
 
 export const requestFailure = (error) => ({
@@ -77,6 +78,22 @@ export function createOrganization(payload) {
   };
 }
 
+export function addMember(payload) {
+  return async (dispatch) => {
+    dispatch({ type: ADD_MEMBER });
+    try {
+      const response = await $http()({
+        url: `/organizations/${payload.organizationId}/add-member`,
+        data: payload.data,
+        method: "PUT",
+      });
+      dispatch(organizationSuccess(response.data.data));
+      return response.data;
+    } catch (error) {
+      return dispatch(requestFailure(error));
+    }
+  };
+}
 export function updateOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: UPDATE_ORGANIZATION });
