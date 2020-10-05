@@ -11,7 +11,7 @@ import {
   message,
 } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -23,18 +23,27 @@ import {
   addMember,
 } from "../../../store/actions/organizations";
 import Modal from "antd/lib/modal/Modal";
-import { OrganizationForm, AddMemForm } from "../../../components";
+//import CasesTable from "../../../components/Organization/CasesTable";
+import MembersTable from "../../../components/Organization/MembersTable";
+import { OrganizationForm, AddMemForm, CasesTable } from "../../../components";
 
 const { Meta } = Card;
 const { Paragraph } = Typography;
 
-const Organization = ({ dispatch, organization }) => {
+const Organization = ({ dispatch }) => {
   const { organizationId } = useParams();
   const [email, updateEmail] = useState("");
 
-  useEffect(() => {
-    dispatch(fetchOrganization(organizationId));
-  }, [dispatch, organizationId]);
+  const organization = useSelector(
+    (state) =>
+      state.organizations.organizations.filter(
+        (organization) => organization._id === organizationId
+      )[0]
+  );
+  //console.log(organization);
+  //console.log(organization.members);
+  console.log(organization);
+  //useEffect(() => console.log(organization), [organization]);
 
   const handleDelete = async () => {
     const response = await dispatch(deleteOrganization(organizationId));
@@ -45,15 +54,23 @@ const Organization = ({ dispatch, organization }) => {
     }
   };
 
+  const renderMembers = () => {
+    return <MembersTable members={organization.members} />;
+  };
+
+  const renderCases = () => {
+    return <CasesTable cases={organization.cases}/>;
+  };
+
   const [updateModal, setUpdateModal] = useState(false);
   const [addModal, setAddModal] = useState(false);
   const showUpdateModal = () => {
     setUpdateModal(true);
   };
 
-  const showAddModal = ()=>{
+  const showAddModal = () => {
     setAddModal(true);
-  }
+  };
   const handleOk = () => {
     setUpdateModal(false);
     setAddModal(false);
@@ -83,7 +100,7 @@ const Organization = ({ dispatch, organization }) => {
     if (!response.success) message.error(response.message);
   };
 
-  const onAddFinish = async(values) =>{
+  const onAddFinish = async (values) => {
     const response = await dispatch(
       addMember({
         organizationId,
@@ -91,19 +108,18 @@ const Organization = ({ dispatch, organization }) => {
       })
     );
     setAddModal(false);
-    if(response.success){
-       updateEmail("");
-    }
-    else{
+    if (response.success) {
+      updateEmail("");
+    } else {
       message.error(response.message);
     }
   };
   // const onAddFinish = {};
 
   return (
-    <DashboardLayout>
+    <>
       {organization ? (
-        <>
+        <DashboardLayout>
           <Row
             gutter={[
               { xs: 8, sm: 16, md: 24, lg: 32 },
@@ -122,20 +138,16 @@ const Organization = ({ dispatch, organization }) => {
                     ghost={false}
                     title={organization.name}
                     extra={[
-                      <Button 
-                        onClick={handleAddClick}
-                      >
-                        Add Members
-                      </Button>,
+                      <Button onClick={handleAddClick}>Add Members</Button>,
                       <Button key="2" type="danger" onClick={handleDelete}>
-                        Delete 
+                        Delete
                       </Button>,
                       <Button
                         key="1"
                         type="primary"
                         onClick={handleUpdateClick}
                       >
-                        Update 
+                        Update
                       </Button>,
                     ]}
                   >
@@ -183,6 +195,9 @@ const Organization = ({ dispatch, organization }) => {
               </Card>
             </Col>
           </Row>
+
+          {renderMembers()}
+          {renderCases()}
           <Modal
             title="Organization Form"
             visible={updateModal}
@@ -197,30 +212,22 @@ const Organization = ({ dispatch, organization }) => {
           </Modal>
 
           <Modal
-            title = "Add Member"
+            title="Add Member"
             visible={addModal}
             onOk={handleOk}
             onCancel={handleCancel}
           >
-          <AddMemForm
-              onFinish ={onAddFinish}
-              email={email}
-            />
+            <AddMemForm onFinish={onAddFinish} email={email} />
           </Modal>
-
-        </>
+        </DashboardLayout>
       ) : null}
-    </DashboardLayout>
+    </>
   );
 };
-
-const mapStateToProps = (state) => ({
-  organization: state.organizations.organization,
-});
 
 Organization.propTypes = {
   dispatch: PropTypes.func.isRequired,
   organization: PropTypes.instanceOf(Array).isRequired,
 };
 
-export default connect(mapStateToProps)(Organization);
+export default Organization;

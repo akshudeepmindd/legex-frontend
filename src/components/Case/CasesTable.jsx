@@ -7,7 +7,7 @@ const { Text } = Typography;
 
 function CasesTable(props) {
   const { cases, loading } = props;
-  const [columns] = useState([
+  const columns = [
     {
       title: 'Title',
       key: 'title',
@@ -67,9 +67,7 @@ function CasesTable(props) {
         </Tag>
       ),
     },
-  ]);
-
-
+  ];
 
   return <Table columns={columns} dataSource={cases} loading={loading} scroll={{x: 700, y:300}}/>;
 }

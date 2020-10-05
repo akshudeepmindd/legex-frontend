@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Card, Avatar, List, Typography, Badge, Button } from 'antd';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { Card, Avatar, List, Typography, Badge, Button } from "antd";
+import { useHistory } from "react-router-dom";
 import {
   UserOutlined,
   FolderOutlined,
   UsergroupAddOutlined,
   EyeOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 
 const { Meta } = Card;
 const { Text } = Typography;
@@ -62,7 +62,7 @@ const OrganizationCard = ({ organization }) => {
           </Text>
           <Badge
             count={organization.cases.length}
-            style={{ backgroundColor: '#1F40E6' }}
+            style={{ backgroundColor: "#1F40E6" }}
             showZero
           />
         </List.Item>
@@ -74,7 +74,7 @@ const OrganizationCard = ({ organization }) => {
           </Text>
           <Badge
             count={organization.members.length}
-            style={{ backgroundColor: '#1F40E6' }}
+            style={{ backgroundColor: "#1F40E6" }}
             showZero
           />
         </List.Item>
