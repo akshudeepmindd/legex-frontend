@@ -11,7 +11,7 @@ import {
   message,
 } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
-import { connect, useSelector } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -30,10 +30,10 @@ import { OrganizationForm, AddMemForm, CasesTable } from "../../../components";
 const { Meta } = Card;
 const { Paragraph } = Typography;
 
-const Organization = ({ dispatch }) => {
+const Organization = () => {
   const { organizationId } = useParams();
   const [email, updateEmail] = useState("");
-
+  const dispatch = useDispatch();
   const organization = useSelector(
     (state) =>
       state.organizations.organizations.filter(
@@ -59,7 +59,7 @@ const Organization = ({ dispatch }) => {
   };
 
   const renderCases = () => {
-    return <CasesTable cases={organization.cases}/>;
+    return <CasesTable cases={organization.cases} />;
   };
 
   const [updateModal, setUpdateModal] = useState(false);
@@ -114,7 +114,6 @@ const Organization = ({ dispatch }) => {
       message.error(response.message);
     }
   };
-  // const onAddFinish = {};
 
   return (
     <>
@@ -223,11 +222,6 @@ const Organization = ({ dispatch }) => {
       ) : null}
     </>
   );
-};
-
-Organization.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  organization: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default Organization;

@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
 import PropTypes, { object } from "prop-types";
 import { Table, Space, Button, Badge, Typography, message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { deleteMember } from "../../store/actions/organizations";
 
 function MembersTable({ members }) {
-    
+  const { organizationId } = useParams()
+  const dispatch = useDispatch()
+
+  const handleMemberDelete = async (member) => {
+    const response = await dispatch(deleteMember({ organizationId, data: { member } }))
+    if (!response.success) return message.error(response.message)
+  }
+
   const columns = [
     {
       title: "First Name",
       width: 100,
       key: "firstName",
-      dataIndex:'firstName',
+      dataIndex: 'firstName',
       render: (firstName) => (
         <Typography.Text className="capitalize">
           {firstName}
@@ -52,7 +60,7 @@ function MembersTable({ members }) {
           <Space>
             <Button
               icon={<DeleteOutlined />}
-              //onClick={() => handleDelete(organization._id)}
+              onClick={() => handleMemberDelete(member._id)}
             />
           </Space>
         );

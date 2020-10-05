@@ -94,6 +94,22 @@ export function addMember(payload) {
     }
   };
 }
+export function deleteMember(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await $http()({
+        url: `/organizations/${payload.organizationId}/remove-member`,
+        data: payload.data,
+        method: "PUT",
+      })
+      dispatch(organizationSuccess(response.data.data))
+      return response.data
+    }
+    catch (error) {
+      return dispatch(requestFailure(error))
+    }
+  }
+}
 export function updateOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: UPDATE_ORGANIZATION });
