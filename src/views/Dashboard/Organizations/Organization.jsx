@@ -43,11 +43,12 @@ const Organization = () => {
   //console.log(organization);
   //console.log(organization.members);
   console.log(organization);
+  console.log(localStorage.getItem("user-id"));
   //useEffect(() => console.log(organization), [organization]);
 
   const handleDelete = async () => {
     const response = await dispatch(deleteOrganization(organizationId));
-    if (response.status) {
+    if (response.success) {
       window.location.replace("/dashboard/organizations");
     } else {
       message.error(response.message);
@@ -55,7 +56,13 @@ const Organization = () => {
   };
 
   const renderMembers = () => {
-    return <MembersTable members={organization.members} />;
+    return (
+      <MembersTable
+        members={organization.members}
+        owner={organization.owner}
+        user={localStorage.getItem("user-id")}
+      />
+    );
   };
 
   const renderCases = () => {
@@ -115,6 +122,23 @@ const Organization = () => {
     }
   };
 
+  function Conditionally() {
+    if (organization.owner._id === localStorage.getItem("user-id")) {
+      return (
+        <>
+          <Button onClick={handleAddClick}>Add Members</Button>
+          <Button key="2" type="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+          <Button key="1" type="primary" onClick={handleUpdateClick}>
+            Update
+          </Button>
+        </>
+      );
+    }
+    return <></>;
+  }
+
   return (
     <>
       {organization ? (
@@ -136,19 +160,7 @@ const Organization = () => {
                   <PageHeader
                     ghost={false}
                     title={organization.name}
-                    extra={[
-                      <Button onClick={handleAddClick}>Add Members</Button>,
-                      <Button key="2" type="danger" onClick={handleDelete}>
-                        Delete
-                      </Button>,
-                      <Button
-                        key="1"
-                        type="primary"
-                        onClick={handleUpdateClick}
-                      >
-                        Update
-                      </Button>,
-                    ]}
+                    extra={[<Conditionally />]}
                   >
                     <Descriptions size="small" column={3}>
                       <Descriptions.Item label="Domain">
@@ -157,8 +169,11 @@ const Organization = () => {
                       <Descriptions.Item label="Creation Time">
                         {new Date(organization.createdAt).toLocaleDateString()}
                       </Descriptions.Item>
-                      <Descriptions.Item label="Est Time">
-                        {new Date(organization.updatedAt).toLocaleDateString()}
+                      <Descriptions.Item label="Owner">
+                        {
+                          /* {new Date(organization.updatedAt).toLocaleDateString()} */
+                          organization.owner.email
+                        }
                       </Descriptions.Item>
                     </Descriptions>
                   </PageHeader>
@@ -166,7 +181,7 @@ const Organization = () => {
               </Row>
             </Col>
             <Col>
-              <Card
+              {/* <Card
                 bordered={false}
                 actions={[
                   <Button type="primary" icon={<EditOutlined />} block>
@@ -191,7 +206,7 @@ const Organization = () => {
                     </>
                   }
                 />
-              </Card>
+              </Card> */}
             </Col>
           </Row>
 

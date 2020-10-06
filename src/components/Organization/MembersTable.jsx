@@ -7,25 +7,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { deleteMember } from "../../store/actions/organizations";
 
-function MembersTable({ members }) {
-  const { organizationId } = useParams()
-  const dispatch = useDispatch()
+function MembersTable({ members, owner, user }) {
+  const { organizationId } = useParams();
+  const dispatch = useDispatch();
 
   const handleMemberDelete = async (member) => {
-    const response = await dispatch(deleteMember({ organizationId, data: { member } }))
-    if (!response.success) return message.error(response.message)
+    const response = await dispatch(
+      deleteMember({ organizationId, data: { member } })
+    );
+    if (!response.success) return message.error(response.message);
+  };
+  console.log(owner._id);
+  function Conditionally(member) {
+    console.log(member.member._id);
+    if (member.member._id !== owner._id && user === owner._id) {
+      return (
+        <Button
+          icon={<DeleteOutlined />}
+          onClick={() => handleMemberDelete(member._id)}
+        />
+      );
+    }
+    return <></>;
   }
-
   const columns = [
     {
       title: "First Name",
       width: 100,
       key: "firstName",
-      dataIndex: 'firstName',
+      dataIndex: "firstName",
       render: (firstName) => (
-        <Typography.Text className="capitalize">
-          {firstName}
-        </Typography.Text>
+        <Typography.Text className="capitalize">{firstName}</Typography.Text>
       ),
     },
     {
@@ -34,9 +46,7 @@ function MembersTable({ members }) {
       key: "lastName",
       dataIndex: "lastName",
       render: (lastName) => (
-        <Typography.Text className="capitalize">
-          {lastName}
-        </Typography.Text>
+        <Typography.Text className="capitalize">{lastName}</Typography.Text>
       ),
     },
     {
@@ -45,9 +55,7 @@ function MembersTable({ members }) {
       key: "email",
       dataIndex: "email",
       render: (email) => (
-        <Typography.Text className="capitalize">
-          {email}
-        </Typography.Text>
+        <Typography.Text className="capitalize">{email}</Typography.Text>
       ),
     },
     {
@@ -58,10 +66,7 @@ function MembersTable({ members }) {
       render: (member) => {
         return (
           <Space>
-            <Button
-              icon={<DeleteOutlined />}
-              onClick={() => handleMemberDelete(member._id)}
-            />
+            <Conditionally member={member} />
           </Space>
         );
       },
@@ -69,11 +74,7 @@ function MembersTable({ members }) {
   ];
 
   return (
-    <Table
-      columns={columns}
-      dataSource={members}
-      scroll={{ x: 400, y: 300 }}
-    />
+    <Table columns={columns} dataSource={members} scroll={{ x: 400, y: 300 }} />
   );
 }
 

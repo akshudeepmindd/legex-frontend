@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteOrganization } from "../../store/actions/organizations";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 
-function OrganizationsTable({ organizations, loading }) {
+function OrganizationsTable({ organizations, user, loading }) {
   const dispatch = useDispatch();
 
   const handleDelete = async (orgId) => {
@@ -18,10 +18,21 @@ function OrganizationsTable({ organizations, loading }) {
     }
   };
 
+  function Conditionally(organization) {
+    if (organization.organization.owner._id === user) {
+      return (
+        <Button
+          icon={<DeleteOutlined />}
+          onClick={() => handleDelete(organization.organization._id)}
+        />
+      );
+    }
+    return <></>;
+  }
   const columns = [
     {
       title: "Name",
-      width:100,
+      width: 100,
       key: "name",
       //dataIndex:'name',
       render: (organization) => (
@@ -32,13 +43,13 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Domain",
-      width:100,
+      width: 100,
       dataIndex: "domain",
       key: "domain",
     },
     {
       title: "Admin",
-      width:100,
+      width: 100,
       dataIndex: "owner",
       key: "admin",
       render: (owner) => (
@@ -49,7 +60,7 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Members",
-      width:100,
+      width: 100,
       dataIndex: "members",
       key: "members",
       render: (members) => (
@@ -62,7 +73,7 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Cases",
-      width:100,
+      width: 100,
       dataIndex: "cases",
       key: "cases",
       render: (cases) => (
@@ -75,17 +86,14 @@ function OrganizationsTable({ organizations, loading }) {
     },
     {
       title: "Actions",
-      width:100,
+      width: 100,
       key: "action",
       //dataIndex:'action',
       render: (organization) => {
         return (
           <Space>
-            <Button
-              icon={<DeleteOutlined />}
-              onClick={() => handleDelete(organization._id)}
-            />
-            <Button icon={<EyeOutlined />} />
+            <Conditionally organization={organization} />
+            {/* <Button icon={<EyeOutlined />} /> */}
           </Space>
         );
       },
@@ -93,7 +101,13 @@ function OrganizationsTable({ organizations, loading }) {
   ];
 
   return (
-    <Table columns={columns} dataSource={organizations} loading={loading} scroll={{x: 600, y:300}}/>);
+    <Table
+      columns={columns}
+      dataSource={organizations}
+      loading={loading}
+      scroll={{ x: 600, y: 300 }}
+    />
+  );
 }
 
 OrganizationsTable.propTypes = {

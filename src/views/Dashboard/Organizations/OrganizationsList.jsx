@@ -89,7 +89,12 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
           </Row>
         );
       }
-      return <OrganizationsTable organizations={organizations} />;
+      return (
+        <OrganizationsTable
+          organizations={organizations}
+          user={localStorage.getItem("user-id")}
+        />
+      );
     }
     return (
       <Card bordered={false}>
@@ -139,11 +144,7 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <OrganizationForm
-          onFinish={onFinish}
-          name={name}
-          domain={domain}
-        />
+        <OrganizationForm onFinish={onFinish} name={name} domain={domain} />
       </Modal>
     </DashboardLayout>
   );
