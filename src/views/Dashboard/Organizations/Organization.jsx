@@ -84,6 +84,35 @@ const Organization = ({
     return <></>;
   }
 
+  function MemberTableButtons() {
+    if (organization.owner._id === localStorage.getItem("user-id")) {
+      return (
+        <>
+          <Button onClick={handleAddClick} type="primary">
+            Add Member
+          </Button>
+        </>
+      );
+    }
+    return <></>;
+  }
+
+  function CasesTableButtons() {
+    if (organization.owner._id === localStorage.getItem("user-id")) {
+      return (
+        <>
+          <Button key="3" type="primary">
+            Invitations
+          </Button>
+          <Button key="2" type="primary">
+            New Case
+          </Button>
+        </>
+      );
+    }
+    return <></>;
+  }
+
   return (
     <>
       {organization && user ? (
@@ -127,8 +156,37 @@ const Organization = ({
             </Col>
           </Row>
 
-          {renderMembers()}
-          {renderCases()}
+
+          <Row>
+            <PageHeader
+              ghost={false}
+              //onBack={() => window.history.back()}
+              title="Members"
+              subTitle="All Member's"
+              extra={[
+                <MemberTableButtons />,
+              ]}
+            >
+              {renderMembers()}
+            </PageHeader>
+          </Row>
+
+
+          <Row>
+            <PageHeader
+              ghost={false}
+              //onBack={() => window.history.back()}
+              title="Cases"
+              subTitle="All Cases"
+              extra={[
+                <CasesTableButtons/>
+              ]}
+            >
+              {renderCases()}
+            </PageHeader>
+          </Row>
+
+
           <Modal
             title="Organization Form"
             visible={updateOrganizationModal}
