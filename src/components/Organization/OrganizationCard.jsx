@@ -84,7 +84,7 @@ const OrganizationCard = ({ organization }) => {
 };
 
 OrganizationCard.propTypes = {
-  organization: PropTypes.instanceOf(Object).isRequired,
+  organization: PropTypes.object.isRequired,
 };
 
 export default OrganizationCard;

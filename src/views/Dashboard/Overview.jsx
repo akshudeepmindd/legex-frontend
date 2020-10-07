@@ -38,22 +38,14 @@ const Overview = ({
   cases,
   casesLoading,
   organizations,
-  organizationsLoading,
   messages,
 }) => {
   const [selectedOrganization, setSelectedOrganization] = useState([]);
-  const [userId] = useState(localStorage.getItem("user-id"));
   const [profileModal, setProfileModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchUser(userId));
-  }, [dispatch, userId]);
-
-  useEffect(() => {
+    dispatch(fetchUser(localStorage.getItem("user-id")));
     dispatch(fetchCases());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchOrganizations());
   }, [dispatch]);
 
@@ -141,9 +133,10 @@ const Overview = ({
     ));
   };
 
-  const organizationOptions = organizations.map((organization) => (
-    <Option key={organization._id}>{organization.name}</Option>
-  ));
+  const organizationOptions = (organizations) =>
+    organizations.map((organization) => (
+      <Option key={organization._id}>{organization.name}</Option>
+    ));
 
   const selectOrganization = (value) => {
     const selected = organizations.filter(
@@ -154,73 +147,79 @@ const Overview = ({
 
   return (
     <DashboardLayout>
-      <Row
-        gutter={[
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-        ]}
-        justify="center"
-        align="top"
-      >
-        <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-          {renderUserProfile()}
-        </Col>
+      {organizations && user ? (
+        <>
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+            justify="center"
+            align="top"
+          >
+            <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+              {renderUserProfile()}
+            </Col>
 
-        <Col xs={24} sm={24} md={6} lg={6} xl={6} />
+            <Col xs={24} sm={24} md={6} lg={6} xl={6} />
 
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Card bordered={false} title="My Organizations">
-            <Form>
-              <Form.Item>
-                <Select onChange={selectOrganization}>
-                  {organizationOptions}
-                </Select>
-              </Form.Item>
-              {renderOrganizationMembers()}
-            </Form>
-          </Card>
-        </Col>
-      </Row>
+            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+              <Card bordered={false} title="My Organizations">
+                <Form>
+                  <Form.Item>
+                    <Select onChange={selectOrganization}>
+                      {organizationOptions}
+                    </Select>
+                  </Form.Item>
+                  {renderOrganizationMembers()}
+                </Form>
+              </Card>
+            </Col>
+          </Row>
 
-      <Row
-        gutter={[
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-        ]}
-      >
-        <Col xs={24} sm={24} md={14} lg={14} xl={14}>
-          <Card title="All Cases">{renderCasesTable()}</Card>
-        </Col>
-        <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-          <Card bordered={false} title="Messages">
-            <List
-              className="comment-list"
-              itemLayout="horizontal"
-              dataSource={messages}
-              renderItem={(message) => (
-                <li>
-                  <Comment
-                    actions={message.actions}
-                    author={message.author}
-                    avatar={message.avatar}
-                    content={message.content}
-                    datetime={message.datetime}
-                  />
-                </li>
-              )}
-            />
-          </Card>
-        </Col>
-      </Row>
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+          >
+            <Col xs={24} sm={24} md={14} lg={14} xl={14}>
+              <Card title="All Cases">{renderCasesTable()}</Card>
+            </Col>
+            <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+              <Card bordered={false} title="Messages">
+                <List
+                  className="comment-list"
+                  itemLayout="horizontal"
+                  dataSource={messages}
+                  renderItem={(message) => (
+                    <li>
+                      <Comment
+                        actions={message.actions}
+                        author={message.author}
+                        avatar={message.avatar}
+                        content={message.content}
+                        datetime={message.datetime}
+                      />
+                    </li>
+                  )}
+                />
+              </Card>
+            </Col>
+          </Row>
 
-      <Modal
-        title="Edit Profile"
-        visible={profileModal}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <ProfileForm />
-      </Modal>
+          <Modal
+            title="Edit Profile"
+            visible={profileModal}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <ProfileForm />
+          </Modal>
+        </>
+      ) : (
+        "loading..."
+      )}
     </DashboardLayout>
   );
 };
@@ -230,8 +229,7 @@ const mapStateToProps = (state) => ({
   cases: state.cases.cases,
   casesLoading: state.cases.loading,
   caseErrors: state.cases.error,
-  organizations: state.organizations.organizations,
-  organizationsLoading: state.organizations.loading,
+  organizations: state.organizations,
 });
 
 Overview.propTypes = {

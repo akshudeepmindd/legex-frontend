@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from "react";
-import PropTypes, { object } from "prop-types";
-import { Table, Space, Button, Badge, Typography, message } from "antd";
-import { Link, useParams } from "react-router-dom";
+import React from "react";
+import PropTypes from "prop-types";
+import { Table, Space, Button, Typography } from "antd";
 
-import { useDispatch, useSelector } from "react-redux";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { deleteMember } from "../../store/actions/organizations";
+import { connect } from "react-redux";
+import { DeleteOutlined } from "@ant-design/icons";
+import { removeMember } from "../../store/actions/organization";
 
-function MembersTable({ members, owner, user }) {
-  const { organizationId } = useParams();
-  const dispatch = useDispatch();
+function MembersTable({ members, owner, user, organizationId, dispatch }) {
+  const handleMemberDelete = (member) =>
+    dispatch(removeMember({ organizationId, data: { member } }));
 
-  const handleMemberDelete = async (member) => {
-    const response = await dispatch(
-      deleteMember({ organizationId, data: { member } })
-    );
-    if (!response.success) return message.error(response.message);
-  };
-  console.log(owner._id);
-  function Conditionally(member) {
-    console.log(member.member._id);
-    if (member.member._id !== owner._id && user === owner._id) {
+  function Conditionally({ member }) {
+    if (member._id !== owner._id && user === owner._id) {
       return (
         <Button
           icon={<DeleteOutlined />}
@@ -62,7 +53,6 @@ function MembersTable({ members, owner, user }) {
       title: "Actions",
       width: 100,
       key: "action",
-      //dataIndex:'action',
       render: (member) => {
         return (
           <Space>
@@ -78,8 +68,18 @@ function MembersTable({ members, owner, user }) {
   );
 }
 
-// MembersTable.propTypes = {
-//   organization: PropTypes.arrayOf(object).isRequired,
-// };
+const mapStateToProps = (state, ownProps) => ({
+  members: ownProps.members,
+  user: ownProps.user,
+  owner: ownProps.owner,
+  organizationId: ownProps.organizationId,
+});
 
-export default MembersTable;
+MembersTable.propTypes = {
+  members: PropTypes.array,
+  user: PropTypes.object,
+  owner: PropTypes.object,
+  organizationId: PropTypes.string,
+};
+
+export default connect(mapStateToProps)(MembersTable);

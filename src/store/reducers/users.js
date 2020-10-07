@@ -1,4 +1,3 @@
-import $http from "../../utils/api";
 import {
   FETCH_USERS,
   FETCH_USER,

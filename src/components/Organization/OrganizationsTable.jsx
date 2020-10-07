@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
-import PropTypes, { object } from "prop-types";
-import { Table, Space, Button, Badge, Typography, message } from "antd";
+import React from "react";
+import PropTypes from "prop-types";
+import { Table, Space, Button, Badge, Typography } from "antd";
 import { Link } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 
-import { deleteOrganization } from "../../store/actions/organizations";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { deleteOrganization } from "../../store/actions/organization";
+import { DeleteOutlined } from "@ant-design/icons";
 
-function OrganizationsTable({ organizations, user, loading }) {
-  const dispatch = useDispatch();
-
-  const handleDelete = async (orgId) => {
-    const response = await dispatch(deleteOrganization(orgId));
-    if (!response.success) {
-      message.error(response.message);
-    }
-  };
+function OrganizationsTable({ organizations, user, dispatch }) {
+  const handleDelete = async (orgId) =>
+    await dispatch(deleteOrganization(orgId));
 
   function Conditionally(organization) {
     if (organization.organization.owner._id === user) {
@@ -88,12 +82,10 @@ function OrganizationsTable({ organizations, user, loading }) {
       title: "Actions",
       width: 100,
       key: "action",
-      //dataIndex:'action',
       render: (organization) => {
         return (
           <Space>
             <Conditionally organization={organization} />
-            {/* <Button icon={<EyeOutlined />} /> */}
           </Space>
         );
       },
@@ -104,15 +96,19 @@ function OrganizationsTable({ organizations, user, loading }) {
     <Table
       columns={columns}
       dataSource={organizations}
-      loading={loading}
       scroll={{ x: 600, y: 300 }}
     />
   );
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  organizations: ownProps.organizations,
+  user: ownProps.user,
+});
+
 OrganizationsTable.propTypes = {
-  organizations: PropTypes.arrayOf(object).isRequired,
-  loading: PropTypes.bool.isRequired,
+  organizations: PropTypes.array.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
-export default OrganizationsTable;
+export default connect(mapStateToProps)(OrganizationsTable);

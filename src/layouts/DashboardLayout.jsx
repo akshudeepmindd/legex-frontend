@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout } from "antd";
-import PropTypes, { element } from "prop-types";
+import PropTypes from "prop-types";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
 import Logo from "../assets/images/logo.png";

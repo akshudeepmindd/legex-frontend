@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
-// ant design components
 import {
   Row,
   Col,
@@ -12,11 +10,9 @@ import {
   Card,
   Empty,
   Typography,
-  message,
 } from "antd";
 import { AppstoreOutlined, TableOutlined } from "@ant-design/icons";
 
-// components
 import { DashboardLayout } from "../../../layouts";
 import {
   OrganizationCard,
@@ -24,56 +20,40 @@ import {
   OrganizationForm,
 } from "../../../components";
 
-// redux actions
 import {
   createOrganization,
   fetchOrganizations,
 } from "../../../store/actions/organizations";
-// import $http from '../../../utils/api';
+import { fetchUser } from "../../../store/actions/users";
 
 const { Text } = Typography;
 
-const OrganizationsList = ({ dispatch, loading, organizations }) => {
-  const [view, setView] = useState(false);
-  const [modal, setModal] = useState(false);
-  const [name, updateName] = useState("");
-  const [domain, updateDomain] = useState("");
+const OrganizationsList = ({ dispatch, organizations, user, history }) => {
+  const [showGridView, setGridView] = useState(false);
+  const [
+    createOrganizationModalVisibility,
+    setCreateOrganizationModalVisibility,
+  ] = useState(false);
 
   useEffect(() => {
+    dispatch(fetchUser(localStorage.getItem("user-id")));
     dispatch(fetchOrganizations());
   }, [dispatch]);
 
-  const showModal = () => {
-    setModal(true);
-  };
+  const showCreateOrganizationModal = () =>
+    setCreateOrganizationModalVisibility(true);
 
-  const handleOk = () => {
-    setModal(false);
-  };
+  const closeCreateOrganizationModal = () =>
+    setCreateOrganizationModalVisibility(false);
 
-  const handleCancel = () => {
-    setModal(false);
-  };
+  const toggleGridView = () => setGridView(!showGridView);
 
-  const toggleView = () => {
-    setView(!view);
-  };
-
-  const onFinish = async (values) => {
-    const response = await dispatch(createOrganization(values));
-    console.log(response);
-    if (response.success) {
-      setModal(false);
-      updateName("");
-      updateDomain("");
-    } else {
-      message.error(response.message);
-    }
-  };
+  const onCreateOrganizationFormFinish = async (values) =>
+    await dispatch(createOrganization(values));
 
   const renderOrganizations = () => {
     if (organizations.length > 0) {
-      if (view) {
+      if (showGridView) {
         return (
           <Row
             gutter={[
@@ -90,10 +70,7 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
         );
       }
       return (
-        <OrganizationsTable
-          organizations={organizations}
-          user={localStorage.getItem("user-id")}
-        />
+        <OrganizationsTable organizations={organizations} user={user._id} />
       );
     }
     return (
@@ -105,67 +82,64 @@ const OrganizationsList = ({ dispatch, loading, organizations }) => {
 
   return (
     <DashboardLayout>
-      <Row
-        gutter={[
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-        ]}
-      >
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <PageHeader
-            ghost={false}
-            onBack={() => window.history.back()}
-            title="Organizations"
-            subTitle="Manage all your organizations"
-            extra={[
-              <Button
-                key="2"
-                icon={view ? <TableOutlined /> : <AppstoreOutlined />}
-                onClick={toggleView}
-              />,
-              <Button
-                className="dashboard-btn-primary dashboard-layout-btn"
-                key="1"
-                type="primary"
-                onClick={showModal}
-              >
-                Create a new organization
-              </Button>,
+      {organizations && user ? (
+        <>
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
             ]}
-          />
-        </Col>
-      </Row>
+          >
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+              <PageHeader
+                ghost={false}
+                onBack={() => history.push("/dashboard/overview")}
+                title="Organizations"
+                subTitle="Manage all your organizations"
+                extra={[
+                  <Button
+                    key="2"
+                    icon={
+                      showGridView ? <TableOutlined /> : <AppstoreOutlined />
+                    }
+                    onClick={toggleGridView}
+                  />,
+                  <Button
+                    className="dashboard-btn-primary dashboard-layout-btn"
+                    key="1"
+                    type="primary"
+                    onClick={showCreateOrganizationModal}
+                  >
+                    Create a new organization
+                  </Button>,
+                ]}
+              />
+            </Col>
+          </Row>
 
-      {renderOrganizations()}
+          {renderOrganizations()}
 
-      <Modal
-        title="Organization Form"
-        visible={modal}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <OrganizationForm onFinish={onFinish} name={name} domain={domain} />
-      </Modal>
+          <Modal
+            title="Organization Form"
+            visible={createOrganizationModalVisibility}
+            footer={null}
+            destroyOnClose={true}
+            onCancel={closeCreateOrganizationModal}
+          >
+            <OrganizationForm onFinish={onCreateOrganizationFormFinish} />
+          </Modal>
+        </>
+      ) : (
+        "loading...."
+      )}
     </DashboardLayout>
   );
 };
 
-const mapStateToProps = (state) => ({
-  loading: state.organizations.loading,
-  organizations: state.organizations.organizations,
-  error: state.organizations.error,
+const mapStateToProps = (state, ownProps) => ({
+  organizations: state.organizations,
+  user: state.users.user,
+  history: ownProps.history,
 });
-
-OrganizationsList.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.instanceOf(Object),
-  organizations: PropTypes.instanceOf(Array),
-};
-
-OrganizationsList.defaultProps = {
-  error: {},
-  organizations: [],
-};
 
 export default connect(mapStateToProps)(OrganizationsList);

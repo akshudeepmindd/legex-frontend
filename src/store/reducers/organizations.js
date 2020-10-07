@@ -1,66 +1,27 @@
-// import Organization from "../../views/Dashboard/Organizations/Organization";
 import {
-  FETCH_ORGANIZATIONS,
-  FETCH_ORGANIZATION,
-  CREATE_ORGANIZATION,
-  UPDATE_ORGANIZATION,
-  DELETE_ORGANIZATION,
-  ORGANIZATIONS_SUCCESS,
-  ORGANIZATION_SUCCESS,
-  REQUEST_FAILURE,
+  FETCH_ORGANIZATIONS_START,
+  FETCH_ORGANIZATIONS_SUCCESS,
+  CREATE_ORGANIZATION_START,
+  CREATE_ORGANIZATION_SUCCESS,
   DELETE_ORGANIZATION_SUCCESS,
-  ADD_MEMBER,
+  DELETE_ORGANIZATION_START,
 } from "../constants/organizations";
 
-export const initialState = {
-  organization: null,
-  organizations: [],
-  loading: false,
-  error: {},
-};
-
-export default function organizationReducers(state = initialState, action) {
+export const initialState = null;
+export default function organizationsReducers(state = initialState, action) {
   switch (action.type) {
-    case FETCH_ORGANIZATIONS:
-      return { ...state, loading: true };
+    case FETCH_ORGANIZATIONS_SUCCESS:
+      return action.payload;
 
-    case FETCH_ORGANIZATION:
-      return { ...state, loading: true };
+    case CREATE_ORGANIZATION_SUCCESS:
+      return [...state, action.payload];
 
-    case CREATE_ORGANIZATION:
-      return { ...state, loading: true };
-
-    case UPDATE_ORGANIZATION:
-      return { ...state, loading: true };
-
-    case DELETE_ORGANIZATION:
-      return { ...state, loading: true };
-
-    case ADD_MEMBER:
-      return { ...state, loading: true };
-
-    case ORGANIZATIONS_SUCCESS:
-      return { ...state, organizations: action.payload, loading: false };
-
-    case ORGANIZATION_SUCCESS:
-      return {
-        ...state,
-        organization: action.payload,
-        organizations: [...state.organizations, action.payload],
-        loading: false,
-      };
     case DELETE_ORGANIZATION_SUCCESS:
-      return {
-        ...state,
-        organizations: state.organizations.filter(
-          (org) => org._id != action.payload._id
-        ),
-        loading: false,
-      };
+      return [...state.filter((org) => org._id !== action.payload._id)];
 
-    case REQUEST_FAILURE:
-      return { ...state, error: action.payload, loading: false };
-
+    case FETCH_ORGANIZATIONS_START:
+    case CREATE_ORGANIZATION_START:
+    case DELETE_ORGANIZATION_START:
     default:
       return state;
   }

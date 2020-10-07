@@ -1,20 +1,22 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import authReducer from './auth';
-import userReducers from './users';
-import caseReducers from './cases';
-import organizationReducers from './organizations';
-import partyReducers from './parties';
-import documentReducers from './documents';
-import inviteReducers from './invites';
-import hearingReducers from './hearings';
-import caseTypeReducers from './caseTypes';
+import authReducer from "./auth";
+import userReducers from "./users";
+import caseReducers from "./cases";
+import organizationReducers from "./organization";
+import organizationsReducers from "./organizations";
+import partyReducers from "./parties";
+import documentReducers from "./documents";
+import inviteReducers from "./invites";
+import hearingReducers from "./hearings";
+import caseTypeReducers from "./caseTypes";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   users: userReducers,
   cases: caseReducers,
-  organizations: organizationReducers,
+  organizations: organizationsReducers,
+  organization: organizationReducers,
   parties: partyReducers,
   documents: documentReducers,
   invites: inviteReducers,

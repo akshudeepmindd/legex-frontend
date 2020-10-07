@@ -1,144 +1,57 @@
+import { message } from "antd";
 import $http from "../../utils/api";
 import {
-  FETCH_ORGANIZATIONS,
-  FETCH_ORGANIZATION,
-  CREATE_ORGANIZATION,
-  UPDATE_ORGANIZATION,
-  DELETE_ORGANIZATION,
-  ORGANIZATIONS_SUCCESS,
-  ORGANIZATION_SUCCESS,
-  REQUEST_FAILURE,
-  DELETE_ORGANIZATION_SUCCESS,
-  ADD_MEMBER,
+  FETCH_ORGANIZATIONS_START,
+  FETCH_ORGANIZATIONS_SUCCESS,
+  CREATE_ORGANIZATION_START,
+  CREATE_ORGANIZATION_SUCCESS,
 } from "../constants/organizations";
 
-export const requestFailure = (error) => ({
-  type: REQUEST_FAILURE,
-  payload: error,
+const createOrganizationSuccess = (organization) => ({
+  type: CREATE_ORGANIZATION_SUCCESS,
+  payload: organization,
 });
 
-export const organizationsSuccess = (organizations) => ({
-  type: ORGANIZATIONS_SUCCESS,
+const fetchOrganizationsSuccess = (organizations) => ({
+  type: FETCH_ORGANIZATIONS_SUCCESS,
   payload: organizations,
-});
-
-export const organizationSuccess = (organization) => ({
-  type: ORGANIZATION_SUCCESS,
-  payload: organization,
-});
-export const deleteorganizationSuccess = (organization) => ({
-  type: DELETE_ORGANIZATION_SUCCESS,
-  payload: organization,
 });
 
 export function fetchOrganizations() {
   return async (dispatch) => {
-    dispatch({ type: FETCH_ORGANIZATIONS });
+    const messageKey = "fetch organization";
+    dispatch({ type: FETCH_ORGANIZATIONS_START });
     try {
+      message.loading({ content: "fetching organizatios...", key: messageKey });
       const response = await $http()({ url: "/organizations", method: "GET" });
-      dispatch(organizationsSuccess(response.data.data));
-      return response.data;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-
-export function fetchOrganization(payload) {
-  return async (dispatch) => {
-    dispatch({ type: FETCH_ORGANIZATION });
-    try {
-      const response = await $http()({
-        url: `/organizations/${payload}`,
-        method: "GET",
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(fetchOrganizationsSuccess(response.data.data));
+      message.success({
+        content: "successfully loaded organizations",
+        key: messageKey,
       });
-      dispatch(organizationSuccess(response.data.data));
-      return response.data;
     } catch (error) {
-      return dispatch(requestFailure(error));
+      message.error({ content: error.message, key: messageKey });
     }
   };
 }
 
 export function createOrganization(payload) {
   return async (dispatch) => {
-    dispatch({ type: CREATE_ORGANIZATION });
+    const messageKey = "create organization";
+    dispatch({ type: CREATE_ORGANIZATION_START });
     try {
-      //will return organization object with only members & owner id
+      message.loading({ content: "creating organization..", key: messageKey });
       const response = await $http()({
         url: "/organizations",
         data: payload,
         method: "POST",
       });
-      dispatch(organizationSuccess(response.data.data));
-      return response.data;
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(createOrganizationSuccess(response.data.data));
+      message.success({ content: "organization created", key: messageKey });
     } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-
-export function addMember(payload) {
-  return async (dispatch) => {
-    dispatch({ type: ADD_MEMBER });
-    try {
-      const response = await $http()({
-        url: `/organizations/${payload.organizationId}/add-member`,
-        data: payload.data,
-        method: "PUT",
-      });
-      dispatch(organizationSuccess(response.data.data));
-      return response.data;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-export function deleteMember(payload) {
-  return async (dispatch) => {
-    try {
-      const response = await $http()({
-        url: `/organizations/${payload.organizationId}/remove-member`,
-        data: payload.data,
-        method: "PUT",
-      })
-      dispatch(organizationSuccess(response.data.data))
-      return response.data
-    }
-    catch (error) {
-      return dispatch(requestFailure(error))
-    }
-  }
-}
-export function updateOrganization(payload) {
-  return async (dispatch) => {
-    dispatch({ type: UPDATE_ORGANIZATION });
-    try {
-      const response = await $http()({
-        url: `/organizations/${payload.organizationId}`,
-        data: payload.data,
-        method: "PUT",
-      });
-      dispatch(organizationSuccess(response.data.data));
-      return response.data;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-
-export function deleteOrganization(payload) {
-  return async (dispatch) => {
-    dispatch({ type: DELETE_ORGANIZATION });
-    try {
-      const response = await $http()({
-        url: `/organizations/${payload}`,
-        method: "DELETE",
-      });
-      dispatch(deleteorganizationSuccess(response.data.data));
-      return response.data;
-    } catch (error) {
-      return dispatch(requestFailure(error));
+      message.error({ content: error.message, key: messageKey });
     }
   };
 }

@@ -11,11 +11,11 @@ const OrganizationForm = ({ onFinish, name, domain }) => {
           { required: true, message: "Please input the organization name!" },
         ]}
       >
-        <Input type="text" placeholder="name" value={name} />
+        <Input type="text" placeholder="name" defaultValue={name} />
       </Form.Item>
 
       <Form.Item name="domain">
-        <Input type="text" placeholder="domain" value={domain} />
+        <Input type="text" placeholder="domain" defaultValue={domain} />
       </Form.Item>
 
       <Form.Item>

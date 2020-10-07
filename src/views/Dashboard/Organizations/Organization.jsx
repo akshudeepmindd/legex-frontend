@@ -1,136 +1,81 @@
 import React, { useEffect, useState } from "react";
-import {
-  Row,
-  Col,
-  PageHeader,
-  Descriptions,
-  Button,
-  Card,
-  Avatar,
-  Typography,
-  message,
-} from "antd";
-import { UserOutlined, EditOutlined } from "@ant-design/icons";
-import { connect, useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import PropTypes from "prop-types";
-
+import { Row, Col, PageHeader, Descriptions, Button } from "antd";
+import { connect } from "react-redux";
 import { DashboardLayout } from "../../../layouts";
 import {
-  fetchOrganization,
   deleteOrganization,
   updateOrganization,
   addMember,
-} from "../../../store/actions/organizations";
+  fetchOrganization,
+} from "../../../store/actions/organization";
+import { fetchUser } from "../../../store/actions/users";
 import Modal from "antd/lib/modal/Modal";
-//import CasesTable from "../../../components/Organization/CasesTable";
 import MembersTable from "../../../components/Organization/MembersTable";
 import { OrganizationForm, AddMemForm, CasesTable } from "../../../components";
 
-const { Meta } = Card;
-const { Paragraph } = Typography;
-
-const Organization = () => {
-  const { organizationId } = useParams();
-  const [email, updateEmail] = useState("");
-  const dispatch = useDispatch();
-  const organization = useSelector(
-    (state) =>
-      state.organizations.organizations.filter(
-        (organization) => organization._id === organizationId
-      )[0]
-  );
-  //console.log(organization);
-  //console.log(organization.members);
-  console.log(organization);
-  console.log(localStorage.getItem("user-id"));
-  //useEffect(() => console.log(organization), [organization]);
+const Organization = ({
+  dispatch,
+  organization,
+  organizationId,
+  user,
+  history,
+}) => {
+  useEffect(() => {
+    dispatch(fetchUser(localStorage.getItem("user-id")));
+    dispatch(fetchOrganization(organizationId));
+  }, [organizationId, dispatch]);
 
   const handleDelete = async () => {
-    const response = await dispatch(deleteOrganization(organizationId));
-    if (response.success) {
-      window.location.replace("/dashboard/organizations");
-    } else {
-      message.error(response.message);
-    }
+    if (await dispatch(deleteOrganization(organizationId)))
+      history.push("/dashboard/organizations");
   };
+  const renderMembers = () => (
+    <MembersTable
+      members={organization.members}
+      owner={organization.owner}
+      user={user._id}
+      organizationId={organizationId}
+    />
+  );
 
-  const renderMembers = () => {
-    return (
-      <MembersTable
-        members={organization.members}
-        owner={organization.owner}
-        user={localStorage.getItem("user-id")}
-      />
-    );
-  };
+  const renderCases = () => <CasesTable cases={organization.cases} />;
 
-  const renderCases = () => {
-    return <CasesTable cases={organization.cases} />;
-  };
+  const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
+  const [addMemberModalVisibility, setAddMemberModalVisibilty] = useState(
+    false
+  );
 
-  const [updateModal, setUpdateModal] = useState(false);
-  const [addModal, setAddModal] = useState(false);
-  const showUpdateModal = () => {
-    setUpdateModal(true);
-  };
-
-  const showAddModal = () => {
-    setAddModal(true);
-  };
-  const handleOk = () => {
-    setUpdateModal(false);
-    setAddModal(false);
-  };
-
-  const handleCancel = () => {
-    setUpdateModal(false);
-    setAddModal(false);
-  };
-
-  const handleUpdateClick = () => {
-    showUpdateModal();
-  };
-
-  const handleAddClick = () => {
-    showAddModal();
-  };
-
-  const onUpdateFinish = async (values) => {
-    const response = await dispatch(
+  const onUpdateFinish = async (values) =>
+    await dispatch(
       updateOrganization({
         organizationId,
         data: values,
       })
     );
-    setUpdateModal(false);
-    if (!response.success) message.error(response.message);
-  };
 
-  const onAddFinish = async (values) => {
-    const response = await dispatch(
+  const onAddFinish = async (values) =>
+    (await dispatch(
       addMember({
         organizationId,
         data: values,
       })
-    );
-    setAddModal(false);
-    if (response.success) {
-      updateEmail("");
-    } else {
-      message.error(response.message);
-    }
-  };
+    )) && setAddMemberModalVisibilty(false);
 
   function Conditionally() {
-    if (organization.owner._id === localStorage.getItem("user-id")) {
+    if (organization.owner._id === user._id) {
       return (
         <>
-          <Button onClick={handleAddClick}>Add Members</Button>
+          <Button onClick={() => setAddMemberModalVisibilty(true)}>
+            Add Members
+          </Button>
           <Button key="2" type="danger" onClick={handleDelete}>
             Delete
           </Button>
-          <Button key="1" type="primary" onClick={handleUpdateClick}>
+          <Button
+            key="1"
+            type="primary"
+            onClick={() => setUpdateOrganizationModal(true)}
+          >
             Update
           </Button>
         </>
@@ -141,7 +86,7 @@ const Organization = () => {
 
   return (
     <>
-      {organization ? (
+      {organization && user ? (
         <DashboardLayout>
           <Row
             gutter={[
@@ -180,43 +125,16 @@ const Organization = () => {
                 </Col>
               </Row>
             </Col>
-            <Col>
-              {/* <Card
-                bordered={false}
-                actions={[
-                  <Button type="primary" icon={<EditOutlined />} block>
-                    Edit Profile
-                  </Button>,
-                ]}
-              >
-                <Meta
-                  avatar={
-                    <Avatar
-                      size="large"
-                      icon={<UserOutlined />}
-                      className="avatar-placeholder"
-                      shape="square"
-                    />
-                  }
-                  title={`${organization.owner.firstName} ${organization.owner.lastName}`}
-                  description={
-                    <>
-                      <Paragraph>{organization.owner.email}</Paragraph>
-                      <Paragraph>{organization.owner.phone}</Paragraph>
-                    </>
-                  }
-                />
-              </Card> */}
-            </Col>
           </Row>
 
           {renderMembers()}
           {renderCases()}
           <Modal
             title="Organization Form"
-            visible={updateModal}
-            onOk={handleOk}
-            onCancel={handleCancel}
+            visible={updateOrganizationModal}
+            onCancel={() => setUpdateOrganizationModal(false)}
+            destroyOnClose={true}
+            footer={null}
           >
             <OrganizationForm
               onFinish={onUpdateFinish}
@@ -227,16 +145,26 @@ const Organization = () => {
 
           <Modal
             title="Add Member"
-            visible={addModal}
-            onOk={handleOk}
-            onCancel={handleCancel}
+            visible={addMemberModalVisibility}
+            onCancel={() => setAddMemberModalVisibilty(false)}
+            footer={null}
+            destroyOnClose={true}
           >
-            <AddMemForm onFinish={onAddFinish} email={email} />
+            <AddMemForm onFinish={onAddFinish} />
           </Modal>
         </DashboardLayout>
-      ) : null}
+      ) : (
+        "loading..."
+      )}
     </>
   );
 };
 
-export default Organization;
+const mapStateToProps = (state, ownProps) => ({
+  organization: state.organization,
+  user: state.users.user,
+  organizationId: ownProps.match.params.organizationId,
+  history: ownProps.history,
+});
+
+export default connect(mapStateToProps)(Organization);

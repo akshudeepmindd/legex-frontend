@@ -24,7 +24,6 @@ const CaseForm = ({
     ));
   };
   const renderUserOrganizations = () => {
-    console.log(organizations, user);
     return organizations.map((organization, index) => {
       if (organization.owner._id === user._id) {
         return (
