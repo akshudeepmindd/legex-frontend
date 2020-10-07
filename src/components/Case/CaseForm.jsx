@@ -23,17 +23,16 @@ const CaseForm = ({
       </Option>
     ));
   };
-  const renderUserOrganizations = () => {
-    return organizations.map((organization, index) => {
-      if (organization.owner._id === user._id) {
-        return (
+  const renderUserOrganizations = () =>
+    organizations.map(
+      (organization, index) =>
+        organization.owner._id === user._id && (
           <Option key={index} value={organization._id}>
             {organization.name}
           </Option>
-        );
-      }
-    });
-  };
+        )
+    );
+
   return (
     <Form name="CaseForm" onFinish={onFinish}>
       <Form.Item

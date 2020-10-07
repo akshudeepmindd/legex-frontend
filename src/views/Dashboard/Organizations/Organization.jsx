@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col, PageHeader, Descriptions, Button } from "antd";
 import { connect } from "react-redux";
 import { DashboardLayout } from "../../../layouts";
@@ -6,9 +6,7 @@ import {
   deleteOrganization,
   updateOrganization,
   addMember,
-  fetchOrganization,
 } from "../../../store/actions/organization";
-import { fetchUser } from "../../../store/actions/users";
 import Modal from "antd/lib/modal/Modal";
 import MembersTable from "../../../components/Organization/MembersTable";
 import { OrganizationForm, AddMemForm, CasesTable } from "../../../components";
@@ -20,11 +18,6 @@ const Organization = ({
   user,
   history,
 }) => {
-  useEffect(() => {
-    dispatch(fetchUser(localStorage.getItem("user-id")));
-    dispatch(fetchOrganization(organizationId));
-  }, [organizationId, dispatch]);
-
   const handleDelete = async () => {
     if (await dispatch(deleteOrganization(organizationId)))
       history.push("/dashboard/organizations");
@@ -88,7 +81,10 @@ const Organization = ({
     if (organization.owner._id === localStorage.getItem("user-id")) {
       return (
         <>
-          <Button onClick={handleAddClick} type="primary">
+          <Button
+            onClick={() => setAddMemberModalVisibilty(true)}
+            type="primary"
+          >
             Add Member
           </Button>
         </>
@@ -156,21 +152,17 @@ const Organization = ({
             </Col>
           </Row>
 
-
           <Row>
             <PageHeader
               ghost={false}
               //onBack={() => window.history.back()}
               title="Members"
               subTitle="All Member's"
-              extra={[
-                <MemberTableButtons />,
-              ]}
+              extra={[<MemberTableButtons />]}
             >
               {renderMembers()}
             </PageHeader>
           </Row>
-
 
           <Row>
             <PageHeader
@@ -178,14 +170,11 @@ const Organization = ({
               //onBack={() => window.history.back()}
               title="Cases"
               subTitle="All Cases"
-              extra={[
-                <CasesTableButtons/>
-              ]}
+              extra={[<CasesTableButtons />]}
             >
               {renderCases()}
             </PageHeader>
           </Row>
-
 
           <Modal
             title="Organization Form"

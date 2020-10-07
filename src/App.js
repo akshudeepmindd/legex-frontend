@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { fetchOrganizations } from "./store/actions/organizations";
+import { fetchUser } from "./store/actions/users";
 
 import {
   Home,
@@ -21,7 +24,12 @@ import {
   Appointments,
 } from "./views";
 
-function App() {
+function App({ dispatch }) {
+  useEffect(() => {
+    const userId = localStorage.getItem("user-id");
+    dispatch(fetchUser(userId));
+    dispatch(fetchOrganizations());
+  }, [dispatch]);
   return (
     <Router>
       <Switch>
@@ -60,4 +68,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect()(App);

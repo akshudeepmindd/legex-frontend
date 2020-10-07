@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -20,11 +20,7 @@ import {
   OrganizationForm,
 } from "../../../components";
 
-import {
-  createOrganization,
-  fetchOrganizations,
-} from "../../../store/actions/organizations";
-import { fetchUser } from "../../../store/actions/users";
+import { createOrganization } from "../../../store/actions/organizations";
 
 const { Text } = Typography;
 
@@ -34,11 +30,6 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
     createOrganizationModalVisibility,
     setCreateOrganizationModalVisibility,
   ] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchUser(localStorage.getItem("user-id")));
-    dispatch(fetchOrganizations());
-  }, [dispatch]);
 
   const showCreateOrganizationModal = () =>
     setCreateOrganizationModalVisibility(true);

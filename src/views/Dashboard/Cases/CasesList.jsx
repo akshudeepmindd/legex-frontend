@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes, { object } from "prop-types";
 
@@ -21,10 +21,7 @@ import { DashboardLayout } from "../../../layouts";
 import { CaseCard, CasesTable, CaseForm } from "../../../components";
 
 // redux actions
-import { createCase, fetchCases } from "../../../store/actions/cases";
-import { fetchUser } from "../../../store/actions/users";
-import { fetchOrganizations } from "../../../store/actions/organizations";
-import { fetchCaseTypes } from "../../../store/actions/caseTypes";
+import { createCase } from "../../../store/actions/cases";
 
 const { Text } = Typography;
 
@@ -32,12 +29,6 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
   // create state
   const [view, setView] = useState(false);
   const [modal, setModal] = useState(false);
-  useEffect(() => {
-    dispatch(fetchUser(localStorage.getItem("user-id")));
-    dispatch(fetchCases());
-    dispatch(fetchCaseTypes());
-    dispatch(fetchOrganizations());
-  }, [dispatch]);
 
   const showModal = () => {
     setModal(true);
@@ -143,7 +134,7 @@ const mapStateToProps = (state) => ({
   cases: state.cases.cases,
   caseTypes: state.caseTypes.caseTypes,
   error: state.cases.error,
-  organizations: state.organizations.organizations,
+  organizations: state.organizations,
 });
 
 CasesList.propTypes = {

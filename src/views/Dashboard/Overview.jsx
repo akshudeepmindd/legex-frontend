@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -23,31 +23,13 @@ import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import { DashboardLayout } from "../../layouts";
 import { CasesTable, ProfileForm } from "../../components";
 
-// redux actions
-import { fetchCases } from "../../store/actions/cases";
-import { fetchOrganizations } from "../../store/actions/organizations";
-import { fetchUser } from "../../store/actions/users";
-
 const { Text } = Typography;
 const { Meta } = Card;
 const { Option } = Select;
 
-const Overview = ({
-  dispatch,
-  user,
-  cases,
-  casesLoading,
-  organizations,
-  messages,
-}) => {
+const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
   const [selectedOrganization, setSelectedOrganization] = useState([]);
   const [profileModal, setProfileModal] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchUser(localStorage.getItem("user-id")));
-    dispatch(fetchCases());
-    dispatch(fetchOrganizations());
-  }, [dispatch]);
 
   const toggleModal = () => {
     setProfileModal(true);
