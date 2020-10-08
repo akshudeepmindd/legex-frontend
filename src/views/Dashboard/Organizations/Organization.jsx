@@ -6,10 +6,12 @@ import {
   deleteOrganization,
   updateOrganization,
   addMember,
+  fetchOrganization,
 } from "../../../store/actions/organization";
 import Modal from "antd/lib/modal/Modal";
 import MembersTable from "../../../components/Organization/MembersTable";
 import { OrganizationForm, AddMemForm, CasesTable } from "../../../components";
+import { useEffect } from "react";
 
 const Organization = ({
   dispatch,
@@ -18,6 +20,10 @@ const Organization = ({
   user,
   history,
 }) => {
+  useEffect(() => {
+    dispatch(fetchOrganization(organizationId));
+  }, [organizationId, dispatch]);
+
   const handleDelete = async () => {
     if (await dispatch(deleteOrganization(organizationId)))
       history.push("/dashboard/organizations");

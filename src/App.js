@@ -25,11 +25,13 @@ import {
 } from "./views";
 
 function App({ dispatch }) {
+  //all the initial data fetching happens here
   useEffect(() => {
     const userId = localStorage.getItem("user-id");
     dispatch(fetchUser(userId));
     dispatch(fetchOrganizations());
   }, [dispatch]);
+
   return (
     <Router>
       <Switch>
