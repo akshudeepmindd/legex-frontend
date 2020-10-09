@@ -47,8 +47,7 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
   };
 
   const onFinish = async (values) => {
-    const response = await dispatch(createCase(values));
-    console.log(response);
+    const response = await dispatch(createCase({ type: "user", ...values }));
     if (response.success) {
       setModal(false);
     } else {
@@ -57,6 +56,7 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
   };
 
   const renderCases = () => {
+    console.log(cases);
     if (cases.length > 0) {
       if (view) {
         return (
@@ -85,46 +85,50 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
 
   return (
     <DashboardLayout>
-      <Row
-        gutter={[
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-        ]}
-      >
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <PageHeader
-            ghost={false}
-            onBack={() => window.history.back()}
-            title="Cases"
-            subTitle="Manage all your cases"
-            extra={[
-              <Button
-                key="2"
-                icon={view ? <TableOutlined /> : <AppstoreOutlined />}
-                onClick={toggleView}
-              />,
-              <Button key="1" type="primary" onClick={showModal}>
-                Create a new case
-              </Button>,
+      {cases && caseTypes && organizations ? (
+        <>
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
             ]}
-          />
-        </Col>
-      </Row>
+          >
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+              <PageHeader
+                ghost={false}
+                onBack={() => window.history.back()}
+                title="Cases"
+                subTitle="Manage all your cases"
+                extra={[
+                  <Button
+                    key="2"
+                    icon={view ? <TableOutlined /> : <AppstoreOutlined />}
+                    onClick={toggleView}
+                  />,
+                  <Button key="1" type="primary" onClick={showModal}>
+                    Create a new case
+                  </Button>,
+                ]}
+              />
+            </Col>
+          </Row>
 
-      {renderCases()}
+          {renderCases()}
 
-      <Modal
-        title="Case Form"
-        visible={modal}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <CaseForm
-          onFinish={onFinish}
-          caseTypes={caseTypes}
-          organizations={organizations}
-        />
-      </Modal>
+          <Modal
+            title="Case Form"
+            visible={modal}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <CaseForm
+              onFinish={onFinish}
+              caseTypes={caseTypes}
+              organizations={organizations}
+            />
+          </Modal>
+        </>
+      ) : null}
     </DashboardLayout>
   );
 };
@@ -148,9 +152,9 @@ CasesList.propTypes = {
 
 CasesList.defaultProps = {
   error: {},
-  cases: [],
-  caseTypes: [],
-  organizations: [],
+  cases: null,
+  caseTypes: null,
+  organizations: null,
 };
 
 export default connect(mapStateToProps)(CasesList);

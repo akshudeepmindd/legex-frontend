@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { fetchOrganizations } from "./store/actions/organizations";
 import { fetchUser } from "./store/actions/users";
+import { fetchCaseTypes } from "./store/actions/caseTypes";
 
 import {
   Home,
@@ -23,13 +24,19 @@ import {
   Organization,
   Appointments,
 } from "./views";
+import { fetchCases } from "./store/actions/cases";
 
 function App({ dispatch }) {
   //all the initial data fetching happens here
   useEffect(() => {
     const userId = localStorage.getItem("user-id");
-    dispatch(fetchUser(userId));
-    dispatch(fetchOrganizations());
+    async function fetchData() {
+      await dispatch(fetchUser(userId));
+      await dispatch(fetchOrganizations());
+      await dispatch(fetchCaseTypes());
+      await dispatch(fetchCases(userId));
+    }
+    if (userId) fetchData();
   }, [dispatch]);
 
   return (

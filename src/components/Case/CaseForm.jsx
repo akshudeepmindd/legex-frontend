@@ -32,7 +32,6 @@ const CaseForm = ({
           </Option>
         )
     );
-
   return (
     <Form name="CaseForm" onFinish={onFinish}>
       <Form.Item
@@ -59,14 +58,14 @@ const CaseForm = ({
           {renderCaseTypes()}
         </Select>
       </Form.Item>
-      <Form.Item
+      {/* <Form.Item
         name="organization"
         rules={[{ required: true, message: "Please select an organization!" }]}
       >
         <Select placeholder="organization" value={organization}>
           {renderUserOrganizations()}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item>
         <Button type="primary" htmlType="submit">
           Submit

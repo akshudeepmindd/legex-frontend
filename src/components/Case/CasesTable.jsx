@@ -7,6 +7,7 @@ const { Text } = Typography;
 
 function CasesTable(props) {
   const { cases } = props;
+  console.log(cases);
   const columns = [
     {
       title: "Title",
@@ -43,19 +44,19 @@ function CasesTable(props) {
         />
       ),
     },
-    {
-      title: "Parties",
-      dataIndex: "parties",
-      width: 100,
-      key: "parties",
-      render: (parties) => (
-        <Badge
-          count={parties.length}
-          style={{ backgroundColor: "#1F40E6" }}
-          showZero
-        />
-      ),
-    },
+    // {
+    //   title: "Parties",
+    //   dataIndex: "parties",
+    //   width: 100,
+    //   key: "parties",
+    //   render: (parties) => (
+    //     <Badge
+    //       count={parties.length}
+    //       style={{ backgroundColor: "#1F40E6" }}
+    //       showZero
+    //     />
+    //   ),
+    // },
     {
       title: "Status",
       dataIndex: "status",

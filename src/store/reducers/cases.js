@@ -10,7 +10,7 @@ import {
   CASES_SUCCESS,
   CASE_SUCCESS,
   REQUEST_FAILURE,
-} from '../constants/cases';
+} from "../constants/cases";
 
 export const initialState = {
   singleCase: {},
@@ -46,6 +46,7 @@ export default function caseReducers(state = initialState, action) {
       return { ...state, loading: true };
 
     case CASES_SUCCESS:
+      console.log(action.payload);
       return { ...state, cases: action.payload, loading: false };
 
     case CASE_SUCCESS:

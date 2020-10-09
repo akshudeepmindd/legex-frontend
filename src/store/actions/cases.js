@@ -32,7 +32,8 @@ export function fetchCases() {
   return async (dispatch) => {
     dispatch({ type: FETCH_CASES });
     try {
-      const response = await $http({ url: "/cases", method: "GET" });
+      const response = await $http()({ url: "/cases", method: "GET" });
+      console.log(response.data)
       return dispatch(casesSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -44,7 +45,7 @@ export function fetchCase(payload) {
   return async (dispatch) => {
     dispatch({ type: FETCH_CASE });
     try {
-      const response = await $http({ url: `/cases/${payload}`, method: "GET" });
+      const response = await $http()({ url: `/cases/${payload}`, method: "GET" });
       return dispatch(caseSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
