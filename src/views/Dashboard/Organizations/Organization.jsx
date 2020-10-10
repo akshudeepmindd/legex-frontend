@@ -6,6 +6,7 @@ import {
   deleteOrganization,
   updateOrganization,
   addMember,
+  leaveOrganization,
   fetchOrganization,
 } from "../../../store/actions/organization";
 import Modal from "antd/lib/modal/Modal";
@@ -36,7 +37,12 @@ const Organization = ({
       organizationId={organizationId}
     />
   );
-
+  const uid = localStorage.getItem("user-id");
+  const handleLeave = async () => {
+    if(await dispatch(leaveOrganization({organizationId, data : {uid}})));
+      history.push("/dashboard/organizations");
+  };
+  
   const renderCases = () => <CasesTable cases={organization.cases} />;
 
   const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
@@ -80,7 +86,10 @@ const Organization = ({
         </>
       );
     }
-    return <></>;
+    return (
+      <>
+        <Button onClick={handleLeave} type="danger">Leave</Button>
+      </>);
   }
 
   function MemberTableButtons() {
