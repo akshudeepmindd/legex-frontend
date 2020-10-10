@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { fetchOrganizations } from "./store/actions/organizations";
-import { fetchUser } from "./store/actions/users";
+import { fetchUser } from "./store/actions/user";
 import { fetchCaseTypes } from "./store/actions/caseTypes";
 
 import {
@@ -26,18 +26,17 @@ import {
 } from "./views";
 import { fetchCases } from "./store/actions/cases";
 
-function App({ dispatch }) {
+function App({ dispatch, auth }) {
   //all the initial data fetching happens here
   useEffect(() => {
-    const userId = localStorage.getItem("user-id");
     async function fetchData() {
-      await dispatch(fetchUser(userId));
+      await dispatch(fetchUser());
       await dispatch(fetchOrganizations());
       await dispatch(fetchCaseTypes());
-      await dispatch(fetchCases(userId));
+      await dispatch(fetchCases());
     }
-    if (userId) fetchData();
-  }, [dispatch]);
+    if (localStorage.getItem("access-token")) fetchData();
+  }, [dispatch, auth]);
 
   return (
     <Router>
@@ -77,4 +76,8 @@ function App({ dispatch }) {
   );
 }
 
-export default connect()(App);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(App);

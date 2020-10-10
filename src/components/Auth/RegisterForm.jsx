@@ -3,18 +3,7 @@ import PropTypes from "prop-types";
 import { Row, Col, Form, Input, Button, Divider } from "antd";
 import { GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
 
-const RegisterForm = ({
-  onFinish,
-  handleChange,
-  googleLogin,
-  facebookLogin,
-  firstName,
-  lastName,
-  email,
-  phone,
-  password,
-  loading,
-}) => {
+const RegisterForm = ({ onFinish, googleLogin, facebookLogin }) => {
   return (
     <Form name="RegisterForm" onFinish={onFinish}>
       <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 16 }}>
@@ -25,11 +14,7 @@ const RegisterForm = ({
               { required: true, message: "Please input your first name!" },
             ]}
           >
-            <Input
-              placeholder="First name"
-              value={firstName}
-              onChange={handleChange}
-            />
+            <Input placeholder="First name" />
           </Form.Item>
         </Col>
 
@@ -40,11 +25,7 @@ const RegisterForm = ({
               { required: true, message: "Please input your last name!" },
             ]}
           >
-            <Input
-              placeholder="Last name"
-              value={lastName}
-              onChange={handleChange}
-            />
+            <Input placeholder="Last name" />
           </Form.Item>
         </Col>
       </Row>
@@ -53,29 +34,25 @@ const RegisterForm = ({
         name="phone"
         rules={[{ required: true, message: "Please input your phone!" }]}
       >
-        <Input placeholder="Phone" value={phone} onChange={handleChange} />
+        <Input placeholder="Phone" />
       </Form.Item>
 
       <Form.Item
         name="email"
         rules={[{ required: true, message: "Please input your email!" }]}
       >
-        <Input placeholder="Email" value={email} onChange={handleChange} />
+        <Input placeholder="Email" />
       </Form.Item>
 
       <Form.Item
         name="password"
         rules={[{ required: true, message: "Please input your password!" }]}
       >
-        <Input.Password
-          placeholder="Password"
-          value={password}
-          onChange={handleChange}
-        />
+        <Input.Password placeholder="Password" />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" block loading={loading}>
+        <Button type="primary" htmlType="submit" block>
           Register
         </Button>
       </Form.Item>

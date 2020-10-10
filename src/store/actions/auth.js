@@ -1,69 +1,80 @@
 /* eslint no-underscore-dangle: 0 */
+import { message } from "antd";
 import $http from "../../utils/api";
 import {
-  LOGIN_USER,
-  REGISTER_USER,
+  LOGIN_USER_START,
+  LOGIN_USER_SUCCESS,
+  REGISTER_USER_START,
+  REGISTER_USER_SUCCESS,
   FORGOT_PASSWORD,
   RESET_PASSWORD,
   GOOGLE_OAUTH,
   FACEBOOK_OAUTH,
-  AUTH_SUCCESS,
   AUTH_FAILURE,
   LOGOUT_USER,
 } from "../constants/auth";
 
-export const authSuccess = (user) => ({
-  type: AUTH_SUCCESS,
+const authSuccess = (user) => ({
+  type: "AUTH_SUCCESS",
   payload: user,
 });
 
-export const authFailure = (error) => ({
+const loginUserSuccess = (userData) => ({
+  type: LOGIN_USER_SUCCESS,
+  payload: userData,
+});
+
+const registerUserSuccess = (userData) => ({
+  type: REGISTER_USER_SUCCESS,
+  payload: userData,
+});
+
+const authFailure = (error) => ({
   type: AUTH_FAILURE,
   payload: error,
 });
 
 export function loginUser(payload) {
   return async (dispatch) => {
-    dispatch({ type: LOGIN_USER }); //loaidng start
+    const messageKey = "login user";
+    dispatch({ type: LOGIN_USER_START });
     try {
+      message.loading({ content: "logging you in..", key: messageKey });
       const response = await $http()({
         url: "/auth/login",
         data: payload,
         method: "POST",
       });
-      console.log(response);
+      if (!response.data.success) throw new Error(response.data.message);
       const { token } = response.data;
-      const { _id } = response.data.data;
       localStorage.setItem("access-token", token);
-      localStorage.setItem("user-id", _id);
-      dispatch(authSuccess(response.data));
-      return response.data;
+      dispatch(loginUserSuccess(response.data.data));
+      message.success({ content: "logged in", key: messageKey });
     } catch (error) {
-      dispatch(authFailure(error));
-      return error;
+      message.error({ content: error.message, key: messageKey });
     }
   };
 }
 
 export function registerUser(payload) {
   return async (dispatch) => {
-    dispatch({ type: REGISTER_USER });
+    const messageKey = "register user";
+    dispatch({ type: REGISTER_USER_START });
     try {
+      message.loading({ content: "registering user..", key: messageKey });
       const response = await $http()({
         url: "/auth/register",
         data: payload,
         method: "POST",
       });
-      console.log(response);
       const { token } = response.data;
-      const { _id } = response.data.data;
       localStorage.setItem("access-token", token);
-      localStorage.setItem("user-id", _id);
-      dispatch(authSuccess(response.data));
-      return response.data;
+      dispatch(registerUserSuccess(response.data.data));
+      message.success({ content: "register user", key: messageKey });
+      return true;
     } catch (error) {
-      dispatch(authFailure(error));
-      return error;
+      message.error({ content: error.message, key: messageKey });
+      return false;
     }
   };
 }

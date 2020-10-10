@@ -129,7 +129,7 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   organizations: state.organizations,
-  user: state.users.user,
+  user: state.user,
   history: ownProps.history,
 });
 

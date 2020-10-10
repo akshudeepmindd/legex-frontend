@@ -1,6 +1,4 @@
 import {
-  LOGIN_USER,
-  REGISTER_USER,
   FORGOT_PASSWORD,
   RESET_PASSWORD,
   GOOGLE_OAUTH,
@@ -8,45 +6,25 @@ import {
   AUTH_SUCCESS,
   AUTH_FAILURE,
   LOGOUT_USER,
+  LOGIN_USER_START,
+  REGISTER_USER_START,
+  LOGIN_USER_SUCCESS,
+  REGISTER_USER_SUCCESS,
 } from "../constants/auth";
 
-export const initialState = {
-  user: {},
-  loading: false,
-  error: {},
-  token: "" || localStorage.getItem("access-token"),
-};
+export const initialState = null;
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
-    case LOGIN_USER:
-      return { ...state, loading: true };
+    case LOGIN_USER_START:
+    case REGISTER_USER_START:
+      return state;
 
-    case REGISTER_USER:
-      return { ...state, loading: true };
-
-    case RESET_PASSWORD:
-      return { ...state, loading: true };
-
-    case FORGOT_PASSWORD:
-      return { ...state, loading: true };
-
-    case GOOGLE_OAUTH:
-      return { ...state, loading: true };
-
-    case FACEBOOK_OAUTH:
-      return { ...state, loading: true };
-
-    case AUTH_SUCCESS:
-      return {
-        user: action.payload.data,
-        token: action.payload.token,
-        loading: false,
-      };
+    case LOGIN_USER_SUCCESS:
+    case REGISTER_USER_SUCCESS:
+      return true;
 
     case AUTH_FAILURE:
-      return { error: action.payload, loading: false };
-
     case LOGOUT_USER:
       return initialState;
 

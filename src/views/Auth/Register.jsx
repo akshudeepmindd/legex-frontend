@@ -1,40 +1,20 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Typography, message } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { Typography, message } from "antd";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
-import { AuthLayout } from '../../layouts';
-import { RegisterForm } from '../../components';
+import { AuthLayout } from "../../layouts";
+import { RegisterForm } from "../../components";
 import {
   registerUser,
   googleOAuth,
   facebookOAuth,
-} from '../../store/actions/auth';
+} from "../../store/actions/auth";
 
 const { Title } = Typography;
 
-const Register = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  const loading = useSelector((state) => state.auth.loading);
-
-  const [firstName] = useState('');
-  const [lastName] = useState('');
-  const [email] = useState('');
-  const [phone] = useState('');
-  const [password] = useState('');
-
-  const onFinish = async (values) => {
-    const response = await dispatch(registerUser(values));
-    if (response.success) {
-      history.push('/dashboard/overview');
-    } else {
-      message.error(response.message);
-    }
-  };
-
-  const handleChange = () => {};
+const Register = ({ auth, dispatch }) => {
+  const onFinish = async (values) => await dispatch(registerUser(values));
 
   const googleLogin = () => {
     dispatch(googleOAuth());
@@ -45,25 +25,28 @@ const Register = () => {
   };
 
   return (
-    <AuthLayout>
-      <p>
-        Already have a Legex O.D.R. account? <Link to="/login">Log in</Link>
-      </p>
-      <Title>Create an account</Title>
-      <RegisterForm
-        onFinish={onFinish}
-        googleLogin={googleLogin}
-        facebookLogin={facebookLogin}
-        handleChange={handleChange}
-        firstName={firstName}
-        lastName={lastName}
-        email={email}
-        phone={phone}
-        password={password}
-        loading={loading}
-      />
-    </AuthLayout>
+    <>
+      {!auth ? (
+        <AuthLayout>
+          <p>
+            Already have a Legex O.D.R. account? <Link to="/login">Log in</Link>
+          </p>
+          <Title>Create an account</Title>
+          <RegisterForm
+            onFinish={onFinish}
+            googleLogin={googleLogin}
+            facebookLogin={facebookLogin}
+          />
+        </AuthLayout>
+      ) : (
+        <Redirect to="/dashboard/overview" />
+      )}
+    </>
   );
 };
 
-export default Register;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Register);

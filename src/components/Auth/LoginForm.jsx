@@ -1,41 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Form, Input, Button, Checkbox, Row, Col, Divider } from 'antd';
-import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { Form, Input, Button, Checkbox, Row, Col, Divider } from "antd";
+import { GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
-const LoginForm = ({
-  onFinish,
-  handleChange,
-  googleLogin,
-  facebookLogin,
-  email,
-  password,
-  loading,
-}) => {
+const LoginForm = ({ onFinish, googleLogin, facebookLogin, loading }) => {
   return (
     <Form name="loginForm" onFinish={onFinish}>
       <Form.Item
         name="email"
-        rules={[{ required: true, message: 'Please input your email!' }]}
+        rules={[{ required: true, message: "Please input your email!" }]}
       >
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleChange}
-        />
+        <Input type="email" placeholder="Email" />
       </Form.Item>
 
       <Form.Item
         name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
+        rules={[{ required: true, message: "Please input your password!" }]}
       >
-        <Input.Password
-          placeholder="Password"
-          value={password}
-          onChange={handleChange}
-        />
+        <Input.Password placeholder="Password" />
       </Form.Item>
 
       <Form.Item>

@@ -215,7 +215,7 @@ const Organization = ({
 
 const mapStateToProps = (state, ownProps) => ({
   organization: state.organization,
-  user: state.users.user,
+  user: state.user,
   organizationId: ownProps.match.params.organizationId,
   history: ownProps.history,
 });
