@@ -9,6 +9,8 @@ import {
   UPDATE_ORGANIZATION_SUCCESS,
   DELETE_ORGANIZATION_START,
   DELETE_ORGANIZATION_SUCCESS,
+  LEAVE_ORGANIZATION_START,
+  LEAVE_ORGANIZATION_SUCCESS,
   FETCH_ORGANIZATION_START,
   FETCH_ORGANIZATION_SUCCESS,
 } from "../constants/organization";
@@ -22,6 +24,10 @@ const deleteOrganizationSuccess = (organization) => ({
   type: DELETE_ORGANIZATION_SUCCESS,
   payload: organization,
 });
+const leaveOrganizationSuccess = (organization) => ({
+  type: LEAVE_ORGANIZATION_SUCCESS,
+  payload: organization,
+})
 const updateOrganizationSuccess = (organization) => ({
   type: UPDATE_ORGANIZATION_SUCCESS,
   payload: organization,
@@ -99,6 +105,28 @@ export function removeMember(payload) {
     }
   };
 }
+export function leaveOrganization(payload){
+  return async (dispatch) => {
+    dispatch({type : LEAVE_ORGANIZATION_START});
+    const messageKey = "leave organization";
+    console.log(payload.data);
+    try{
+        message.loading({content : "leaving organization",key : messageKey});
+        const response = await $http()({
+          url : `/organizations/${payload.organizationId}/leave-organization`,
+          data: payload.data,
+          method: "PUT",
+        });
+        if (!response.data.success) throw new Error(response.data.message);
+        dispatch(leaveOrganizationSuccess(response.data.data));
+        message.success({ content: "left organization", key: messageKey });
+      } 
+      catch (error) {
+        message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
+
 export function updateOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: UPDATE_ORGANIZATION_START });
