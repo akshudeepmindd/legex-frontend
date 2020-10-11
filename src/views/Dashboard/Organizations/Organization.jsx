@@ -126,7 +126,7 @@ const Organization = ({
           <Button
             key="4"
             //onClick={}
-            type="primary"
+            type="danger"
           >
             Delete Organization
           </Button>
