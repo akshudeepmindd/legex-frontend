@@ -39,10 +39,10 @@ const Organization = ({
   );
   const uid = localStorage.getItem("user-id");
   const handleLeave = async () => {
-    if(await dispatch(leaveOrganization({organizationId, data : {uid}})));
-      history.push("/dashboard/organizations");
+    if (await dispatch(leaveOrganization({ organizationId, data: { uid } })));
+    history.push("/dashboard/organizations");
   };
-  
+
   const renderCases = () => <CasesTable cases={organization.cases} />;
 
   const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
@@ -88,19 +88,47 @@ const Organization = ({
     }
     return (
       <>
-        <Button onClick={handleLeave} type="danger">Leave</Button>
-      </>);
+        <Button onClick={handleLeave} type="danger">
+          Leave
+        </Button>
+      </>
+    );
   }
 
   function MemberTableButtons() {
-    if (organization.owner._id === localStorage.getItem("user-id")) {
+    if (organization.owner._id === user._id) {
       return (
         <>
           <Button
+            key="1"
+            //onClick={() => setAddMemberModalVisibilty(true)}
+            type="primary"
+          >
+            Create Case
+          </Button>
+
+          <Button
+            key="2"
             onClick={() => setAddMemberModalVisibilty(true)}
             type="primary"
           >
             Add Member
+          </Button>
+
+          <Button
+            key="3"
+            //onClick={}
+            type="primary"
+          >
+            Update Organization
+          </Button>
+
+          <Button
+            key="4"
+            //onClick={}
+            type="primary"
+          >
+            Delete Organization
           </Button>
         </>
       );
@@ -109,10 +137,10 @@ const Organization = ({
   }
 
   function CasesTableButtons() {
-    if (organization.owner._id === localStorage.getItem("user-id")) {
+    if (organization.owner._id === user._id) {
       return (
         <>
-          <Button key="3" type="primary">
+          <Button key="1" type="primary">
             Invitations
           </Button>
           <Button key="2" type="primary">
@@ -170,9 +198,9 @@ const Organization = ({
           <Row>
             <PageHeader
               ghost={false}
-              //onBack={() => window.history.back()}
+              onBack={() => window.history.back()}
               title="Members"
-              subTitle="All Member's"
+              subTitle="All Members"
               extra={[<MemberTableButtons />]}
             >
               {renderMembers()}
@@ -182,7 +210,7 @@ const Organization = ({
           <Row>
             <PageHeader
               ghost={false}
-              //onBack={() => window.history.back()}
+              onBack={() => window.history.back()}
               title="Cases"
               subTitle="All Cases"
               extra={[<CasesTableButtons />]}
