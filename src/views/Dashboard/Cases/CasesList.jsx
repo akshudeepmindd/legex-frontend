@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import PropTypes, { object } from "prop-types";
 
 // ant design components
 import {
@@ -12,7 +11,6 @@ import {
   Card,
   Empty,
   Typography,
-  message,
 } from "antd";
 import { AppstoreOutlined, TableOutlined } from "@ant-design/icons";
 
@@ -133,28 +131,10 @@ const CasesList = ({
 };
 
 const mapStateToProps = (state) => ({
-  loading: state.cases.loading,
-  cases: state.cases.cases,
+  cases: state.cases,
   caseTypes: state.caseTypes.caseTypes,
-  error: state.cases.error,
   organizations: state.organizations,
   user: state.user,
 });
-
-CasesList.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.instanceOf(Object),
-  cases: PropTypes.instanceOf(Array),
-  caseTypes: PropTypes.instanceOf(Array),
-  organizations: PropTypes.arrayOf(object),
-};
-
-CasesList.defaultProps = {
-  error: {},
-  cases: null,
-  caseTypes: null,
-  organizations: null,
-};
 
 export default connect(mapStateToProps)(CasesList);

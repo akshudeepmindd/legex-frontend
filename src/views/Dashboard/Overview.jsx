@@ -208,7 +208,7 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  cases: state.cases.cases,
+  cases: state.cases,
   casesLoading: state.cases.loading,
   caseErrors: state.cases.error,
   organizations: state.organizations,

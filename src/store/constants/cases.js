@@ -1,11 +1,4 @@
-export const FETCH_CASE = 'FETCH_CASE';
-export const FETCH_CASES = 'FETCH_CASES';
-export const CREATE_CASE = 'CREATE_CASE';
-export const UPDATE_CASE = 'UPDATE_CASE';
-export const DELETE_CASE = 'DELETE_CASE';
-export const ADD_PARTY = 'ADD_PARTY';
-export const REMOVE_PARTY = 'REMOVE_PARTY';
-export const MAKE_VERDICT = 'MAKE_VERDICT';
-export const CASES_SUCCESS = 'CASES_SUCCESS';
-export const CASE_SUCCESS = 'CASE_SUCCESS';
-export const REQUEST_FAILURE = 'REQUEST_FAILURE';
+export const FETCH_CASES_START = "FETCH_CASES_START";
+export const FETCH_CASES_SUCCESS = "FETCH_CASES_SUCCESS";
+export const CREATE_CASE_SUCCESS = "CREATE_CASE_SUCCESS";
+export const CREATE_CASE_START = "CREATE_CASE_START";

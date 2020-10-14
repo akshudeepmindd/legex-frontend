@@ -1,14 +1,14 @@
-import React from 'react';
-import { PageHeader, Tag, Button, Descriptions } from 'antd';
-import PropTypes from 'prop-types';
+import React from "react";
+import { PageHeader, Tag, Button, Descriptions } from "antd";
+import PropTypes from "prop-types";
 
-const CaseHeader = ({ singleCase, showVerdictModal }) => {
+const CaseHeader = ({ caseData, showVerdictModal }) => {
   return (
     <PageHeader
       ghost={false}
-      title={singleCase.title}
-      subTitle={<a href={singleCase.meetingUrl}>meeting url</a>}
-      tags={<Tag color="blue">{singleCase.status}</Tag>}
+      title={caseData.title}
+      subTitle={<a href={caseData.meetingUrl}>meeting url</a>}
+      tags={<Tag color="blue">{caseData.status}</Tag>}
       extra={[
         <Button key="2">Suspend case</Button>,
         <Button key="1" type="primary" onClick={showVerdictModal}>
@@ -18,13 +18,13 @@ const CaseHeader = ({ singleCase, showVerdictModal }) => {
     >
       <Descriptions size="small" column={3}>
         <Descriptions.Item label="Description">
-          {singleCase.description}
+          {caseData.description}
         </Descriptions.Item>
         <Descriptions.Item label="Creation Time">
-          {new Date(singleCase.createdAt).toLocaleDateString()}
+          {new Date(caseData.createdAt).toLocaleDateString()}
         </Descriptions.Item>
         <Descriptions.Item label="Est Time">
-          {new Date(singleCase.updatedAt).toLocaleDateString()}
+          {new Date(caseData.updatedAt).toLocaleDateString()}
         </Descriptions.Item>
       </Descriptions>
     </PageHeader>
@@ -33,7 +33,7 @@ const CaseHeader = ({ singleCase, showVerdictModal }) => {
 
 CaseHeader.propTypes = {
   showVerdictModal: PropTypes.func.isRequired,
-  singleCase: PropTypes.instanceOf(Object).isRequired,
+  caseData: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default CaseHeader;
