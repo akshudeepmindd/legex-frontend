@@ -25,7 +25,14 @@ import { createCase } from "../../../store/actions/cases";
 
 const { Text } = Typography;
 
-const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
+const CasesList = ({
+  dispatch,
+  loading,
+  cases,
+  caseTypes,
+  organizations,
+  user,
+}) => {
   // create state
   const [view, setView] = useState(false);
   const [modal, setModal] = useState(false);
@@ -46,14 +53,10 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
     setView(!view);
   };
 
-  const onFinish = async (values) => {
-    const response = await dispatch(createCase({ type: "user", ...values }));
-    if (response.success) {
-      setModal(false);
-    } else {
-      message.error(response.message);
-    }
-  };
+  const onFinish = async (values) =>
+    await dispatch(
+      createCase({ createrType: "User", creater: user._id, ...values })
+    );
 
   const renderCases = () => {
     console.log(cases);
@@ -121,11 +124,7 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations }) => {
             onOk={handleOk}
             onCancel={handleCancel}
           >
-            <CaseForm
-              onFinish={onFinish}
-              caseTypes={caseTypes}
-              organizations={organizations}
-            />
+            <CaseForm onFinish={onFinish} caseTypes={caseTypes} />
           </Modal>
         </>
       ) : null}
@@ -139,6 +138,7 @@ const mapStateToProps = (state) => ({
   caseTypes: state.caseTypes.caseTypes,
   error: state.cases.error,
   organizations: state.organizations,
+  user: state.user,
 });
 
 CasesList.propTypes = {

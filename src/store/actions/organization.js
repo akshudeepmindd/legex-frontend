@@ -13,6 +13,8 @@ import {
   LEAVE_ORGANIZATION_SUCCESS,
   FETCH_ORGANIZATION_START,
   FETCH_ORGANIZATION_SUCCESS,
+  CREATE_ORGANIZATION_CASE_SUCCESS,
+  CREATE_ORGANIZATION_CASE_START,
 } from "../constants/organization";
 
 const fetchOrganizationSuccess = (organization) => ({
@@ -24,14 +26,17 @@ const deleteOrganizationSuccess = (organization) => ({
   type: DELETE_ORGANIZATION_SUCCESS,
   payload: organization,
 });
+
 const leaveOrganizationSuccess = (organization) => ({
   type: LEAVE_ORGANIZATION_SUCCESS,
   payload: organization,
-})
+});
+
 const updateOrganizationSuccess = (organization) => ({
   type: UPDATE_ORGANIZATION_SUCCESS,
   payload: organization,
 });
+
 const addMemberSuccess = (organization) => ({
   type: ADD_MEMBER_SUCCESS,
   payload: organization,
@@ -40,6 +45,11 @@ const addMemberSuccess = (organization) => ({
 const removeMemberSuccess = (organization) => ({
   type: REMOVE_MEMBER_SUCCESS,
   payload: organization,
+});
+
+const createCaseSuccess = (c) => ({
+  type: CREATE_ORGANIZATION_CASE_SUCCESS,
+  payload: c,
 });
 
 export function fetchOrganization(payload) {
@@ -67,6 +77,30 @@ export function fetchOrganization(payload) {
   };
 }
 
+export function createCase(payload) {
+  return async (dispatch) => {
+    console.log(payload);
+    const messageKey = "create case";
+    dispatch({ type: CREATE_ORGANIZATION_CASE_START });
+    try {
+      message.loading({ content: "creating new case...", key: messageKey });
+      const response = await $http()({
+        url: "/cases",
+        data: payload,
+        method: "POST",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(createCaseSuccess(response.data.data));
+      message.success({
+        content: "case created successfully",
+        key: messageKey,
+      });
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
+
 export function addMember(payload) {
   return async (dispatch) => {
     dispatch({ type: ADD_MEMBER_START });
@@ -86,6 +120,7 @@ export function addMember(payload) {
     }
   };
 }
+
 export function removeMember(payload) {
   return async (dispatch) => {
     dispatch({ type: REMOVE_MEMBER_START });
@@ -105,24 +140,24 @@ export function removeMember(payload) {
     }
   };
 }
-export function leaveOrganization(payload){
+
+export function leaveOrganization(payload) {
   return async (dispatch) => {
-    dispatch({type : LEAVE_ORGANIZATION_START});
+    dispatch({ type: LEAVE_ORGANIZATION_START });
     const messageKey = "leave organization";
     console.log(payload.data);
-    try{
-        message.loading({content : "leaving organization",key : messageKey});
-        const response = await $http()({
-          url : `/organizations/${payload.organizationId}/leave-organization`,
-          data: payload.data,
-          method: "PUT",
-        });
-        if (!response.data.success) throw new Error(response.data.message);
-        dispatch(leaveOrganizationSuccess(response.data.data));
-        message.success({ content: "left organization", key: messageKey });
-      } 
-      catch (error) {
-        message.error({ content: error.message, key: messageKey });
+    try {
+      message.loading({ content: "leaving organization", key: messageKey });
+      const response = await $http()({
+        url: `/organizations/${payload.organizationId}/leave-organization`,
+        data: payload.data,
+        method: "PUT",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(leaveOrganizationSuccess(response.data.data));
+      message.success({ content: "left organization", key: messageKey });
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
     }
   };
 }

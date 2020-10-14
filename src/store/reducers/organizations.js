@@ -12,8 +12,9 @@ import {
   REMOVE_MEMBER_SUCCESS,
   REMOVE_MEMBER_START,
   UPDATE_ORGANIZATION_SUCCESS,
-  LEAVE_ORGANIZATION_SUCCESS
-}from "../constants/organization";
+  LEAVE_ORGANIZATION_SUCCESS,
+  CREATE_ORGANIZATION_CASE_SUCCESS,
+} from "../constants/organization";
 
 export const initialState = null;
 export default function organizationsReducers(state = initialState, action) {
@@ -23,22 +24,30 @@ export default function organizationsReducers(state = initialState, action) {
 
     case CREATE_ORGANIZATION_SUCCESS:
       return [...state, action.payload];
-    
+
     case LEAVE_ORGANIZATION_SUCCESS:
     case DELETE_ORGANIZATION_SUCCESS:
       return [...state.filter((org) => org._id !== action.payload._id)];
-    
+
     case ADD_MEMBER_SUCCESS:
-    case REMOVE_MEMBER_SUCCESS :
+    case REMOVE_MEMBER_SUCCESS:
     case UPDATE_ORGANIZATION_SUCCESS:
-        return  state.map((org) => org._id === action.payload._id ? action.payload : org );  
-    
+      return state.map((org) =>
+        org._id === action.payload._id ? action.payload : org
+      );
+
+    case CREATE_ORGANIZATION_CASE_SUCCESS:
+      return state.map((org) => {
+        if (org._id === action.payload.creater) org.cases.push(action.payload);
+        return org;
+      });
+
     case LOGOUT_USER:
       return initialState;
     case FETCH_ORGANIZATIONS_START:
     case CREATE_ORGANIZATION_START:
     case DELETE_ORGANIZATION_START:
-    case REMOVE_MEMBER_START :
+    case REMOVE_MEMBER_START:
     default:
       return state;
   }

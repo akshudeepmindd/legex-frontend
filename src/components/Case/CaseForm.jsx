@@ -6,32 +6,15 @@ import { useSelector } from "react-redux";
 const { Option } = Select;
 const { TextArea } = Input;
 
-const CaseForm = ({
-  onFinish,
-  title,
-  description,
-  caseTypes,
-  caseType,
-  organization,
-  organizations,
-}) => {
-  const user = useSelector((state) => state.users.user);
+const CaseForm = ({ onFinish, title, description, caseTypes, caseType }) => {
+  const user = useSelector((state) => state.user);
   const renderCaseTypes = () => {
-    return caseTypes.map((d, index) => (
-      <Option key={index} value={d._id}>
-        {d.name}
+    return caseTypes.map((ct, index) => (
+      <Option key={index} value={ct._id}>
+        {ct.name}
       </Option>
     ));
   };
-  const renderUserOrganizations = () =>
-    organizations.map(
-      (organization, index) =>
-        organization.owner._id === user._id && (
-          <Option key={index} value={organization._id}>
-            {organization.name}
-          </Option>
-        )
-    );
   return (
     <Form name="CaseForm" onFinish={onFinish}>
       <Form.Item
@@ -58,14 +41,7 @@ const CaseForm = ({
           {renderCaseTypes()}
         </Select>
       </Form.Item>
-      {/* <Form.Item
-        name="organization"
-        rules={[{ required: true, message: "Please select an organization!" }]}
-      >
-        <Select placeholder="organization" value={organization}>
-          {renderUserOrganizations()}
-        </Select>
-      </Form.Item> */}
+
       <Form.Item>
         <Button type="primary" htmlType="submit">
           Submit
@@ -82,7 +58,6 @@ CaseForm.propTypes = {
   caseType: PropTypes.string,
   caseTypes: PropTypes.arrayOf(object).isRequired,
   organization: PropTypes.string,
-  organizations: PropTypes.arrayOf(object).isRequired,
 };
 
 CaseForm.defaultProps = {

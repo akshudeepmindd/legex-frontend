@@ -8,10 +8,16 @@ import {
   addMember,
   leaveOrganization,
   fetchOrganization,
+  createCase,
 } from "../../../store/actions/organization";
 import Modal from "antd/lib/modal/Modal";
 import MembersTable from "../../../components/Organization/MembersTable";
-import { OrganizationForm, AddMemForm, CasesTable } from "../../../components";
+import {
+  OrganizationForm,
+  AddMemForm,
+  CasesTable,
+  CaseForm,
+} from "../../../components";
 import { useEffect } from "react";
 
 const Organization = ({
@@ -20,6 +26,7 @@ const Organization = ({
   organizationId,
   user,
   history,
+  caseTypes,
 }) => {
   useEffect(() => {
     dispatch(fetchOrganization(organizationId));
@@ -49,6 +56,9 @@ const Organization = ({
   const [addMemberModalVisibility, setAddMemberModalVisibilty] = useState(
     false
   );
+  const [createCaseModalVisibility, setCreateCaseModalVisibilty] = useState(
+    false
+  );
 
   const onUpdateFinish = async (values) =>
     await dispatch(
@@ -65,6 +75,15 @@ const Organization = ({
         data: values,
       })
     )) && setAddMemberModalVisibilty(false);
+
+  const onCreateCaseFinish = async (values) =>
+    await dispatch(
+      createCase({
+        createrType: "Organization",
+        creater: organization._id,
+        ...values,
+      })
+    );
 
   function Conditionally() {
     if (organization.owner._id === user._id) {
@@ -143,7 +162,11 @@ const Organization = ({
           <Button key="1" type="primary">
             Invitations
           </Button>
-          <Button key="2" type="primary">
+          <Button
+            key="2"
+            type="primary"
+            onClick={() => setCreateCaseModalVisibilty(true)}
+          >
             New Case
           </Button>
         </>
@@ -183,10 +206,10 @@ const Organization = ({
                         {new Date(organization.createdAt).toLocaleDateString()}
                       </Descriptions.Item>
                       <Descriptions.Item label="Owner">
-                        {
-                          /* {new Date(organization.updatedAt).toLocaleDateString()} */
-                          organization.owner.email
-                        }
+                        {organization.owner.name +
+                          "(" +
+                          organization.owner.email +
+                          ")"}
                       </Descriptions.Item>
                     </Descriptions>
                   </PageHeader>
@@ -242,6 +265,19 @@ const Organization = ({
           >
             <AddMemForm onFinish={onAddFinish} />
           </Modal>
+
+          <Modal
+            title="Case Form"
+            visible={createCaseModalVisibility}
+            onFinish={onCreateCaseFinish}
+            onCancel={() => setCreateCaseModalVisibilty(false)}
+          >
+            <CaseForm
+              onFinish={onCreateCaseFinish}
+              caseTypes={caseTypes}
+              // organizations={organizations}
+            />
+          </Modal>
         </DashboardLayout>
       ) : (
         "loading..."
@@ -255,6 +291,7 @@ const mapStateToProps = (state, ownProps) => ({
   user: state.user,
   organizationId: ownProps.match.params.organizationId,
   history: ownProps.history,
+  caseTypes: state.caseTypes.caseTypes,
 });
 
 export default connect(mapStateToProps)(Organization);

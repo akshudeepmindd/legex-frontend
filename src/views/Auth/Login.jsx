@@ -14,8 +14,7 @@ import {
 const { Title } = Typography;
 
 const Login = ({ auth, dispatch }) => {
-  const onFinish = (values) =>
-    console.log(values) & dispatch(loginUser(values));
+  const onFinish = (values) => dispatch(loginUser(values));
 
   const googleLogin = () => {
     dispatch(googleOAuth());

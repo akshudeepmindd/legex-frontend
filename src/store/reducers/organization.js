@@ -11,6 +11,8 @@ import {
   LEAVE_ORGANIZATION_START,
   FETCH_ORGANIZATION_START,
   DELETE_ORGANIZATION_START,
+  CREATE_ORGANIZATION_CASE_SUCCESS,
+  CREATE_ORGANIZATION_CASE_START,
 } from "../constants/organization";
 export const initialState = null;
 
@@ -22,6 +24,10 @@ export default function organizationReducer(state = initialState, action) {
     case REMOVE_MEMBER_SUCCESS:
     case LEAVE_ORGANIZATION_SUCCESS:
       return action.payload;
+
+    case CREATE_ORGANIZATION_CASE_SUCCESS:
+      return { ...state, cases: [...state.cases, action.payload] };
+
     case LOGOUT_USER:
     case DELETE_ORGANIZATION_SUCCESS:
       return initialState;
@@ -30,6 +36,7 @@ export default function organizationReducer(state = initialState, action) {
     case LEAVE_ORGANIZATION_START:
     case FETCH_ORGANIZATION_START:
     case DELETE_ORGANIZATION_START:
+    case CREATE_ORGANIZATION_CASE_START:
     default:
       return state;
   }

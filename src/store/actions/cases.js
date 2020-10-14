@@ -1,3 +1,4 @@
+import { message } from "antd";
 import $http from "../../utils/api";
 import {
   FETCH_CASES,
@@ -33,7 +34,7 @@ export function fetchCases() {
     dispatch({ type: FETCH_CASES });
     try {
       const response = await $http()({ url: "/cases", method: "GET" });
-      console.log(response.data)
+      console.log(response.data);
       return dispatch(casesSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -45,7 +46,10 @@ export function fetchCase(payload) {
   return async (dispatch) => {
     dispatch({ type: FETCH_CASE });
     try {
-      const response = await $http()({ url: `/cases/${payload}`, method: "GET" });
+      const response = await $http()({
+        url: `/cases/${payload}`,
+        method: "GET",
+      });
       return dispatch(caseSuccess(response.data.data));
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -55,17 +59,23 @@ export function fetchCase(payload) {
 
 export function createCase(payload) {
   return async (dispatch) => {
+    const messageKey = "create case";
     dispatch({ type: CREATE_CASE });
     try {
+      message.loading({ content: "creating new case...", key: messageKey });
       const response = await $http()({
         url: "/cases",
         data: payload,
         method: "POST",
       });
+      if (!response.data.success) throw new Error(response.data.message);
       dispatch(caseSuccess(response.data.data));
-      return response.data;
+      message.success({
+        content: "case created successfully",
+        key: messageKey,
+      });
     } catch (error) {
-      return dispatch(requestFailure(error));
+      message.error({ content: error.message, key: messageKey });
     }
   };
 }

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { fetchOrganizations } from "./store/actions/organizations";
 import { fetchUser } from "./store/actions/user";
 import { fetchCaseTypes } from "./store/actions/caseTypes";
+import { fetchCases } from "./store/actions/cases";
 
 import {
   Home,
@@ -24,7 +25,6 @@ import {
   Organization,
   Appointments,
 } from "./views";
-import { fetchCases } from "./store/actions/cases";
 
 function App({ dispatch, auth }) {
   //all the initial data fetching happens here
