@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Typography } from 'antd';
 import { connect } from 'react-redux';
 
@@ -8,47 +9,34 @@ import { forgotPassword } from '../../store/actions/auth';
 
 const { Title } = Typography;
 
-class ForgotPassword extends Component {
+function ForgotPassword({ forgot }) {
+  const [email] = useState('');
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: ''
-    }
+  function onFinish(values) {
+    forgot(values);
   }
-
-  onFinish = (values) => {
-    this.props.forgotPassword(values);
-  }
-
-  onEmailChange = (email) => {
-    this.setState({
-      email: email
-    })
-  }
-
-  render() {
-    return (
-      <AuthLayout>
-        <Title>Having trouble logging in?</Title>
-        <p>Enter your IBMid to reset your password.</p>
-        <ForgotPasswordForm
-          email={this.state.email}
-          onEmailChange={this.onEmailChange}
-          onFinish={this.onFinish}
-        />
-      </AuthLayout>
-    )
-  }
+  return (
+    <AuthLayout>
+      <Title>Having trouble logging in?</Title>
+      <p>Enter your IBMid to reset your password.</p>
+      <ForgotPasswordForm email={email} onFinish={onFinish} />
+    </AuthLayout>
+  );
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  forgotPassword: payload => dispatch(forgotPassword(payload))
-})
+  forgot: (payload) => dispatch(forgotPassword(payload)),
+});
 
 const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
 });
+
+ForgotPassword.defaultProps = {};
+
+ForgotPassword.propTypes = {
+  forgot: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

@@ -1,14 +1,297 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
+import { Row, Col, PageHeader, Descriptions, Button } from "antd";
+import { connect } from "react-redux";
+import { DashboardLayout } from "../../../layouts";
+import {
+  deleteOrganization,
+  updateOrganization,
+  addMember,
+  leaveOrganization,
+  fetchOrganization,
+  createCase,
+} from "../../../store/actions/organization";
+import Modal from "antd/lib/modal/Modal";
+import MembersTable from "../../../components/Organization/MembersTable";
+import {
+  OrganizationForm,
+  AddMemForm,
+  CasesTable,
+  CaseForm,
+} from "../../../components";
+import { useEffect } from "react";
 
-import { DashboardLayout } from '../../../layouts';
+const Organization = ({
+  dispatch,
+  organization,
+  organizationId,
+  user,
+  history,
+  caseTypes,
+}) => {
+  useEffect(() => {
+    dispatch(fetchOrganization(organizationId));
+  }, [organizationId, dispatch]);
 
-class Organization extends Component {
-  render() {
+  const handleDelete = async () => {
+    if (await dispatch(deleteOrganization(organizationId)))
+      history.push("/dashboard/organizations");
+  };
+  const renderMembers = () => (
+    <MembersTable
+      members={organization.members}
+      owner={organization.owner}
+      user={user._id}
+      organizationId={organizationId}
+    />
+  );
+  const uid = localStorage.getItem("user-id");
+  const handleLeave = async () => {
+    if (await dispatch(leaveOrganization({ organizationId, data: { uid } })));
+    history.push("/dashboard/organizations");
+  };
+
+  const renderCases = () => <CasesTable cases={organization.cases} />;
+
+  const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
+  const [addMemberModalVisibility, setAddMemberModalVisibilty] = useState(
+    false
+  );
+  const [createCaseModalVisibility, setCreateCaseModalVisibilty] = useState(
+    false
+  );
+
+  const onUpdateFinish = async (values) =>
+    await dispatch(
+      updateOrganization({
+        organizationId,
+        data: values,
+      })
+    );
+
+  const onAddFinish = async (values) =>
+    (await dispatch(
+      addMember({
+        organizationId,
+        data: values,
+      })
+    )) && setAddMemberModalVisibilty(false);
+
+  const onCreateCaseFinish = async (values) =>
+    await dispatch(
+      createCase({
+        createrType: "Organization",
+        creater: organization._id,
+        ...values,
+      })
+    );
+
+  function Conditionally() {
+    if (organization.owner._id === user._id) {
+      return (
+        <>
+          <Button onClick={() => setAddMemberModalVisibilty(true)}>
+            Add Members
+          </Button>
+          <Button key="2" type="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+          <Button
+            key="1"
+            type="primary"
+            onClick={() => setUpdateOrganizationModal(true)}
+          >
+            Update
+          </Button>
+        </>
+      );
+    }
     return (
-      <DashboardLayout>
-      </DashboardLayout>
-    )
+      <>
+        <Button onClick={handleLeave} type="danger">
+          Leave
+        </Button>
+      </>
+    );
   }
-}
 
-export default Organization;
+  function MemberTableButtons() {
+    if (organization.owner._id === user._id) {
+      return (
+        <>
+          <Button
+            key="1"
+            //onClick={() => setAddMemberModalVisibilty(true)}
+            type="primary"
+          >
+            Create Case
+          </Button>
+
+          <Button
+            key="2"
+            onClick={() => setAddMemberModalVisibilty(true)}
+            type="primary"
+          >
+            Add Member
+          </Button>
+
+          <Button
+            key="3"
+            //onClick={}
+            type="primary"
+          >
+            Update Organization
+          </Button>
+
+          <Button
+            key="4"
+            //onClick={}
+            type="danger"
+          >
+            Delete Organization
+          </Button>
+        </>
+      );
+    }
+    return <></>;
+  }
+
+  function CasesTableButtons() {
+    if (organization.owner._id === user._id) {
+      return (
+        <>
+          <Button key="1" type="primary">
+            Invitations
+          </Button>
+          <Button
+            key="2"
+            type="primary"
+            onClick={() => setCreateCaseModalVisibilty(true)}
+          >
+            New Case
+          </Button>
+        </>
+      );
+    }
+    return <></>;
+  }
+
+  return (
+    <>
+      {organization && user ? (
+        <DashboardLayout>
+          <Row
+            gutter={[
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+              { xs: 8, sm: 16, md: 24, lg: 32 },
+            ]}
+          >
+            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+              <Row
+                gutter={[
+                  { xs: 8, sm: 16, md: 24, lg: 32 },
+                  { xs: 8, sm: 16, md: 24, lg: 32 },
+                ]}
+              >
+                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                  <PageHeader
+                    ghost={false}
+                    title={organization.name}
+                    extra={[<Conditionally />]}
+                  >
+                    <Descriptions size="small" column={3}>
+                      <Descriptions.Item label="Domain">
+                        <a href={organization.domain}>{organization.domain}</a>
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Creation Time">
+                        {new Date(organization.createdAt).toLocaleDateString()}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Owner">
+                        {organization.owner.name +
+                          "(" +
+                          organization.owner.email +
+                          ")"}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </PageHeader>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+
+          <Row>
+            <PageHeader
+              ghost={false}
+              onBack={() => window.history.back()}
+              title="Members"
+              subTitle="All Members"
+              extra={[<MemberTableButtons />]}
+            >
+              {renderMembers()}
+            </PageHeader>
+          </Row>
+
+          <Row>
+            <PageHeader
+              ghost={false}
+              onBack={() => window.history.back()}
+              title="Cases"
+              subTitle="All Cases"
+              extra={[<CasesTableButtons />]}
+            >
+              {renderCases()}
+            </PageHeader>
+          </Row>
+
+          <Modal
+            title="Organization Form"
+            visible={updateOrganizationModal}
+            onCancel={() => setUpdateOrganizationModal(false)}
+            destroyOnClose={true}
+            footer={null}
+          >
+            <OrganizationForm
+              onFinish={onUpdateFinish}
+              name={organization.name}
+              domain={organization.domain}
+            />
+          </Modal>
+
+          <Modal
+            title="Add Member"
+            visible={addMemberModalVisibility}
+            onCancel={() => setAddMemberModalVisibilty(false)}
+            footer={null}
+            destroyOnClose={true}
+          >
+            <AddMemForm onFinish={onAddFinish} />
+          </Modal>
+
+          <Modal
+            title="Case Form"
+            visible={createCaseModalVisibility}
+            onFinish={onCreateCaseFinish}
+            onCancel={() => setCreateCaseModalVisibilty(false)}
+          >
+            <CaseForm
+              onFinish={onCreateCaseFinish}
+              caseTypes={caseTypes}
+              // organizations={organizations}
+            />
+          </Modal>
+        </DashboardLayout>
+      ) : (
+        "loading..."
+      )}
+    </>
+  );
+};
+
+const mapStateToProps = (state, ownProps) => ({
+  organization: state.organization,
+  user: state.user,
+  organizationId: ownProps.match.params.organizationId,
+  history: ownProps.history,
+  caseTypes: state.caseTypes.caseTypes,
+});
+
+export default connect(mapStateToProps)(Organization);

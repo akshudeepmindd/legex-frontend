@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Typography } from 'antd';
 import { connect } from 'react-redux';
 
@@ -14,48 +15,54 @@ class ResetPassword extends Component {
     this.state = {
       password: '',
       confirmPassword: '',
-    }
+    };
   }
 
   onFinish = (values) => {
-    this.props.resetPassword(values);
-  }
+    const { resetPassword } = this.props;
+    resetPassword(values);
+  };
 
   onPasswordChange = (password) => {
     this.setState({
-      password: password
-    })
-  }
+      password,
+    });
+  };
 
   onConfirmPasswordChange = (confirmPassword) => {
     this.setState({
-      confirmPassword: confirmPassword
-    })
-  }
+      confirmPassword,
+    });
+  };
 
   render() {
+    const { password, confirmPassword } = this.state;
     return (
       <AuthLayout>
         <Title>Reset Password</Title>
         <ResetPasswordForm
-          password={this.state.password}
-          confirmPassword={this.state.confirmPassword}
+          password={password}
+          confirmPassword={confirmPassword}
           onPasswordChange={this.onPasswordChange}
           onConfirmPasswordChange={this.onConfirmPasswordChange}
           onFinish={this.onFinish}
         />
       </AuthLayout>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  resetPassword: payload => dispatch(resetPassword(payload))
-})
+  resetPassword: (payload) => dispatch(resetPassword(payload)),
+});
 
 const mapStateToProps = (state) => ({
   loading: state.auth.loading,
   error: state.auth.error,
 });
+
+ResetPassword.propTypes = {
+  resetPassword: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);

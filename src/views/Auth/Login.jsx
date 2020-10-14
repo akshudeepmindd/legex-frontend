@@ -1,63 +1,51 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Typography } from 'antd';
+import React, { useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { Typography, message } from "antd";
 
-import { AuthLayout } from '../../layouts';
-import { LoginForm } from '../../components';
-import { loginUser } from '../../store/actions/auth';
+import { AuthLayout } from "../../layouts";
+import { LoginForm } from "../../components";
+import {
+  loginUser,
+  googleOAuth,
+  facebookOAuth,
+} from "../../store/actions/auth";
 
 const { Title } = Typography;
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-    }
-  }
+const Login = ({ auth, dispatch }) => {
+  const onFinish = (values) => dispatch(loginUser(values));
 
-  onFinish = (values) => {
-    this.props.loginUser(values);
-  }
+  const googleLogin = () => {
+    dispatch(googleOAuth());
+  };
 
-  onEmailChange = email => {
-    this.setState({
-      email,
-    })
-  }
+  const facebookLogin = () => {
+    dispatch(facebookOAuth());
+  };
 
-  onPasswordChange = password => {
-    this.setState({
-      password,
-    })
-  }
-
-  render() {
-    return (
-      <AuthLayout>
-        <Title>Log in to Legex O.D.R.</Title>
-        <p>Don't have an account? <Link to="/register">Create an account</Link></p>
-        <LoginForm
-          onEmailChange={this.onEmailChange}
-          onPasswordChange={this.onPasswordChange}
-          email={this.state.email}
-          password={this.state.password}
-          onFinish={this.onFinish}
-        />
-      </AuthLayout>
-    )
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  loginUser: payload => dispatch(loginUser(payload))
-})
+  return (
+    <>
+      {!auth ? (
+        <AuthLayout>
+          <Title>Log in</Title>
+          <p>
+            Don't have an account? <Link to="/register">Create an account</Link>
+          </p>
+          <LoginForm
+            onFinish={onFinish}
+            googleLogin={googleLogin}
+            facebookLogin={facebookLogin}
+          />
+        </AuthLayout>
+      ) : (
+        <Redirect to="/dashboard/overview" />
+      )}
+    </>
+  );
+};
 
 const mapStateToProps = (state) => ({
-  loading: state.auth.loading,
-  error: state.auth.error,
+  auth: state.auth,
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps)(Login);

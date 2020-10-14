@@ -1,92 +1,52 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { Typography, message } from "antd";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
-import { AuthLayout } from '../../layouts';
-import { RegisterForm } from '../../components';
-import { registerUser } from '../../store/actions/auth';
-const {Title} = Typography;
+import { AuthLayout } from "../../layouts";
+import { RegisterForm } from "../../components";
+import {
+  registerUser,
+  googleOAuth,
+  facebookOAuth,
+} from "../../store/actions/auth";
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-       firstName: '',
-       lastName: '',
-       email: '',
-       phone: '',
-       password: '',
-       confirmPassword: '',
-    }
-  }
+const { Title } = Typography;
 
-  onFinish = (value) => {
+const Register = ({ auth, dispatch }) => {
+  const onFinish = async (values) => await dispatch(registerUser(values));
 
-  }
+  const googleLogin = () => {
+    dispatch(googleOAuth());
+  };
 
-  onChangeFirstName = (firstName) => {
-    this.setState({
-      firstName: firstName,
-    })
-  }
+  const facebookLogin = () => {
+    dispatch(facebookOAuth());
+  };
 
-  onChangeLastName = (lastName) => {
-    this.setState({
-      lastName: lastName,
-    })
-  }
-
-  onChangeEmail = (email) => {
-    this.setState({
-      email: email
-    })
-  }
-
-  onChangePassword = (password) => {
-    this.setState({
-      password: password
-    })
-  }
-
-  onChangeConfirmPassword = (confirmPassword) => {
-    this.setState({
-      confirmPassword: confirmPassword
-    })
-  }
-
-  render() {
-    return (
-      <AuthLayout>
-        <p>Already have an IBM Cloud account? <Link to="/login">Log in</Link></p>
-        <Title>Create an account</Title>
-        <RegisterForm
-          onFinish={this.onFinish}
-          onChangeFirstName={this.onChangeFirstName}
-          onChangeLastName={this.onChangeLastName}
-          onChangeEmail={this.onChangeEmail}
-          onChangePhone={this.onChangePhone}
-          onChangePassword={this.onChangePassword}
-          onChangeConfirmPassword={this.onChangeConfirmPassword}
-          firstName={this.state.firstName}
-          lastName={this.state.lastName}
-          email={this.state.email}
-          phone={this.state.phone}
-          password={this.state.password}
-          confirmPassword={this.state.confirmPassword}
-        />
-      </AuthLayout>
-    )
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  registerUser: payload => dispatch(registerUser(payload))
-})
+  return (
+    <>
+      {!auth ? (
+        <AuthLayout>
+          <p>
+            Already have a Legex O.D.R. account? <Link to="/login">Log in</Link>
+          </p>
+          <Title>Create an account</Title>
+          <RegisterForm
+            onFinish={onFinish}
+            googleLogin={googleLogin}
+            facebookLogin={facebookLogin}
+          />
+        </AuthLayout>
+      ) : (
+        <Redirect to="/dashboard/overview" />
+      )}
+    </>
+  );
+};
 
 const mapStateToProps = (state) => ({
-  loading: state.auth.loading,
-  error: state.auth.error,
-})
+  auth: state.auth,
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps)(Register);
