@@ -12,10 +12,10 @@ import {
 } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { PropTypes } from "prop-types";
 import { useParams, Link } from "react-router-dom";
 
 import { DashboardLayout } from "../../../layouts";
+
 import {
   CaseHeader,
   InviteForm,
@@ -66,6 +66,8 @@ const Case = ({ dispatch, caseData }) => {
     setInviteModal(false);
     setDocumentModal(false);
   };
+
+  const onInvitationFormSubmit = (values) => console.log(values);
 
   return (
     <DashboardLayout>
@@ -224,7 +226,7 @@ const Case = ({ dispatch, caseData }) => {
             onOk={handleOk}
             onCancel={handleCancel}
           >
-            <InviteForm />
+            <InviteForm onFinish={onInvitationFormSubmit} />
           </Modal>
 
           <Modal

@@ -10,8 +10,7 @@ import ProfileForm from "./Auth/ProfileForm";
 
 import ClientCard from "./Clients/ClientCard";
 
-import InviteForm from "./Organization/InviteForm";
-
+import InviteForm from "./Case/InviteForm";
 import CaseCard from "./Case/CaseCard";
 import CaseForm from "./Case/CaseForm";
 import CasesTable from "./Case/CasesTable";
