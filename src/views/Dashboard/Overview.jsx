@@ -209,8 +209,6 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
 const mapStateToProps = (state) => ({
   user: state.user,
   cases: state.cases,
-  casesLoading: state.cases.loading,
-  caseErrors: state.cases.error,
   organizations: state.organizations,
 });
 
@@ -220,15 +218,6 @@ Overview.propTypes = {
   cases: PropTypes.instanceOf(Array),
   organizations: PropTypes.instanceOf(Array),
   messages: PropTypes.instanceOf(Array),
-  casesLoading: PropTypes.bool.isRequired,
-  organizationsLoading: PropTypes.bool.isRequired,
-};
-
-Overview.defaultProps = {
-  user: {},
-  cases: [],
-  organizations: [],
-  messages: [],
 };
 
 export default connect(mapStateToProps)(Overview);
