@@ -1,13 +1,4 @@
-import {
-  FETCH_CASE_TYPES,
-  FETCH_CASE_TYPE,
-  // CREATE_CASE_TYPE,
-  // UPDATE_CASE_TYPE,
-  // DELETE_CASE_TYPE,
-  CASE_TYPES_SUCCESS,
-  CASE_TYPE_SUCCESS,
-  REQUEST_FAILURE,
-} from "../constants/caseTypes";
+import { FETCH_CASE_TYPES, CASE_TYPES_SUCCESS } from "../constants/caseTypes";
 
 export const initialState = {
   caseTypes: [],

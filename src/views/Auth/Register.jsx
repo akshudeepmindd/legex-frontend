@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { Typography, message } from "antd";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import React from "react";
+import { connect } from "react-redux";
+import { Typography } from "antd";
+import { Link, Redirect } from "react-router-dom";
 
 import { AuthLayout } from "../../layouts";
 import { RegisterForm } from "../../components";

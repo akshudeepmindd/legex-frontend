@@ -1,13 +1,11 @@
 import React from "react";
 import PropTypes, { object } from "prop-types";
 import { Form, Input, Button, Select } from "antd";
-import { useSelector } from "react-redux";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 const CaseForm = ({ onFinish, title, description, caseTypes, caseType }) => {
-  const user = useSelector((state) => state.user);
   const renderCaseTypes = () => {
     return caseTypes.map((ct, index) => (
       <Option key={index} value={ct._id}>

@@ -1,4 +1,3 @@
-import { FETCH_CASE_START } from "../constants/case";
 import {
   FETCH_CASES_START,
   FETCH_CASES_SUCCESS,
@@ -16,7 +15,7 @@ export default function casesReducers(state = initialState, action) {
     case CREATE_CASE_SUCCESS:
       return [...state, action.payload];
 
-    case FETCH_CASE_START:
+    case FETCH_CASES_START:
     case CREATE_CASE_START:
     default:
       return state;
