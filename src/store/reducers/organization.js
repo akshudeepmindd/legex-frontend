@@ -1,12 +1,12 @@
 import { LOGOUT_USER } from "../constants/auth";
 import {
-  ADD_MEMBER_SUCCESS,
+  INVITE_MEMBER_SUCCESS,
   UPDATE_ORGANIZATION_SUCCESS,
   FETCH_ORGANIZATION_SUCCESS,
   REMOVE_MEMBER_SUCCESS,
   LEAVE_ORGANIZATION_SUCCESS,
   DELETE_ORGANIZATION_SUCCESS,
-  ADD_MEMBER_START,
+  INVITE_MEMBER_START,
   REMOVE_MEMBER_START,
   LEAVE_ORGANIZATION_START,
   FETCH_ORGANIZATION_START,
@@ -18,7 +18,7 @@ export const initialState = null;
 
 export default function organizationReducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_MEMBER_SUCCESS:
+    // case INVITE_MEMBER_SUCCESS:
     case FETCH_ORGANIZATION_SUCCESS:
     case UPDATE_ORGANIZATION_SUCCESS:
     case REMOVE_MEMBER_SUCCESS:
@@ -31,7 +31,7 @@ export default function organizationReducer(state = initialState, action) {
     case LOGOUT_USER:
     case DELETE_ORGANIZATION_SUCCESS:
       return initialState;
-    case ADD_MEMBER_START:
+    case INVITE_MEMBER_START:
     case REMOVE_MEMBER_START:
     case LEAVE_ORGANIZATION_START:
     case FETCH_ORGANIZATION_START:

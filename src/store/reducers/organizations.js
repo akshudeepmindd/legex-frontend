@@ -8,7 +8,7 @@ import {
   DELETE_ORGANIZATION_START,
 } from "../constants/organizations";
 import {
-  ADD_MEMBER_SUCCESS,
+  // ADD_MEMBER_SUCCESS,
   REMOVE_MEMBER_SUCCESS,
   REMOVE_MEMBER_START,
   UPDATE_ORGANIZATION_SUCCESS,
@@ -29,7 +29,7 @@ export default function organizationsReducers(state = initialState, action) {
     case DELETE_ORGANIZATION_SUCCESS:
       return [...state.filter((org) => org._id !== action.payload._id)];
 
-    case ADD_MEMBER_SUCCESS:
+    // case ADD_MEMBER_SUCCESS:
     case REMOVE_MEMBER_SUCCESS:
     case UPDATE_ORGANIZATION_SUCCESS:
       return state.map((org) =>

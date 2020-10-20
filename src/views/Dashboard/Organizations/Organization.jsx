@@ -5,7 +5,7 @@ import { DashboardLayout } from "../../../layouts";
 import {
   deleteOrganization,
   updateOrganization,
-  addMember,
+  inviteMember,
   leaveOrganization,
   fetchOrganization,
   createCase,
@@ -44,16 +44,19 @@ const Organization = ({
       organizationId={organizationId}
     />
   );
-  const uid = localStorage.getItem("user-id");
   const handleLeave = async () => {
-    if (await dispatch(leaveOrganization({ organizationId, data: { uid } })));
+    if (
+      await dispatch(
+        leaveOrganization({ organizationId, data: { uid: user._id } })
+      )
+    );
     history.push("/dashboard/organizations");
   };
 
   const renderCases = () => <CasesTable cases={organization.cases} />;
 
   const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
-  const [addMemberModalVisibility, setAddMemberModalVisibilty] = useState(
+  const [inviteMemberModalVisibility, setInviteMemberModalVisibilty] = useState(
     false
   );
   const [createCaseModalVisibility, setCreateCaseModalVisibilty] = useState(
@@ -68,13 +71,16 @@ const Organization = ({
       })
     );
 
-  const onAddFinish = async (values) =>
+  const onInviteMemberFinish = async (values) =>
     (await dispatch(
-      addMember({
-        organizationId,
-        data: values,
+      inviteMember({
+        senderType: "Organization",
+        sender: organizationId,
+        receiverType: "User",
+        invitationType: "Organization",
+        ...values,
       })
-    )) && setAddMemberModalVisibilty(false);
+    )) && setInviteMemberModalVisibilty(false);
 
   const onCreateCaseFinish = async (values) =>
     await dispatch(
@@ -89,9 +95,6 @@ const Organization = ({
     if (organization.owner._id === user._id) {
       return (
         <>
-          <Button onClick={() => setAddMemberModalVisibilty(true)}>
-            Add Members
-          </Button>
           <Button key="2" type="danger" onClick={handleDelete}>
             Delete
           </Button>
@@ -119,35 +122,11 @@ const Organization = ({
       return (
         <>
           <Button
-            key="1"
-            //onClick={() => setAddMemberModalVisibilty(true)}
-            type="primary"
-          >
-            Create Case
-          </Button>
-
-          <Button
             key="2"
-            onClick={() => setAddMemberModalVisibilty(true)}
+            onClick={() => setInviteMemberModalVisibilty(true)}
             type="primary"
           >
-            Add Member
-          </Button>
-
-          <Button
-            key="3"
-            //onClick={}
-            type="primary"
-          >
-            Update Organization
-          </Button>
-
-          <Button
-            key="4"
-            //onClick={}
-            type="danger"
-          >
-            Delete Organization
+            Invite Member
           </Button>
         </>
       );
@@ -206,10 +185,7 @@ const Organization = ({
                         {new Date(organization.createdAt).toLocaleDateString()}
                       </Descriptions.Item>
                       <Descriptions.Item label="Owner">
-                        {organization.owner.name +
-                          "(" +
-                          organization.owner.email +
-                          ")"}
+                        {`${organization.owner.firstName} ${organization.owner.lastName}(${organization.owner.email})`}
                       </Descriptions.Item>
                     </Descriptions>
                   </PageHeader>
@@ -258,12 +234,12 @@ const Organization = ({
 
           <Modal
             title="Add Member"
-            visible={addMemberModalVisibility}
-            onCancel={() => setAddMemberModalVisibilty(false)}
+            visible={inviteMemberModalVisibility}
+            onCancel={() => setInviteMemberModalVisibilty(false)}
             footer={null}
             destroyOnClose={true}
           >
-            <AddMemForm onFinish={onAddFinish} />
+            <AddMemForm onFinish={onInviteMemberFinish} />
           </Modal>
 
           <Modal
@@ -272,11 +248,7 @@ const Organization = ({
             onFinish={onCreateCaseFinish}
             onCancel={() => setCreateCaseModalVisibilty(false)}
           >
-            <CaseForm
-              onFinish={onCreateCaseFinish}
-              caseTypes={caseTypes}
-              // organizations={organizations}
-            />
+            <CaseForm onFinish={onCreateCaseFinish} caseTypes={caseTypes} />
           </Modal>
         </DashboardLayout>
       ) : (

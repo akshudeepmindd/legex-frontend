@@ -1,8 +1,8 @@
 import $http from "../../utils/api";
 import { message } from "antd";
 import {
-  ADD_MEMBER_START,
-  ADD_MEMBER_SUCCESS,
+  INVITE_MEMBER_START,
+  INVITE_MEMBER_SUCCESS,
   REMOVE_MEMBER_START,
   REMOVE_MEMBER_SUCCESS,
   UPDATE_ORGANIZATION_START,
@@ -37,8 +37,8 @@ const updateOrganizationSuccess = (organization) => ({
   payload: organization,
 });
 
-const addMemberSuccess = (organization) => ({
-  type: ADD_MEMBER_SUCCESS,
+const inviteMemberSuccess = (organization) => ({
+  type: INVITE_MEMBER_SUCCESS,
   payload: organization,
 });
 
@@ -101,21 +101,23 @@ export function createCase(payload) {
   };
 }
 
-export function addMember(payload) {
+export function inviteMember(payload) {
   return async (dispatch) => {
-    dispatch({ type: ADD_MEMBER_START });
-    const messageKey = "add member";
+    dispatch({ type: INVITE_MEMBER_START });
+    const messageKey = "invite member";
     try {
-      message.loading({ content: "Adding member..", key: messageKey });
+      message.loading({ content: "Inviting member..", key: messageKey });
       const response = await $http()({
-        url: `/organizations/${payload.organizationId}/add-member`,
-        data: payload.data,
-        method: "PUT",
+        url: `/invites/`,
+        data: payload,
+        method: "POST",
       });
+      console.log(response.data);
       if (!response.data.success) throw new Error(response.data.message);
-      dispatch(addMemberSuccess(response.data.data));
-      message.success({ content: "member added", key: messageKey });
+      dispatch(inviteMemberSuccess(response.data.data));
+      message.success({ content: "member invited", key: messageKey });
     } catch (error) {
+      console.error(error.message);
       message.error({ content: error.message, key: messageKey });
     }
   };

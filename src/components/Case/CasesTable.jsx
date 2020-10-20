@@ -5,9 +5,7 @@ import { Table, Tag, Badge, Typography } from "antd";
 
 const { Text } = Typography;
 
-function CasesTable(props) {
-  const { cases } = props;
-  console.log(cases);
+function CasesTable({ cases }) {
   const columns = [
     {
       title: "Title",
