@@ -26,7 +26,6 @@ import {
 import { fetchCase, inviteParty } from "../../../store/actions/case"
 import { fetchUser } from "../../../store/actions/user"
 import { fetchOrganizations } from "../../../store/actions/organizations"
-import { object } from "prop-types"
 
 const { Step } = Steps
 
@@ -73,6 +72,8 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 	}
 
 	const onInvitationFormSubmit = (values) => {
+		// This will work if the user is connected to case directly or through a organization
+		// but not both
 		const senderType = caseData.caseParty.members.includes(user._id)
 			? "User"
 			: "Organization"
@@ -81,6 +82,8 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 				? user._id
 				: organizations.filter((o) => o.cases.filter((c) => c == caseId)[0])[0]
 						._id
+
+		//THIS PART IS WORKING FINE. ONLY BACKEND LEFT
 		dispatch(
 			inviteParty({
 				senderType,
