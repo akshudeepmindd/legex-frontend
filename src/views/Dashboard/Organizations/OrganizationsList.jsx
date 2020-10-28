@@ -45,11 +45,11 @@ function pendingInvitationsMenu({ invites }) {
             key={invite._id}
             onClick={() =>
               acceptConfirmation({
-                message: `Do you want to accept ${invite.sender.name}'s invitation ?`,
+                message: `Do you want to accept ${invite.sender}'s invitation ?`,
               })
             }
           >
-            {invite.sender.name}
+            {invite.sender}
           </Menu.Item>
         );
       })}
