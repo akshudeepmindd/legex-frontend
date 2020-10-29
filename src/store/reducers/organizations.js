@@ -6,6 +6,8 @@ import {
   CREATE_ORGANIZATION_SUCCESS,
   DELETE_ORGANIZATION_SUCCESS,
   DELETE_ORGANIZATION_START,
+  RESPOND_INVITE_START,
+  RESPOND_INVITE_SUCCESS
 } from "../constants/organizations";
 import {
   // ADD_MEMBER_SUCCESS,
@@ -25,6 +27,8 @@ export default function organizationsReducers(state = initialState, action) {
     case CREATE_ORGANIZATION_SUCCESS:
       return [...state, action.payload];
 
+    case RESPOND_INVITE_SUCCESS :
+      return [...state]
     case LEAVE_ORGANIZATION_SUCCESS:
     case DELETE_ORGANIZATION_SUCCESS:
       return [...state.filter((org) => org._id !== action.payload._id)];
@@ -44,6 +48,7 @@ export default function organizationsReducers(state = initialState, action) {
 
     case LOGOUT_USER:
       return initialState;
+    case RESPOND_INVITE_START :
     case FETCH_ORGANIZATIONS_START:
     case CREATE_ORGANIZATION_START:
     case DELETE_ORGANIZATION_START:
