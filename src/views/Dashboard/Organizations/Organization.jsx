@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Row, Col, PageHeader, Descriptions, Button } from "antd";
+import { Row, Col, PageHeader, Descriptions, Button, Menu, Dropdown, Space, Badge} from "antd";
+import {DownOutlined,  } from "@ant-design/icons"
 import { connect } from "react-redux";
 import { DashboardLayout } from "../../../layouts";
 import {
@@ -19,6 +20,8 @@ import {
   CaseForm,
 } from "../../../components";
 import { useEffect } from "react";
+import { respondInvite } from "../../../store/actions/organizations"
+
 
 const Organization = ({
   dispatch,
@@ -32,6 +35,16 @@ const Organization = ({
     dispatch(fetchOrganization(organizationId));
   }, [organizationId, dispatch]);
 
+  console.log(organization);
+	const [invites, setInvites] = useState([])
+
+  useEffect(() => {
+		organization &&
+			setInvites(
+				organization.invites.filter((i) =>  i.status == "waiting")
+			)
+  }, [organization])
+  
   const handleDelete = async () => {
     if (await dispatch(deleteOrganization(organizationId)))
       history.push("/dashboard/organizations");
@@ -91,6 +104,70 @@ const Organization = ({
       })
     );
 
+    const pendingInvitationsMenu = ({ invites }) => {
+      let resp ;  
+      let i;
+      console.log(invites)
+      const acceptConfirmation = ({ message }) =>
+      Modal.confirm({
+          async onOk(){
+            console.log(i)
+            resp = "Accepted"
+            await dispatch(
+              respondInvite({
+              inviteId : i._id,
+              data : {
+                resp : resp,
+                invite : i,
+              }
+              })
+            )
+  
+          },
+          async onCancel(){
+            resp = "Declined"
+            await dispatch(
+              respondInvite({
+              inviteId : i._id,
+              data : {
+                resp : resp,
+                invite : i,
+              }
+              })
+            )
+  
+          },
+          content: message,
+          cancelText: "Decline",
+          okText: "Accept",
+        })
+      return (
+        <Menu>
+          {invites.length > 0 ? (
+            invites.map((invite) => {
+              i=invite
+  
+              return (
+                <Menu.Item
+                  key={invite._id}
+                  onClick={ async () =>{
+                    acceptConfirmation({
+                      message: `Do you want to accept ${invite.sender.name || invite.sender.email}'s invitation ?`,
+                    })
+                  }
+                  }
+                  >
+                  {invite.sender.name || invite.sender.email}
+                </Menu.Item>
+              )
+            })
+          ) : (
+            <Menu.Item>No Pending Invites</Menu.Item>
+          )}
+        </Menu>
+      )
+    }
+
   function Conditionally() {
     if (organization.owner._id === user._id) {
       return (
@@ -138,9 +215,24 @@ const Organization = ({
     if (organization.owner._id === user._id) {
       return (
         <>
-          <Button key="1" type="primary">
+          {/* <Button key="1" type="primary">
             Invitations
-          </Button>
+          </Button> */}
+          <Dropdown
+										key="3"
+										overlay={pendingInvitationsMenu({
+											invites,
+										})}
+										trigger={["click"]}
+									>
+										<Button>
+											<Space direction="horizontal">
+												<Badge count={invites.length} overflowCount={9} showZero={false} />
+												Pending Invitations
+												{invites.length > 0 && <DownOutlined />}
+											</Space>
+										</Button>
+									</Dropdown>
           <Button
             key="2"
             type="primary"

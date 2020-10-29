@@ -71,7 +71,7 @@ export function respondInvite(payload){
     try {
       message.loading({ content: "Responding Invitation", key: messageKey });
       const response = await $http()({
-        url: `/invites//response/${payload.inviteId}`,
+        url: `/invites/response/${payload.inviteId}`,
         data: payload.data,
         method: "PUT",
       });
