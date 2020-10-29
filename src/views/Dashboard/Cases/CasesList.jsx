@@ -1,140 +1,180 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react"
+import { connect } from "react-redux"
 
 // ant design components
 import {
-  Row,
-  Col,
-  PageHeader,
-  Modal,
-  Button,
-  Card,
-  Empty,
-  Typography,
-} from "antd";
-import { AppstoreOutlined, TableOutlined } from "@ant-design/icons";
+	Row,
+	Col,
+	PageHeader,
+	Modal,
+	Button,
+	Card,
+	Empty,
+	Typography,
+	Menu,
+	Badge,
+	Dropdown,
+	Space,
+} from "antd"
+import { AppstoreOutlined, DownOutlined, TableOutlined } from "@ant-design/icons"
 
 // components
-import { DashboardLayout } from "../../../layouts";
-import { CaseCard, CasesTable, CaseForm } from "../../../components";
+import { DashboardLayout } from "../../../layouts"
+import { CaseCard, CasesTable, CaseForm } from "../../../components"
 
 // redux actions
-import { createCase } from "../../../store/actions/cases";
+import { createCase } from "../../../store/actions/cases"
 
-const { Text } = Typography;
+const { Text } = Typography
 
-const CasesList = ({
-  dispatch,
-  loading,
-  cases,
-  caseTypes,
-  organizations,
-  user,
-}) => {
-  // create state
-  const [view, setView] = useState(false);
-  const [modal, setModal] = useState(false);
+function pendingInvitationsMenu({ invites }) {
+	const acceptConfirmation = ({ message }) =>
+		Modal.confirm({
+			content: message,
+			cancelText: "Decline",
+			okText: "Accept",
+		})
+	return (
+		<Menu>
+			{invites.length > 0 ? (
+				invites.map((invite) => {
+					return (
+						<Menu.Item
+							key={invite._id}
+							onClick={() =>
+								acceptConfirmation({
+									message: `Do you want to accept ${invite.sender.firstName} ${invite.sender.lastName}'s invitation ?`,
+								})
+							}
+						>
+							{`${invite.sender.firstName} ${invite.sender.lastName}`}
+						</Menu.Item>
+					)
+				})
+			) : (
+				<Menu.Item>No Pending Invites</Menu.Item>
+			)}
+		</Menu>
+	)
+}
 
-  const showModal = () => {
-    setModal(true);
-  };
+const CasesList = ({ dispatch, loading, cases, caseTypes, organizations, user }) => {
+	const [view, setView] = useState(false)
+	const [modal, setModal] = useState(false)
+	const [invites, setInvites] = useState([])
 
-  const handleOk = () => {
-    setModal(false);
-  };
+	useEffect(() => {
+		user &&
+			setInvites(user.invites.filter((i) => i.invitationType == "Case" && i.status == "waiting"))
+	}, [user])
+	const showModal = () => {
+		setModal(true)
+	}
 
-  const handleCancel = () => {
-    setModal(false);
-  };
+	const handleOk = () => {
+		setModal(false)
+	}
 
-  const toggleView = () => {
-    setView(!view);
-  };
+	const handleCancel = () => {
+		setModal(false)
+	}
 
-  const onFinish = async (values) =>
-    await dispatch(
-      createCase({ createrType: "User", creater: user._id, ...values })
-    );
+	const toggleView = () => {
+		setView(!view)
+	}
 
-  const renderCases = () => {
-    console.log(cases);
-    if (cases.length > 0) {
-      if (view) {
-        return (
-          <Row
-            gutter={[
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-            ]}
-          >
-            {cases.map((data) => (
-              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                <CaseCard data={data} />
-              </Col>
-            ))}
-          </Row>
-        );
-      }
-      return <CasesTable cases={cases} loading={loading} />;
-    }
-    return (
-      <Card bordered={false}>
-        <Empty description={<Text>No Cases Found</Text>} />
-      </Card>
-    );
-  };
+	const onFinish = async (values) =>
+		await dispatch(createCase({ createrType: "User", creater: user._id, ...values }))
 
-  return (
-    <DashboardLayout>
-      {cases && caseTypes && organizations ? (
-        <>
-          <Row
-            gutter={[
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-            ]}
-          >
-            <Col>
-              <PageHeader
-                ghost={false}
-                onBack={() => window.history.back()}
-                title="Cases"
-                subTitle="Manage all your cases"
-                extra={[
-                  <Button
-                    key="2"
-                    icon={view ? <TableOutlined /> : <AppstoreOutlined />}
-                    onClick={toggleView}
-                  />,
-                  <Button key="1" type="primary" onClick={showModal}>
-                    Create a new case
-                  </Button>,
-                ]}
-              />
-            </Col>
-          </Row>
+	const renderCases = () => {
+		console.log(cases)
+		if (cases.length > 0) {
+			if (view) {
+				return (
+					<Row
+						gutter={[
+							{ xs: 8, sm: 16, md: 24, lg: 32 },
+							{ xs: 8, sm: 16, md: 24, lg: 32 },
+						]}
+					>
+						{cases.map((data) => (
+							<Col xs={24} sm={24} md={8} lg={8} xl={8}>
+								<CaseCard data={data} />
+							</Col>
+						))}
+					</Row>
+				)
+			}
+			return <CasesTable cases={cases} loading={loading} />
+		}
+		return (
+			<Card bordered={false}>
+				<Empty description={<Text>No Cases Found</Text>} />
+			</Card>
+		)
+	}
 
-          {renderCases()}
+	return (
+		<DashboardLayout>
+			{cases && caseTypes && organizations ? (
+				<>
+					<Row
+						gutter={[
+							{ xs: 8, sm: 16, md: 24, lg: 32 },
+							{ xs: 8, sm: 16, md: 24, lg: 32 },
+						]}
+					>
+						<Col>
+							<PageHeader
+								ghost={false}
+								onBack={() => window.history.back()}
+								title="Cases"
+								subTitle="Manage all your cases"
+								extra={[
+									<Button
+										key="2"
+										icon={view ? <TableOutlined /> : <AppstoreOutlined />}
+										onClick={toggleView}
+									/>,
+									<Button key="1" type="primary" onClick={showModal}>
+										Create a new case
+									</Button>,
+									<Dropdown
+										key="3"
+										overlay={pendingInvitationsMenu({
+											invites,
+										})}
+										trigger={["click"]}
+									>
+										<Button>
+											<Space>
+												<Badge count={invites.length} overflowCount={9} showZero={false} />
+												Pending Invitations
+												{invites.length > 0 && <DownOutlined />}
+											</Space>
+										</Button>
+									</Dropdown>,
+								]}
+							/>
+						</Col>
+					</Row>
 
-          <Modal
-            title="Case Form"
-            visible={modal}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
-            <CaseForm onFinish={onFinish} caseTypes={caseTypes} />
-          </Modal>
-        </>
-      ) : null}
-    </DashboardLayout>
-  );
-};
+					{renderCases()}
+
+					<Modal title="Case Form" visible={modal} onOk={handleOk} onCancel={handleCancel}>
+						<CaseForm onFinish={onFinish} caseTypes={caseTypes} />
+					</Modal>
+				</>
+			) : null}
+		</DashboardLayout>
+	)
+}
 
 const mapStateToProps = (state) => ({
-  cases: state.cases,
-  caseTypes: state.caseTypes.caseTypes,
-  organizations: state.organizations,
-  user: state.user,
-});
+	cases: state.cases,
+	caseTypes: state.caseTypes.caseTypes,
+	organizations: state.organizations,
+	user: state.user,
+})
 
-export default connect(mapStateToProps)(CasesList);
+export default connect(mapStateToProps)(CasesList)
