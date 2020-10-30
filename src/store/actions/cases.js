@@ -5,7 +5,7 @@ import {
   CREATE_CASE_SUCCESS,
   FETCH_CASES_START,
   FETCH_CASES_SUCCESS,
-  RESPOND_INVITE_START,
+  ADD_CASE,
 } from "../constants/cases";
 
 const fetchCasesSuccess = (cases) => ({
@@ -57,27 +57,11 @@ export function createCase(payload) {
   };
 }
 
-export function respondInvite(payload){
-  console.log(payload)
-  return async (dispatch) => {
-    dispatch({ type: RESPOND_INVITE_START });
-    let messageKey = "Invitation respond";
-    try {
-      message.loading({ content: "Responding Invitation", key: messageKey });
-      const response = await $http()({
-        url: `/invites/response/${payload.inviteId}`,
-        data: payload.data,
-        method: "PUT",
-      });
-      if (!response.data.success) throw new Error(response.data.message);
-      // dispatch(respondInviteSuccess(response.data));
-      message.success({ content: "responded Invite", key: messageKey });
-    } catch (error) {
-      console.error(error.message);
-      message.error({ content: error.message, key: messageKey });
-    }
-  };
-}
+export const addCase = (data) =>({
+  type: ADD_CASE,
+  payload: data
+})
+
 // export function updateCase(payload) {
 //   return async (dispatch) => {
 //     dispatch({ type: UPDATE_CASE });

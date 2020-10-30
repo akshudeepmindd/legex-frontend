@@ -1,28 +1,12 @@
 import React, { useState, useEffect } from "react"
-import {
-	Row,
-	Col,
-	Button,
-	Card,
-	Steps,
-	List,
-	Modal,
-	Comment,
-	Avatar,
-} from "antd"
+import { Row, Col, Button, Card, Steps, List, Modal, Comment, Avatar } from "antd"
 import { UserOutlined, EditOutlined } from "@ant-design/icons"
 import { connect } from "react-redux"
 import { useParams, Link } from "react-router-dom"
 
 import { DashboardLayout } from "../../../layouts"
 
-import {
-	CaseHeader,
-	InviteForm,
-	DocumentForm,
-	HearingForm,
-	VerdictForm,
-} from "../../../components"
+import { CaseHeader, InviteForm, DocumentForm, HearingForm, VerdictForm } from "../../../components"
 import { fetchCase, inviteParty } from "../../../store/actions/case"
 import { fetchUser } from "../../../store/actions/user"
 import { fetchOrganizations } from "../../../store/actions/organizations"
@@ -74,14 +58,27 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 	const onInvitationFormSubmit = (values) => {
 		// This will work if the user is connected to case directly or through a organization
 		// but not both
-		const senderType = caseData.caseParty.members.includes(user._id)
-			? "User"
-			: "Organization"
-		const sender =
-			senderType == "User"
-				? user._id
-				: organizations.filter((o) => o.cases.filter((c) => c == caseId)[0])[0]
-						._id
+		console.log(values)
+		let senderType = "organization"
+		let sender
+
+		for (let i = 0; i < caseData.members.length; i++) {
+			if (user._id === caseData.members[i]._id) {
+				senderType = "User"
+				break
+			}
+		}
+
+		if (senderType === "User") sender = user._id
+		else
+			for (let i = 0; i < caseData.organizations.length; i++) {
+				for (let j = 0; j < caseData.organizations[i].members.length; j++) {
+					if (caseData.organizations[i].members[j] === user.id) {
+						sender = organizations[i]._id
+						break
+					}
+				}
+			}
 
 		//THIS PART IS WORKING FINE. ONLY BACKEND LEFT
 		dispatch(
@@ -113,10 +110,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 								]}
 							>
 								<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-									<CaseHeader
-										caseData={caseData}
-										showVerdictModal={showVerdictModal}
-									/>
+									<CaseHeader caseData={caseData} showVerdictModal={showVerdictModal} />
 								</Col>
 								<Col xs={24} sm={24} md={24} lg={24} xl={24}>
 									<Row
@@ -127,12 +121,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 									>
 										<Col xs={24} sm={24} md={12} lg={12} xl={12}>
 											<Card bordered={false} title="Case Timeline">
-												<Steps
-													size="small"
-													current={1}
-													status="error"
-													direction="vertical"
-												>
+												<Steps size="small" current={1} status="error" direction="vertical">
 													<Step title="Creation" />
 													<Step title="Invitations" />
 													<Step title="Assignment" />
@@ -207,11 +196,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 							</Row>
 						</Col>
 						<Col xs={24} sm={24} md={8} lg={8} xl={8}>
-							<Card
-								title="Case Forum"
-								bordered={false}
-								style={{ height: "80vh" }}
-							>
+							<Card title="Case Forum" bordered={false} style={{ height: "80vh" }}>
 								<Comment
 									actions={[<span key="comment-basic-reply-to">Reply to</span>]}
 									author={<Link to="/s">Han Solo</Link>}
@@ -225,10 +210,9 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 									}
 									content={
 										<p>
-											We supply a series of design principles, practical
-											patterns and high quality design resources (Sketch and
-											Axure), to help people create their product prototypes
-											beautifully and efficiently.
+											We supply a series of design principles, practical patterns and high quality
+											design resources (Sketch and Axure), to help people create their product
+											prototypes beautifully and efficiently.
 										</p>
 									}
 									datetime={new Date(caseData.createdAt).toLocaleDateString()}
@@ -246,12 +230,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 						<HearingForm />
 					</Modal>
 
-					<Modal
-						title="Invite Form"
-						visible={inviteModal}
-						onCancel={handleCancel}
-						footer={null}
-					>
+					<Modal title="Invite Form" visible={inviteModal} onCancel={handleCancel} footer={null}>
 						<InviteForm onFinish={onInvitationFormSubmit} />
 					</Modal>
 

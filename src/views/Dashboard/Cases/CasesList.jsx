@@ -23,7 +23,8 @@ import { DashboardLayout } from "../../../layouts"
 import { CaseCard, CasesTable, CaseForm } from "../../../components"
 
 // redux actions
-import { createCase, respondInvite } from "../../../store/actions/cases"
+import { createCase } from "../../../store/actions/cases"
+import { respondInvite } from "../../../store/actions/invites"
 
 const { Text } = Typography
 
@@ -34,7 +35,7 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations, user })
 
 	useEffect(() => {
 		user &&
-			setInvites(user.invites.filter((i) => i.invitationType == "Case" && i.status == "waiting"))
+			setInvites(user.invites.filter((i) => i.invitationType === "Case" && i.status === "Waiting"))
 	}, [user])
 	const showModal = () => {
 		setModal(true)
@@ -55,70 +56,65 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations, user })
 	const onFinish = async (values) =>
 		await dispatch(createCase({ createrType: "User", creater: user._id, ...values }))
 
-	const pendingInvitationsMenu = ({ invites }) => {
-		console.log(invites)
-		let resp ;  
-		let i;
-		const acceptConfirmation = ({ message }) =>
-			Modal.confirm({
-				async onOk(){
-				  console.log(i)
-				  resp = "Accepted"
-				  await dispatch(
+	const acceptConfirmation = ({ invite, message }) =>
+		Modal.confirm({
+			async onOk() {
+				await dispatch(
 					respondInvite({
-					inviteId : i._id,
-					data : {
-					  resp : resp,
-					  invite : i,
-					}
+						inviteId: invite._id,
+						data: {
+							invitationType: "Case",
+							response: "Accepted",
+							invite: invite._id,
+						},
 					})
-				  )
-		
-				},
-				async onCancel(){
-				  resp = "Declined"
-				  await dispatch(
+				)
+			},
+			async onCancel() {
+				await dispatch(
 					respondInvite({
-					inviteId : i._id,
-					data : {
-					  resp : resp,
-					  invite : i,
-					}
+						inviteId: invite._id,
+						data: {
+							resp: "Declined",
+							invite: invite._id,
+						},
 					})
-				  )
-		
-				},
-				content: message,
-				cancelText: "Decline",
-				okText: "Accept",
-			  })
-			return (
-			  <Menu>
-				{invites.length > 0 ? (
-				  invites.map((invite) => {
-					i=invite
-					
-					return (
-					  <Menu.Item
-						key={invite._id}
-						onClick={ async () =>{
-						  acceptConfirmation({
-							message: `Do you want to accept ${invite.sender.name || invite.sender.email}'s invitation ?`,
-						  })
-						}
-						}
-						>
-						{invite.sender.name || invite.sender.email}
-					  </Menu.Item>
-					)
-				  })
-				) : (
-				  <Menu.Item>No Pending Invites</Menu.Item>
-				)}
-			  </Menu>
-			)
-		}
+				)
+			},
+			content: message,
+			cancelText: "Decline",
+			okText: "Accept",
+		})
 
+	const pendingInvitationsMenu = ({ invites }) => {
+		return (
+			<Menu>
+				{invites.length > 0 ? (
+					invites.map((invite) => {
+						return (
+							<Menu.Item
+								key={invite._id}
+								onClick={async () => {
+									acceptConfirmation({
+										invite,
+										message: `Do you want to accept ${
+											invite.senderType === "User"
+												? `${invite.sender.firstName} ${invite.sender.lastName}`
+												: invite.sender.name
+										}'s invitation to case ${invite.case}?`,
+									})
+								}}
+							>
+								{invite.case}
+							</Menu.Item>
+						)
+					})
+				) : (
+					<Menu.Item>No Pending Invites</Menu.Item>
+				)}
+			</Menu>
+		)
+	}
 	const renderCases = () => {
 		// console.log(cases)
 		if (cases.length > 0) {

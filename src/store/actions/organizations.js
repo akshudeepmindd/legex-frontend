@@ -5,8 +5,7 @@ import {
   FETCH_ORGANIZATIONS_SUCCESS,
   CREATE_ORGANIZATION_START,
   CREATE_ORGANIZATION_SUCCESS,
-  RESPOND_INVITE_SUCCESS,
-  RESPOND_INVITE_START,
+  ADD_ORGANIZATION,
 } from "../constants/organizations";
 
 const createOrganizationSuccess = (organization) => ({
@@ -14,15 +13,15 @@ const createOrganizationSuccess = (organization) => ({
   payload: organization,
 });
 
-const respondInviteSuccess = (org) => ({
-  type :RESPOND_INVITE_SUCCESS,
-  payload: org,
-})
-
 const fetchOrganizationsSuccess = (organizations) => ({
   type: FETCH_ORGANIZATIONS_SUCCESS,
   payload: organizations,
 });
+
+export const addOrganziation = (data) => ({
+  type: ADD_ORGANIZATION,
+  payload: data
+})
 
 export function fetchOrganizations() {
   return async (dispatch) => {
@@ -58,28 +57,6 @@ export function createOrganization(payload) {
       dispatch(createOrganizationSuccess(response.data.data));
       message.success({ content: "organization created", key: messageKey });
     } catch (error) {
-      message.error({ content: error.message, key: messageKey });
-    }
-  };
-}
-
-export function respondInvite(payload){
-  console.log(payload)
-  return async (dispatch) => {
-    dispatch({ type: RESPOND_INVITE_START });
-    let messageKey = "Invitation respond";
-    try {
-      message.loading({ content: "Responding Invitation", key: messageKey });
-      const response = await $http()({
-        url: `/invites/response/${payload.inviteId}`,
-        data: payload.data,
-        method: "PUT",
-      });
-      if (!response.data.success) throw new Error(response.data.message);
-      dispatch(respondInviteSuccess(response.data));
-      message.success({ content: "responded Invite", key: messageKey });
-    } catch (error) {
-      console.error(error.message);
       message.error({ content: error.message, key: messageKey });
     }
   };

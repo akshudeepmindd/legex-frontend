@@ -13,7 +13,7 @@ import {
 	Dropdown,
 	Menu,
 	Badge,
-  Space,
+	Space,
 } from "antd"
 import { AppstoreOutlined, DownOutlined, TableOutlined } from "@ant-design/icons"
 
@@ -21,7 +21,7 @@ import { DashboardLayout } from "../../../layouts"
 import { OrganizationCard, OrganizationsTable, OrganizationForm } from "../../../components"
 
 import { createOrganization } from "../../../store/actions/organizations"
-import { respondInvite } from "../../../store/actions/organizations"
+import { respondInvite } from "../../../store/actions/invites"
 
 const { Text } = Typography
 
@@ -29,12 +29,12 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
 	const [showGridView, setGridView] = useState(false)
 	const [createOrganizationModalVisibility, setCreateOrganizationModalVisibility] = useState(false)
 	const [invites, setInvites] = useState([])
-  
-  //update cases when user is fetched
+
+	//update cases when user is fetched
 	useEffect(() => {
 		user &&
 			setInvites(
-				user.invites.filter((i) => i.invitationType == "Organization" && i.status == "waiting")
+				user.invites.filter((i) => i.invitationType === "Organization" && i.status === "Waiting")
 			)
 	}, [user])
 
@@ -72,71 +72,59 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
 				<Empty description={<Text>No Organizations Found</Text>} />
 			</Card>
 		)
-  }
-  
-  const pendingInvitationsMenu = ({ invites }) => {
-    let resp ;  
-    let i;
-    const acceptConfirmation = ({ message }) =>
-    Modal.confirm({
-        async onOk(){
-          console.log(i)
-          resp = "Accepted"
-          await dispatch(
-            respondInvite({
-            inviteId : i._id,
-            data : {
-              resp : resp,
-              invite : i,
-            }
-            })
-          )
-
-        },
-        async onCancel(){
-          resp = "Declined"
-          await dispatch(
-            respondInvite({
-            inviteId : i._id,
-            data : {
-              resp : resp,
-              invite : i,
-            }
-            })
-          )
-
-        },
-        content: message,
-        cancelText: "Decline",
-        okText: "Accept",
-      })
-    return (
-      <Menu>
-        {invites.length > 0 ? (
-          invites.map((invite) => {
-            i=invite
-
-            return (
-              <Menu.Item
-                key={invite._id}
-                onClick={ async () =>{
-                  acceptConfirmation({
-                    message: `Do you want to accept ${invite.sender.name}'s invitation ?`,
-                  })
-                }
-                }
-                >
-                {invite.sender.name}
-              </Menu.Item>
-            )
-          })
-        ) : (
-          <Menu.Item>No Pending Invites</Menu.Item>
-        )}
-      </Menu>
-    )
-  }
-  
+	}
+	const acceptConfirmation = ({ invite, message }) =>
+		Modal.confirm({
+			async onOk() {
+				await dispatch(
+					respondInvite({
+						inviteId: invite._id,
+						data: {
+							response: "Accepted",
+							invite: invite._id,
+						},
+					})
+				)
+			},
+			async onCancel() {
+				await dispatch(
+					respondInvite({
+						inviteId: invite._id,
+						data: {
+							response: "Declined",
+							invite: invite._id,
+						},
+					})
+				)
+			},
+			content: message,
+			cancelText: "Decline",
+			okText: "Accept",
+		})
+	const pendingInvitationsMenu = ({ invites }) => {
+		return (
+			<Menu>
+				{invites.length > 0 ? (
+					invites.map((invite) => {
+						return (
+							<Menu.Item
+								key={invite._id}
+								onClick={async () => {
+									acceptConfirmation({
+										message: `Do you want to accept ${invite.sender.name}'s invitation ?`,
+									})
+								}}
+							>
+								{invite.sender.name}
+							</Menu.Item>
+						)
+					})
+				) : (
+					<Menu.Item>No Pending Invites</Menu.Item>
+				)}
+			</Menu>
+		)
+	}
 
 	return (
 		<DashboardLayout>

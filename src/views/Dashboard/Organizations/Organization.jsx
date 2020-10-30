@@ -1,361 +1,311 @@
-import React, { useState } from "react";
-import { Row, Col, PageHeader, Descriptions, Button, Menu, Dropdown, Space, Badge} from "antd";
-import {DownOutlined,  } from "@ant-design/icons"
-import { connect } from "react-redux";
-import { DashboardLayout } from "../../../layouts";
+import React, { useState } from "react"
+import { Row, Col, PageHeader, Descriptions, Button, Menu, Dropdown, Space, Badge,Modal } from "antd"
+import { DownOutlined } from "@ant-design/icons"
+import { connect } from "react-redux"
+import { DashboardLayout } from "../../../layouts"
 import {
-  deleteOrganization,
-  updateOrganization,
-  inviteMember,
-  leaveOrganization,
-  fetchOrganization,
-  createCase,
-} from "../../../store/actions/organization";
-import Modal from "antd/lib/modal/Modal";
-import MembersTable from "../../../components/Organization/MembersTable";
-import {
-  OrganizationForm,
-  AddMemForm,
-  CasesTable,
-  CaseForm,
-} from "../../../components";
-import { useEffect } from "react";
-import { respondInvite } from "../../../store/actions/organizations"
+	deleteOrganization,
+	updateOrganization,
+	inviteMember,
+	leaveOrganization,
+	fetchOrganization,
+	createCase,
+} from "../../../store/actions/organization"
+import MembersTable from "../../../components/Organization/MembersTable"
+import { OrganizationForm, AddMemForm, CasesTable, CaseForm } from "../../../components"
+import { useEffect } from "react"
+import { respondInvite } from "../../../store/actions/invites"
 
+const Organization = ({ dispatch, organization, organizationId, user, history, caseTypes }) => {
+	useEffect(() => {
+		dispatch(fetchOrganization(organizationId))
+	}, [organizationId, dispatch])
 
-const Organization = ({
-  dispatch,
-  organization,
-  organizationId,
-  user,
-  history,
-  caseTypes,
-}) => {
-  useEffect(() => {
-    dispatch(fetchOrganization(organizationId));
-  }, [organizationId, dispatch]);
+	// const [invites, setInvites] = useState([])
 
-  console.log(organization);
-	const [invites, setInvites] = useState([])
+	// useEffect(() => {
+	// 	organization && setInvites(organization.invites.filter((i) => i.status === "waiting"))
+	// }, [organization])
 
-  useEffect(() => {
-		organization &&
-			setInvites(
-				organization.invites.filter((i) =>  i.status == "waiting")
+	const handleDelete = async () => {
+		if (await dispatch(deleteOrganization(organizationId))) history.push("/dashboard/organizations")
+	}
+	const renderMembers = () => (
+		<MembersTable
+			members={organization.members}
+			owner={organization.owner}
+			user={user._id}
+			organizationId={organizationId}
+		/>
+	)
+	const handleLeave = async () => {
+		if (await dispatch(leaveOrganization({ organizationId, data: { uid: user._id } })));
+		history.push("/dashboard/organizations")
+	}
+
+	const renderCases = () => <CasesTable cases={organization.cases} />
+
+	const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false)
+	const [inviteMemberModalVisibility, setInviteMemberModalVisibilty] = useState(false)
+	const [createCaseModalVisibility, setCreateCaseModalVisibilty] = useState(false)
+
+	const onUpdateFinish = async (values) =>
+		await dispatch(
+			updateOrganization({
+				organizationId,
+				data: values,
+			})
+		)
+
+	const onInviteMemberFinish = async (values) =>
+		(await dispatch(
+			inviteMember({
+				senderType: "Organization",
+				sender: organizationId,
+				receiverType: "User",
+				invitationType: "Organization",
+				...values,
+			})
+		)) && setInviteMemberModalVisibilty(false)
+
+	const onCreateCaseFinish = async (values) =>
+		await dispatch(
+			createCase({
+				createrType: "Organization",
+				creater: organization._id,
+				...values,
+			})
+		)
+
+	const acceptConfirmation = ({ invite, message }) =>
+		Modal.confirm({
+			async onOk() {
+				await dispatch(
+					respondInvite({
+						inviteId: invite._id,
+						data: {
+							response: "Accepted",
+							invite: invite._id,
+						},
+					})
+				)
+			},
+			async onCancel() {
+				await dispatch(
+					respondInvite({
+						inviteId: invite._id,
+						data: {
+							response: "Declined",
+							invite: invite._id,
+						},
+					})
+				)
+			},
+			content: message,
+			cancelText: "Decline",
+			okText: "Accept",
+		})
+
+	const pendingInvitationsMenu = ({ invites }) => {
+		console.log(organization.invites)
+		return (
+			<Menu>
+				{invites.length > 0 ? (
+					invites.map((invite) => {
+						return (
+							<Menu.Item
+								key={invite._id}
+								onClick={async () => {
+									acceptConfirmation({
+										invite,
+										message: `Do you want to accept ${
+											invite.senderType === "User"
+												? `${invite.sender.firstName} ${invite.sender.lastName}`
+												: invite.sender.email
+										}`,
+									})
+								}}
+							>
+								{invite.case}
+							</Menu.Item>
+						)
+					})
+				) : (
+					<Menu.Item>No Pending Invites</Menu.Item>
+				)}
+			</Menu>
+		)
+	}
+
+	function Conditionally() {
+		if (organization.owner._id === user._id) {
+			return (
+				<>
+					<Button key="2" type="danger" onClick={handleDelete}>
+						Delete
+					</Button>
+					<Button key="1" type="primary" onClick={() => setUpdateOrganizationModal(true)}>
+						Update
+					</Button>
+				</>
 			)
-  }, [organization])
-  
-  const handleDelete = async () => {
-    if (await dispatch(deleteOrganization(organizationId)))
-      history.push("/dashboard/organizations");
-  };
-  const renderMembers = () => (
-    <MembersTable
-      members={organization.members}
-      owner={organization.owner}
-      user={user._id}
-      organizationId={organizationId}
-    />
-  );
-  const handleLeave = async () => {
-    if (
-      await dispatch(
-        leaveOrganization({ organizationId, data: { uid: user._id } })
-      )
-    );
-    history.push("/dashboard/organizations");
-  };
+		}
+		return (
+			<>
+				<Button onClick={handleLeave} type="danger">
+					Leave
+				</Button>
+			</>
+		)
+	}
 
-  const renderCases = () => <CasesTable cases={organization.cases} />;
+	function MemberTableButtons() {
+		if (organization.owner._id === user._id) {
+			return (
+				<>
+					<Button key="2" onClick={() => setInviteMemberModalVisibilty(true)} type="primary">
+						Invite Member
+					</Button>
+				</>
+			)
+		}
+		return <></>
+	}
 
-  const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
-  const [inviteMemberModalVisibility, setInviteMemberModalVisibilty] = useState(
-    false
-  );
-  const [createCaseModalVisibility, setCreateCaseModalVisibilty] = useState(
-    false
-  );
+	function CasesTableButtons() {
+		if (organization.owner._id === user._id) {
+			return (
+				<>
+					<Dropdown
+						key="3"
+						overlay={pendingInvitationsMenu({
+							invites: organization.invites,
+						})}
+						trigger={["click"]}
+					>
+						<Button>
+							<Space direction="horizontal">
+								<Badge count={organization.invites.length} overflowCount={9} showZero={false} />
+								Pending Invitations
+								{organization.invites.length > 0 && <DownOutlined />}
+							</Space>
+						</Button>
+					</Dropdown>
+					<Button key="2" type="primary" onClick={() => setCreateCaseModalVisibilty(true)}>
+						New Case
+					</Button>
+				</>
+			)
+		}
+		return <></>
+	}
 
-  const onUpdateFinish = async (values) =>
-    await dispatch(
-      updateOrganization({
-        organizationId,
-        data: values,
-      })
-    );
+	return (
+		<>
+			{organization && user ? (
+				<DashboardLayout>
+					<Row
+						gutter={[
+							{ xs: 8, sm: 16, md: 24, lg: 32 },
+							{ xs: 8, sm: 16, md: 24, lg: 32 },
+						]}
+					>
+						<Col xs={24} sm={24} md={16} lg={16} xl={16}>
+							<Row
+								gutter={[
+									{ xs: 8, sm: 16, md: 24, lg: 32 },
+									{ xs: 8, sm: 16, md: 24, lg: 32 },
+								]}
+							>
+								<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+									<PageHeader ghost={false} title={organization.name} extra={[<Conditionally />]}>
+										<Descriptions size="small" column={3}>
+											<Descriptions.Item label="Domain">
+												<a href={organization.domain}>{organization.domain}</a>
+											</Descriptions.Item>
+											<Descriptions.Item label="Creation Time">
+												{new Date(organization.createdAt).toLocaleDateString()}
+											</Descriptions.Item>
+											<Descriptions.Item label="Owner">
+												{`${organization.owner.firstName} ${organization.owner.lastName}(${organization.owner.email})`}
+											</Descriptions.Item>
+										</Descriptions>
+									</PageHeader>
+								</Col>
+							</Row>
+						</Col>
+					</Row>
 
-  const onInviteMemberFinish = async (values) =>
-    (await dispatch(
-      inviteMember({
-        senderType: "Organization",
-        sender: organizationId,
-        receiverType: "User",
-        invitationType: "Organization",
-        ...values,
-      })
-    )) && setInviteMemberModalVisibilty(false);
+					<Row>
+						<PageHeader
+							ghost={false}
+							onBack={() => window.history.back()}
+							title="Members"
+							subTitle="All Members"
+							extra={[<MemberTableButtons />]}
+						>
+							{renderMembers()}
+						</PageHeader>
+					</Row>
 
-  const onCreateCaseFinish = async (values) =>
-    await dispatch(
-      createCase({
-        createrType: "Organization",
-        creater: organization._id,
-        ...values,
-      })
-    );
+					<Row>
+						<PageHeader
+							ghost={false}
+							onBack={() => window.history.back()}
+							title="Cases"
+							subTitle="All Cases"
+							extra={[<CasesTableButtons />]}
+						>
+							{renderCases()}
+						</PageHeader>
+					</Row>
 
-    const pendingInvitationsMenu = ({ invites }) => {
-      let resp ;  
-      let i;
-      console.log(invites)
-      const acceptConfirmation = ({ message }) =>
-      Modal.confirm({
-          async onOk(){
-            console.log(i)
-            resp = "Accepted"
-            await dispatch(
-              respondInvite({
-              inviteId : i._id,
-              data : {
-                resp : resp,
-                invite : i,
-              }
-              })
-            )
-  
-          },
-          async onCancel(){
-            resp = "Declined"
-            await dispatch(
-              respondInvite({
-              inviteId : i._id,
-              data : {
-                resp : resp,
-                invite : i,
-              }
-              })
-            )
-  
-          },
-          content: message,
-          cancelText: "Decline",
-          okText: "Accept",
-        })
-      return (
-        <Menu>
-          {invites.length > 0 ? (
-            invites.map((invite) => {
-              i=invite
-  
-              return (
-                <Menu.Item
-                  key={invite._id}
-                  onClick={ async () =>{
-                    acceptConfirmation({
-                      message: `Do you want to accept ${invite.sender.name || invite.sender.email}'s invitation ?`,
-                    })
-                  }
-                  }
-                  >
-                  {invite.sender.name || invite.sender.email}
-                </Menu.Item>
-              )
-            })
-          ) : (
-            <Menu.Item>No Pending Invites</Menu.Item>
-          )}
-        </Menu>
-      )
-    }
+					<Modal
+						title="Organization Form"
+						visible={updateOrganizationModal}
+						onCancel={() => setUpdateOrganizationModal(false)}
+						destroyOnClose={true}
+						footer={null}
+					>
+						<OrganizationForm
+							onFinish={onUpdateFinish}
+							name={organization.name}
+							domain={organization.domain}
+						/>
+					</Modal>
 
-  function Conditionally() {
-    if (organization.owner._id === user._id) {
-      return (
-        <>
-          <Button key="2" type="danger" onClick={handleDelete}>
-            Delete
-          </Button>
-          <Button
-            key="1"
-            type="primary"
-            onClick={() => setUpdateOrganizationModal(true)}
-          >
-            Update
-          </Button>
-        </>
-      );
-    }
-    return (
-      <>
-        <Button onClick={handleLeave} type="danger">
-          Leave
-        </Button>
-      </>
-    );
-  }
+					<Modal
+						title="Add Member"
+						visible={inviteMemberModalVisibility}
+						onCancel={() => setInviteMemberModalVisibilty(false)}
+						footer={null}
+						destroyOnClose={true}
+					>
+						<AddMemForm onFinish={onInviteMemberFinish} />
+					</Modal>
 
-  function MemberTableButtons() {
-    if (organization.owner._id === user._id) {
-      return (
-        <>
-          <Button
-            key="2"
-            onClick={() => setInviteMemberModalVisibilty(true)}
-            type="primary"
-          >
-            Invite Member
-          </Button>
-        </>
-      );
-    }
-    return <></>;
-  }
-
-  function CasesTableButtons() {
-    if (organization.owner._id === user._id) {
-      return (
-        <>
-          {/* <Button key="1" type="primary">
-            Invitations
-          </Button> */}
-          <Dropdown
-										key="3"
-										overlay={pendingInvitationsMenu({
-											invites,
-										})}
-										trigger={["click"]}
-									>
-										<Button>
-											<Space direction="horizontal">
-												<Badge count={invites.length} overflowCount={9} showZero={false} />
-												Pending Invitations
-												{invites.length > 0 && <DownOutlined />}
-											</Space>
-										</Button>
-									</Dropdown>
-          <Button
-            key="2"
-            type="primary"
-            onClick={() => setCreateCaseModalVisibilty(true)}
-          >
-            New Case
-          </Button>
-        </>
-      );
-    }
-    return <></>;
-  }
-
-  return (
-    <>
-      {organization && user ? (
-        <DashboardLayout>
-          <Row
-            gutter={[
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-              { xs: 8, sm: 16, md: 24, lg: 32 },
-            ]}
-          >
-            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-              <Row
-                gutter={[
-                  { xs: 8, sm: 16, md: 24, lg: 32 },
-                  { xs: 8, sm: 16, md: 24, lg: 32 },
-                ]}
-              >
-                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                  <PageHeader
-                    ghost={false}
-                    title={organization.name}
-                    extra={[<Conditionally />]}
-                  >
-                    <Descriptions size="small" column={3}>
-                      <Descriptions.Item label="Domain">
-                        <a href={organization.domain}>{organization.domain}</a>
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Creation Time">
-                        {new Date(organization.createdAt).toLocaleDateString()}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Owner">
-                        {`${organization.owner.firstName} ${organization.owner.lastName}(${organization.owner.email})`}
-                      </Descriptions.Item>
-                    </Descriptions>
-                  </PageHeader>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-
-          <Row>
-            <PageHeader
-              ghost={false}
-              onBack={() => window.history.back()}
-              title="Members"
-              subTitle="All Members"
-              extra={[<MemberTableButtons />]}
-            >
-              {renderMembers()}
-            </PageHeader>
-          </Row>
-
-          <Row>
-            <PageHeader
-              ghost={false}
-              onBack={() => window.history.back()}
-              title="Cases"
-              subTitle="All Cases"
-              extra={[<CasesTableButtons />]}
-            >
-              {renderCases()}
-            </PageHeader>
-          </Row>
-
-          <Modal
-            title="Organization Form"
-            visible={updateOrganizationModal}
-            onCancel={() => setUpdateOrganizationModal(false)}
-            destroyOnClose={true}
-            footer={null}
-          >
-            <OrganizationForm
-              onFinish={onUpdateFinish}
-              name={organization.name}
-              domain={organization.domain}
-            />
-          </Modal>
-
-          <Modal
-            title="Add Member"
-            visible={inviteMemberModalVisibility}
-            onCancel={() => setInviteMemberModalVisibilty(false)}
-            footer={null}
-            destroyOnClose={true}
-          >
-            <AddMemForm onFinish={onInviteMemberFinish} />
-          </Modal>
-
-          <Modal
-            title="Case Form"
-            visible={createCaseModalVisibility}
-            onFinish={onCreateCaseFinish}
-            onCancel={() => setCreateCaseModalVisibilty(false)}
-          >
-            <CaseForm onFinish={onCreateCaseFinish} caseTypes={caseTypes} />
-          </Modal>
-        </DashboardLayout>
-      ) : (
-        "loading..."
-      )}
-    </>
-  );
-};
+					<Modal
+						title="Case Form"
+						visible={createCaseModalVisibility}
+						onFinish={onCreateCaseFinish}
+						onCancel={() => setCreateCaseModalVisibilty(false)}
+					>
+						<CaseForm onFinish={onCreateCaseFinish} caseTypes={caseTypes} />
+					</Modal>
+				</DashboardLayout>
+			) : (
+				"loading..."
+			)}
+		</>
+	)
+}
 
 const mapStateToProps = (state, ownProps) => ({
-  organization: state.organization,
-  user: state.user,
-  organizationId: ownProps.match.params.organizationId,
-  history: ownProps.history,
-  caseTypes: state.caseTypes.caseTypes,
-});
+	organization: state.organization,
+	user: state.user,
+	organizationId: ownProps.match.params.organizationId,
+	history: ownProps.history,
+	caseTypes: state.caseTypes.caseTypes,
+})
 
-export default connect(mapStateToProps)(Organization);
+export default connect(mapStateToProps)(Organization)
