@@ -20,7 +20,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 	const [verdictModal, setVerdictModal] = useState(false)
 
 	const { caseId } = useParams()
-
+	let z = 0;
 	useEffect(() => {
 		dispatch(fetchCase(caseId))
 		dispatch(fetchUser())
@@ -55,6 +55,48 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 		setDocumentModal(false)
 	}
 
+	function Conditionally(){
+		if(z == 1)
+		{
+		return (
+		<>
+		<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+			<Card
+				bordered={false}
+				title="Case Parties"
+				actions={[
+					<Button
+						icon={<EditOutlined />}
+						block
+						type="primary"
+						onClick={showInviteModal}
+					>
+						Send Invite
+					</Button>,
+				]}
+			/>
+		</Col>
+		<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+			<Card
+				bordered={false}
+				title="Case Documents"
+				actions={[
+					<Button
+						icon={<EditOutlined />}
+						block
+						type="primary"
+						onClick={showDocumentModal}
+					>
+						Add Document
+					</Button>,
+				]}
+			/>
+		</Col>
+		</>
+		)
+		}
+		return <> </>
+}
 	const onInvitationFormSubmit = (values) => {
 		// This will work if the user is connected to case directly or through a organization
 		// but not both
@@ -69,12 +111,18 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 			}
 		}
 
-		if (senderType === "User") sender = user._id
+		if (senderType === "User") {
+			sender = user._id
+			z=1
+		}
 		else
 			for (let i = 0; i < caseData.organizations.length; i++) {
 				for (let j = 0; j < caseData.organizations[i].members.length; j++) {
 					if (caseData.organizations[i].members[j] === user.id) {
 						sender = organizations[i]._id
+						if(user._id == organizations[i].owner){
+							z=1;
+						}
 						break
 					}
 				}
@@ -137,38 +185,8 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 													{ xs: 8, sm: 16, md: 24, lg: 32 },
 												]}
 											>
-												<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-													<Card
-														bordered={false}
-														title="Case Parties"
-														actions={[
-															<Button
-																icon={<EditOutlined />}
-																block
-																type="primary"
-																onClick={showInviteModal}
-															>
-																Send Invite
-															</Button>,
-														]}
-													/>
-												</Col>
-												<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-													<Card
-														bordered={false}
-														title="Case Documents"
-														actions={[
-															<Button
-																icon={<EditOutlined />}
-																block
-																type="primary"
-																onClick={showDocumentModal}
-															>
-																Add Document
-															</Button>,
-														]}
-													/>
-												</Col>
+
+												<Conditionally/>
 												<Col xs={24} sm={24} md={24} lg={24} xl={24}>
 													<Card
 														bordered={false}
