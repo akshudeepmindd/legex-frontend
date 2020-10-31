@@ -121,12 +121,12 @@ const Organization = ({ dispatch, organization, organizationId, user, history, c
 										message: `Do you want to accept ${
 											invite.senderType === "User"
 												? `${invite.sender.firstName} ${invite.sender.lastName}`
-												: invite.sender.email
+												: invite.sender.name
 										}`,
 									})
 								}}
 							>
-								{invite.case}
+								{invite.sender.name || invite.sender.email }
 							</Menu.Item>
 						)
 					})

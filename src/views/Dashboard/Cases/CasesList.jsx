@@ -105,7 +105,7 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations, user })
 									})
 								}}
 							>
-								{invite.case}
+								{invite.sender.name || invite.sender.email}
 							</Menu.Item>
 						)
 					})

@@ -111,6 +111,7 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
 								key={invite._id}
 								onClick={async () => {
 									acceptConfirmation({
+										invite,
 										message: `Do you want to accept ${invite.sender.name}'s invitation ?`,
 									})
 								}}
