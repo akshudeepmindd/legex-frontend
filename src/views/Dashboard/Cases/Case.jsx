@@ -19,126 +19,105 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 	const [documentModal, setDocumentModal] = useState(false)
 	const [verdictModal, setVerdictModal] = useState(false)
 
+	//store details about how the case is being accessed by the user
+	const [access, updateAccess] = useState(null)
+
 	const { caseId } = useParams()
-	let z = 0;
+	//initial data fetch
 	useEffect(() => {
 		dispatch(fetchCase(caseId))
 		dispatch(fetchUser())
 		dispatch(fetchOrganizations())
 	}, [dispatch, caseId])
-
-	const showHearingModal = () => {
-		setHearingModal(true)
-	}
-
-	const showInviteModal = () => {
-		setInviteModal(true)
-	}
-
-	const showDocumentModal = () => {
-		setDocumentModal(true)
-	}
-
-	const showVerdictModal = () => {
-		setVerdictModal(true)
-	}
-
-	const handleOk = (e) => {
-		setHearingModal(false)
-		setInviteModal(false)
-		setDocumentModal(false)
-	}
-
-	const handleCancel = (e) => {
-		setHearingModal(false)
-		setInviteModal(false)
-		setDocumentModal(false)
-	}
-
-	function Conditionally(){
-		if(z == 1)
-		{
-		return (
-		<>
-		<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-			<Card
-				bordered={false}
-				title="Case Parties"
-				actions={[
-					<Button
-						icon={<EditOutlined />}
-						block
-						type="primary"
-						onClick={showInviteModal}
-					>
-						Send Invite
-					</Button>,
-				]}
-			/>
-		</Col>
-		<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-			<Card
-				bordered={false}
-				title="Case Documents"
-				actions={[
-					<Button
-						icon={<EditOutlined />}
-						block
-						type="primary"
-						onClick={showDocumentModal}
-					>
-						Add Document
-					</Button>,
-				]}
-			/>
-		</Col>
-		</>
-		)
-		}
-		return <> </>
-}
-	const onInvitationFormSubmit = (values) => {
-		// This will work if the user is connected to case directly or through a organization
-		// but not both
-		console.log(values)
-		let senderType = "organization"
-		let sender
-
-		for (let i = 0; i < caseData.members.length; i++) {
-			if (user._id === caseData.members[i]._id) {
-				senderType = "User"
-				break
-			}
-		}
-
-		if (senderType === "User") {
-			sender = user._id
-			z=1
-		}
-		else
-			for (let i = 0; i < caseData.organizations.length; i++) {
-				for (let j = 0; j < caseData.organizations[i].members.length; j++) {
-					if (caseData.organizations[i].members[j] === user.id) {
-						sender = organizations[i]._id
-						if(user._id == organizations[i].owner){
-							z=1;
-						}
-						break
-					}
+	//find out how the case is being accessed by user
+	// This will work if the user is connected to case directly or through a organization
+	// but not both
+	useEffect(() => {
+		if (user && caseData) {
+			let type
+			let id
+			let access
+			console.log(caseData, user)
+			for (let i = 0; i < caseData.members.length; i++) {
+				if (user._id === caseData.members[i]._id) {
+					type = "User"
+					break
 				}
 			}
 
-		//THIS PART IS WORKING FINE. ONLY BACKEND LEFT
+			if (type === "User") {
+				id = user._id
+				access = true
+			} else
+				for (let i = 0; i < caseData.organizations.length; i++) {
+					for (let j = 0; j < caseData.organizations[i].members.length; j++) {
+						if (caseData.organizations[i].members[j] === user._id) {
+							id = organizations[i]._id
+							if (user._id == caseData.organizations[i].owner) {
+								access = true
+							}
+							break
+						}
+					}
+				}
+			console.log({ type, id, access })
+			updateAccess({ type, id, access })
+		}
+	}, [user, caseData])
+
+	const showHearingModal = () => setHearingModal(true)
+
+	const showInviteModal = () => setInviteModal(true)
+
+	const showDocumentModal = () => setDocumentModal(true)
+
+	const showVerdictModal = () => setVerdictModal(true)
+
+	const handleOk = (e) => setHearingModal(false) && setInviteModal(false) && setDocumentModal(false)
+
+	const handleCancel = (e) =>
+		setHearingModal(false) && setInviteModal(false) && setDocumentModal(false)
+
+	const Conditionally = () =>
+		access && access.access ? (
+			<>
+				<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+					<Card
+						bordered={false}
+						title="Case Parties"
+						actions={[
+							<Button icon={<EditOutlined />} block type="primary" onClick={showInviteModal}>
+								Send Invite
+							</Button>,
+						]}
+					/>
+				</Col>
+				<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+					<Card
+						bordered={false}
+						title="Case Documents"
+						actions={[
+							<Button icon={<EditOutlined />} block type="primary" onClick={showDocumentModal}>
+								Add Document
+							</Button>,
+						]}
+					/>
+				</Col>
+			</>
+		) : (
+			<></>
+		)
+
+	const onInvitationFormSubmit = (values) =>
 		dispatch(
 			inviteParty({
-				senderType,
-				sender,
+				senderType: access.type,
+				sender: access.id,
 				invitationType: "Case",
 				case: caseId,
 				...values,
 			})
 		)
-	}
 
 	return (
 		<DashboardLayout>
@@ -185,8 +164,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 													{ xs: 8, sm: 16, md: 24, lg: 32 },
 												]}
 											>
-
-												<Conditionally/>
+												<Conditionally />
 												<Col xs={24} sm={24} md={24} lg={24} xl={24}>
 													<Card
 														bordered={false}
