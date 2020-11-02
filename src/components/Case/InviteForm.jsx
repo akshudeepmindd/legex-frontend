@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { Form, Input, Button, Radio } from "antd"
 
 function InviteForm(props) {
-	const { onFinish } = props
+	const { onFinish} = props
 
 	const [receiverType, setReceiverType] = useState("User")
 

@@ -34,9 +34,9 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 	// but not both
 	useEffect(() => {
 		if (user && caseData) {
-			let type
+			let type = "Organization"
 			let id
-			let access
+			let access = false
 			console.log(caseData, user)
 			for (let i = 0; i < caseData.members.length; i++) {
 				if (user._id === caseData.members[i]._id) {
@@ -52,8 +52,8 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 				for (let i = 0; i < caseData.organizations.length; i++) {
 					for (let j = 0; j < caseData.organizations[i].members.length; j++) {
 						if (caseData.organizations[i].members[j] === user._id) {
-							id = organizations[i]._id
-							if (user._id == caseData.organizations[i].owner) {
+							id = caseData.organizations[i]._id
+							if (user._id === caseData.organizations[i].owner) {
 								access = true
 							}
 							break
@@ -64,8 +64,6 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 			updateAccess({ type, id, access })
 		}
 	}, [user, caseData])
-
-	const showHearingModal = () => setHearingModal(true)
 
 	const showInviteModal = () => setInviteModal(true)
 
@@ -78,35 +76,36 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 	const handleCancel = (e) =>
 		setHearingModal(false) && setInviteModal(false) && setDocumentModal(false)
 
-	const Conditionally = () =>
-		access && access.access ? (
-			<>
-				<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-					<Card
-						bordered={false}
-						title="Case Parties"
-						actions={[
+	const Conditionally = () => (
+		<>
+			<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+				<Card
+					bordered={false}
+					title="Case Parties"
+					actions={[
+						access && access.access && (
 							<Button icon={<EditOutlined />} block type="primary" onClick={showInviteModal}>
 								Send Invite
-							</Button>,
-						]}
-					/>
-				</Col>
-				<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-					<Card
-						bordered={false}
-						title="Case Documents"
-						actions={[
+							</Button>
+						),
+					]}
+				/>
+			</Col>
+			<Col xs={24} sm={24} md={24} lg={24} xl={24}>
+				<Card
+					bordered={false}
+					title="Case Documents"
+					actions={[
+						access && access.access && (
 							<Button icon={<EditOutlined />} block type="primary" onClick={showDocumentModal}>
 								Add Document
-							</Button>,
-						]}
-					/>
-				</Col>
-			</>
-		) : (
-			<></>
-		)
+							</Button>
+						),
+					]}
+				/>
+			</Col>
+		</>
+	)
 
 	const onInvitationFormSubmit = (values) =>
 		dispatch(
@@ -166,20 +165,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 											>
 												<Conditionally />
 												<Col xs={24} sm={24} md={24} lg={24} xl={24}>
-													<Card
-														bordered={false}
-														title="Case Hearing"
-														actions={[
-															<Button
-																icon={<EditOutlined />}
-																block
-																type="primary"
-																onClick={showHearingModal}
-															>
-																Create Hearing
-															</Button>,
-														]}
-													>
+													<Card bordered={false} title="Case Hearing">
 														<List>
 															<List.Item />
 														</List>
@@ -226,7 +212,12 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 						<HearingForm />
 					</Modal>
 
-					<Modal title="Invite Form" visible={inviteModal} onCancel={handleCancel} footer={null}>
+					<Modal
+						title="Invite Form"
+						visible={inviteModal}
+						onCancel={() => setInviteModal(false)}
+						footer={null}
+					>
 						<InviteForm onFinish={onInvitationFormSubmit} />
 					</Modal>
 
@@ -234,7 +225,8 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 						title="Document Form"
 						visible={documentModal}
 						onOk={handleOk}
-						onCancel={handleCancel}
+						onCancel={() => setDocumentModal(false)}
+						footer={null}
 					>
 						<DocumentForm />
 					</Modal>
@@ -243,7 +235,8 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 						title="Verdict Form"
 						visible={verdictModal}
 						onOk={handleOk}
-						onCancel={handleCancel}
+						onCancel={() => setVerdictModal(false)}
+						footer={null}
 					>
 						<VerdictForm />
 					</Modal>
