@@ -24,7 +24,7 @@ export function respondInvite(payload) {
 				method: "PUT",
 			})
 			if (!response.data.success) throw new Error(response.data.message)
-      if(payload.invitationType == 'Case') addCase(response.data.data)
+      if(payload.invitationType === 'Case') addCase(response.data.data)
       else if(payload.invitationType === 'Organization') addOrganziation(response.data.data)
       dispatch(respondInviteSuccess(payload.inviteId))
 			message.success({ content: "responded Invite", key: messageKey })
