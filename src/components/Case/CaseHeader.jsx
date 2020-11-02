@@ -16,7 +16,7 @@ const CaseHeader = ({ caseData, showVerdictModal }) => {
         </Button>,
       ]}
     >
-      <Descriptions size="small" column={3}>
+      <Descriptions size="small" column={1}>
         <Descriptions.Item label="Description">
           {caseData.description}
         </Descriptions.Item>
