@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Row, Col, PageHeader } from 'antd';
 
 import { DashboardLayout } from '../../../layouts';
+import { Card } from 'antd';
+
+const { Meta } = Card;
 
 class DocumentsList extends Component {
   constructor(props) {
@@ -40,6 +43,30 @@ class DocumentsList extends Component {
             />
           </Col>
         </Row>
+        <Card
+          hoverable
+          style={{ width: 240 }}
+          cover={
+            <img
+              alt="example"
+              src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+            />
+          }
+        >
+          <Meta title="Europe Street beat" description="www.instagram.com" />
+        </Card>
+        <Card
+          hoverable
+          style={{ width: 240 }}
+          cover={
+            <img
+              alt="example"
+              src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+            />
+          }
+        >
+          <Meta title="Europe Street beat" description="www.instagram.com" />
+        </Card>
       </DashboardLayout>
     );
   }

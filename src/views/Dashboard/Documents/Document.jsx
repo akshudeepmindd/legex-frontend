@@ -1,9 +1,15 @@
-import React from 'react';
+import React from "react";
 
-import { DashboardLayout } from '../../../layouts';
+import DashboardLayout from "../../../layouts/DashboardLayout";
 
 function Document() {
-  return <DashboardLayout />;
+  return (
+    <>
+      <DashboardLayout>
+
+      </DashboardLayout>
+    </>
+  );
 }
 
 export default Document;

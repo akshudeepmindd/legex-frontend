@@ -199,7 +199,7 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
               />
             </Col>
           </Row>
-
+			
           {renderOrganizations()}
 
           <Modal

@@ -309,7 +309,7 @@ const Organization = ({
           <Row>
             <PageHeader
 			  ghost={false}
-              onBack={() => window.history.back()}
+            //   onBack={() => window.history.back()}
               title="Members"
               subTitle="All Members"
               extra={[<MemberTableButtons />]}
@@ -321,7 +321,7 @@ const Organization = ({
           <Row>
             <PageHeader
               ghost={false}
-              onBack={() => window.history.back()}
+            //   onBack={() => window.history.back()}
               title="Cases"
               subTitle="All Cases"
               extra={[<CasesTableButtons />]}
