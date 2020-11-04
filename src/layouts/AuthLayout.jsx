@@ -5,7 +5,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 import { Navbar } from "../components";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
-import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined } from "@ant-design/icons";
+import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, SolutionOutlined } from "@ant-design/icons";
 const { Header, Content } = Layout;
 
 function AuthLayout(props) {
@@ -68,7 +68,7 @@ function AuthLayout(props) {
           >
             <Menu.SubMenu
               key="sub2"
-              icon={<SmileOutlined />}
+              icon={<SolutionOutlined />}
               title="About us"
             >
               <Menu.Item key="/how-we-help-you">

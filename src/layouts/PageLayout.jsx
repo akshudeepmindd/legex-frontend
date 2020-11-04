@@ -7,7 +7,7 @@ import Logo from "../assets/images/logo.png";
 import Navbar from "../components/Navbar";
 import SideDrawer from "../components/SideDrawer";
 import classes from "./PageLayout.css";
-import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined } from "@ant-design/icons";
+import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, SolutionOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import NavigationItems from "../components/NavigationItems";
 import {
@@ -82,7 +82,7 @@ function PageLayout(props) {
           >
             <Menu.SubMenu
               key="sub2"
-              icon={<SmileOutlined />}
+              icon={<SolutionOutlined />}
               title="About us"
             >
               <Menu.Item key="/how-we-help-you">
