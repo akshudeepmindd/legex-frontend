@@ -116,7 +116,6 @@ const CasesList = ({ dispatch, loading, cases, caseTypes, organizations, user })
 		)
 	}
 	const renderCases = () => {
-		// console.log(cases)
 		if (cases.length > 0) {
 			if (view) {
 				return (

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react"
-import { Row, Col, Button, Card, Steps, List, Modal, Comment, Avatar } from "antd"
+import { Row, Col, Button, Card, Steps, List, Modal, Comment, Avatar, message } from "antd"
 import { UserOutlined, EditOutlined } from "@ant-design/icons"
 import { connect } from "react-redux"
 import { useParams, Link } from "react-router-dom"
 
 import { DashboardLayout } from "../../../layouts"
 
-import { CaseHeader, InviteForm, DocumentForm, HearingForm, VerdictForm } from "../../../components"
+import { CaseHeader, InviteForm, HearingForm, VerdictForm } from "../../../components"
 import { fetchCase, inviteParty } from "../../../store/actions/case"
 import { fetchUser } from "../../../store/actions/user"
 import { fetchOrganizations } from "../../../store/actions/organizations"
+import UploadForm from "../../../components/Document/UploadForm"
+import $http from "../../../utils/api"
 
 const { Step } = Steps
 
@@ -21,7 +23,6 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 
 	//store details about how the case is being accessed by the user
 	const [access, updateAccess] = useState(null)
-
 	const { caseId } = useParams()
 	//initial data fetch
 	useEffect(() => {
@@ -37,7 +38,6 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 			let type = "Organization"
 			let id
 			let access = false
-			console.log(caseData, user)
 			for (let i = 0; i < caseData.members.length; i++) {
 				if (user._id === caseData.members[i]._id) {
 					type = "User"
@@ -60,7 +60,6 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 						}
 					}
 				}
-			console.log({ type, id, access })
 			updateAccess({ type, id, access })
 		}
 	}, [user, caseData])
@@ -75,6 +74,25 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 
 	const handleCancel = (e) =>
 		setHearingModal(false) && setInviteModal(false) && setDocumentModal(false)
+
+	const onDocumentUploadClick = (fd) => {
+		fd.append("creater", user._id)
+		fd.append("createrType", "User")
+		$http()({
+			url: "documents/upload",
+			method: "post",
+			processData: false,
+			data: fd,
+		})
+			.then((res) => {
+				message.success("upload successfully.")
+				return true
+			})
+			.catch(() => {
+				message.error("upload failed.")
+				return false
+			})
+	}
 
 	const Conditionally = () => (
 		<>
@@ -224,11 +242,10 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 					<Modal
 						title="Document Form"
 						visible={documentModal}
-						onOk={handleOk}
 						onCancel={() => setDocumentModal(false)}
 						footer={null}
 					>
-						<DocumentForm />
+						<UploadForm onUpload={onDocumentUploadClick} />
 					</Modal>
 
 					<Modal

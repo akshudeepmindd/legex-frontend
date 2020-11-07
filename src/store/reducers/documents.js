@@ -1,36 +1,20 @@
 import {
-  FETCH_DOCUMENTS,
-  FETCH_DOCUMENT,
-  UPDATE_DOCUMENT,
-  DELETE_DOCUMENT,
-  REQUEST_FAILURE,
-} from '../constants/documents';
+	DELETE_DOCUMENT_START,
+	DELETE_USER_DOCUMENT_SUCCESS,
+	FETCH_DOCUMENTS_START,
+	FETCH_DOCUMENTS_SUCCESS,
+	UPLOAD_DOCUMENT_START,
+	UPLOAD_USER_DOCUMENT_SUCCESS,
+} from "../constants/documents"
 
-export const initialState = {
-  document: {},
-  documents: [],
-  loading: false,
-  error: {},
-};
+export const initialState = []
 
 export default function documentReducers(state = initialState, action) {
-  switch (action.type) {
-    case FETCH_DOCUMENTS:
-      return { ...state, documents: action.payload, loading: true };
-
-    case FETCH_DOCUMENT:
-      return { ...state, document: action.payload, loading: true };
-
-    case UPDATE_DOCUMENT:
-      return { ...state, loading: true };
-
-    case DELETE_DOCUMENT:
-      return { ...state, loading: true };
-
-    case REQUEST_FAILURE:
-      return { ...state, error: action.payload, loading: false };
-
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case UPLOAD_DOCUMENT_START:
+		case DELETE_DOCUMENT_START:
+		case FETCH_DOCUMENTS_START:
+		default:
+			return state
+	}
 }
