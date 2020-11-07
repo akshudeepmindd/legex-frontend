@@ -28,7 +28,7 @@ export default function userReducers(state = initialState, action) {
 			return { ...state, documents: state.documents.filter((d) => d._id !== action.payload._id) }
 
 		case UPLOAD_USER_DOCUMENT_SUCCESS:
-			return { ...state, documents: [...state.documents, action.payload] }
+			return { ...state, documents: [...state.documents, ...action.payload] }
 
 		case LOGOUT_USER:
 		case AUTH_FAILURE:
