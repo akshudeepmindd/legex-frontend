@@ -79,7 +79,6 @@ export function fetchOrganization(payload) {
 
 export function createCase(payload) {
   return async (dispatch) => {
-    console.log(payload);
     const messageKey = "create case";
     dispatch({ type: CREATE_ORGANIZATION_CASE_START });
     try {
@@ -112,7 +111,6 @@ export function inviteMember(payload) {
         data: payload,
         method: "POST",
       });
-      console.log(response.data);
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(inviteMemberSuccess(response.data.data));
       message.success({ content: "member invited", key: messageKey });
@@ -147,7 +145,6 @@ export function leaveOrganization(payload) {
   return async (dispatch) => {
     dispatch({ type: LEAVE_ORGANIZATION_START });
     const messageKey = "leave organization";
-    console.log(payload.data);
     try {
       message.loading({ content: "leaving organization", key: messageKey });
       const response = await $http()({

@@ -37,7 +37,6 @@ export function fetchCase(payload) {
 }
 
 export function inviteParty(payload) {
-	console.log(payload)
 	return async (dispatch) => {
 		dispatch({ type: INVITE_PARTY_START })
 		const messageKey = "invite party"
@@ -48,7 +47,6 @@ export function inviteParty(payload) {
 				data: payload,
 				method: "POST",
 			})
-			console.log(response.data)
 			if (!response.data.success) throw new Error(response.data.message)
 			dispatch(invitePartySuccess(response.data.data))
 			message.success({ content: "party invited", key: messageKey })

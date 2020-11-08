@@ -1,12 +1,13 @@
-import React from 'react';
-import { Row, Col, Typography, Button } from 'antd';
-
-import { PageLayout } from '../layouts';
-import HeroImage from '../assets/images/spiraltwo.png';
+import React from "react";
+import { Row, Col, Typography, Button } from "antd";
+import { useMediaQuery } from "@react-hook/media-query";
+import { PageLayout } from "../layouts";
+import HeroImage from "../assets/images/spiraltwo.png";
 
 const { Title, Paragraph } = Typography;
 
 const Home = () => {
+  const phoneView = useMediaQuery("only screen and (max-width: 770px)");
   return (
     <PageLayout>
       <Row
@@ -41,9 +42,15 @@ const Home = () => {
             </Row>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <img src={HeroImage} alt="spiral" className="home-hero-image" />
-        </Col>
+        {!phoneView && (
+          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+            <img
+              src={HeroImage}
+              alt="spiral"
+              className="home-hero-image"
+            />
+          </Col>
+        )}
       </Row>
     </PageLayout>
   );
