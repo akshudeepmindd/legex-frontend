@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -10,8 +10,16 @@ import {
   Card,
   Empty,
   Typography,
+  Dropdown,
+  Menu,
+  Badge,
+  Space,
 } from "antd";
-import { AppstoreOutlined, TableOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  DownOutlined,
+  TableOutlined,
+} from "@ant-design/icons";
 
 import { DashboardLayout } from "../../../layouts";
 import {
@@ -21,6 +29,7 @@ import {
 } from "../../../components";
 
 import { createOrganization } from "../../../store/actions/organizations";
+import { respondInvite } from "../../../store/actions/invites";
 
 const { Text } = Typography;
 
@@ -30,6 +39,17 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
     createOrganizationModalVisibility,
     setCreateOrganizationModalVisibility,
   ] = useState(false);
+  const [invites, setInvites] = useState([]);
+
+  //update cases when user is fetched
+  useEffect(() => {
+    user &&
+      setInvites(
+        user.invites.filter(
+          (i) => i.invitationType === "Organization" && i.status === "Waiting"
+        )
+      );
+  }, [user]);
 
   const showCreateOrganizationModal = () =>
     setCreateOrganizationModalVisibility(true);
@@ -53,7 +73,7 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
             ]}
           >
             {organizations.map((organization) => (
-              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8} key={organization._id}>
                 <OrganizationCard organization={organization} />
               </Col>
             ))}
@@ -70,6 +90,59 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
       </Card>
     );
   };
+  const acceptConfirmation = ({ invite, message }) =>
+    Modal.confirm({
+      async onOk() {
+        await dispatch(
+          respondInvite({
+            inviteId: invite._id,
+            data: {
+              response: "Accepted",
+              invite: invite._id,
+            },
+          })
+        );
+      },
+      async onCancel() {
+        await dispatch(
+          respondInvite({
+            inviteId: invite._id,
+            data: {
+              response: "Declined",
+              invite: invite._id,
+            },
+          })
+        );
+      },
+      content: message,
+      cancelText: "Decline",
+      okText: "Accept",
+    });
+  const pendingInvitationsMenu = ({ invites }) => {
+    return (
+      <Menu>
+        {invites.length > 0 ? (
+          invites.map((invite) => {
+            return (
+              <Menu.Item
+                key={invite._id}
+                onClick={async () => {
+                  acceptConfirmation({
+                    invite,
+                    message: `Do you want to accept ${invite.sender.name}'s invitation ?`,
+                  });
+                }}
+              >
+                {invite.sender.name}
+              </Menu.Item>
+            );
+          })
+        ) : (
+          <Menu.Item>No Pending Invites</Menu.Item>
+        )}
+      </Menu>
+    );
+  };
 
   return (
     <DashboardLayout>
@@ -81,7 +154,7 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
               { xs: 8, sm: 16, md: 24, lg: 32 },
             ]}
           >
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Col>
               <PageHeader
                 ghost={false}
                 onBack={() => history.push("/dashboard/overview")}
@@ -89,7 +162,7 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
                 subTitle="Manage all your organizations"
                 extra={[
                   <Button
-                    key="2"
+                    key="1"
                     icon={
                       showGridView ? <TableOutlined /> : <AppstoreOutlined />
                     }
@@ -97,17 +170,36 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
                   />,
                   <Button
                     className="dashboard-btn-primary dashboard-layout-btn"
-                    key="1"
+                    key="2"
                     type="primary"
                     onClick={showCreateOrganizationModal}
                   >
                     Create a new organization
                   </Button>,
+                  <Dropdown
+                    key="3"
+                    overlay={pendingInvitationsMenu({
+                      invites,
+                    })}
+                    trigger={["click"]}
+                  >
+                    <Button>
+                      <Space direction="horizontal">
+                        <Badge
+                          count={invites.length}
+                          overflowCount={9}
+                          showZero={false}
+                        />
+                        Pending Invitations
+                        {invites.length > 0 && <DownOutlined />}
+                      </Space>
+                    </Button>
+                  </Dropdown>,
                 ]}
               />
             </Col>
           </Row>
-
+			
           {renderOrganizations()}
 
           <Modal

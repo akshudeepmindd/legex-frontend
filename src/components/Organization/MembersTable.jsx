@@ -45,9 +45,7 @@ function MembersTable({ members, owner, user, organizationId, dispatch }) {
       width: 100,
       key: "email",
       dataIndex: "email",
-      render: (email) => (
-        <Typography.Text className="capitalize">{email}</Typography.Text>
-      ),
+      render: (email) => <Typography.Text>{email}</Typography.Text>,
     },
     {
       title: "Actions",

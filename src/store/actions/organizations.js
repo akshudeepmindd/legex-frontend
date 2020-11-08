@@ -5,6 +5,7 @@ import {
   FETCH_ORGANIZATIONS_SUCCESS,
   CREATE_ORGANIZATION_START,
   CREATE_ORGANIZATION_SUCCESS,
+  ADD_ORGANIZATION,
 } from "../constants/organizations";
 
 const createOrganizationSuccess = (organization) => ({
@@ -16,6 +17,11 @@ const fetchOrganizationsSuccess = (organizations) => ({
   type: FETCH_ORGANIZATIONS_SUCCESS,
   payload: organizations,
 });
+
+export const addOrganziation = (data) => ({
+  type: ADD_ORGANIZATION,
+  payload: data
+})
 
 export function fetchOrganizations() {
   return async (dispatch) => {

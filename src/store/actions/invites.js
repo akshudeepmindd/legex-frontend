@@ -1,85 +1,39 @@
-import $http from '../../utils/api';
+import { message } from "antd"
+import $http from "../../utils/api"
 import {
-  FETCH_INVITES,
-  FETCH_INVITE,
-  CREATE_INVITE,
-  UPDATE_INVITE,
-  DELETE_INVITE,
-  REQUEST_FAILURE,
-} from '../constants/invites';
+  RESPOND_INVITATION_START,
+  RESPOND_INVITATION_SUCCESS,
+} from "../constants/invites"
+import { addCase } from "./cases"
+import { addOrganziation } from "./organizations"
 
-export const requestFailure = (error) => ({
-  type: REQUEST_FAILURE,
-  payload: error,
-});
+const respondInviteSuccess = (data) => ({
+  type :RESPOND_INVITATION_SUCCESS,
+  payload: data
+})
 
-export function fetchInvites() {
-  return async (dispatch) => {
-    dispatch({ type: FETCH_INVITES });
-    try {
-      const response = $http({ url: '/invites', method: 'GET' });
-      return response;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-
-export function fetchInvite(payload) {
-  return async (dispatch) => {
-    dispatch({ type: FETCH_INVITE });
-    try {
-      const response = $http({ url: `/invites/${payload}`, method: 'GET' });
-      return response;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-
-export function createInvite(payload) {
-  return async (dispatch) => {
-    dispatch({ type: CREATE_INVITE });
-    try {
-      const response = $http({
-        url: `/invites`,
-        data: payload,
-        method: 'POST',
-      });
-      return response;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-
-export function updateInvite(payload) {
-  return async (dispatch) => {
-    dispatch({ type: UPDATE_INVITE });
-    try {
-      const response = $http({
-        url: `/invites/${payload._id}`,
-        data: payload,
-        method: 'PUT',
-      });
-      return response;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
-}
-
-export function deleteInvite(payload) {
-  return async (dispatch) => {
-    dispatch({ type: DELETE_INVITE });
-    try {
-      const response = $http({
-        url: `/invites/${payload._id}`,
-        method: 'DELETE',
-      });
-      return response;
-    } catch (error) {
-      return dispatch(requestFailure(error));
-    }
-  };
+export function respondInvite(payload) {
+	return async (dispatch) => {
+		dispatch({ type: RESPOND_INVITATION_START })
+		let messageKey = "Invitation respond"
+		try {
+			message.loading({ content: "Responding Invitation", key: messageKey })
+			const response = await $http()({
+				url: `/invites/response/${payload.inviteId}`,
+				data: payload.data,
+				method: "PUT",
+			})
+			if (!response.data.success) throw new Error(response.data.message)
+      if(payload.invitationType === 'Case') addCase(response.data.data)
+      else if(payload.invitationType === 'Organization') addOrganziation(response.data.data)
+      dispatch(respondInviteSuccess(payload.inviteId))
+			message.success({ content: "responded Invite", key: messageKey })
+		} catch (error) {
+      //if request failed. then that means that invite was never meant to be their.
+      // so its needs to be deleted.
+      // but this condition should never occur. 
+      //even though if it happens, invite will be deleted from db
+			message.error({ content: error.message, key: messageKey })
+		}
+	}
 }

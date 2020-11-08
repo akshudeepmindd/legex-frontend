@@ -84,7 +84,6 @@ export function googleOAuth() {
     dispatch({ type: GOOGLE_OAUTH });
     try {
       const response = await $http()({ url: "/auth/google", method: "GET" });
-      console.log(response.data);
       dispatch(authSuccess(response));
       return response.data;
     } catch (error) {

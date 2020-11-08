@@ -5,6 +5,7 @@ import {
   CREATE_CASE_SUCCESS,
   FETCH_CASES_START,
   FETCH_CASES_SUCCESS,
+  ADD_CASE,
 } from "../constants/cases";
 
 const fetchCasesSuccess = (cases) => ({
@@ -55,6 +56,11 @@ export function createCase(payload) {
     }
   };
 }
+
+export const addCase = (data) =>({
+  type: ADD_CASE,
+  payload: data
+})
 
 // export function updateCase(payload) {
 //   return async (dispatch) => {
