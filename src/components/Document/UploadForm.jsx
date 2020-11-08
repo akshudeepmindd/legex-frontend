@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Upload, Button, message } from "antd"
+import { Upload, Button } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 
 export default function UploadForm({ formData, onUpload }) {

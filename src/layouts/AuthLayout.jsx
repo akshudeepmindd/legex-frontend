@@ -5,7 +5,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 import { Navbar } from "../components";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
-import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, SolutionOutlined } from "@ant-design/icons";
+import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SolutionOutlined } from "@ant-design/icons";
 const { Header, Content } = Layout;
 
 function AuthLayout(props) {
@@ -15,11 +15,11 @@ function AuthLayout(props) {
   const onClose = () => {
     setVisible(false);
   };
-  const [collapsed, setCollapsed] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
 
-  function toggle() {
-    setCollapsed(!collapsed);
-  }
+  // function toggle() {
+  //   setCollapsed(!collapsed);
+  // }
   return (
     <Layout>
       <Header

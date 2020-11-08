@@ -1,38 +1,30 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Layout, Drawer, Button, Radio, Space, Menu } from "antd";
+import { Layout, Drawer, Button, Menu } from "antd";
 
 import { useMediaQuery } from "@react-hook/media-query";
 import Logo from "../assets/images/logo.png";
 import Navbar from "../components/Navbar";
-import SideDrawer from "../components/SideDrawer";
-import classes from "./PageLayout.css";
-import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, SolutionOutlined } from "@ant-design/icons";
+import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SolutionOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import NavigationItems from "../components/NavigationItems";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
 function PageLayout(props) {
   const { children } = props;
   const [year] = useState(new Date().getFullYear());
   const [visible, setVisible] = useState(false);
-  const showDrawer = () => {
-    setVisible(true);
-  };
+  // const showDrawer = () => {
+  //   setVisible(true);
+  // };
   const phoneView = useMediaQuery("only screen and (min-width: 770px)");
   const onClose = () => {
     setVisible(false);
   };
-  const [collapsed, setCollapsed] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
 
-  function toggle() {
-    setCollapsed(!collapsed);
-  }
+  // function toggle() {
+  //   setCollapsed(!collapsed);
+  // }
 
   return (
     <Layout>
