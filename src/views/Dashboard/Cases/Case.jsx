@@ -177,7 +177,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 									>
 										<Col xs={24} sm={24} md={12} lg={12} xl={12}>
 											<Card bordered={false} title="Case Timeline">
-												<Steps size="small" current={checkCurrent} status="error" direction="vertical">
+												<Steps size="small" current={checkCurrent()} status="error" direction="vertical">
 													<Step title="Creation" />
 													<Step title="Invitations" />
 													<Step title="Assignment" />
