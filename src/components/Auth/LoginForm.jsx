@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, Input, Button, Checkbox, Row, Col, Divider } from "antd";
-import { GoogleOutlined, FacebookOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Checkbox } from "antd";
 import { Link } from "react-router-dom";
 
 const LoginForm = ({ onFinish, googleLogin, facebookLogin, loading }) => {
@@ -36,31 +35,6 @@ const LoginForm = ({ onFinish, googleLogin, facebookLogin, loading }) => {
           Login
         </Button>
       </Form.Item>
-
-      <Divider>Or</Divider>
-
-      <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 16 }}>
-        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-          <Button
-            icon={<GoogleOutlined />}
-            className="google-button"
-            block
-            onClick={googleLogin}
-          >
-            Google
-          </Button>
-        </Col>
-        <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-          <Button
-            icon={<FacebookOutlined />}
-            className="facebook-button"
-            block
-            onClick={facebookLogin}
-          >
-            Facebook
-          </Button>
-        </Col>
-      </Row>
     </Form>
   );
 };

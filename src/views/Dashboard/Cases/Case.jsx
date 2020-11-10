@@ -137,13 +137,13 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 		)
 	
 	const checkCurrent = () => {
-		if(caseData.status == "creation")
+		if(caseData.status === "creation")
 			return 1;
-		else if(caseData.status == "invitations")
+		else if(caseData.status === "invitations")
 			return 2;
-		else if(caseData.status == "assignment")
+		else if(caseData.status === "assignment")
 			return 3;
-		else if(caseData.status == "hearings")
+		else if(caseData.status === "hearings")
 			return 4;
 		else 
 			return 5;
