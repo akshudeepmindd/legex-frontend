@@ -306,11 +306,13 @@ const Organization = ({ dispatch, organization, organizationId, user, history, c
 							title="Documents"
 							subTitle="All Documents"
 							extra={[
-								<Row>
-									<Col>
-										<Button onClick={() => setUploadFormVisibility(true)}>Upload</Button>
-									</Col>
-								</Row>,
+								organization.owner._id === user._id && (
+									<Row>
+										<Col>
+											<Button onClick={() => setUploadFormVisibility(true)}>Upload</Button>
+										</Col>
+									</Row>
+								),
 							]}
 						>
 							<DocumentsTable documents={organization.documents} />
