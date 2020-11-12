@@ -20,7 +20,7 @@ import VerdictForm from "./Case/VerdictForm";
 import DocumentForm from "./Document/DocumentForm";
 
 import HearingForm from "./Hearing/HearingForm";
-import HearingsList from "./Hearing/HearingsList";
+//import HearingsList from "./Hearing/HearingsList";
 
 import OrganizationCard from "./Organization/OrganizationCard";
 import OrganizationForm from "./Organization/OrganizationForm";
@@ -50,6 +50,6 @@ export {
   VerdictForm,
   DocumentForm,
   HearingForm,
-  HearingsList,
+  //HearingsList,
   PartyCard,
 };

@@ -2,20 +2,12 @@ import React from "react";
 import { Row, Col, PageHeader, Button } from "antd";
 
 import { DashboardLayout } from "../../../layouts";
-import DocumentsTable from "../../../components/Document/DocumentsTable";
+import HearingsTable from "../../../components/Hearing/HearingTable";
 import { connect } from "react-redux";
-import UploadForm from "../../../components/Document/UploadForm";
 import { useState } from "react";
 import Modal from "antd/lib/modal/Modal";
-import { uploadDocument } from "../../../store/actions/documents";
 
 const DocumentsList = ({ user, history, dispatch }) => {
-  const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
-  const onDocumentUploadClick = async (formData) => {
-    formData.append("creater", user._id);
-    formData.append("createrType", "User");
-    return await dispatch(uploadDocument(formData));
-  };
 
   return (
     <DashboardLayout>
