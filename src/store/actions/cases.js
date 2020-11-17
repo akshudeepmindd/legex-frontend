@@ -39,7 +39,6 @@ export function createCase(payload) {
     const messageKey = "create case";
     dispatch({ type: CREATE_CASE_START });
     try {
-      message.loading({ content: "creating new case...", key: messageKey });
       const response = await $http()({
         url: "/cases",
         data: payload,
@@ -51,8 +50,10 @@ export function createCase(payload) {
         content: "case created successfully",
         key: messageKey,
       });
+      return true;
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
+      return false;
     }
   };
 }

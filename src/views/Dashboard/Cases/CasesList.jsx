@@ -56,22 +56,17 @@ const CasesList = ({
     setModal(true);
   };
 
-  const handleOk = () => {
-    setModal(false);
-  };
-
-  const handleCancel = () => {
-    setModal(false);
-  };
-
   const toggleView = () => {
     setView(!view);
   };
 
-  const onFinish = async (values) =>
-    await dispatch(
+  const onFinish = async (values) => {
+    const response = await dispatch(
       createCase({ createrType: "User", creater: user._id, ...values })
     );
+    setModal(!response);
+    return response;
+  };
 
   const acceptConfirmation = ({ invite, message }) =>
     Modal.confirm({
@@ -210,12 +205,9 @@ const CasesList = ({
 
           {renderCases()}
 
-          <Modal
-            title="Case Form"
-            visible={modal}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
+          <Modal title="Case Form" visible={modal} footer={null} onCancel={ () => {
+            setModal(false);
+          }}>
             <CaseForm onFinish={onFinish} caseTypes={caseTypes} />
           </Modal>
         </>

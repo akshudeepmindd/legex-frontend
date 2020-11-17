@@ -14,7 +14,9 @@ const DocumentsList = ({ user, history, dispatch }) => {
   const onDocumentUploadClick = async (formData) => {
     formData.append("creater", user._id);
     formData.append("createrType", "User");
-    return await dispatch(uploadDocument(formData));
+    const res =  await dispatch(uploadDocument(formData));
+    setUploadFormVisibility(!res);
+    return res;
   };
 
   return (

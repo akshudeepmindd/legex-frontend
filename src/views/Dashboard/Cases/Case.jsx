@@ -176,6 +176,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
               >
                 <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                   <CaseHeader
+                    access = {access}
                     caseData={caseData}
                     showVerdictModal={showVerdictModal}
                   />
@@ -219,7 +220,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
                         <HearingsTable />
                       </Card>
                     </Col>
-                    
+
                   </Row>
                 </Col>
               </Row>

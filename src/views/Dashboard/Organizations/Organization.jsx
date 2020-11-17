@@ -399,7 +399,8 @@ const Organization = ({
             title="Case Form"
             visible={createCaseModalVisibility}
             onFinish={onCreateCaseFinish}
-            onCancel={() => setCreateCaseModalVisibilty(false)}
+			onCancel={() => setCreateCaseModalVisibilty(false)}
+			footer={null}
           >
             <CaseForm onFinish={onCreateCaseFinish} caseTypes={caseTypes} />
           </Modal>

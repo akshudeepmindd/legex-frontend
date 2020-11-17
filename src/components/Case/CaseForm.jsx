@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes, { object } from "prop-types";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const { TextArea } = Input;
 
 const CaseForm = ({ onFinish, title, description, caseTypes, caseType }) => {
+  const [loading, setLoading] = useState(false);
   const renderCaseTypes = () => {
     return caseTypes.map((ct, index) => (
       <Option key={index} value={ct._id}>
@@ -13,8 +15,13 @@ const CaseForm = ({ onFinish, title, description, caseTypes, caseType }) => {
       </Option>
     ));
   };
+  const onSubmitClick = async (values) => {
+    setLoading(true);
+    const res = await onFinish(values);
+    setLoading(false);
+  };
   return (
-    <Form name="CaseForm" onFinish={onFinish}>
+    <Form name="CaseForm" onFinish={onSubmitClick}>
       <Form.Item
         name="title"
         rules={[{ required: true, message: "Please input the case title!" }]}
@@ -41,8 +48,13 @@ const CaseForm = ({ onFinish, title, description, caseTypes, caseType }) => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
+        <Button
+          type="primary"
+          htmlType="submit"
+          disabled={loading}
+          loading={loading}
+        >
+          {loading ? "Submitting" : "Submit"}
         </Button>
       </Form.Item>
     </Form>
