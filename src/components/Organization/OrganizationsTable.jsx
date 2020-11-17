@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Table, Space, Button, Badge, Typography } from "antd";
+import { Table, Space, Button, Badge, Typography, Popconfirm } from "antd";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
 import { deleteOrganization } from "../../store/actions/organization";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteFilled, DeleteOutlined } from "@ant-design/icons";
+
+const textPopConfirm = "Are you sure to delete this organization?";
 
 function OrganizationsTable({ organizations, user, dispatch }) {
   const handleDelete = async (orgId) =>
@@ -15,10 +17,17 @@ function OrganizationsTable({ organizations, user, dispatch }) {
   function Conditionally(organization) {
     if (organization.organization.owner._id === user) {
       return (
-        <Button
-          icon={<DeleteOutlined />}
-          onClick={() => handleDelete(organization.organization._id)}
-        />
+        <Popconfirm
+          placement="right"
+          title={textPopConfirm}
+          onConfirm={() => {
+            handleDelete(organization.organization._id);
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button icon={<DeleteFilled />} />
+        </Popconfirm>
       );
     }
     return <></>;

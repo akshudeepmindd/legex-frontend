@@ -213,11 +213,13 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
                         <Conditionally />
                       </Row>
                     </Col>
+
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                       <Card bordered={false} title="Case Hearing's">
                         <HearingsTable />
                       </Card>
                     </Col>
+                    
                   </Row>
                 </Col>
               </Row>

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Table, Modal } from "antd";
+import { Button, Table, Modal, Popconfirm, message } from "antd";
 import { DeleteFilled, ExclamationCircleOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { deleteDocument } from "../../store/actions/documents";
 const { confirm } = Modal;
+
+const textPopConfirm = "Are you sure to delete this document?";
 
 function DocumentsTable({ documents, dispatch }) {
   const [columns] = useState([
@@ -25,23 +27,17 @@ function DocumentsTable({ documents, dispatch }) {
       width: 200,
       key: "actions",
       render: (doc) => (
-        <Button
-          icon={<DeleteFilled />}
-          onClick={() => {
-            //dispatch(deleteDocument(doc._id));
-            confirm({
-              title: "Do you want to delete these item?",
-              icon: <ExclamationCircleOutlined />,
-              content: "It will be deleted permanently!",
-              onOk() {
-                dispatch(deleteDocument(doc._id));
-              },
-              onCancel() {
-                console.log("Cancel");
-              },
-            });
+        <Popconfirm
+          placement="right"
+          title={textPopConfirm}
+          onConfirm={() => {
+            dispatch(deleteDocument(doc._id));
           }}
-        />
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button icon={<DeleteFilled />} />
+        </Popconfirm>
       ),
     },
   ]);

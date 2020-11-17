@@ -1,7 +1,8 @@
 import React from "react";
-import { PageHeader, Tag, Button, Descriptions } from "antd";
+import { PageHeader, Tag, Button, Descriptions, Popconfirm } from "antd";
 import PropTypes from "prop-types";
 
+const textPopConfirm = "Are you sure to delete this document?";
 const CaseHeader = ({ caseData, showVerdictModal }) => {
   return (
     <PageHeader
@@ -10,8 +11,16 @@ const CaseHeader = ({ caseData, showVerdictModal }) => {
       subTitle={<a href={caseData.meetingUrl}>meeting url</a>}
       tags={<Tag color="blue">{caseData.status}</Tag>}
       extra={[
-        <Button key="2">Suspend case</Button>,
-        <Button key="1" type="primary" onClick={showVerdictModal}>
+        <Popconfirm
+          placement="right"
+          //onConfirm={}
+          title={textPopConfirm}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button key="2" type="danger">Suspend case</Button>
+        </Popconfirm>,
+        <Button key="1" style={{ background: "	lime", borderColor: "yellow" }} onClick={showVerdictModal}>
           Make Verdict
         </Button>,
       ]}
