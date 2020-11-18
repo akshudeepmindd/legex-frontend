@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Table, Tag, Badge, Typography } from "antd";
-
+import "./tablestyles.css";
+import "antd/dist/antd.css";
 const { Text } = Typography;
 
 function CasePartiesTable({parties}) {
@@ -25,7 +26,7 @@ function CasePartiesTable({parties}) {
   ];
 
   return (
-    <Table columns={columns} dataSource={parties} scroll={{ x: 200, y: 300 }} />
+    <Table rowClassName={() => "rowClassName1"} columns={columns} dataSource={parties} scroll={{ x: 200, y: 300 }} />
   );
 }
 

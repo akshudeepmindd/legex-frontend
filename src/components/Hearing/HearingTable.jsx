@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Table, Tag, Badge, Typography } from "antd";
+import "./tablestyles.css";
+import "antd/dist/antd.css";
 
 const { Text } = Typography;
 
@@ -69,7 +71,7 @@ function HearingsTable({ cases }) {
   ];
 
   return (
-    <Table columns={columns} dataSource={cases} scroll={{ x: 400, y: 300 }} />
+    <Table  rowClassName={() => "rowClassName1"} columns={columns} dataSource={cases} scroll={{ x: 400, y: 300 }} />
   );
 }
 

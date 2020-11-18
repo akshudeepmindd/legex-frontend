@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./tablestyles.css";
+import "antd/dist/antd.css";
 import { Link } from "react-router-dom";
 import { Table, Tag, Badge, Typography } from "antd";
 
@@ -69,7 +71,7 @@ function CasesTable({ cases }) {
   ];
 
   return (
-    <Table columns={columns} dataSource={cases} scroll={{ x: 700, y: 300 }} />
+    <Table rowClassName={() => "rowClassName1"} columns={columns} dataSource={cases} scroll={{ x: 700, y: 800}} />
   );
 }
 

@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import { Button, Table, Modal, Popconfirm, message } from "antd";
 import { DeleteFilled, ExclamationCircleOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
+import "./tablestyles.css";
+import "antd/dist/antd.css";
 import { deleteDocument } from "../../store/actions/documents";
 const { confirm } = Modal;
+
 
 const textPopConfirm = "Are you sure to delete this document?";
 
@@ -46,6 +49,7 @@ function DocumentsTable({ documents, dispatch }) {
     <Table
       columns={columns}
       dataSource={documents}
+      rowClassName={() => "rowClassName1"} columns={columns}
       scroll={{ x: 400, y: 300 }}
     />
   );

@@ -1,0 +1,31 @@
+.rowClassName1 {
+  background-color: #EDEDED;
+  border-radius: 10px;
+  border-color:  #EDEDED;
+  border-width: 3px;
+  border-style: solid;
+  
+}
+
+.rowClassName1 td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.rowClassName1 td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.monitorTableStyle .ant-table-container .ant-table-content table .ant-table-thead tr th:first-child{
+  background-color: #EDEDED;
+  border-color:  #EDEDED;
+  border-top-left-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;
+}
+
+.monitorTableStyle .ant-table-container .ant-table-content table .ant-table-thead tr th:last-child{
+  background-color: #EDEDED;
+  border-color:  #EDEDED;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}

@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import { DeleteOutlined } from "@ant-design/icons";
 import { removeMember } from "../../store/actions/organization";
 
+import "./tablestyles.css";
+import "antd/dist/antd.css";
+
 function MembersTable({ members, owner, user, organizationId, dispatch }) {
   const handleMemberDelete = (member) =>
     dispatch(removeMember({ organizationId, data: { member } }));
@@ -62,7 +65,7 @@ function MembersTable({ members, owner, user, organizationId, dispatch }) {
   ];
 
   return (
-    <Table columns={columns} dataSource={members} scroll={{ x: 400, y: 300 }} />
+    <Table rowClassName={() => "rowClassName1"} columns={columns} dataSource={members} scroll={{ x: 400, y: 300 }} />
   );
 }
 
