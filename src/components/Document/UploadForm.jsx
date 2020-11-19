@@ -32,7 +32,12 @@ export default function UploadForm({ formData, onUpload }) {
 
 	return (
 		<>
-			<Upload onRemove={onRemove} beforeUpload={beforeUpload} fileList={fileList}>
+			<Upload
+				onRemove={onRemove}
+				beforeUpload={beforeUpload}
+				fileList={fileList}
+				accept=".jpeg, .jpg, .png, .pdf"
+			>
 				<Button icon={<UploadOutlined />}>Select File</Button>
 			</Upload>
 			<Button
