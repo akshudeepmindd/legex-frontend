@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { Row, Col, Button, Card, Steps, List, Modal, Comment, Avatar, message } from "antd"
-import { UserOutlined, EditOutlined } from "@ant-design/icons"
+import { Row, Col, Button, Card, Steps, Modal, message } from "antd"
+import { EditOutlined } from "@ant-design/icons"
 import { connect } from "react-redux"
-import { useParams, Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
 import { DashboardLayout } from "../../../layouts"
 
@@ -68,8 +68,6 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 	}, [user, caseData])
 
 	const showInviteModal = () => setInviteModal(true)
-
-	const showDocumentModal = () => setDocumentModal(true)
 
 	const showVerdictModal = () => setVerdictModal(true)
 

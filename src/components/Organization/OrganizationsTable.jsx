@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { deleteOrganization } from "../../store/actions/organization";
-import { DeleteFilled, DeleteOutlined } from "@ant-design/icons";
+import { DeleteFilled } from "@ant-design/icons";
 
 const textPopConfirm = "Are you sure to delete this organization?";
 

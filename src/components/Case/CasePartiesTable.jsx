@@ -1,10 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Table, Tag, Badge, Typography } from "antd";
+import { Table } from "antd";
 import "./tablestyles.css";
 import "antd/dist/antd.css";
-const { Text } = Typography;
 
 function CasePartiesTable({parties}) {
   const columns = [
