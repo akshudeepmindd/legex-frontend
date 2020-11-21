@@ -1,82 +1,52 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Table, Tag, Badge, Typography } from "antd";
-import "./tablestyles.css";
-import "antd/dist/antd.css";
+import React from "react"
+import { Table, Typography } from "antd"
+import "./tablestyles.css"
+import "antd/dist/antd.css"
+import moment from "moment"
 
-const { Text } = Typography;
+const { Text } = Typography
 
-function HearingsTable({ cases }) {
-  const columns = [
-    {
-      title: "Hearing",
-      key: "hearing",
-      width: 100,
-    //   render: () => (
+function HearingsTable({ hearings }) {
+	const columns = [
+		{
+			title: "Date",
+			key: "date",
+			width: 100,
+			dataIndex: "startDateTime",
+			render: (sdt) => <Text>{moment(sdt).format("DD-MM-YYYY")}</Text>,
+		},
+		{
+			title: "Time",
+			dataIndex: "startDateTime",
+			width: 100,
+			key: "time",
+			render: (sdt) => <Text>{moment(sdt).format("hh:mm:ss A")}</Text>,
+		},
+		{
+			title: "Duration",
+			dataIndex: "duration",
+			width: 100,
+			key: "duration",
+			render: (duration) => <Text>{duration || "--"}</Text>,
+		},
+		{
+			title: "Docs",
+			dataIndex: "documents",
+			width: 100,
+			key: "docs",
+			render: (documents) => (
+				<Text>
+					{documents.map((d, index) => (
+						<a target="_blank" key={index} rel="noopener noreferrer" href={d.url}>
+							{d.name} {index < documents.length - 1 && ","}
+						</a>
+					))}
+				</Text>
+			),
+		},
+	]
 
-    //   ),
-    },
-    {
-      title: "Date",
-      key: "date",
-      width: 100,
-      dataIndex: "date",
-      //render: (description) => <Text>{description}</Text>,
-    },
-    {
-      title: "Time",
-      dataIndex: "time",
-      width: 100,
-      key: "time",
-      //render: (caseType) => <>{caseType.name}</>,
-    },
-    {
-      title: "Docs",
-      dataIndex: "docs",
-      width: 100,
-      key: "docs",
-    //   render: (hearings) => (
-    //     <Badge
-    //       count={hearings.length}
-    //       style={{ backgroundColor: "#1F40E6" }}
-    //       showZero
-    //     />
-    //   ),
-    },
-    // {
-    //   title: "Parties",
-    //   dataIndex: "parties",
-    //   width: 100,
-    //   key: "parties",
-    //   render: (parties) => (
-    //     <Badge
-    //       count={parties.length}
-    //       style={{ backgroundColor: "#1F40E6" }}
-    //       showZero
-    //     />
-    //   ),
-    // },
-    // {
-    //   title: "Status",
-    //   dataIndex: "status",
-    //   width: 100,
-    //   key: "status",
-    //   render: (status) => (
-    //     <Tag color="blue" key={status}>
-    //       {status}
-    //     </Tag>
-    //   ),
-    // },
-  ];
-
-  return (
-    <Table  rowClassName={() => "rowClassName1"} columns={columns} dataSource={cases} scroll={{ x: 400, y: 300 }} />
-  );
+	return <Table columns={columns} dataSource={hearings} scroll={{ x: 400, y: 300 }} />
 }
 
-// CasesTable.propTypes = {
-//   cases: PropTypes.string.isRequired,
-// };
-
-export default HearingsTable;
+export default HearingsTable
