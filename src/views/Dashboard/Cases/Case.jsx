@@ -109,7 +109,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 						),
 					]}
 				>
-					<CasePartiesTable />
+					<CasePartiesTable members={caseData.members} organizations={caseData.organizations} />
 				</Card>
 			</Col>
 		</>
