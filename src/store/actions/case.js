@@ -5,6 +5,8 @@ import {
 	FETCH_CASE_SUCCESS,
 	INVITE_PARTY_START,
 	INVITE_PARTY_SUCCESS,
+	QUIT_CASE_START,
+	QUIT_CASE_SUCCESS,
 } from "../constants/case"
 
 const fetchCaseSuccess = (c) => ({
@@ -52,6 +54,28 @@ export function inviteParty(payload) {
 			message.success({ content: "party invited", key: messageKey })
 		} catch (error) {
 			console.error(error.message)
+			message.error({ content: error.message, key: messageKey })
+		}
+	}
+}
+
+export function quitCase(payload){
+	return async(dispatch) =>{
+		console.log(payload);
+		dispatch({ type: QUIT_CASE_START })
+		const messageKey = "quit case"
+		try {
+			message.loading({ content: "Quiting Case", key: messageKey })
+			const response = await $http()({
+				url: `/cases/${payload}`,
+				data: payload,
+				method: "DELETE",
+			})
+			if (!response.data.success) throw new Error(response.data.message)
+			// dispatch({type:QUIT_CASE_SUCCESS})
+			message.success({ content: "case Quited", key: messageKey })
+		} catch (error) {
+			console.error(error)
 			message.error({ content: error.message, key: messageKey })
 		}
 	}

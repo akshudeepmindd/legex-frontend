@@ -1,9 +1,24 @@
 import React from "react";
 import { PageHeader, Tag, Button, Descriptions, Popconfirm } from "antd";
 import PropTypes from "prop-types";
+import { quitCase } from "../../store/actions/case";
+import { useHistory, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const textPopConfirm = "Are you sure to delete this document?";
 const CaseHeader = ({ caseData, showVerdictModal, access }) => {
+
+  const dispatch = useDispatch();
+  const { caseId } = useParams()
+  const history = useHistory();
+  
+  const handleQuit = async () =>{
+    await dispatch(
+      quitCase(caseId)
+    )
+    history.push(`/dashboard/cases/`);
+  }
+
   return (
     <PageHeader
       ghost={false}
@@ -19,7 +34,7 @@ const CaseHeader = ({ caseData, showVerdictModal, access }) => {
           okText="Yes"
           cancelText="No"
         >
-          <Button key="2"  type="primary" style={{ background: "red", borderColor: "red" }}>Quit Case</Button>
+          <Button key="2"  type="primary" style={{ background: "red", borderColor: "red" }} onClick={handleQuit}>Quit Case</Button>
         </Popconfirm>
       ]}
     >
@@ -37,6 +52,10 @@ const CaseHeader = ({ caseData, showVerdictModal, access }) => {
     </PageHeader>
   );
 };
+
+// const mapStateToProps = (state) => ({
+//   caseData: state.case,
+// })
 
 CaseHeader.propTypes = {
   showVerdictModal: PropTypes.func.isRequired,
