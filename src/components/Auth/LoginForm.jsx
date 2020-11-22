@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, Input, Button, Checkbox } from "antd";
-import { Link } from "react-router-dom";
+import { Form, Input, Button} from "antd";
+//import { Link } from "react-router-dom";
 
 const LoginForm = ({ onFinish, googleLogin, facebookLogin, loading }) => {
   return (
@@ -20,15 +20,17 @@ const LoginForm = ({ onFinish, googleLogin, facebookLogin, loading }) => {
         <Input.Password placeholder="Password" />
       </Form.Item>
 
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
+      {/* 
+          <Form.Item>
+      <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>Remember Me</Checkbox>
         </Form.Item>
 
         <Link to="/forgot-password" className="login-form-forgot">
           Forgot password
         </Link>
-      </Form.Item>
+        </Form.Item>
+      */}
 
       <Form.Item>
         <Button type="primary" htmlType="submit" block loading={loading}>

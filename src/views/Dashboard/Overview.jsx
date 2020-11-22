@@ -8,14 +8,15 @@ import {
   Col,
   Card,
   Avatar,
-  Form,
-  Select,
-  Comment,
-  List,
+  //Form,
+  //Select,
+  //Comment,
+  //List,
   Button,
   Typography,
   Modal,
   Empty,
+  Descriptions,
 } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 
@@ -25,7 +26,7 @@ import { CasesTable, ProfileForm } from "../../components";
 
 const { Text } = Typography;
 const { Meta } = Card;
-const { Option } = Select;
+//const { Option } = Select;
 
 const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
   const [selectedOrganization, setSelectedOrganization] = useState([]);
@@ -81,7 +82,17 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
               />
             }
             title={`${user.firstName} ${user.lastName}`}
-            description={[<Text>{user.email}</Text>, <Text>{user.phone}</Text>]}
+            description={[
+              <Descriptions size="small" column={1}>
+                <Descriptions.Item label="User Email">
+                  {<Text>{user.email}</Text>}
+                </Descriptions.Item>
+
+                <Descriptions.Item label="Phone Number">
+                  <Text>{user.phone}</Text>
+                </Descriptions.Item>
+              </Descriptions>,
+            ]}
           />
         </Card>
       );
@@ -115,17 +126,17 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
     ));
   };
 
-  const organizationOptions = (organizations) =>
-    organizations.map((organization) => (
-      <Option key={organization._id}>{organization.name}</Option>
-    ));
+  // const organizationOptions = (organizations) =>
+  //   organizations.map((organization) => (
+  //     <Option key={organization._id}>{organization.name}</Option>
+  //   ));
 
-  const selectOrganization = (value) => {
-    const selected = organizations.filter(
-      (organization) => organization._id === value
-    );
-    setSelectedOrganization(selected[0].members);
-  };
+  // const selectOrganization = (value) => {
+  //   const selected = organizations.filter(
+  //     (organization) => organization._id === value
+  //   );
+  //   setSelectedOrganization(selected[0].members);
+  // };
 
   return (
     <DashboardLayout>
@@ -139,13 +150,13 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
             justify="center"
             align="top"
           >
-            <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               {renderUserProfile()}
             </Col>
 
-            <Col xs={24} sm={24} md={6} lg={6} xl={6} />
-
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+            {/*
+              <Col xs={24} sm={24} md={6} lg={6} xl={6} />
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
               <Card bordered={false} title="My Organizations">
                 <Form>
                   <Form.Item>
@@ -156,7 +167,7 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
                   {renderOrganizationMembers()}
                 </Form>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
 
           <Row
@@ -165,10 +176,10 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
               { xs: 8, sm: 16, md: 24, lg: 32 },
             ]}
           >
-            <Col xs={24} sm={24} md={14} lg={14} xl={14}>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Card title="All Cases">{renderCasesTable()}</Card>
             </Col>
-            <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+            {/*<Col xs={24} sm={24} md={10} lg={10} xl={10}>
               <Card bordered={false} title="Messages">
                 <List
                   className="comment-list"
@@ -187,7 +198,7 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
                   )}
                 />
               </Card>
-            </Col>
+            </Col> */}
           </Row>
 
           <Modal
