@@ -113,7 +113,7 @@ const CasesList = ({
                       invite.senderType === "User"
                         ? `${invite.sender.firstName} ${invite.sender.lastName}`
                         : invite.sender.name
-                    }'s invitation to case ${invite.case}?`,
+                    }'s invitation to case ${invite.case.title}?`,
                   });
                 }}
               >
