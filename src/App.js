@@ -5,7 +5,7 @@ import { fetchOrganizations } from "./store/actions/organizations"
 import { fetchUser } from "./store/actions/user"
 import { fetchCaseTypes } from "./store/actions/caseTypes"
 import { fetchCases } from "./store/actions/cases"
-
+import {WithAuth} from "./WithAuth"
 import {
 	Home,
 	Clients,
@@ -52,18 +52,18 @@ function App({ dispatch, auth }) {
 				<Route path="/forgot-password" component={ForgotPassword} />
 				<Route path="/reset-password" component={ResetPassword} />
 
-				<Route path="/dashboard/overview" component={Overview} />
+				<Route path="/dashboard/overview" component={WithAuth(Overview)} />
 
-				<Route path="/dashboard/cases" component={CasesList} exact />
-				<Route path="/dashboard/cases/:caseId" component={Case} />
+				<Route path="/dashboard/cases" component={WithAuth(CasesList)} exact />
+				<Route path="/dashboard/cases/:caseId" component={WithAuth(Case)} />
 
-				<Route path="/dashboard/documents" component={DocumentsList} exact />
-				<Route path="/dashboard/documents/:document" component={Document} />
+				<Route path="/dashboard/documents" component={WithAuth(DocumentsList)} exact />
+				<Route path="/dashboard/documents/:document" component={WithAuth(Document)} />
 
-				<Route path="/dashboard/organizations" component={OrganizationsList} exact />
-				<Route path="/dashboard/organizations/:organizationId" component={Organization} />
+				<Route path="/dashboard/organizations" component={WithAuth(OrganizationsList)} exact />
+				<Route path="/dashboard/organizations/:organizationId" component={WithAuth(Organization)} />
 
-				<Route path="/dashboard/appointments" component={Appointments} />
+				<Route path="/dashboard/appointments" component={WithAuth(Appointments)} />
 			</Switch>
 		</Router>
 	)
