@@ -46,7 +46,7 @@ function HearingsTable({ hearings }) {
 		},
 	]
 
-	return <Table columns={columns} dataSource={hearings} scroll={{ x: 400, y: 300 }} />
+	return <Table rowClassName={() => "rowClassName1"} columns={columns} dataSource={hearings} scroll={{ x: 400, y: 300 }} />
 }
 
 export default HearingsTable
