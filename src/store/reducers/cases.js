@@ -5,7 +5,7 @@ import {
 	CREATE_CASE_SUCCESS,
 	ADD_CASE,
 } from "../constants/cases"
-
+import { QUIT_CASE_SUCCESS } from "../constants/case"
 export const initialState = null
 
 export default function casesReducers(state = initialState, action) {
@@ -17,6 +17,8 @@ export default function casesReducers(state = initialState, action) {
 		case CREATE_CASE_SUCCESS:
 			return [...state, action.payload]
 
+		case QUIT_CASE_SUCCESS:
+			return state.filter((c) => c !== action.payload._id)
 		case FETCH_CASES_START:
 		case CREATE_CASE_START:
 		default:

@@ -19,6 +19,11 @@ const invitePartySuccess = (payload) => ({
 	payload,
 })
 
+const quitCaseSuccess = (payload) => ({
+	type: QUIT_CASE_SUCCESS,
+	payload,
+})
+
 export function fetchCase(payload) {
 	return async (dispatch) => {
 		const messageKey = "fetch case"
@@ -59,24 +64,22 @@ export function inviteParty(payload) {
 	}
 }
 
-export function quitCase(payload){
-	return async(dispatch) =>{
-		console.log(payload);
+export function quitCase(payload) {
+	return async (dispatch) => {
+		console.log(payload)
 		dispatch({ type: QUIT_CASE_START })
 		const messageKey = "quit case"
 		try {
-			message.loading({ content: "Quiting Case", key: messageKey })
 			const response = await $http()({
 				url: `/cases/${payload}`,
-				data: payload,
 				method: "DELETE",
 			})
 			if (!response.data.success) throw new Error(response.data.message)
-			// dispatch({type:QUIT_CASE_SUCCESS})
-			message.success({ content: "case Quited", key: messageKey })
+			dispatch(quitCaseSuccess(response.data.data))
+			return true
 		} catch (error) {
-			console.error(error)
 			message.error({ content: error.message, key: messageKey })
+			return false
 		}
 	}
 }
