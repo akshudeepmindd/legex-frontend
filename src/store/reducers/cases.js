@@ -18,7 +18,8 @@ export default function casesReducers(state = initialState, action) {
 			return [...state, action.payload]
 
 		case QUIT_CASE_SUCCESS:
-			return state.filter((c) => c !== action.payload._id)
+			return state.filter((c) => c._id !== action.payload._id)
+
 		case FETCH_CASES_START:
 		case CREATE_CASE_START:
 		default:
