@@ -114,6 +114,7 @@ const Organization = ({
         creater: organization._id,
         ...values,
       })
+      
     );
 
   const acceptConfirmation = ({ invite, message }) =>
@@ -194,7 +195,6 @@ const Organization = ({
     formData.append("createrType", "Organization");
     return await dispatch(uploadDocument(formData));
   };
-
   const textPopConfirm = "Are you sure to delete this organization?";
   function Conditionally() {
     if (organization.owner._id === user._id) {
@@ -399,8 +399,10 @@ const Organization = ({
             title="Case Form"
             visible={createCaseModalVisibility}
             onFinish={onCreateCaseFinish}
-			onCancel={() => setCreateCaseModalVisibilty(false)}
-			footer={null}
+            onCancel={() => setCreateCaseModalVisibilty(false)}
+            destroyOnClose={true}
+
+            footer={null}
           >
             <CaseForm onFinish={onCreateCaseFinish} caseTypes={caseTypes} />
           </Modal>

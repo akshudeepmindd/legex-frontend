@@ -48,7 +48,6 @@ export function inviteParty(payload) {
 		dispatch({ type: INVITE_PARTY_START })
 		const messageKey = "invite party"
 		try {
-			message.loading({ content: "Inviting party..", key: messageKey })
 			const response = await $http()({
 				url: `/invites/`,
 				data: payload,
@@ -56,10 +55,11 @@ export function inviteParty(payload) {
 			})
 			if (!response.data.success) throw new Error(response.data.message)
 			dispatch(invitePartySuccess(response.data.data))
-			message.success({ content: "party invited", key: messageKey })
+			return true
 		} catch (error) {
 			console.error(error.message)
 			message.error({ content: error.message, key: messageKey })
+			return false
 		}
 	}
 }

@@ -13,8 +13,9 @@ const { Paragraph } = Typography;
 
 const CaseCard = ({ data }) => {
   const history = useHistory();
-
+  {console.log(data)}
   return (
+    
     <Card
       title={
         <List>
@@ -59,7 +60,8 @@ const CaseCard = ({ data }) => {
             <UsergroupAddOutlined /> Members
           </Typography.Text>
           <Badge
-            count={data.parties.length}
+            count={data.members.length + data.organizations.length}
+
             style={{ backgroundColor: '#1F40E6' }}
             showZero
           />

@@ -129,8 +129,9 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
     </>
   );
 
-  const onInvitationFormSubmit = (values) =>
-    dispatch(
+  const onInvitationFormSubmit = async (values) => {
+    
+    const res = await dispatch(
       inviteParty({
         senderType: access.type,
         sender: access.id,
@@ -139,6 +140,11 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
         ...values,
       })
     );
+    if(res){
+      setInviteModal(false);
+    }
+    return res;
+  };
 
   const checkCurrent = () => {
     if (caseData.status === "creation") return 1;
