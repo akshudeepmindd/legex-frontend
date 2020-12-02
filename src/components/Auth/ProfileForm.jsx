@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from 'antd';
+import { Form, Input,Button, } from 'antd';
 
 function ProfileForm(props) {
-  const { onFinish, handleChange, firstName, lastName, email, phone } = props;
+  const { onFinish, handleChange, firstName, lastName, phone } = props;
+  
   return (
     <Form name="ProfileForm" onFinish={onFinish}>
       <Form.Item
@@ -12,7 +13,7 @@ function ProfileForm(props) {
       >
         <Input
           placeholder="First name"
-          value={firstName}
+          defaultValue={firstName}
           onChange={handleChange}
         />
       </Form.Item>
@@ -23,7 +24,7 @@ function ProfileForm(props) {
       >
         <Input
           placeholder="Last name"
-          value={lastName}
+          defaultValue={lastName}
           onChange={handleChange}
         />
       </Form.Item>
@@ -32,14 +33,19 @@ function ProfileForm(props) {
         name="phone"
         rules={[{ required: true, message: 'Please input your phone!' }]}
       >
-        <Input placeholder="Phone" value={phone} onChange={handleChange} />
+        <Input placeholder="Phone" defaultValue={phone} onChange={handleChange} />
       </Form.Item>
 
       <Form.Item
-        name="email"
-        rules={[{ required: true, message: 'Please input your email!' }]}
+        name="password"
+        rules={[{ required: false }]}
       >
-        <Input placeholder="Email" value={email} onChange={handleChange} />
+        <Input placeholder="If you want to change Password" onChange={handleChange} />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
       </Form.Item>
     </Form>
   );

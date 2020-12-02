@@ -23,12 +23,13 @@ import { UserOutlined, EditOutlined } from "@ant-design/icons";
 // components
 import { DashboardLayout } from "../../layouts";
 import { CasesTable, ProfileForm } from "../../components";
+import { editUser } from "../../store/actions/user";
 
 const { Text } = Typography;
 const { Meta } = Card;
 //const { Option } = Select;
 
-const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
+const Overview = ({ user, cases, casesLoading, organizations, messages, dispatch }) => {
   const [selectedOrganization, setSelectedOrganization] = useState([]);
   const [profileModal, setProfileModal] = useState(false);
 
@@ -55,6 +56,13 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
       />
     );
   };
+
+  const onUpdateFinish = async (values) =>
+  await dispatch(
+    editUser({
+      data: values,
+    })
+  );
 
   const renderUserProfile = () => {
     if (user.hasOwnProperty("firstName")) {
@@ -207,7 +215,7 @@ const Overview = ({ user, cases, casesLoading, organizations, messages }) => {
             onOk={handleOk}
             onCancel={handleCancel}
           >
-            <ProfileForm />
+            <ProfileForm onFinish={onUpdateFinish}  firstName={user.firstName} lastName={user.lastName} phone={user.phone}/>
           </Modal>
         </>
       ) : (

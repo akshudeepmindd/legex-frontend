@@ -24,3 +24,23 @@ export function fetchUser(payload) {
     }
   };
 }
+
+export function editUser(data) {
+  return async (dispatch) => {
+    const messageKey = "fetch user";
+    dispatch({ type: FETCH_USER_SATRT });
+    try {
+      message.loading({ content: "fetching user details..", key: messageKey });
+      const response = await $http()({
+        url: `/users/${data.payload}`,
+        data : data,
+        method: "PUT",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(fetchUserSuccess(response.data.data));
+      message.success({ content: "loaded user", key: messageKey });
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
