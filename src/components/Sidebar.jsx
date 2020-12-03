@@ -5,8 +5,8 @@ import {
   ApartmentOutlined,
   FolderOutlined,
   WalletOutlined,
-  SettingOutlined,
-  InfoCircleOutlined,
+  //SettingOutlined,
+  //InfoCircleOutlined,
   CalendarOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";

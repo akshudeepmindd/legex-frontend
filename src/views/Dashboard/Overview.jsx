@@ -30,7 +30,7 @@ const { Meta } = Card;
 //const { Option } = Select;
 
 const Overview = ({ user, cases, casesLoading, organizations, messages, dispatch }) => {
-  const [selectedOrganization, setSelectedOrganization] = useState([]);
+  //const [selectedOrganization, setSelectedOrganization ] = useState([]);
   const [profileModal, setProfileModal] = useState(false);
 
   const toggleModal = () => {
@@ -112,27 +112,27 @@ const Overview = ({ user, cases, casesLoading, organizations, messages, dispatch
     );
   };
 
-  const renderOrganizationMembers = () => {
-    selectedOrganization.map((member) => (
-      <Card bordered={false}>
-        <Meta
-          avatar={
-            <Avatar
-              size={64}
-              icon={<UserOutlined />}
-              className="avatar-placeholder"
-              shape="square"
-            />
-          }
-          title={member.firstName}
-          description={[
-            <Text>{member.email}</Text>,
-            <Text>{member.phone}</Text>,
-          ]}
-        />
-      </Card>
-    ));
-  };
+  // const renderOrganizationMembers = () => {
+  //   selectedOrganization.map((member) => (
+  //     <Card bordered={false}>
+  //       <Meta
+  //         avatar={
+  //           <Avatar
+  //             size={64}
+  //             icon={<UserOutlined />}
+  //             className="avatar-placeholder"
+  //             shape="square"
+  //           />
+  //         }
+  //         title={member.firstName}
+  //         description={[
+  //           <Text>{member.email}</Text>,
+  //           <Text>{member.phone}</Text>,
+  //         ]}
+  //       />
+  //     </Card>
+  //   ));
+  // };
 
   // const organizationOptions = (organizations) =>
   //   organizations.map((organization) => (

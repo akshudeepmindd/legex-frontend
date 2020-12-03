@@ -66,7 +66,7 @@ export function inviteParty(payload) {
 
 export function quitCase(payload) {
 	return async (dispatch) => {
-		console.log(payload)
+		//console.log(payload)
 		dispatch({ type: QUIT_CASE_START })
 		const messageKey = "quit case"
 		try {
