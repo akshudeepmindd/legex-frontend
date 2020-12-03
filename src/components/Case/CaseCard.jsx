@@ -13,9 +13,7 @@ const { Paragraph } = Typography;
 
 const CaseCard = ({ data }) => {
   const history = useHistory();
-  {console.log(data)}
   return (
-    
     <Card
       title={
         <List>

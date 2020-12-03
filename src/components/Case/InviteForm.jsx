@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Form, Input, Button, Radio } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+//import { LoadingOutlined } from "@ant-design/icons";
 
 function InviteForm(props) {
   const { onFinish } = props;
