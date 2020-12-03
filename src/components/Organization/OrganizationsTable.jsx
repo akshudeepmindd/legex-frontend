@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import { deleteOrganization } from "../../store/actions/organization";
 import { DeleteFilled } from "@ant-design/icons";
+import "./tablestyles.css";
 
 const textPopConfirm = "Are you sure to delete this organization?";
 
@@ -104,6 +105,7 @@ function OrganizationsTable({ organizations, user, dispatch }) {
   return (
     <Table
       columns={columns}
+      rowClassName={() => "rowClassName1"}
       dataSource={organizations}
       scroll={{ x: 600, y: 300 }}
     />

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Menu } from 'antd';
+import React from "react";
+import { Menu } from "antd";
 import {
   HomeOutlined,
   ApartmentOutlined,
@@ -9,26 +9,22 @@ import {
   InfoCircleOutlined,
   CalendarOutlined,
   LogoutOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 
-import {
-  logout,
-} from '../store/actions/auth';
+import { logout } from "../store/actions/auth";
 
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function Sidebar() {
-  
   const dispatch = useDispatch();
 
   const Logout = async () => {
     localStorage.removeItem("access-token");
     localStorage.removeItem("user-id");
     dispatch(logout());
-    
-  }
-  
+  };
+
   return (
     <div className="sidebar">
       <Menu theme="dark" mode="inline">
@@ -48,6 +44,7 @@ function Sidebar() {
           <Link to="/dashboard/cases">Cases</Link>
         </Menu.Item>
       </Menu>
+      {/* 
       <Menu theme="dark" mode="inline">
         <Menu.Item key="/dashboard/settings" icon={<SettingOutlined />}>
           <Link to="/dashboard/settings">Settings</Link>
@@ -55,10 +52,11 @@ function Sidebar() {
         <Menu.Item key="/dashboard/help" icon={<InfoCircleOutlined />}>
           <Link to="/dashboard/help">Help</Link>
         </Menu.Item>
-      </Menu>
+        </Menu>
+      */}
 
-      <Menu  theme="dark" mode="inline">
-        <Menu.Item key="/login" icon={<LogoutOutlined />} onClick ={Logout}>
+      <Menu theme="dark" mode="inline">
+        <Menu.Item key="/login" icon={<LogoutOutlined />} onClick={Logout}>
           <Link to="/login">Log Out</Link>
         </Menu.Item>
       </Menu>
