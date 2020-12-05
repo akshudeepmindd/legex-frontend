@@ -20,7 +20,7 @@ const CaseHeader = ({ caseData, showVerdictModal, access }) => {
 		<PageHeader
 			ghost={false}
 			title={caseData.title}
-			subTitle={<a href={caseData.meetingUrl}>meeting url</a>}
+			subTitle={<a target="blank" href={caseData.meetingUrl}>meeting url</a>}
 			tags={<Tag color="blue">{caseData.status}</Tag>}
 			extra={[
 				access && access.access && (
