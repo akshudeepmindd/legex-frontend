@@ -94,8 +94,10 @@ export function createCase(payload) {
       //   content: "case created successfully",
       //   key: messageKey,
       // });
+      return true;
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
+      return false;
     }
   };
 }
@@ -113,10 +115,12 @@ export function inviteMember(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(inviteMemberSuccess(response.data.data));
+      return true;
       //message.success({ content: "member invited", key: messageKey });
     } catch (error) {
       console.error(error.message);
       message.error({ content: error.message, key: messageKey });
+      return false;
     }
   };
 }
@@ -174,9 +178,11 @@ export function updateOrganization(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(updateOrganizationSuccess(response.data.data));
+      return true;
       //message.success({ content: "updated organization", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
+      return false;
     }
   };
 }

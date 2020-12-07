@@ -46,10 +46,10 @@ export function createCase(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(createCaseSuccess(response.data.data));
-      message.success({
-        content: "case created successfully",
-        key: messageKey,
-      });
+      // message.success({
+      //   content: "case created successfully",
+      //   key: messageKey,
+      // });
       return true;
     } catch (error) {
       message.error({ content: error.message, key: messageKey });

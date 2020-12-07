@@ -18,6 +18,7 @@ const CaseHeader = ({ caseData, showVerdictModal, access }) => {
 
   return (
     <PageHeader
+      onBack={() => window.history.back()}
       ghost={false}
       title={caseData.title}
       subTitle={

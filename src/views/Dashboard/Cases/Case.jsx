@@ -92,7 +92,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
       data: fd,
     })
       .then((res) => {
-        message.success("upload successfully.");
+        //message.success("upload successfully.");
         return true;
       })
       .catch(() => {
@@ -114,6 +114,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
                 block
                 type="primary"
                 onClick={showInviteModal}
+                style={{maxWidth : '95%', marginBottom: 10}}
               >
                 Send Invite
               </Button>

@@ -79,7 +79,8 @@ const Organization = ({
   };
 
   const renderCases = () => <CasesTable cases={organization.cases} />;
-
+  
+  
   const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
   const [inviteMemberModalVisibility, setInviteMemberModalVisibilty] = useState(
     false
@@ -89,11 +90,11 @@ const Organization = ({
   );
 
   const onUpdateFinish = async (values) =>
-    await dispatch(
+    (await dispatch(
       updateOrganization({
         organizationId,
         data: values,
-      })
+      })) && setUpdateOrganizationModal(false)
     );
 
   const onInviteMemberFinish = async (values) =>
@@ -108,14 +109,13 @@ const Organization = ({
     )) && setInviteMemberModalVisibilty(false);
 
   const onCreateCaseFinish = async (values) =>
-    await dispatch(
+    (await dispatch(
       createCase({
         createrType: "Organization",
         creater: organization._id,
         ...values,
       })
-      
-    );
+    )) && setCreateCaseModalVisibilty(false);
 
   const acceptConfirmation = ({ invite, message }) =>
     Modal.confirm({
@@ -193,7 +193,7 @@ const Organization = ({
   const onDocumentUploadClick = async (formData) => {
     formData.append("creater", organization._id);
     formData.append("createrType", "Organization");
-    return await dispatch(uploadDocument(formData));
+    (await dispatch(uploadDocument(formData))) && (setUploadFormVisibility(false))
   };
   const textPopConfirm = "Are you sure to delete this organization?";
   function Conditionally() {
@@ -401,7 +401,6 @@ const Organization = ({
             onFinish={onCreateCaseFinish}
             onCancel={() => setCreateCaseModalVisibilty(false)}
             destroyOnClose={true}
-
             footer={null}
           >
             <CaseForm onFinish={onCreateCaseFinish} caseTypes={caseTypes} />

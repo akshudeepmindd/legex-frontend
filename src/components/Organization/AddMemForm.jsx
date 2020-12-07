@@ -1,10 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
-import { Form, Input, Button} from "antd";
+import { Form, Input, Button } from "antd";
 
 const AddMemForm = ({ onFinish }) => {
+  const [loading, setLoading] = useState(false);
+  const onSubmitHandleClick = async (values) => {
+    setLoading(true);
+    await onFinish(values);
+    setLoading(false);
+  };
   return (
-    <Form name="AddMemForm" onFinish={onFinish}>
+    <Form name="AddMemForm" onFinish={onSubmitHandleClick}>
       <Form.Item
         name="email"
         rules={[{ required: true, message: "Please input the Member Email!" }]}
@@ -13,7 +19,12 @@ const AddMemForm = ({ onFinish }) => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button
+          type="primary"
+          htmlType="submit"
+          disabled={loading}
+          loading={loading}
+        >
           Submit
         </Button>
       </Form.Item>

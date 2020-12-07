@@ -18,7 +18,7 @@ function CasesTable({ cases }) {
       ),
     },
     {
-      title: "description",
+      title: "Description",
       key: "description",
       width: 100,
       dataIndex: "description",

@@ -75,6 +75,7 @@ const Overview = ({ user, cases, casesLoading, organizations, messages, dispatch
               icon={<EditOutlined />}
               block
               onClick={toggleModal}
+              style={{maxWidth : '95%', marginBottom: 10}}
             >
               Edit Profile
             </Button>,

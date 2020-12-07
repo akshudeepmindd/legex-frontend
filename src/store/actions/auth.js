@@ -49,7 +49,7 @@ export function loginUser(payload) {
       const { token } = response.data;
       localStorage.setItem("access-token", token);
       dispatch(loginUserSuccess(response.data.data));
-      message.success({ content: "logged in", key: messageKey });
+      //message.success({ content: "logged in", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }

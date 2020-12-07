@@ -47,16 +47,16 @@ h1.ant-typography,
 
 .auth-layout-image {
   /*background-image: url(./assets/images/darkbg.png); */
-  background: #000428; /* fallback for old browsers */
+  background: #396afc; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #004e92,
-    #000428
+    #2948ff,
+    #396afc
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #004e92,
-    #000428
+    #2948ff,
+    #396afc
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   background-position: center;
@@ -74,16 +74,16 @@ h1.ant-typography,
   padding: 15px;
   overflow-y: auto;
   /*background: url(./assets/images/darkbg.png); */
-  background: #000428; /* fallback for old browsers */
+  background: #396afc; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #004e92,
-    #000428
+    #2948ff,
+    #396afc
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #004e92,
-    #000428
+    #2948ff,
+    #396afc
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   background-position: center;
@@ -145,7 +145,7 @@ h1.ant-typography,
   align-items: center;
   justify-content: center;
   vertical-align: top;
-  border-radius: 0;
+  border-radius: 5rem;
 }
 
 .ant-btn:active,
@@ -226,7 +226,9 @@ h1.ant-typography,
 .login-form-forgot {
   float: right;
 }
-
+button{
+  border-radius: 20px;
+}
 .google-button {
   background-color: #4885ed;
   color: #fff;

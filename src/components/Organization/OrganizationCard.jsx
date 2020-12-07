@@ -26,6 +26,7 @@ const OrganizationCard = ({ organization }) => {
           onClick={() =>
             history.push(`/dashboard/organizations/${organization._id}`)
           }
+          style={{maxWidth : '95%', marginBottom: 10}}
         >
           View Organization
         </Button>,

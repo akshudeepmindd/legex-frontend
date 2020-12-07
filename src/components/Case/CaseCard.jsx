@@ -30,6 +30,7 @@ const CaseCard = ({ data }) => {
           block
           icon={<EyeOutlined />}
           onClick={() => history.push(`/dashboard/cases/${data._id}`)}
+          style={{maxWidth : '95%', marginBottom: 10}}
         >
           View Case
         </Button>,
