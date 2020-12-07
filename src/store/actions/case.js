@@ -29,14 +29,14 @@ export function fetchCase(payload) {
 		const messageKey = "fetch case"
 		dispatch({ type: FETCH_CASE_START })
 		try {
-			message.loading({ content: "loading case..", key: messageKey })
+			//message.loading({ content: "loading case..", key: messageKey })
 			const response = await $http()({
 				url: `/cases/${payload}`,
 				method: "GET",
 			})
 			if (!response.data.success) throw new Error(response.data.message)
 			dispatch(fetchCaseSuccess(response.data.data))
-			message.success({ content: "loaded case", key: messageKey })
+			//message.success({ content: "loaded case", key: messageKey })
 		} catch (error) {
 			message.error({ content: error.message, key: messageKey })
 		}

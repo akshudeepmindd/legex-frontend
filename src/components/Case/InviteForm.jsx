@@ -52,7 +52,7 @@ function InviteForm(props) {
           type="primary"
           htmlType="submit"
           disabled={loading}
-		  loading={loading}
+		      loading={loading}
 		  
         >
           {loading ? "Sending" : "Send"}

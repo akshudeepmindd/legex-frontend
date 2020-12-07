@@ -1,11 +1,16 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { PropTypes, element } from "prop-types";
 import { Layout, Row, Col, Button, Drawer, Menu } from "antd";
 import { useMediaQuery } from "@react-hook/media-query";
 import { Navbar } from "../components";
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
-import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SolutionOutlined } from "@ant-design/icons";
+import {
+  BarcodeOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  //SolutionOutlined,
+} from "@ant-design/icons";
 const { Header, Content } = Layout;
 
 function AuthLayout(props) {
@@ -43,9 +48,9 @@ function AuthLayout(props) {
         )}
         {!phoneView && (
           <span>
-            <Link to="/">
+            <a href="https://resolve.legex.in/"  target="_blank" rel="noopener noreferrer" >
               <img src={Logo} alt="Legex" className="logo" />
-            </Link>
+            </a>
           </span>
         )}
         {phoneView && <Navbar />}
@@ -58,15 +63,15 @@ function AuthLayout(props) {
           visible={visible}
           key={"left"}
         >
-          <Link to="/">
+          <a href="https://resolve.legex.in/"  target="_blank" rel="noopener noreferrer" >
             <img src={Logo} alt="Legex" className="logo" />
-          </Link>
+          </a>
           <Menu
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
             mode="inline"
           >
-            <Menu.SubMenu
+            {/* <Menu.SubMenu
               key="sub2"
               icon={<SolutionOutlined />}
               title="About us"
@@ -83,13 +88,13 @@ function AuthLayout(props) {
               <Menu.Item key="/our-clients">
                 <Link to="/our-clients">Our clients</Link>
               </Menu.Item>
-            </Menu.SubMenu>
+            </Menu.SubMenu>*/}
 
             <Menu.SubMenu
               key="sub4"
               title={
                 <span>
-                <BarcodeOutlined />
+                  <BarcodeOutlined />
                   <span>Account</span>
                 </span>
               }
@@ -103,7 +108,6 @@ function AuthLayout(props) {
             </Menu.SubMenu>
           </Menu>
         </Drawer>
-
       </Layout>
       <Content className="auth-layout-content">
         <Row justify="center" align="middle" className="auth-layout-row">

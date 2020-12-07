@@ -23,11 +23,11 @@ export function fetchCases() {
     const messageKey = "fetch cases";
     dispatch({ type: FETCH_CASES_START });
     try {
-      message.loading({ content: "loading cases..", key: messageKey });
+      //message.loading({ content: "loading cases..", key: messageKey });
       const response = await $http()({ url: "/cases", method: "GET" });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(fetchCasesSuccess(response.data.data));
-      message.success({ content: "loaded cases", key: messageKey });
+      //message.success({ content: "loaded cases", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }

@@ -48,7 +48,7 @@ function DocumentsTable({ documents, dispatch }) {
 			columns={columns}
 			dataSource={documents}
 			rowClassName={() => "rowClassName1"}
-			scroll={{ x: 400, y: 300 }}
+			scroll={{ x: 400, y: 600 }}
 		/>
 	)
 }

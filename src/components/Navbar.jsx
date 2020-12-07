@@ -9,9 +9,10 @@ function Navbar() {
     <>
       <div className={classes.DesktopOnly}>
         <nav className={"menu"}>
-          <Link to="/">
+          <a href="https://resolve.legex.in/" target="_blank" rel="noopener noreferrer" >
             <img src={Logo} alt="Legex" className="logo" />
-          </Link>
+          </a>
+          {/* 
           <Menu theme="light" mode="horizontal" style={{ lineHeight: "64px" }}>
             <Menu.Item key="/how-we-help-you">
               <Link to="/how-we-help-you">How we help you</Link>
@@ -26,6 +27,8 @@ function Navbar() {
               <Link to="/our-clients">Our clients</Link>
             </Menu.Item>
           </Menu>
+          
+          */}
 
           <Menu theme="light" mode="horizontal" style={{ lineHeight: "64px" }}>
             <Menu.Item key="/login">

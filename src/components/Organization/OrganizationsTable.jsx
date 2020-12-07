@@ -107,7 +107,7 @@ function OrganizationsTable({ organizations, user, dispatch }) {
       columns={columns}
       rowClassName={() => "rowClassName1"}
       dataSource={organizations}
-      scroll={{ x: 600, y: 300 }}
+      scroll={{ x: 600, y: 600 }}
     />
   );
 }

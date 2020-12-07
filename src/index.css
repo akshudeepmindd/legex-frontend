@@ -1,17 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 *,
 html,
 body {
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 @font-face {
-  font-family: "Palatino";
+  font-family: 'Palatino';
   font-style: normal;
   font-weight: 400;
-  src: local("Palatino"), local("Palatino"),
-    url("./assets/fonts/Palatino.ttf") format("truetype");
+  src: local('Palatino'), local('Palatino'),
+    url('./assets/fonts/Palatino.ttf') format('truetype');
   /* Safari, Android, iOS */
 }
 
@@ -21,7 +21,7 @@ body {
 .ant-page-header-heading-title,
 h1.ant-typography,
 .ant-typography h1 {
-  font-family: "Palatino", sans-serif;
+  font-family: 'Palatino', sans-serif;
   text-transform: capitalize;
 }
 
@@ -46,7 +46,19 @@ h1.ant-typography,
 }
 
 .auth-layout-image {
-  background-image: url(./assets/images/darkbg.png);
+  /*background-image: url(./assets/images/darkbg.png); */
+  background: #000428; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #004e92,
+    #000428
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #004e92,
+    #000428
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -61,7 +73,19 @@ h1.ant-typography,
   /* height: 100vh; */
   padding: 15px;
   overflow-y: auto;
-  background: url(./assets/images/darkbg.png);
+  /*background: url(./assets/images/darkbg.png); */
+  background: #000428; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #004e92,
+    #000428
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #004e92,
+    #000428
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -111,6 +135,7 @@ h1.ant-typography,
 
 .ant-layout-sider {
   background: #0a1725;
+  /* background: wheat; */
   /*border-right: 0px solid #707070;
   max-height: 85vh; */
 }
@@ -226,6 +251,7 @@ a:hover {
 
 .dark-card {
   background: #0a1725;
+  /* background: wheat; */
   color: #fff;
 }
 

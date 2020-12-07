@@ -11,14 +11,14 @@ export function fetchUser(payload) {
     const messageKey = "fetch user";
     dispatch({ type: FETCH_USER_SATRT });
     try {
-      message.loading({ content: "fetching user details..", key: messageKey });
+      //message.loading({ content: "fetching user details..", key: messageKey });
       const response = await $http()({
         url: `/users/${payload}`,
         method: "GET",
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(fetchUserSuccess(response.data.data));
-      message.success({ content: "loaded user", key: messageKey });
+      //message.success({ content: "loaded user", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }
@@ -30,7 +30,7 @@ export function editUser(data) {
     const messageKey = "fetch user";
     dispatch({ type: FETCH_USER_SATRT });
     try {
-      message.loading({ content: "fetching user details..", key: messageKey });
+      //message.loading({ content: "fetching user details..", key: messageKey });
       const response = await $http()({
         url: `/users/${data.payload}`,
         data : data,
@@ -38,7 +38,7 @@ export function editUser(data) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(fetchUserSuccess(response.data.data));
-      message.success({ content: "loaded user", key: messageKey });
+      //message.success({ content: "loaded user", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }

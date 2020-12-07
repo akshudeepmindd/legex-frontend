@@ -1,10 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
 import { Form, Input, Button } from "antd";
 
 const OrganizationForm = ({ onFinish, name, domain }) => {
+  const [loading, setLoading] = useState(false);
+  const onSubmitHandleClick = async (values) => {
+    setLoading(true);
+    await onFinish(values);
+    setLoading(false);
+  };
   return (
-    <Form name="OrganizationForm" onFinish={onFinish}>
+    <Form name="OrganizationForm" onFinish={onSubmitHandleClick}>
       <Form.Item
         name="name"
         rules={[
@@ -19,7 +25,12 @@ const OrganizationForm = ({ onFinish, name, domain }) => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button
+          type="primary"
+          htmlType="submit"
+          disabled={loading}
+          loading={loading}
+        >
           Submit
         </Button>
       </Form.Item>

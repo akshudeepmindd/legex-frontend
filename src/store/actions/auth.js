@@ -39,7 +39,7 @@ export function loginUser(payload) {
     const messageKey = "login user";
     dispatch({ type: LOGIN_USER_START });
     try {
-      message.loading({ content: "logging you in..", key: messageKey });
+      //message.loading({ content: "logging you in..", key: messageKey });
       const response = await $http()({
         url: "/auth/login",
         data: payload,
@@ -61,7 +61,7 @@ export function registerUser(payload) {
     const messageKey = "register user";
     dispatch({ type: REGISTER_USER_START });
     try {
-      message.loading({ content: "registering user..", key: messageKey });
+      //message.loading({ content: "registering user..", key: messageKey });
       const response = await $http()({
         url: "/auth/register",
         data: payload,
@@ -70,7 +70,7 @@ export function registerUser(payload) {
       const { token } = response.data;
       localStorage.setItem("access-token", token);
       dispatch(registerUserSuccess(response.data.data));
-      message.success({ content: "register user", key: messageKey });
+      //message.success({ content: "register user", key: messageKey });
       return true;
     } catch (error) {
       message.error({ content: error.message, key: messageKey });

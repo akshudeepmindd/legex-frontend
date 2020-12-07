@@ -57,20 +57,20 @@ export function fetchOrganization(payload) {
     const messageKey = "fetch";
     dispatch({ type: FETCH_ORGANIZATION_START });
     try {
-      message.loading({
-        content: "fetching organization....",
-        key: messageKey,
-      });
+      // message.loading({
+      //   content: "fetching organization....",
+      //   key: messageKey,
+      // });
       const response = await $http()({
         url: `/organizations/${payload}`,
         method: "GET",
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(fetchOrganizationSuccess(response.data.data));
-      message.success({
-        content: "successfully fetched organization",
-        key: messageKey,
-      });
+      // message.success({
+      //   content: "successfully fetched organization",
+      //   key: messageKey,
+      // });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }
@@ -82,7 +82,7 @@ export function createCase(payload) {
     const messageKey = "create case";
     dispatch({ type: CREATE_ORGANIZATION_CASE_START });
     try {
-      message.loading({ content: "creating new case...", key: messageKey });
+      //message.loading({ content: "creating new case...", key: messageKey });
       const response = await $http()({
         url: "/cases",
         data: payload,
@@ -90,10 +90,10 @@ export function createCase(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(createCaseSuccess(response.data.data));
-      message.success({
-        content: "case created successfully",
-        key: messageKey,
-      });
+      // message.success({
+      //   content: "case created successfully",
+      //   key: messageKey,
+      // });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }
@@ -105,7 +105,7 @@ export function inviteMember(payload) {
     dispatch({ type: INVITE_MEMBER_START });
     const messageKey = "invite member";
     try {
-      message.loading({ content: "Inviting member..", key: messageKey });
+      //message.loading({ content: "Inviting member..", key: messageKey });
       const response = await $http()({
         url: `/invites/`,
         data: payload,
@@ -113,7 +113,7 @@ export function inviteMember(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(inviteMemberSuccess(response.data.data));
-      message.success({ content: "member invited", key: messageKey });
+      //message.success({ content: "member invited", key: messageKey });
     } catch (error) {
       console.error(error.message);
       message.error({ content: error.message, key: messageKey });
@@ -126,7 +126,7 @@ export function removeMember(payload) {
     dispatch({ type: REMOVE_MEMBER_START });
     const messageKey = "remove member";
     try {
-      message.loading({ content: "removing member", key: messageKey });
+      //message.loading({ content: "removing member", key: messageKey });
       const response = await $http()({
         url: `/organizations/${payload.organizationId}/remove-member`,
         data: payload.data,
@@ -134,7 +134,7 @@ export function removeMember(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(removeMemberSuccess(response.data.data));
-      message.success({ content: "member removed", key: messageKey });
+      //message.success({ content: "member removed", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }
@@ -146,7 +146,7 @@ export function leaveOrganization(payload) {
     dispatch({ type: LEAVE_ORGANIZATION_START });
     const messageKey = "leave organization";
     try {
-      message.loading({ content: "leaving organization", key: messageKey });
+      //message.loading({ content: "leaving organization", key: messageKey });
       const response = await $http()({
         url: `/organizations/${payload.organizationId}/leave-organization`,
         data: payload.data,
@@ -154,7 +154,7 @@ export function leaveOrganization(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(leaveOrganizationSuccess(response.data.data));
-      message.success({ content: "left organization", key: messageKey });
+      //message.success({ content: "left organization", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }
@@ -166,7 +166,7 @@ export function updateOrganization(payload) {
     dispatch({ type: UPDATE_ORGANIZATION_START });
     const messageKey = "update organizatin";
     try {
-      message.loading({ content: "updating organization", key: messageKey });
+      //message.loading({ content: "updating organization", key: messageKey });
       const response = await $http()({
         url: `/organizations/${payload.organizationId}`,
         data: payload.data,
@@ -174,7 +174,7 @@ export function updateOrganization(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(updateOrganizationSuccess(response.data.data));
-      message.success({ content: "updated organization", key: messageKey });
+      //message.success({ content: "updated organization", key: messageKey });
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
     }
@@ -186,14 +186,14 @@ export function deleteOrganization(payload) {
     const messageKey = "delete organization";
     dispatch({ type: DELETE_ORGANIZATION_START });
     try {
-      message.loading({ content: "deleting organization..", key: messageKey });
+      //message.loading({ content: "deleting organization..", key: messageKey });
       const response = await $http()({
         url: `/organizations/${payload}`,
         method: "DELETE",
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(deleteOrganizationSuccess(response.data.data));
-      message.success({ content: "deleted organization", key: messageKey });
+      //message.success({ content: "deleted organization", key: messageKey });
       return true;
     } catch (error) {
       message.error({ content: error.message, key: messageKey });

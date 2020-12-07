@@ -37,7 +37,7 @@ function CasesTable({ organization }) {
     <Table
       columns={columns}
       dataSource={organization.cases}
-      scroll={{ x: 400, y: 300 }}
+      scroll={{ x: 400, y: 600 }}
     />
   );
 }

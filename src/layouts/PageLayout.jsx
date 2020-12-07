@@ -5,7 +5,12 @@ import { Layout, Drawer, Button, Menu } from "antd";
 import { useMediaQuery } from "@react-hook/media-query";
 import Logo from "../assets/images/logo.png";
 import Navbar from "../components/Navbar";
-import { BarcodeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SolutionOutlined } from "@ant-design/icons";
+import {
+  BarcodeOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  SolutionOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 
@@ -49,9 +54,9 @@ function PageLayout(props) {
         )}
         {!phoneView && (
           <span>
-            <Link to="/">
+            <a href="https://resolve.legex.in/"  target="_blank" rel="noopener noreferrer" >
               <img src={Logo} alt="Legex" className="logo" />
-            </Link>
+            </a>
           </span>
         )}
         {phoneView && <Navbar />}
@@ -64,15 +69,15 @@ function PageLayout(props) {
           visible={visible}
           key={"left"}
         >
-          <Link to="/">
+          <a href="https://resolve.legex.in/"  target="_blank" rel="noopener noreferrer" >
             <img src={Logo} alt="Legex" className="logo" />
-          </Link>
+          </a>
           <Menu
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
             mode="inline"
           >
-            <Menu.SubMenu
+           <Menu.SubMenu
               key="sub2"
               icon={<SolutionOutlined />}
               title="About us"
@@ -95,7 +100,7 @@ function PageLayout(props) {
               key="sub4"
               title={
                 <span>
-                <BarcodeOutlined />
+                  <BarcodeOutlined />
                   <span>Account</span>
                 </span>
               }

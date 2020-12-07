@@ -18,9 +18,9 @@ const SideDrawer = (props) => {
       <BackDrop show={props.open} clicked={props.closed} />
       <div className={attachedClasses.join(" ")} onClick={props.closed}>
         <div className={classes.Logo}>
-          <Link to="/">
+          <a href="https://resolve.legex.in/" target="_blank">
             <img src={Logo} alt="Legex" className="logo" />
-          </Link>
+          </a>
         </div>
         <nav>
           <NavigationItems/>

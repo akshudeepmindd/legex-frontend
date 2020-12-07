@@ -7,7 +7,7 @@ import {
   WalletOutlined,
   //SettingOutlined,
   //InfoCircleOutlined,
-  CalendarOutlined,
+  //CalendarOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 
@@ -31,9 +31,12 @@ function Sidebar() {
         <Menu.Item key="/dashboard/overview" icon={<HomeOutlined />}>
           <Link to="/dashboard/overview">Home</Link>
         </Menu.Item>
+        {/* 
         <Menu.Item key="/dashboard/appointments" icon={<CalendarOutlined />}>
           <Link to="/dashboard/appointments">Appointments</Link>
         </Menu.Item>
+        */}
+
         <Menu.Item key="/dashboard/organizations" icon={<ApartmentOutlined />}>
           <Link to="/dashboard/organizations">Organizations</Link>
         </Menu.Item>

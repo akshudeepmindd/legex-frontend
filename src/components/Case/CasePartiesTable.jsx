@@ -41,7 +41,7 @@ function CasePartiesTable({ members, organizations }) {
 			rowClassName={() => "rowClassName1"}
 			columns={columns}
 			dataSource={parties}
-			scroll={{ x: 200, y: 300 }}
+			scroll={{ x: 200, y: 600 }}
 		/>
 	)
 }

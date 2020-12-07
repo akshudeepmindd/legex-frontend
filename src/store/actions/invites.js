@@ -17,7 +17,7 @@ export function respondInvite(payload) {
 		dispatch({ type: RESPOND_INVITATION_START })
 		let messageKey = "Invitation respond"
 		try {
-			message.loading({ content: "Responding Invitation", key: messageKey })
+			//message.loading({ content: "Responding Invitation", key: messageKey })
 			const response = await $http()({
 				url: `/invites/response/${payload.inviteId}`,
 				data: payload.data,
@@ -27,7 +27,7 @@ export function respondInvite(payload) {
       if(payload.invitationType === 'Case') addCase(response.data.data)
       else if(payload.invitationType === 'Organization') addOrganziation(response.data.data)
       dispatch(respondInviteSuccess(payload.inviteId))
-			message.success({ content: "responded Invite", key: messageKey })
+			//message.success({ content: "responded Invite", key: messageKey })
 		} catch (error) {
       //if request failed. then that means that invite was never meant to be their.
       // so its needs to be deleted.

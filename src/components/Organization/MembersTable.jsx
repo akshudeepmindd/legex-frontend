@@ -65,7 +65,7 @@ function MembersTable({ members, owner, user, organizationId, dispatch }) {
   ];
 
   return (
-    <Table rowClassName={() => "rowClassName1"} columns={columns} dataSource={members} scroll={{ x: 400, y: 300 }} />
+    <Table rowClassName={() => "rowClassName1"} columns={columns} dataSource={members} scroll={{ x: 400, y: 600 }} />
   );
 }
 
