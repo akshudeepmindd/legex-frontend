@@ -17,6 +17,7 @@ const OrganizationCard = ({ organization }) => {
 
   return (
     <Card
+      style={{ border: "2px solid blue", borderRadius: 5 }}
       bordered={false}
       actions={[
         <Button
@@ -26,7 +27,7 @@ const OrganizationCard = ({ organization }) => {
           onClick={() =>
             history.push(`/dashboard/organizations/${organization._id}`)
           }
-          style={{maxWidth : '95%', marginBottom: 10}}
+          style={{ maxWidth: "95%", marginBottom: 10 }}
         >
           View Organization
         </Button>,

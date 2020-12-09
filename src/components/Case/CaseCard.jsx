@@ -15,6 +15,7 @@ const CaseCard = ({ data }) => {
   const history = useHistory();
   return (
     <Card
+      style={{ border : "2px solid blue", borderRadius : 5,  }}
       title={
         <List>
           <List.Item>
