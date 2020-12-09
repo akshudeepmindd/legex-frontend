@@ -57,10 +57,16 @@ const CaseHeader = ({ caseData, showVerdictModal, access }) => {
         <Descriptions.Item label="Est Time">
           {new Date(caseData.updatedAt).toLocaleDateString()}
         </Descriptions.Item>
+        {caseData.admin &&
+        
+          <Descriptions.Item label="Admin">
+            {caseData.admin.firstName} {caseData.admin.lastName}
+          </Descriptions.Item>
+        }
         {caseData.status === "completion" && (
-		  <Descriptions.Item label="Verdict">
-			{caseData.verdict}
-		  </Descriptions.Item>
+          <Descriptions.Item label="Verdict">
+            {caseData.verdict}
+          </Descriptions.Item>
         )}
       </Descriptions>
     </PageHeader>

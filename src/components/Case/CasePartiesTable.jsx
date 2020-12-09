@@ -38,6 +38,7 @@ function CasePartiesTable({ members, organizations }) {
 
 	return (
 		<Table
+			styles={{minHeight : 600}}
 			rowClassName={() => "rowClassName1"}
 			columns={columns}
 			dataSource={parties}

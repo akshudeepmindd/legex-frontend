@@ -59,14 +59,13 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
 
   const toggleGridView = () => setGridView(!showGridView);
 
-  const onCreateOrganizationFormFinish = async (values) =>{
-    const res  = await dispatch(createOrganization(values));
-    if(res){
+  const onCreateOrganizationFormFinish = async (values) => {
+    const res = await dispatch(createOrganization(values));
+    if (res) {
       setCreateOrganizationModalVisibility(false);
     }
     return res;
-  }
-    
+  };
 
   const renderOrganizations = () => {
     if (organizations.length > 0) {
@@ -205,9 +204,7 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
               />
             </Col>
           </Row>
-			
-          {renderOrganizations()}
-
+          <Card>{renderOrganizations()}</Card>
           <Modal
             title="Organization Form"
             visible={createOrganizationModalVisibility}

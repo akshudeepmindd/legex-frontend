@@ -5,37 +5,44 @@ import PropTypes from "prop-types";
 
 import Logo from "../assets/images/logo.png";
 import { Sidebar } from "../components";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
-const { 
-  //Header, 
-  Sider, Content, Footer } = Layout;
+const {
+  //Header,
+  Sider,
+  Content,
+  Footer,
+  Header,
+} = Layout;
 
 function DashboardLayout(props) {
   const { children } = props;
-  //const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(true);
   const [year] = useState(new Date().getFullYear());
 
-  // function toggle() {
-  //   setCollapsed(!collapsed);
-  // }
+  function toggle() {
+    setCollapsed(!collapsed);
+  }
 
   return (
     <Layout>
       <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
       >
-        <img src={Logo} alt="Legex" className="logo"  />
+        <img src={Logo} alt="Legex" className="logo" />
         <Sidebar />
       </Sider>
       <Layout className="dashboard-layout">
-        
+        <Header className="dashboard-layout-header">
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              onClick: toggle,
+            }
+          )}
+        </Header>
         <Content className="dashboard-layout-content">{children}</Content>
         <Footer className="dashboard-layout-footer">
           <b>Legex ODR</b> &copy; {year} A &nbsp;

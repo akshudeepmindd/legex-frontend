@@ -104,6 +104,9 @@ function OrganizationsTable({ organizations, user, dispatch }) {
 
   return (
     <Table
+      style={{
+        minHeight: 500,
+      }}
       columns={columns}
       rowClassName={() => "rowClassName1"}
       dataSource={organizations}

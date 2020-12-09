@@ -71,7 +71,15 @@ function CasesTable({ cases }) {
   ];
 
   return (
-    <Table rowClassName={() => "rowClassName1"} columns={columns} dataSource={cases} scroll={{ x: 700, y: 600}} />
+    <Table
+      style={{
+        minHeight: 500,
+      }}
+      rowClassName={() => "rowClassName1"}
+      columns={columns}
+      dataSource={cases}
+      scroll={{ x: 700, y: 600 }}
+    />
   );
 }
 

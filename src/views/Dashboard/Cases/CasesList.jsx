@@ -202,12 +202,16 @@ const CasesList = ({
               />
             </Col>
           </Row>
+          <Card>{renderCases()}</Card>
 
-          {renderCases()}
-
-          <Modal title="Case Form" visible={modal} footer={null} onCancel={ () => {
-            setModal(false);
-          }}>
+          <Modal
+            title="Case Form"
+            visible={modal}
+            footer={null}
+            onCancel={() => {
+              setModal(false);
+            }}
+          >
             <CaseForm onFinish={onFinish} caseTypes={caseTypes} />
           </Modal>
         </>

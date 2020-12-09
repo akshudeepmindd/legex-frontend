@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, PageHeader, Button } from "antd";
+import { Row, Col, PageHeader, Button, Card } from "antd";
 
 import { DashboardLayout } from "../../../layouts";
 import DocumentsTable from "../../../components/Document/DocumentsTable";
@@ -14,7 +14,7 @@ const DocumentsList = ({ user, history, dispatch }) => {
   const onDocumentUploadClick = async (formData) => {
     formData.append("creater", user._id);
     formData.append("createrType", "User");
-    const res =  await dispatch(uploadDocument(formData));
+    const res = await dispatch(uploadDocument(formData));
     setUploadFormVisibility(!res);
     return res;
   };
@@ -47,7 +47,9 @@ const DocumentsList = ({ user, history, dispatch }) => {
               />
             </Col>
           </Row>
-          <DocumentsTable documents={user.documents} />
+          <Card>
+            <DocumentsTable documents={user.documents} />
+          </Card>
 
           <Modal
             title="Upload Document"
