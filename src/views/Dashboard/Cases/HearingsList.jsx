@@ -24,7 +24,6 @@ const DocumentsList = ({ user, history, dispatch }) => {
                 ghost={false}
                 onBack={() => history.push("/dashboard/overview")}
                 title="Documents"
-                subTitle="Manage all your document uploads"
                 extra={
                   <Row>
                     <Col>

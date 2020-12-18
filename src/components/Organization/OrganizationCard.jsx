@@ -17,7 +17,7 @@ const OrganizationCard = ({ organization }) => {
 
   return (
     <Card
-      style={{ border: "2px solid blue", borderRadius: 5 }}
+      style={{ border: "0.1rem solid lightblue", borderRadius: "0.6rem", overflow : "hidden" }}
       bordered={false}
       actions={[
         <Button

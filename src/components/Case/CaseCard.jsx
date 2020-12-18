@@ -1,13 +1,13 @@
-import React from 'react';
-import { Card, List, Typography, Tag, Badge, Button } from 'antd';
-import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Card, List, Typography, Tag, Badge, Button } from "antd";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import {
   UsergroupAddOutlined,
   EyeOutlined,
   CalendarOutlined,
   BranchesOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
@@ -15,7 +15,11 @@ const CaseCard = ({ data }) => {
   const history = useHistory();
   return (
     <Card
-      style={{ border : "2px solid blue", borderRadius : 5,  }}
+      style={{
+        border: "0.1rem solid lightblue",
+        borderRadius: "0.6rem",
+        overflow: "hidden",
+      }}
       title={
         <List>
           <List.Item>
@@ -31,7 +35,7 @@ const CaseCard = ({ data }) => {
           block
           icon={<EyeOutlined />}
           onClick={() => history.push(`/dashboard/cases/${data._id}`)}
-          style={{maxWidth : '95%', marginBottom: 10}}
+          style={{ maxWidth: "95%", marginBottom: 10 }}
         >
           View Case
         </Button>,
@@ -51,7 +55,7 @@ const CaseCard = ({ data }) => {
           </Typography.Text>
           <Badge
             count={data.hearings.length}
-            style={{ backgroundColor: '#1F40E6' }}
+            style={{ backgroundColor: "#1F40E6" }}
             showZero
           />
         </List.Item>
@@ -61,8 +65,7 @@ const CaseCard = ({ data }) => {
           </Typography.Text>
           <Badge
             count={data.members.length + data.organizations.length}
-
-            style={{ backgroundColor: '#1F40E6' }}
+            style={{ backgroundColor: "#1F40E6" }}
             showZero
           />
         </List.Item>

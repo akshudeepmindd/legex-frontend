@@ -159,47 +159,63 @@ const OrganizationsList = ({ dispatch, organizations, user, history }) => {
               { xs: 8, sm: 16, md: 24, lg: 32 },
             ]}
           >
-            <Col>
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <PageHeader
                 ghost={false}
                 onBack={() => history.push("/dashboard/overview")}
                 title="Organizations"
-                subTitle="Manage all your organizations"
                 extra={[
-                  <Button
-                    key="1"
-                    icon={
-                      showGridView ? <TableOutlined /> : <AppstoreOutlined />
-                    }
-                    onClick={toggleGridView}
-                  />,
-                  <Button
-                    className="dashboard-btn-primary dashboard-layout-btn"
-                    key="2"
-                    type="primary"
-                    onClick={showCreateOrganizationModal}
+                  <Row
+                    gutter={[
+                      { xs: 8, sm: 12, md: 12, lg: 12 },
+                      { xs: 8, sm: 0, md: 0, lg: 0 },
+                    ]}
                   >
-                    Create a new organization
-                  </Button>,
-                  <Dropdown
-                    key="3"
-                    overlay={pendingInvitationsMenu({
-                      invites,
-                    })}
-                    trigger={["click"]}
-                  >
-                    <Button>
-                      <Space direction="horizontal">
-                        <Badge
-                          count={invites.length}
-                          overflowCount={9}
-                          showZero={false}
-                        />
-                        Pending Invitations
-                        {invites.length > 0 && <DownOutlined />}
-                      </Space>
-                    </Button>
-                  </Dropdown>,
+                    <Col>
+                      <Button
+                        key="1"
+                        icon={
+                          showGridView ? (
+                            <TableOutlined />
+                          ) : (
+                            <AppstoreOutlined />
+                          )
+                        }
+                        onClick={toggleGridView}
+                      />
+                    </Col>
+                    <Col>
+                      <Button
+                        className="dashboard-btn-primary dashboard-layout-btn"
+                        key="2"
+                        type="primary"
+                        onClick={showCreateOrganizationModal}
+                      >
+                        Create a new organization
+                      </Button>
+                    </Col>
+                    <Col>
+                      <Dropdown
+                        key="3"
+                        overlay={pendingInvitationsMenu({
+                          invites,
+                        })}
+                        trigger={["click"]}
+                      >
+                        <Button>
+                          <Space direction="horizontal">
+                            <Badge
+                              count={invites.length}
+                              overflowCount={9}
+                              showZero={false}
+                            />
+                            Pending Invitations
+                            {invites.length > 0 && <DownOutlined />}
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                    </Col>
+                  </Row>,
                 ]}
               />
             </Col>
