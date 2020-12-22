@@ -34,9 +34,13 @@ const DocumentsList = ({ user, history, dispatch }) => {
                 ghost={false}
                 onBack={() => history.push("/dashboard/overview")}
                 title="Documents"
-                subTitle="Manage all your document uploads"
                 extra={
-                  <Row>
+                  <Row
+                    gutter={[
+                      { xs: 8, sm: 12, md: 12, lg: 12 },
+                      { xs: 8, sm: 0, md: 0, lg: 0 },
+                    ]}
+                  >
                     <Col>
                       <Button onClick={() => setUploadFormVisibility(true)}>
                         Upload

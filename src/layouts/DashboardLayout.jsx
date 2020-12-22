@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Layout } from "antd";
 import PropTypes from "prop-types";
 //import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
-
+import { useMediaQuery } from "@react-hook/media-query";
 import Logo from "../assets/images/logo.png";
 import { Sidebar } from "../components";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
@@ -17,8 +17,9 @@ const {
 
 function DashboardLayout(props) {
   const { children } = props;
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [year] = useState(new Date().getFullYear());
+  const phoneView = useMediaQuery("only screen and (max-width: 768px)");
 
   function toggle() {
     setCollapsed(!collapsed);
@@ -26,15 +27,24 @@ function DashboardLayout(props) {
 
   return (
     <Layout>
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-      >
-        <img src={Logo} alt="Legex" className="logo" />
-        <Sidebar />
-      </Sider>
+      {phoneView && (
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+        >
+          <img src={Logo} alt="Legex" className="logo" />
+          <Sidebar />
+        </Sider>
+      )}
+      {!phoneView && (
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <img src={Logo} alt="Legex" className="logo" />
+          <Sidebar />
+        </Sider>
+      )}
+
       <Layout className="dashboard-layout">
+        {!phoneView && 
         <Header className="dashboard-layout-header">
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -42,7 +52,7 @@ function DashboardLayout(props) {
               onClick: toggle,
             }
           )}
-        </Header>
+        </Header>}
         <Content className="dashboard-layout-content">{children}</Content>
         <Footer className="dashboard-layout-footer">
           <b>Legex ODR</b> &copy; {year} A &nbsp;

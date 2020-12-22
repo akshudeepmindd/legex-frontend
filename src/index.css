@@ -3,17 +3,10 @@
 *,
 html,
 body {
-  font-family: 'Lato', sans-serif;
+  font-family:  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
 }
 
-@font-face {
-  font-family: 'Palatino';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Palatino'), local('Palatino'),
-    url('./assets/fonts/Palatino.ttf') format('truetype');
-  /* Safari, Android, iOS */
-}
+
 
 .ant-card-head-title,
 .ant-card-meta-title,

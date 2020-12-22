@@ -164,40 +164,53 @@ const CasesList = ({
               { xs: 8, sm: 16, md: 24, lg: 32 },
             ]}
           >
-            <Col>
+          <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <PageHeader
                 ghost={false}
                 onBack={() => window.history.back()}
                 title="Cases"
-                subTitle="Manage all your cases"
                 extra={[
-                  <Button
-                    key="2"
-                    icon={view ? <TableOutlined /> : <AppstoreOutlined />}
-                    onClick={toggleView}
-                  />,
-                  <Button key="1" type="primary" onClick={showModal}>
-                    Create a new case
-                  </Button>,
-                  <Dropdown
-                    key="3"
-                    overlay={pendingInvitationsMenu({
-                      invites,
-                    })}
-                    trigger={["click"]}
+                  <Row
+                    gutter={[
+                      { xs: 8, sm: 12, md: 12, lg: 12 },
+                      { xs: 8, sm: 0, md: 0, lg: 0 },
+                    ]}
                   >
-                    <Button>
-                      <Space>
-                        <Badge
-                          count={invites.length}
-                          overflowCount={9}
-                          showZero={false}
-                        />
-                        Pending Invitations
-                        {invites.length > 0 && <DownOutlined />}
-                      </Space>
-                    </Button>
-                  </Dropdown>,
+                    <Col>
+                      <Button
+                        key="2"
+                        icon={view ? <TableOutlined /> : <AppstoreOutlined />}
+                        onClick={toggleView}
+                      />
+                    </Col>
+                    <Col>
+                      <Button key="1" type="primary" onClick={showModal}>
+                        Create a new case
+                      </Button>
+                    </Col>
+
+                    <Col>
+                      <Dropdown
+                        key="3"
+                        overlay={pendingInvitationsMenu({
+                          invites,
+                        })}
+                        trigger={["click"]}
+                      >
+                        <Button>
+                          <Space>
+                            <Badge
+                              count={invites.length}
+                              overflowCount={9}
+                              showZero={false}
+                            />
+                            Pending Invitations
+                            {invites.length > 0 && <DownOutlined />}
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                    </Col>
+                  </Row>,
                 ]}
               />
             </Col>
