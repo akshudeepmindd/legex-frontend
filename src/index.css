@@ -3,10 +3,9 @@
 *,
 html,
 body {
-  font-family:  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+    sans-serif, sans-serif;
 }
-
-
 
 .ant-card-head-title,
 .ant-card-meta-title,
@@ -58,26 +57,22 @@ h1.ant-typography,
   height: 100vh;
 }
 
-.dashboard-layout .dashboard-layout-header {
-  background-color: #ffffff;
-}
-
 .dashboard-layout-content {
   /* height: 100vh; */
   padding: 15px;
   overflow-y: auto;
   /*background: url(./assets/images/darkbg.png); */
-  background: #396afc; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
+  /* background: #396afc; fallback for old browsers */
+  /* background: -webkit-linear-gradient(
+    to right,
+    #2948ff,
+    #396afc */
+  /* ); Chrome 10-25, Safari 5.1-6 */
+  /* background: linear-gradient(
     to right,
     #2948ff,
     #396afc
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #2948ff,
-    #396afc
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  ); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   background-position: center;
   background-repeat: no-repeat;
@@ -219,7 +214,7 @@ h1.ant-typography,
 .login-form-forgot {
   float: right;
 }
-button{
+button {
   border-radius: 20px;
 }
 .google-button {

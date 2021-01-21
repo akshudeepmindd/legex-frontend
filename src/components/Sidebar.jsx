@@ -1,5 +1,5 @@
-import React from "react";
-import { Menu } from "antd";
+import React from 'react'
+import { Menu } from 'antd'
 import {
   HomeOutlined,
   ApartmentOutlined,
@@ -9,62 +9,49 @@ import {
   //InfoCircleOutlined,
   //CalendarOutlined,
   LogoutOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons'
 
-import { logout } from "../store/actions/auth";
+import { logout } from '../store/actions/auth'
 
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { MenuItems } from '../utils/constants'
 
-function Sidebar() {
-  const dispatch = useDispatch();
+function Sidebar(props) {
+  const dispatch = useDispatch()
 
   const Logout = async () => {
-    localStorage.removeItem("access-token");
-    localStorage.removeItem("user-id");
-    dispatch(logout());
-  };
-
+    localStorage.removeItem('access-token')
+    localStorage.removeItem('user-id')
+    dispatch(logout())
+  }
+  const collapseSide = {
+    marginRight: 20,
+    padding: 10,
+    height: 60,
+  }
   return (
-    <div className="sidebar">
-      <Menu theme="dark" mode="inline">
-        <Menu.Item key="/dashboard/overview" icon={<HomeOutlined />}>
-          <Link to="/dashboard/overview">Home</Link>
-        </Menu.Item>
-        {/* 
-        <Menu.Item key="/dashboard/appointments" icon={<CalendarOutlined />}>
-          <Link to="/dashboard/appointments">Appointments</Link>
-        </Menu.Item>
-        */}
-
-        <Menu.Item key="/dashboard/organizations" icon={<ApartmentOutlined />}>
-          <Link to="/dashboard/organizations">Organizations</Link>
-        </Menu.Item>
-        <Menu.Item key="/dashboard/documents" icon={<FolderOutlined />}>
-          <Link to="/dashboard/documents">Documents</Link>
-        </Menu.Item>
-        <Menu.Item key="/dashboard/cases" icon={<WalletOutlined />}>
-          <Link to="/dashboard/cases">Cases</Link>
-        </Menu.Item>
-      </Menu>
-      {/* 
-      <Menu theme="dark" mode="inline">
-        <Menu.Item key="/dashboard/settings" icon={<SettingOutlined />}>
-          <Link to="/dashboard/settings">Settings</Link>
-        </Menu.Item>
-        <Menu.Item key="/dashboard/help" icon={<InfoCircleOutlined />}>
-          <Link to="/dashboard/help">Help</Link>
-        </Menu.Item>
-        </Menu>
-      */}
-
-      <Menu theme="dark" mode="inline">
-        <Menu.Item key="/login" icon={<LogoutOutlined />} onClick={Logout}>
-          <Link to="/login">Log Out</Link>
-        </Menu.Item>
+    <div className='sidebar'>
+      <Menu theme='dark' mode='inline'>
+        {MenuItems.map((item) => (
+          <Menu.Item
+            key={item.menuKey}
+            className='menuItems'
+            icon={
+              <img
+                src={item.menuIconClass}
+                className={item.iconclass}
+                alt={item.alt}
+              />
+            }
+            style={collapseSide}
+          >
+            <Link to={item.menuLink}>{item.menuName}</Link>
+          </Menu.Item>
+        ))}
       </Menu>
     </div>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar

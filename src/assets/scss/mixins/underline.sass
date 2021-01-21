@@ -1,0 +1,20 @@
+@mixin underline($color)
+    position: absolute
+    content: ''
+    height: 3px
+    bottom: -1px 
+    margin: 0 auto
+    left: 0
+    right: 50%
+    width: 70%
+    transition: .5s
+    -o-transition: .5s
+    -ms-transition: .5s
+    -moz-transition: .5s
+    -webkit-transition: .5s
+    @if($color == 'green')
+        background-color: #00CF6F
+    @else if($color == 'blue')
+        background-color: #00B8FC
+    @else 
+        background-color: #FF7700

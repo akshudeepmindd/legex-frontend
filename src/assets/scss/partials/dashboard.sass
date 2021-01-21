@@ -1,0 +1,79 @@
+.userprofile
+    img
+        height: 100px
+        width: 100px
+    p
+        padding-top: 10px
+        padding-left: 20px
+        font-weight: bolder
+        font-size: 20px
+        color: #000000
+.pluscase
+    img
+        height: 30px
+        width: 30px
+    p
+        padding-left: 20px
+        font-size: 15px
+        color: #000000
+    .plus-row
+        margin-top: 20px
+
+.overview-container
+    margin-top: 30px
+.case-number-row
+    width: 65%
+    margin-top: 20px
+    margin-left: 20px
+    border-bottom: .5px solid #C4C4C4
+    
+    .dispute
+        &::after
+            @include underline('blue')
+    .resolve
+        &::after
+            @include underline('green')
+    .pending
+        &::after
+            @include underline('resolve')
+    
+    
+    p
+        font-size: 16px
+        color: #000000
+.listingcontainer
+    margin-top: 30px
+    .upcoming-container,
+    .document-container
+        border: 1px solid #5B666D
+    .documents,
+    .upcoming
+        h3
+            padding-right: 10px
+            padding-bottom: 20px
+        a
+            font-size: 12px
+            padding-top: 2px
+            text-decoration: underline
+            padding-left: 5px
+        img
+            margin-top: 5px
+            height: 15px
+            width: 15px
+    .documentText
+        color: #000
+        margin-bottom: 8px
+        font-size: 12px
+    .month
+        color: #000
+        padding-top: 10px
+        font-size: 18px
+        font-weight: bolder
+    .download
+        text-align: end
+        color: #000
+        img
+            width: 10px
+            height: 12px
+    .download2
+        text-align: end
