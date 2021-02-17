@@ -1,37 +1,56 @@
-import React from 'react'
-import { Row, Col, PageHeader, Button, Card, Menu, Dropdown } from 'antd'
+import React from "react";
+import {
+  Row,
+  Col,
+  PageHeader,
+  Button,
+  Card,
+  Menu,
+  Dropdown,
+  Select,
+} from "antd";
+import { Link } from "react-router-dom";
+import { DashboardLayout } from "../../../layouts";
+import DocumentsTable from "../../../components/Document/DocumentsTable";
+import { connect } from "react-redux";
+import UploadForm from "../../../components/Document/UploadForm";
+import { useState } from "react";
+import Modal from "antd/lib/modal/Modal";
+import { uploadDocument } from "../../../store/actions/documents";
+import { DownOutlined } from "@ant-design/icons";
+import PDF from "../../../assets/images/Document upload icon.png";
 
-import { DashboardLayout } from '../../../layouts'
-import DocumentsTable from '../../../components/Document/DocumentsTable'
-import { connect } from 'react-redux'
-import UploadForm from '../../../components/Document/UploadForm'
-import { useState } from 'react'
-import Modal from 'antd/lib/modal/Modal'
-import { uploadDocument } from '../../../store/actions/documents'
-import { DownOutlined } from '@ant-design/icons'
-import PDF from '../../../assets/images/Document upload icon.png'
-
-const menu = (
-  <Menu>
-    <Menu.Item key='0'>
-      <a href='http://www.alipay.com/'>1st menu item</a>
-    </Menu.Item>
-    <Menu.Item key='1'>
-      <a href='http://www.taobao.com/'>2nd menu item</a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key='3'>3rd menu item</Menu.Item>
-  </Menu>
-)
-const DocumentsList = ({ user, history, dispatch }) => {
-  const [uploadFormVisbility, setUploadFormVisibility] = useState(false)
+const styles = {
+  text: {
+    textTransform: "capitalize",
+  },
+};
+const DocumentsList = ({
+  user,
+  history,
+  dispatch,
+  documents,
+  organizations,
+  organization,
+}) => {
+  const [selectedOrg, setSelectedOrg] = useState("");
+  const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
   const onDocumentUploadClick = async (formData) => {
-    formData.append('creater', user._id)
-    formData.append('createrType', 'User')
-    const res = await dispatch(uploadDocument(formData))
-    setUploadFormVisibility(!res)
-    return res
-  }
+    formData.append("creater", user._id);
+    formData.append("createrType", "User");
+    const res = await dispatch(uploadDocument(formData));
+    setUploadFormVisibility(!res);
+    return res;
+  };
+  const onChangeOrg = (value) => {
+    setSelectedOrg(value);
+  };
+
+  const filterOrganization = organizations?.find(
+    (item) => item._id === selectedOrg
+  );
+
+  console.log(filterOrganization, "filterOrganization");
 
   return (
     <DashboardLayout>
@@ -79,65 +98,84 @@ const DocumentsList = ({ user, history, dispatch }) => {
             <UploadForm onUpload={onDocumentUploadClick} />
           </Modal> */}
           <Row>
-            <Col flex='1 1 400px'>
-              <Dropdown
-                overlay={menu}
-                trigger={['click']}
-                className='dropdown-organize'
+            <Col flex="1 1 400px">
+              <Select
+                style={{ width: 200 }}
+                placeholder="Select a Organization"
+                onChange={onChangeOrg}
               >
-                <a
-                  className='ant-dropdown-link'
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Arohan Infra Private Limited <DownOutlined />
-                </a>
-              </Dropdown>
-              <div className='address'>
-                <div>
+                {organizations?.length > 0
+                  ? organizations?.map((item, index) => (
+                      <Select.Option value={item._id} key={index}>
+                        {item.name}
+                      </Select.Option>
+                    ))
+                  : "null"}
+              </Select>
+
+              <div className="address">
+                <div className="org-industry">
                   <label>Industry:</label>
-                  <span className=''> Real Estate and Construction</span>
+                  <span style={styles.text}>
+                    {" "}
+                    {filterOrganization
+                      ? filterOrganization?.domain
+                      : organization?.domain}
+                  </span>
                 </div>
                 <div>
                   <label>Owner: </label>
-                  <span className=''> Arohan Gupta</span>
+                  <span style={styles.text}>
+                    {" "}
+                    {filterOrganization
+                      ? filterOrganization?.owner.firstName
+                      : organization?.owner.firstName}{" "}
+                    {filterOrganization
+                      ? filterOrganization?.owner.lastName
+                      : organization?.owner.lastName}
+                  </span>
                 </div>
                 <div>
                   <label>CIN: </label>
-                  <span className=''> U7012PTC2022IN123456</span>
+                  <span className=""> U7012PTC2022IN123456</span>
                 </div>
               </div>
             </Col>
           </Row>
-          <Row className='pdf-image'>
-            <Col span={4}>
-              <img src={PDF} />
-            </Col>
-            <Col span={4}>
-              <img src={PDF} />
-            </Col>
-            <Col span={4}>
-              <img src={PDF} />
-            </Col>
-            <Col span={4}>
-              <img src={PDF} />
-            </Col>
-            <Col span={4}>
-              <img src={PDF} />
-            </Col>
-            <Col span={4}>
-              <img src={PDF} />
-            </Col>
+          <Row className="pdf-image">
+            {filterOrganization
+              ? filterOrganization.documents.length > 0
+                ? filterOrganization.documents.map((docs) => (
+                    <Col span={3}>
+                      <Link to={docs.url} target="_blank" download>
+                        <img src={PDF} />
+                      </Link>
+                    </Col>
+                  ))
+                : "No Documents Found"
+              : organization?.documents.length > 0
+              ? organization?.documents.map((docs) => (
+                  <Col span={3}>
+                    <Link to={docs.url} target="_blank" download>
+                      <img src={PDF} />
+                    </Link>
+                  </Col>
+                ))
+              : "No Documents Found"}
           </Row>
         </>
       ) : (
-        'loading'
+        "loading"
       )}
     </DashboardLayout>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state, ownProps) => ({
   history: ownProps.history,
   user: state.user,
-})
-export default connect(mapStateToProps)(DocumentsList)
+  documents: state.documents,
+  organizations: state.organizations,
+  organization: state.organization,
+});
+export default connect(mapStateToProps)(DocumentsList);

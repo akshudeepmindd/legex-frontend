@@ -19,11 +19,15 @@ import Document from './Dashboard/Documents/Document'
 import Contracts from './Dashboard/Contracts/Contracts'
 import SecureContracts from './Dashboard/Contracts/SecureContracts'
 
-
 import OrganizationsList from './Dashboard/Organizations/OrganizationsList'
 import Organization from './Dashboard/Organizations/Organization'
 
 import Appointments from './Dashboard/Appointments'
+import AdminLogin from './admin/Login'
+import MediatorOverview from './MediatorDashboard/OverView'
+import MediatorCases from './MediatorDashboard/Cases/CaseList'
+import MediatorCase from './MediatorDashboard/Cases/Case'
+import MediatorSettings from './MediatorDashboard/settings'
 
 export {
   Home,
@@ -46,4 +50,9 @@ export {
   Contracts,
   Settings,
   SecureContracts,
+  AdminLogin,
+  MediatorOverview,
+  MediatorCases,
+  MediatorCase,
+  MediatorSettings,
 }

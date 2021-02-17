@@ -3,10 +3,13 @@ import { connect } from 'react-redux'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './assets/scss/index.sass'
 import { fetchOrganizations } from './store/actions/organizations'
+
 import { fetchUser } from './store/actions/user'
 import { fetchCaseTypes } from './store/actions/caseTypes'
 import { fetchCases } from './store/actions/cases'
 import { WithAuth } from './WithAuth'
+import { WithMediatorAuth } from './withMediatorAuth'
+import CaseForm from './views/Dashboard/Cases/CaseForm'
 import {
   Home,
   Clients,
@@ -27,8 +30,14 @@ import {
   Appointments,
   Contracts,
   Settings,
-  SecureContracts
+  SecureContracts,
+  AdminLogin,
+  MediatorOverview,
+  MediatorCases,
+  MediatorCase,
+  MediatorSettings,
 } from './views'
+
 function App({ dispatch, auth }) {
   //all the initial data fetching happens here
   useEffect(() => {
@@ -61,6 +70,8 @@ function App({ dispatch, auth }) {
 
         <Route path='/dashboard/cases' component={WithAuth(CasesList)} exact />
         <Route path='/dashboard/cases/:caseId' component={WithAuth(Case)} />
+        {/* <Route path='/dashboard/caseForm' component={WithAuth(CaseForm)} /> */}
+        <Route path='/dashboard/caseForm' component={WithAuth(CaseForm)} />
 
         <Route
           path='/dashboard/documents'
@@ -87,10 +98,32 @@ function App({ dispatch, auth }) {
           component={WithAuth(Appointments)}
         />
         <Route path='/dashboard/contracts' component={WithAuth(Contracts)} />
-        <Route path='/dashboard/securecontracts' component={WithAuth(SecureContracts)} />
+        <Route
+          path='/dashboard/securecontracts'
+          component={WithAuth(SecureContracts)}
+        />
 
         <Route path='/dashboard/settings' component={WithAuth(Settings)} />
-        
+        <Route path='/admin' component={AdminLogin} />
+        <Route
+          path='/mediator/overview'
+          component={WithMediatorAuth(MediatorOverview)}
+        />
+        <Route
+          path='/mediator/cases'
+          component={WithMediatorAuth(MediatorCases)}
+          exact
+        />
+        <Route
+          path='/mediator/cases/:caseId'
+          component={WithMediatorAuth(MediatorCase)}
+          exact
+        />
+        <Route
+          path='/mediator/settings'
+          component={WithMediatorAuth(MediatorSettings)}
+          exact
+        />
       </Switch>
     </Router>
   )

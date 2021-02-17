@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Button, Card, Steps, Modal, message } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 import { DashboardLayout } from '../../../layouts'
 
 import {
   CaseHeader,
-  InviteForm,
+  // InviteForm,
   HearingForm,
   VerdictForm,
 } from '../../../components'
@@ -22,18 +22,19 @@ import UploadForm from '../../../components/Document/UploadForm'
 import $http from '../../../utils/api'
 import Back from '../../../assets/images/back.png'
 import PLUS from '../../../assets/images/plus.png'
-
+import InviteForm from './InviteForm'
 const { Step } = Steps
 
-const Case = ({ dispatch, caseData, user, organizations }) => {
+const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
   const [hearingModal, setHearingModal] = useState(false)
   const [inviteModal, setInviteModal] = useState(false)
   const [documentModal, setDocumentModal] = useState(false)
   const [verdictModal, setVerdictModal] = useState(false)
-
+  const [addCaseModal, setAddCaseModall] = useState(false)
   //store details about how the case is being accessed by the user
   const [access, updateAccess] = useState(null)
   const { caseId } = useParams()
+  const history = useHistory()
   //initial data fetch
   useEffect(() => {
     dispatch(fetchCase(caseId))
@@ -155,15 +156,33 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
     else if (caseData.status === 'hearings') return 4
     else return 5
   }
+
+  console.log(caseData, 'case in case')
   return (
     <DashboardLayout>
       {caseData ? (
         <>
+          <Modal
+            title='Invite Party'
+            visible={addCaseModal}
+            onCancel={() => setAddCaseModall(false)}
+            destroyOnClose={true}
+            footer={null}
+          >
+            <InviteForm onFinish={onInvitationFormSubmit} />
+          </Modal>
           <div className='case-section'>
             <div className='address'>
               <div className='name'>
                 <p>
-                  <img src={Back} /> Gurmeet Kaur vs HDFC Bank
+                  <img src={Back} onClick={history.goBack} />
+                  {caseData?.members.length > 0
+                    ? caseData?.members.map((item, index) => (
+                        <span>
+                          {index ? ' Vs ' : ''} {item.firstName} {item.lastName}
+                        </span>
+                      ))
+                    : ''}
                 </p>
                 <span className=''>
                   <a href=''>Hearing link</a>
@@ -171,7 +190,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
               </div>
               <div className=''>
                 <label>Start Date:</label>
-                <span className=''>15 November 2020</span>
+                <span className=''>{caseData.createdAt}</span>
                 <br></br>
                 <label>Estimated End Date:</label>
                 <span className=''>22 December 2020</span>
@@ -198,33 +217,41 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
                 <Card bordered={false} className='document-container border'>
                   <div className='party'>
                     <h5>
-                      Parties <img src={PLUS} />
+                      Parties{' '}
+                      <img src={PLUS} onClick={() => setAddCaseModall(true)} />
                     </h5>
                     <Row gutter={[55, 10]}>
-                      <Col span={12}>
-                        <div className='name'>Gurmeet Kaur</div>
+                      {caseData &&
+                        caseData.members &&
+                        caseData.members.map((item, index) => (
+                          <Col span={24}>
+                            <div className='name'>
+                              {`${item.firstName} ${item.lastName}`}
+                            </div>
+                          </Col>
+                        ))}
+
+                      {/* <Col span={12}>
+                        <div className="parties">Accused</div>
                       </Col>
                       <Col span={12}>
-                        <div className='parties'>Accused</div>
+                        <div className="name">Arohan Infra Priv...</div>
                       </Col>
                       <Col span={12}>
-                        <div className='name'>Arohan Infra Priv...</div>
+                        <div className="parties">Reference Party</div>
                       </Col>
                       <Col span={12}>
-                        <div className='parties'>Reference Party</div>
+                        <div className="name">HDFC Bank</div>
                       </Col>
                       <Col span={12}>
-                        <div className='name'>HDFC Bank</div>
+                        <div className="parties">Member</div>
                       </Col>
                       <Col span={12}>
-                        <div className='parties'>Member</div>
+                        <div className="name">Prashant Anvi</div>
                       </Col>
                       <Col span={12}>
-                        <div className='name'>Prashant Anvi</div>
-                      </Col>
-                      <Col span={12}>
-                        <div className='parties'>Witness</div>
-                      </Col>
+                        <div className="parties">Witness</div>
+                      </Col> */}
                     </Row>
                   </div>
                 </Card>
@@ -238,24 +265,19 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
                         <div className='name'>Type:</div>
                       </Col>
                       <Col span={12}>
-                        <div className='parties'>Recovery</div>
+                        <div className='parties'>{caseData.caseType.name}</div>
                       </Col>
                       <Col span={12}>
                         <div className='name'>Description:</div>
                       </Col>
                       <Col span={12}>
-                        <div className='parties'>
-                          Unauthorised auction of property attached to the
-                          concerned lo...
-                        </div>
+                        <div className='parties'>{caseData.description}</div>
                       </Col>
                       <Col span={12}>
                         <div className='name'>Status:</div>
                       </Col>
                       <Col span={12}>
-                        <div className='parties'>
-                          Parties agreed to mediate. Mediator to be assigned.
-                        </div>
+                        <div className='parties'>{caseData.status}</div>
                       </Col>
                     </Row>
                   </div>
@@ -324,6 +346,7 @@ const Case = ({ dispatch, caseData, user, organizations }) => {
 
 const mapStateToProps = (state) => ({
   caseData: state.case,
+  casesData: state.cases,
   user: state.user,
   organization: state.organization,
   organizations: state.organizations,

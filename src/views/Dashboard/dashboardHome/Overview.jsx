@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // ant design components
 import {
@@ -17,18 +17,18 @@ import {
   Modal,
   Empty,
   Descriptions,
-} from 'antd'
-import { UserOutlined, EditOutlined } from '@ant-design/icons'
+} from "antd";
+import { UserOutlined, EditOutlined } from "@ant-design/icons";
 
 // components
-import { DashboardLayout } from '../../../layouts'
-import { CasesTable, ProfileForm } from '../../../components'
-import { editUser } from '../../../store/actions/user'
-import UserProfile from './userProfile'
-import Listing from './Listing'
+import { DashboardLayout } from "../../../layouts";
+import { CasesTable, ProfileForm } from "../../../components";
+import { editUser } from "../../../store/actions/user";
+import UserProfile from "./userProfile";
+import Listing from "./Listing";
 
-const { Text } = Typography
-const { Meta } = Card
+const { Text } = Typography;
+const { Meta } = Card;
 //const { Option } = Select;
 
 const Overview = ({
@@ -40,51 +40,52 @@ const Overview = ({
   dispatch,
 }) => {
   //const [selectedOrganization, setSelectedOrganization ] = useState([]);
-  const [profileModal, setProfileModal] = useState(false)
+  const [profileModal, setProfileModal] = useState(false);
 
   const toggleModal = () => {
-    setProfileModal(true)
-  }
+    setProfileModal(true);
+  };
   const handleOk = (e) => {
-    setProfileModal(false)
-  }
+    setProfileModal(false);
+  };
 
   const handleCancel = (e) => {
-    setProfileModal(false)
-  }
+    setProfileModal(false);
+  };
 
   const renderCasesTable = () => {
+    console.log(cases, "cases");
     return (
       <CasesTable
         cases={cases}
         loading={casesLoading}
         scroll={{
           y: 300,
-          x: '100vw',
+          x: "100vw",
         }}
       />
-    )
-  }
+    );
+  };
 
   const onUpdateFinish = async (values) =>
     await dispatch(
       editUser({
         data: values,
       })
-    )
+    );
 
   const renderUserProfile = () => {
-    if (user.hasOwnProperty('firstName')) {
+    if (user.hasOwnProperty("firstName")) {
       return (
         <Card
           bordered={false}
           actions={[
             <Button
-              type='primary'
+              type="primary"
               icon={<EditOutlined />}
               block
               onClick={toggleModal}
-              style={{ maxWidth: '95%', marginBottom: 10 }}
+              style={{ maxWidth: "95%", marginBottom: 10 }}
             >
               Edit Profile
             </Button>,
@@ -113,14 +114,14 @@ const Overview = ({
             ]}
           /> */}
         </Card>
-      )
+      );
     }
     return (
-      <Card title='User Profile'>
+      <Card title="User Profile">
         <Empty />
       </Card>
-    )
-  }
+    );
+  };
 
   // const renderOrganizationMembers = () => {
   //   selectedOrganization.map((member) => (
@@ -159,7 +160,7 @@ const Overview = ({
   return (
     <DashboardLayout>
       {organizations && user ? (
-        <div className='overview-container'>
+        <div className="overview-container">
           <UserProfile />
           <Listing />
         </div>
@@ -218,17 +219,17 @@ const Overview = ({
         //     />
         //   </Modal>
         // </>
-        'loading...'
+        "loading..."
       )}
     </DashboardLayout>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => ({
   user: state.user,
   cases: state.cases,
   organizations: state.organizations,
-})
+});
 
 Overview.propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -236,6 +237,6 @@ Overview.propTypes = {
   cases: PropTypes.instanceOf(Array),
   organizations: PropTypes.instanceOf(Array),
   messages: PropTypes.instanceOf(Array),
-}
+};
 
-export default connect(mapStateToProps)(Overview)
+export default connect(mapStateToProps)(Overview);

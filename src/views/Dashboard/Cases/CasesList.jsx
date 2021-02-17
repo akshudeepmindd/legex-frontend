@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
+import { Redirect, useHistory } from 'react-router-dom'
 
 // ant design components
 import {
@@ -16,6 +17,7 @@ import {
   Dropdown,
   Space,
   Input,
+  Select,
 } from 'antd'
 import {
   AppstoreOutlined,
@@ -56,7 +58,8 @@ const CasesList = ({
   const [view, setView] = useState(false)
   const [modal, setModal] = useState(false)
   const [invites, setInvites] = useState([])
-
+  const [selectedOrg, setSelectedOrg] = useState('')
+  const [addCaseModal, setAddCaseModall] = useState(false)
   useEffect(() => {
     user &&
       setInvites(
@@ -65,20 +68,21 @@ const CasesList = ({
         )
       )
   }, [user])
+  const onChangeOrg = (value) => {
+    setSelectedOrg(value)
+  }
+  const history = useHistory()
+  // useEffect(() => {
+  //   const allCompletedCase = cases?.filter(
+  //     (item) => item.status === "completion"
+  //   );
+  // }, [cases]);
   const showModal = () => {
     setModal(true)
   }
 
   const toggleView = () => {
     setView(!view)
-  }
-
-  const onFinish = async (values) => {
-    const response = await dispatch(
-      createCase({ createrType: 'User', creater: user._id, ...values })
-    )
-    setModal(!response)
-    return response
   }
 
   const acceptConfirmation = ({ invite, message }) =>
@@ -167,274 +171,179 @@ const CasesList = ({
     )
   }
 
+  const allCase = () => {
+    if (cases?.length > 0) {
+      return (
+        <Row gutter={[48, 16]}>
+          {cases?.map((item, index) => (
+            <Col span={8} key={index}>
+              <Card bordered={false} className='document-container border-crd'>
+                <div className='review'>
+                  <div className='d-flex'>
+                    vs. Rohit Sharma
+                    <Button type='primary' className='review-btn' block>
+                      {item.status}
+                    </Button>
+                  </div>
+
+                  <p>{item.caseType.name}</p>
+                  <p>Expected Date of Resolve : 8 Jan 2021</p>
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )
+    }
+  }
+
+  const filterOrganization = organizations?.find(
+    (item) => item._id === selectedOrg
+  )
+
+  const onFinish = async (values) => {
+    const response = await dispatch(
+      createCase({ createrType: 'User', creater: user._id, ...values })
+    )
+    setAddCaseModall(false)
+    history.push('/dashboard/cases')
+    return response
+  }
+
+  console.log(cases, 'cases in cases')
   return (
     <DashboardLayout>
       {cases && caseTypes && organizations ? (
         <>
+          <Modal
+            title='Organization Form'
+            visible={addCaseModal}
+            onCancel={() => setAddCaseModall(false)}
+            destroyOnClose={true}
+            footer={null}
+          >
+            <CaseForm onFinish={onFinish} caseTypes={caseTypes} />
+          </Modal>
           <div className='all-case'>
             <div className='case-sec'>
               <Row gutter={[48, 16]}>
                 <Col flex={2}>
                   <div className='flex'>
                     <h4>All Cases</h4>
-                    <h5><img src={plus}/>Add a case</h5>
+                    <h5>
+                      <img
+                        className='imgplus'
+                        src={plus}
+                        onClick={() => history.push('/dashboard/caseForm')}
+                      />
+                      Add a case
+                    </h5>
                   </div>
                 </Col>
                 <Col flex={3} className='flex-end'>
-                  <Dropdown
-                    overlay={menu}
-                    trigger={['click']}
-                    className='dropdown-organize'
+                  <Select
+                    placeholder='Select a Organization'
+                    onChange={onChangeOrg}
                   >
-                    <a
-                      className='ant-dropdown-link'
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Arohan Infra Private Limited <DownOutlined />
-                    </a>
-                  </Dropdown>
-                  <Dropdown
-                    overlay={menu}
-                    trigger={['click']}
-                    className='dropdown-organize'
-                  >
-                    <a
-                      className='ant-dropdown-link'
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Arohan Infra Private Limited <DownOutlined />
-                    </a>
-                  </Dropdown>
+                    {organizations?.length > 0
+                      ? organizations?.map((item, index) => (
+                          <Select.Option value={item._id} key={index}>
+                            {item.name}
+                          </Select.Option>
+                        ))
+                      : 'null'}
+                  </Select>
                   <Input type='text' placeholder='Search' value='' />
                 </Col>
               </Row>
             </div>
-            <Row gutter={[48, 16]}>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Rohit Sharma
-                      <Button type='primary' className='review-btn' block>
-                        Under Review
-                      </Button>
-                    </div>
+            {filterOrganization ? (
+              filterOrganization.cases.length > 0 ? (
+                <Row gutter={[48, 16]}>
+                  {filterOrganization?.cases.map((item, index) => (
+                    <Col span={8} key={index}>
+                      <Card
+                        bordered={false}
+                        className='document-container border-crd'
+                      >
+                        <div className='review'>
+                          <div className='d-flex'>
+                            {item.members.map((item, index) => (
+                              <span>
+                                {index ? ' Vs ' : ''} {item.firstName}{' '}
+                                {item.lastName}
+                              </span>
+                            ))}
+                            <Button
+                              type='primary'
+                              className={
+                                item.status === 'completion'
+                                  ? 'complete-btn'
+                                  : 'review-btn'
+                              }
+                              onClick={() =>
+                                history.push(`/dashboard/cases/${item._id}`)
+                              }
+                              block
+                            >
+                              {item.status}
+                            </Button>
+                          </div>
 
-                    <p>Loan Dispute</p>
-                    <p>Expected Date of Resolve : 8 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mohit Shegal
-                      <Button type='primary' className='sent-btn' block>
-                        Notice Sent
-                      </Button>
-                    </div>
+                          <p>{item.caseType.name}</p>
+                          <p>Expected Date of Resolve : 8 Jan 2021</p>
+                        </div>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              ) : (
+                'no case avelable'
+              )
+            ) : cases?.length > 0 ? (
+              <Row gutter={[48, 16]}>
+                {cases?.map((item, index) => (
+                  <Col span={8} key={index}>
+                    <Card
+                      bordered={false}
+                      className='document-container border-crd'
+                    >
+                      <div className='review'>
+                        <div className='d-flex'>
+                          <div>
+                            {item?.members.map((item, index) => (
+                              <span>
+                                {index ? ' Vs ' : ''} {item.firstName}{' '}
+                                {item.lastName}
+                              </span>
+                            ))}
+                          </div>
+                          <Button
+                            type='primary'
+                            className={
+                              item?.status === 'completion'
+                                ? 'complete-btn'
+                                : 'review-btn'
+                            }
+                            onClick={() =>
+                              history.push(`/dashboard/cases/${item?._id}`)
+                            }
+                            block
+                          >
+                            {item?.status}
+                          </Button>
+                        </div>
 
-                    <p>Recovery</p>
-                    <p>Expected Date of Resolve : 19 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mukesh Thapar
-                      <Button type='primary' className='complete-btn' block>
-                        Complete
-                      </Button>
-                    </div>
-
-                    <p>Real estate</p>
-                    <p>Expected Date of Resolve : 12 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-            <Row gutter={[48, 16]}>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Rohit Sharma
-                      <Button type='primary' className='review-btn' block>
-                        Under Review
-                      </Button>
-                    </div>
-
-                    <p>Loan Dispute</p>
-                    <p>Expected Date of Resolve : 8 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mohit Shegal
-                      <Button type='primary' className='sent-btn' block>
-                        Notice Sent
-                      </Button>
-                    </div>
-
-                    <p>Recovery</p>
-                    <p>Expected Date of Resolve : 19 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mukesh Thapar
-                      <Button type='primary' className='complete-btn' block>
-                        Complete
-                      </Button>
-                    </div>
-
-                    <p>Real estate</p>
-                    <p>Expected Date of Resolve : 12 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-
-            <Row gutter={[48, 16]}>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Rohit Sharma
-                      <Button type='primary' className='review-btn' block>
-                        Under Review
-                      </Button>
-                    </div>
-
-                    <p>Loan Dispute</p>
-                    <p>Expected Date of Resolve : 8 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mohit Shegal
-                      <Button type='primary' className='sent-btn' block>
-                        Notice Sent
-                      </Button>
-                    </div>
-
-                    <p>Recovery</p>
-                    <p>Expected Date of Resolve : 19 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mukesh Thapar
-                      <Button type='primary' className='complete-btn' block>
-                        Complete
-                      </Button>
-                    </div>
-
-                    <p>Real estate</p>
-                    <p>Expected Date of Resolve : 12 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-
-            <Row gutter={[48, 16]}>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Rohit Sharma
-                      <Button type='primary' className='review-btn' block>
-                        Under Review
-                      </Button>
-                    </div>
-
-                    <p>Loan Dispute</p>
-                    <p>Expected Date of Resolve : 8 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mohit Shegal
-                      <Button type='primary' className='sent-btn' block>
-                        Notice Sent
-                      </Button>
-                    </div>
-
-                    <p>Recovery</p>
-                    <p>Expected Date of Resolve : 19 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card
-                  bordered={false}
-                  className='document-container border-crd'
-                >
-                  <div className='review'>
-                    <div className='d-flex'>
-                      vs. Mukesh Thapar
-                      <Button type='primary' className='complete-btn' block>
-                        Complete
-                      </Button>
-                    </div>
-
-                    <p>Real estate</p>
-                    <p>Expected Date of Resolve : 12 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
+                        <p>{item?.caseType.name}</p>
+                        <p>Expected Date of Resolve : 8 Jan 2021</p>
+                      </div>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              'no case avalable'
+            )}
           </div>
         </>
       ) : null}

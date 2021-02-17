@@ -40,6 +40,9 @@ import { QuestionCircleOutlined } from '@ant-design/icons'
 import { DashboardLayout } from '../../../layouts'
 import UserAvatar from '../../../assets/images/useravtar.png'
 import pencil from '../../../assets/images/Subtract.png'
+import { connect } from 'react-redux'
+import { editUser } from '../../../store/actions/user'
+
 const columns = [
   {
     title: 'Name',
@@ -163,11 +166,16 @@ const tailFormItemLayout = {
   },
 }
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ user, dispatch }) => {
   const [form] = Form.useForm()
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values)
+    await dispatch(
+      editUser({
+        ...values,
+      })
+    )
   }
 
   const prefixSelector = (
@@ -206,7 +214,7 @@ const RegistrationForm = () => {
             <div className='flex'>
               <img src={UserAvatar} alt='avatar' />
               <div className=''>
-                <p>Arohan Gupta</p>
+                <p>{`${user?.firstName} ${user?.lastName}`}</p>
                 <span className='pencil-image'>
                   <img src={pencil} /> Update
                 </span>
@@ -227,83 +235,111 @@ const RegistrationForm = () => {
           scrollToFirstError
         >
           <Form.Item
-            name='name'
-            label='Name'
+            name='firstName'
+            label='First Name'
             rules={[
               {
-                type: 'name',
                 message: 'The input is not valid E-mail!',
-              },
-              {
-                message: 'sddgsdgsfgsdfsdfsd',
               },
             ]}
           >
-            <Input />
+            <Input type='text' placeholder='Firstname' />
+          </Form.Item>
+          <Form.Item
+            name='lastName'
+            label='Last Name'
+            rules={[
+              {
+                message: 'The input is not valid E-mail!',
+              },
+            ]}
+          >
+            <Input type='text' placeholder='lastname' />
           </Form.Item>
           <Form.Item
             name='email'
             label='E-mail'
             rules={[
               {
-                type: 'email',
                 message: 'The input is not valid E-mail!',
               },
-              {
-                message: 'Please input your E-mail!',
-              },
             ]}
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name='phone'
-            label='Phone Number'
-            rules={[
-              {
-                message: 'Please input your phone number!',
-              },
-            ]}
-          >
-            <Input
-              className='pwd'
-              addonBefore={prefixSelector}
-              style={{
-                width: '100%',
-              }}
-            />
-            <Button type='primary' htmlType='submit' className='btn-reg'>
-              Save and Update
-            </Button>
+            <Input type='email' placeholder='Email' />
           </Form.Item>
 
-          <Form.Item
-            name='password'
-            label='Password'
-            rules={[
-              {
-                message: 'Please input your password!',
-              },
-            ]}
-            hasFeedback
-          >
-            <Input.Password className='pwd' />
-            <Input.Password className='pwd ml-2' />
+          <Form.Item label='Phone Number' style={{ marginBottom: 0 }}>
+            <Form.Item
+              name='phone'
+              rules={[
+                {
+                  message: 'Please input your phone number!',
+                },
+              ]}
+              style={{ display: 'inline-block', width: 'calc(70% - 8px)' }}
+            >
+              <Input
+                name='phone'
+                addonBefore={prefixSelector}
+                style={{
+                  width: '200%',
+                }}
+              />
+            </Form.Item>
+            <Form.Item
+              style={{
+                display: 'inline-block',
+                width: 'calc(30% - 8px)',
+                margin: '0 8px',
+              }}
+            >
+              <Button type='primary' htmlType='submit' className='btn-reg'>
+                Save and Update
+              </Button>
+            </Form.Item>
+          </Form.Item>
+
+          <Form.Item label='Password' style={{ marginBottom: 0 }} hasFeedback>
+            <Form.Item
+              name='password'
+              style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+            >
+              <Input
+                type='password'
+                placeholder='Enter password'
+                name='password'
+              />
+            </Form.Item>
+            <Form.Item
+              name='password2'
+              style={{
+                display: 'inline-block',
+                width: 'calc(50% - 8px)',
+                margin: '0 8px',
+              }}
+            >
+              <Input
+                type='password'
+                placeholder='reenter password'
+                name='confirm-password'
+              />
+            </Form.Item>
           </Form.Item>
         </Form>
         <div className='Notification'>
           <Card bordered={false} className='document-container'>
             <h5>Notifications</h5>
             <p className='mb-2'>Now you can customize your notifications</p>
-           
-            <Row className='border-btm' >
+
+            <Row className='border-btm'>
               <Col span={12}>
                 <h5>Case Update</h5>
                 <p>Receive a notification for every update in your case</p>
               </Col>
               <Col span={12}>
-              <div className='text-end'><Checkbox ></Checkbox> Email</div>
-
+                <div className='text-end'>
+                  <Checkbox></Checkbox> Email
+                </div>
               </Col>
             </Row>
             <Row className='border-btm'>
@@ -312,32 +348,44 @@ const RegistrationForm = () => {
                 <p>Receive a notification and a soft copy of our Newsletter</p>
               </Col>
               <Col span={12}>
-              <div className='text-end'><Checkbox ></Checkbox> Email</div>
-
+                <div className='text-end'>
+                  <Checkbox></Checkbox> Email
+                </div>
               </Col>
             </Row>
             <Row className='border-btm'>
               <Col span={12}>
                 <h5>Legal News</h5>
-                <p>Receive a notification and o soft copy of our weekly legal news analysis</p>
+                <p>
+                  Receive a notification and o soft copy of our weekly legal
+                  news analysis
+                </p>
               </Col>
               <Col span={12}>
-              <div className='text-end'><Checkbox ></Checkbox> Email</div>
-
+                <div className='text-end'>
+                  <Checkbox></Checkbox> Email
+                </div>
               </Col>
             </Row>
             <Row className='border-btm'>
               <Col span={12}>
                 <h5>Organisation Update</h5>
-                <p>Receive a notification for every update in your organisation</p>
+                <p>
+                  Receive a notification for every update in your organisation
+                </p>
               </Col>
               <Col span={12}>
-                <div className='text-end'><Checkbox ></Checkbox> Email</div>
+                <div className='text-end'>
+                  <Checkbox></Checkbox> Email
+                </div>
               </Col>
             </Row>
-            <div className="float-right"> <Button type='primary' htmlType='submit' className='btn-reg'>
-              Save and Update
-            </Button></div>
+            <div className='float-right'>
+              {' '}
+              <Button type='primary' htmlType='submit' className='btn-reg'>
+                Save and Update
+              </Button>
+            </div>
           </Card>
         </div>
       </div>
@@ -345,4 +393,15 @@ const RegistrationForm = () => {
   )
 }
 
-export default RegistrationForm
+const mapStateToProps = (state, ownProps) => ({
+  organization: state.organization,
+  user: state.user,
+  organizationId: ownProps.match.params.organizationId,
+  history: ownProps.history,
+  caseTypes: state.caseTypes.caseTypes,
+  organizations: state.organizations,
+  cases: state.cases,
+  hearings: state.hearings,
+})
+
+export default connect(mapStateToProps)(RegistrationForm)

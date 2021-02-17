@@ -1,0 +1,1 @@
+export const ADMIN_LOGIN_START = 'ADMIN_LOGIN_START'

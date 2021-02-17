@@ -32,7 +32,7 @@ function Sidebar(props) {
   }
   return (
     <div className='sidebar'>
-      <Menu theme='dark' mode='inline'>
+      <Menu className='menu-ul' theme='dark' mode='inline'>
         {MenuItems.map((item) => (
           <Menu.Item
             key={item.menuKey}

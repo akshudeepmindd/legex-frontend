@@ -1,7 +1,10 @@
-import React from 'react';
-import { Row, Col, PageHeader, Calendar } from 'antd';
-
-import { DashboardLayout } from '../../layouts';
+import React from "react";
+import { Row, Col, PageHeader, Calendar } from "antd";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { DashboardLayout } from "../../layouts";
 
 const Appointments = () => {
   return (

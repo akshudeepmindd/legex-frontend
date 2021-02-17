@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Form, Input, Button } from "antd";
 
 const OrganizationForm = ({ onFinish, name, domain }) => {
   const [loading, setLoading] = useState(false);
+  // const [name, setName] = useState("");
+  // const [domain, setDomain] = useState("");
   const onSubmitHandleClick = async (values) => {
     setLoading(true);
     await onFinish(values);

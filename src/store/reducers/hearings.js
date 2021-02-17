@@ -9,10 +9,10 @@ import {
   HEARINGS_SUCCESS,
   HEARING_SUCCESS,
   REQUEST_FAILURE,
-} from '../constants/hearings';
+} from "../constants/hearings";
 
 export const initialState = {
-  hearings: {},
+  hearings: [],
   hearing: [],
   loading: false,
   error: {},
