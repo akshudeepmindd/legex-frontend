@@ -302,14 +302,8 @@ const MediatorCasesList = ({
                     >
                       <div className='review'>
                         <div className='d-flex'>
-                          <div>
-                            {item?.members?.map((item, index) => (
-                              <span>
-                                {index ? ' Vs ' : ''} {item.firstName}{' '}
-                                {item.lastName}
-                              </span>
-                            ))}
-                          </div>
+                          <div>{item.title}</div>
+
                           <Button
                             type='primary'
                             className={
@@ -325,7 +319,7 @@ const MediatorCasesList = ({
                             {item?.status}
                           </Button>
                         </div>
-
+                        {item.description}
                         <p>{item?.caseType?.name}</p>
                         <p>Expected Date of Resolve : 8 Jan 2021</p>
                       </div>

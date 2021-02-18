@@ -181,7 +181,7 @@ const Listing = ({
                         </div>
 
                         <p>{item.caseType.name}</p>
-                        <p>Expected Date of Resolve : 8 Jan 2021</p>
+                        {/* <p>Expected Date of Resolve : 8 Jan 2021</p> */}
                       </div>
                     </Card>
                   </Col>

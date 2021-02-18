@@ -73,7 +73,7 @@ export function updateCase(payload) {
     const messageKey = 'Update case'
     dispatch({ type: UPDATE_CASE })
     try {
-      const response = await $http({
+      const response = await $http()({
         url: `/cases/${payload._id}/updatecase`,
         data: payload,
         method: 'PATCH',
@@ -85,63 +85,16 @@ export function updateCase(payload) {
   }
 }
 
-// export function deleteCase(payload) {
-//   return async (dispatch) => {
-//     dispatch({ type: DELETE_CASE });
-//     try {
-//       const response = await $http({
-//         url: `/cases/${payload._id}`,
-//         method: "DELETE",
-//       });
-//       return response;
-//     } catch (error) {
-//       return dispatch(requestFailure(error));
-//     }
-//   };
-// }
-
-// export function addParty(payload) {
-//   return async (dispatch) => {
-//     dispatch({ type: ADD_PARTY });
-//     try {
-//       const response = await $http({
-//         url: `/cases/${payload._id}/add-party`,
-//         data: payload,
-//         method: "PUT",
-//       });
-//       return dispatch(caseSuccess(response.data.data));
-//     } catch (error) {
-//       return dispatch(requestFailure(error));
-//     }
-//   };
-// }
-
-// export function removeParty(payload) {
-//   return async (dispatch) => {
-//     dispatch({ type: REMOVE_PARTY });
-//     try {
-//       const response = await $http({
-//         url: `/cases/${payload._id}/remove-party`,
-//         data: payload,
-//         method: "PUT",
-//       });
-//       return dispatch(caseSuccess(response.data.data));
-//     } catch (error) {
-//       return dispatch(requestFailure(error));
-//     }
-//   };
-// }
-
 export function makeVerdict(payload) {
   console.log(payload, 'payloadd')
   return async (dispatch) => {
     const messageKey = 'Verdict case'
     dispatch({ type: 'MAKE_VERDICT' })
     try {
-      const response = await $http({
+      const response = await $http()({
         url: `/cases/${payload._id}/make-verdict`,
-        data: payload.verdict,
-        method: 'PUT',
+        data: payload,
+        method: 'PATCH',
       })
       return dispatch(caseSuccess(response.data))
     } catch (error) {

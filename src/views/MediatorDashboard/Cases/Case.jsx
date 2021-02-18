@@ -25,6 +25,7 @@ import Back from '../../../assets/images/back.png'
 import PLUS from '../../../assets/images/plus.png'
 import UpdateForm from './UpdateForm'
 import VerdictForm from './VerdictForm'
+import moment from 'moment'
 
 const { Step } = Steps
 
@@ -91,7 +92,8 @@ const MediatorCase = ({
       _id: match.params.caseId,
       verdict: value.verdict,
     }
-    await dispatch(makeVerdict(params))
+    const res = await dispatch(makeVerdict(params))
+    console.log(res, 'resss')
   }
 
   const updateC = async (value) => {
@@ -367,51 +369,23 @@ const MediatorCase = ({
                       />
                     </h4>
                   </div>
-
-                  <Row className='pb-2'>
-                    <Col span={8}>Dec 21, 2020, 21:27</Col>
-                    <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                    <Col span={8}>
-                      <div className='text-end'>
-                        <a href=''>View</a>
-                        <a href='' className='b-left'></a>
-                        <a href=''>Request</a>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className='pb-2'>
-                    <Col span={8}>Dec 21, 2020, 21:27</Col>
-                    <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                    <Col span={8}>
-                      <div className='text-end'>
-                        <a href=''>View</a>
-                        <a href='' className='b-left'></a>
-                        <a href=''>Request</a>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row className='pb-2'>
-                    <Col span={8}>Dec 21, 2020, 21:27</Col>
-                    <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                    <Col span={8}>
-                      <div className='text-end'>
-                        <a href=''>View</a>
-                        <a href='' className='b-left'></a>
-                        <a href=''>Request</a>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={8}>Dec 21, 2020, 21:27</Col>
-                    <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                    <Col span={8}>
-                      <div className='text-end'>
-                        <a href=''>View</a>
-                        <a href='' className='b-left'></a>
-                        <a href=''>Request</a>
-                      </div>
-                    </Col>
-                  </Row>
+                  {caseData?.caseUpdates?.map((update) => {
+                    return (
+                      <Row className='pb-2'>
+                        <Col span={8}>
+                          {moment(caseData?.updateAt).format('MM DD YYYY')}
+                        </Col>
+                        <Col span={8}>{update.updates}</Col>
+                        <Col span={8}>
+                          <div className='text-end'>
+                            <a href=''>View</a>
+                            <a href='' className='b-left'></a>
+                            <a href=''>Request</a>
+                          </div>
+                        </Col>
+                      </Row>
+                    )
+                  })}
                 </div>
               </Card>
             </div>
