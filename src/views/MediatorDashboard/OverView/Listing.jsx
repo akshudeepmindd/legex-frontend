@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Card, Button } from 'antd'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import Plus from '../../../assets/images/plus.png'
@@ -24,6 +24,7 @@ const Listing = ({
   const [selectedOrg, setSelectedOrg] = useState('')
   const [selectedCase, setSelectedCase] = useState('')
   const [selectedHearing, setSelectedHearing] = useState('')
+  const history = useHistory()
   const filterOrganization = organizations?.find(
     (item) => item._id === selectedOrg
   )
@@ -109,120 +110,13 @@ const Listing = ({
       <Row>
         <Col span={24}>
           <Row gutter={[48, 16]}>
-            {filterCases ? (
-              <Col span={8}>
-                <Card bordered={false} className='document-container'>
-                  <div className='review'>
-                    <div className='d-flex'>
-                      {filterCases?.members.length > 0
-                        ? filterCases?.members.map((item, index) => (
-                            <div>
-                              {index ? ' Vs ' : ''} {item.firstName}{' '}
-                              {item.lastName}
-                            </div>
-                          ))
-                        : ''}
-                      <Button
-                        type={
-                          filterCases.status == 'invitations'
-                            ? 'default'
-                            : 'primary'
-                        }
-                        className={
-                          filterCases.status === 'invitations'
-                            ? 'invitation-btn'
-                            : filterCases.status === 'creation'
-                            ? 'creation-btn'
-                            : 'review-btn'
-                        }
-                        block
-                      >
-                        {filterCases.status}
-                      </Button>
-                    </div>
-
-                    <p>{filterCases.caseType.name}</p>
-                    <p>Expected Date of Resolve : 8 Jan 2021</p>
-                  </div>
-                </Card>
-              </Col>
-            ) : filterOrganization ? (
-              filterOrganization.cases.length > 0 ? (
-                filterOrganization.cases.map((item, index) => (
-                  <Col span={8}>
-                    <Card bordered={false} className='document-container'>
-                      <div className='review'>
-                        <div className='d-flex'>
-                          {item?.members.length > 0
-                            ? item?.members.map((item, index) => (
-                                <div>
-                                  {index ? ' Vs ' : ''} {item.firstName}{' '}
-                                  {item.lastName}
-                                </div>
-                              ))
-                            : ''}
-                          <Button
-                            type={
-                              item.status == 'invitations'
-                                ? 'default'
-                                : 'primary'
-                            }
-                            className={
-                              item.status === 'invitations'
-                                ? 'invitation-btn'
-                                : item.status === 'creation'
-                                ? 'creation-btn'
-                                : 'review-btn'
-                            }
-                            block
-                          >
-                            {item.status}
-                          </Button>
-                        </div>
-
-                        <p>{item.caseType.name}</p>
-                        {/* <p>Expected Date of Resolve : 8 Jan 2021</p> */}
-                      </div>
-                    </Card>
-                  </Col>
-                ))
-              ) : (
-                <Card bordered={true} className='upcoming-container'>
-                  <Row className='upcoming'>
-                    <h4>No Cases Available</h4>
-                    {/* <Link to='#'>view all</Link> */}
-                  </Row>
-                  {/* {userUpcomingHearing()} */}
-                  {/* {hearings2.map((hear) => (
-                    <>
-                      <p className="month">{hear.month}</p>
-                      <Row>
-                        <Col span={8} className="documentText">
-                          {hear.time}
-                        </Col>
-                        <Col span={8}>{hear.name}</Col>
-                        <Col span={8} className="download">
-                          <Link to="#">{hear.join}</Link>
-                        </Col>
-                      </Row>
-                    </>
-                  ))} */}
-                </Card>
-              )
-            ) : organization?.cases.length > 0 ? (
-              organization?.cases?.map((item, index) => (
+            {user?.cases.length > 0 ? (
+              user?.cases?.map((item, index) => (
                 <Col span={8}>
                   <Card bordered={false} className='document-container'>
                     <div className='review'>
                       <div className='d-flex'>
-                        {item?.members.length > 0
-                          ? item?.members.map((item, index) => (
-                              <span>
-                                {index ? ' Vs ' : ''} {item.firstName}{' '}
-                                {item.lastName}
-                              </span>
-                            ))
-                          : ''}
+                        {item?.title}
                         <Button
                           type={
                             item.status == 'invitations' ? 'default' : 'primary'
@@ -235,6 +129,9 @@ const Listing = ({
                               : 'review-btn'
                           }
                           block
+                          onClick={() =>
+                            history.push(`/mediator/cases/${item._id}`)
+                          }
                         >
                           {item.status}
                         </Button>

@@ -225,11 +225,7 @@ const MediatorSettings = ({ user, dispatch }) => {
               },
             ]}
           >
-            <Input
-              type='text'
-              placeholder='Firstname'
-              value={user?.firstName}
-            />
+            <Input type='text' placeholder='Firstname' />
           </Form.Item>
           <Form.Item
             name='lastName'

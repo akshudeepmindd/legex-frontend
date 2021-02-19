@@ -9,7 +9,7 @@ import { MediatorDashboardLayout } from '../../../layouts'
 import {
   CaseHeader,
   // InviteForm,
-  HearingForm,
+  // HearingForm,
   //   VerdictForm,
 } from '../../../components'
 import HearingsTable from '../../../components/Hearing/HearingTable'
@@ -25,6 +25,7 @@ import Back from '../../../assets/images/back.png'
 import PLUS from '../../../assets/images/plus.png'
 import UpdateForm from './UpdateForm'
 import VerdictForm from './VerdictForm'
+import HearingForm from './hearingForm'
 import moment from 'moment'
 
 const { Step } = Steps
@@ -93,7 +94,7 @@ const MediatorCase = ({
       verdict: value.verdict,
     }
     const res = await dispatch(makeVerdict(params))
-    console.log(res, 'resss')
+    setVerdictModal(false)
   }
 
   const updateC = async (value) => {
@@ -103,6 +104,7 @@ const MediatorCase = ({
     }
     console.log(params)
     await dispatch(updateCase(params))
+    setAddCaseModall(false)
   }
   const showInviteModal = () => setInviteModal(true)
 
@@ -208,6 +210,15 @@ const MediatorCase = ({
             footer={null}
           >
             <VerdictForm onFinish={updateVerdict} />
+          </Modal>
+          <Modal
+            title='Create Hearing'
+            visible={hearingModal}
+            onCancel={() => setHearingModal(false)}
+            destroyOnClose={true}
+            footer={null}
+          >
+            <HearingForm onFinish={updateVerdict} />
           </Modal>
           <div className='case-section'>
             <div className='address'>
@@ -376,6 +387,43 @@ const MediatorCase = ({
                           {moment(caseData?.updateAt).format('MM DD YYYY')}
                         </Col>
                         <Col span={8}>{update.updates}</Col>
+                        <Col span={8}>
+                          <div className='text-end'>
+                            <a href=''>View</a>
+                            <a href='' className='b-left'></a>
+                            <a href=''>Request</a>
+                          </div>
+                        </Col>
+                      </Row>
+                    )
+                  })}
+                </div>
+              </Card>
+            </div>
+            <div className='update-section'>
+              <Card bordered={false} className='document-container border'>
+                <div className='update-card'>
+                  <div className='party'>
+                    <h4>
+                      Hearings{' '}
+                      <img
+                        src={PLUS}
+                        onClick={() => setHearingModal(true)}
+                        width={15}
+                        height={15}
+                      />
+                    </h4>
+                  </div>
+                  {caseData?.hearings?.map((hear) => {
+                    return (
+                      <Row className='pb-2'>
+                        <Col span={8}>
+                          {moment(hear?.updateAt).format('MM DD YYYY')}
+                        </Col>
+                        <Col span={4}>{caseData?.title}</Col>
+                        <Col span={4}>
+                          {moment(hear?.startDateTime).format('MM DD YYYY')}
+                        </Col>
                         <Col span={8}>
                           <div className='text-end'>
                             <a href=''>View</a>
