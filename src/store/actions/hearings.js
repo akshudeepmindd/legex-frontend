@@ -55,12 +55,13 @@ export function createHearing(payload) {
   return async (dispatch) => {
     dispatch({ type: CREATE_HEARING });
     try {
-      const response = $http({
-        url: `/hearings`,
+      const response = await $http()({
+        url: `/hearing`,
         data: payload,
         method: "POST",
       });
-      return dispatch(hearingSuccess(response.data));
+      // dispatch(hearingSuccess(response.data))
+      return response?.data?.data;
     } catch (error) {
       return dispatch(requestFailure(error));
     }
@@ -71,7 +72,7 @@ export function updateHearing(payload) {
   return async (dispatch) => {
     dispatch({ type: UPDATE_HEARING });
     try {
-      const response = $http({
+      const response = $http()({
         url: `/hearings/${payload._id}`,
         data: payload,
         method: "PUT",
@@ -87,7 +88,7 @@ export function deleteHearing(payload) {
   return async (dispatch) => {
     dispatch({ type: DELETE_HEARING });
     try {
-      const response = $http({
+      const response = $http()({
         url: `/hearings/${payload._id}`,
         method: "DELETE",
       });

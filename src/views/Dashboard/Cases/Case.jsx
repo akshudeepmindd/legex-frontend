@@ -23,6 +23,8 @@ import $http from "../../../utils/api";
 import Back from "../../../assets/images/back.png";
 import PLUS from "../../../assets/images/plus.png";
 import InviteForm from "./InviteForm";
+import ShimmerEffect from "../../../components/shimmer";
+
 const { Step } = Steps;
 
 const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
@@ -338,7 +340,7 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
           </div>
         </>
       ) : (
-        "loading..."
+        <ShimmerEffect />
       )}
     </DashboardLayout>
   );

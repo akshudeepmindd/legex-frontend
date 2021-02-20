@@ -26,6 +26,7 @@ import { CasesTable, ProfileForm } from '../../../components'
 import { editUser } from '../../../store/actions/user'
 import UserProfile from './userProfile'
 import Listing from './Listing'
+import ShimmerEffect from '../../../components/shimmer'
 
 const { Text } = Typography
 const { Meta } = Card
@@ -219,7 +220,7 @@ const MediatorOverview = ({
         //     />
         //   </Modal>
         // </>
-        'loading...'
+        <ShimmerEffect />
       )}
     </MediatorDashboardLayout>
   )
