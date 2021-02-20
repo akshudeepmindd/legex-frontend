@@ -46,6 +46,7 @@ import PLUS from '../../../assets/images/plus.png'
 import Delete from '../../../assets/images/delete.png'
 
 import { hearings, documents, updates } from '../../../utils/constants'
+import ShimmerEffect from '../../../components/shimmer'
 const styles = {
   text: {
     textTransform: 'capitalize',
@@ -804,7 +805,7 @@ const Organization = ({
           <div className=''></div>
         </DashboardLayout>
       ) : (
-        'loading...'
+        <ShimmerEffect />
       )}
     </>
   )

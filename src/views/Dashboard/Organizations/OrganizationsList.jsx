@@ -30,6 +30,7 @@ import {
 
 import { createOrganization } from '../../../store/actions/organizations'
 import { respondInvite } from '../../../store/actions/invites'
+import ShimmerEffect from '../../../components/shimmer'
 
 const { Text } = Typography
 
@@ -263,7 +264,7 @@ const OrganizationsList = ({
           </Modal>
         </>
       ) : (
-        'loading....'
+        <ShimmerEffect />
       )}
     </DashboardLayout>
   )

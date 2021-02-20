@@ -55,12 +55,13 @@ export function createHearing(payload) {
   return async (dispatch) => {
     dispatch({ type: CREATE_HEARING })
     try {
-      const response = $http({
-        url: `/hearings`,
+      const response = await $http()({
+        url: `/hearing`,
         data: payload,
         method: 'POST',
       })
-      return dispatch(hearingSuccess(response.data))
+      // dispatch(hearingSuccess(response.data))
+      return response?.data?.data
     } catch (error) {
       return dispatch(requestFailure(error))
     }

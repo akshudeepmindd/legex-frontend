@@ -137,7 +137,7 @@ const Listing = ({
                         </Button>
                       </div>
 
-                      <p>{item.caseType.name}</p>
+                      <p>{item?.caseType?.name}</p>
                       <p>Expected Date of Resolve : 8 Jan 2021</p>
                     </div>
                   </Card>
@@ -150,21 +150,6 @@ const Listing = ({
                     <h4>No Cases Available</h4>
                     {/* <Link to='#'>view all</Link> */}
                   </Row>
-                  {/* {userUpcomingHearing()} */}
-                  {/* {hearings2.map((hear) => (
-                    <>
-                      <p className="month">{hear.month}</p>
-                      <Row>
-                        <Col span={8} className="documentText">
-                          {hear.time}
-                        </Col>
-                        <Col span={8}>{hear.name}</Col>
-                        <Col span={8} className="download">
-                          <Link to="#">{hear.join}</Link>
-                        </Col>
-                      </Row>
-                    </>
-                  ))} */}
                 </Card>
               </Col>
             )}

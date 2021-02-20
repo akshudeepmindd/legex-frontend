@@ -16,7 +16,11 @@ import HearingsTable from '../../../components/Hearing/HearingTable'
 import CasePartiesTable from '../../../components/Case/CasePartiesTable'
 
 import { fetchCase, inviteParty } from '../../../store/actions/case'
-import { makeVerdict, updateCase } from '../../../store/actions/cases'
+import {
+  makeVerdict,
+  updateCase,
+  updateCse,
+} from '../../../store/actions/cases'
 import { fetchUser } from '../../../store/actions/user'
 import { fetchOrganizations } from '../../../store/actions/organizations'
 import UploadForm from '../../../components/Document/UploadForm'
@@ -27,6 +31,8 @@ import UpdateForm from './UpdateForm'
 import VerdictForm from './VerdictForm'
 import HearingForm from './hearingForm'
 import moment from 'moment'
+import ShimmerEffect from '../../../components/shimmer'
+import { createHearing } from '../../../store/actions/hearings'
 
 const { Step } = Steps
 
@@ -43,6 +49,7 @@ const MediatorCase = ({
   const [documentModal, setDocumentModal] = useState(false)
   const [verdictModal, setVerdictModal] = useState(false)
   const [addCaseModal, setAddCaseModall] = useState(false)
+  const [hearingId, sethearingId] = useState(false)
   //store details about how the case is being accessed by the user
   const [access, updateAccess] = useState(null)
   const { caseId } = useParams()
@@ -116,53 +123,23 @@ const MediatorCase = ({
   const handleCancel = (e) =>
     setHearingModal(false) && setInviteModal(false) && setDocumentModal(false)
 
-  const onDocumentUploadClick = (fd) => {
-    fd.append('creater', user._id)
-    fd.append('createrType', 'User')
-    $http()({
-      url: 'documents/upload',
-      method: 'post',
-      processData: false,
-      data: fd,
-    })
-      .then((res) => {
-        //message.success("upload successfully.");
-        return true
+  const updateHearing = async (id, values) => {
+    const res = await dispatch(
+      createHearing({
+        case: match.params.caseId,
+        documents: id,
+        startDateTime: values.startDateTime,
+        remark: values.remark,
       })
-      .catch(() => {
-        message.error('upload failed.')
-        return false
-      })
+    )
+    // sethearingId(res?.data?.data)
+    let body = {
+      _id: match.params.caseId,
+      $push: { document: id },
+      $push: { hearings: res?._id },
+    }
+    await dispatch(updateCse(body))
   }
-
-  const Conditionally = () => (
-    <>
-      <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-        <Card
-          bordered={false}
-          title='Case Parties'
-          actions={[
-            access && access.access && (
-              <Button
-                icon={<EditOutlined />}
-                block
-                type='primary'
-                onClick={showInviteModal}
-                style={{ maxWidth: '95%', marginBottom: 10 }}
-              >
-                Send Invite
-              </Button>
-            ),
-          ]}
-        >
-          <CasePartiesTable
-            members={caseData.members}
-            organizations={caseData.organizations}
-          />
-        </Card>
-      </Col>
-    </>
-  )
 
   const onInvitationFormSubmit = async (values) => {
     const res = await dispatch(
@@ -218,7 +195,7 @@ const MediatorCase = ({
             destroyOnClose={true}
             footer={null}
           >
-            <HearingForm onFinish={updateVerdict} />
+            <HearingForm onFinish={updateHearing} />
           </Modal>
           <div className='case-section'>
             <div className='address'>
@@ -366,81 +343,132 @@ const MediatorCase = ({
                 </Card>
               </Col>
             </Row>
-            <div className='update-section'>
-              <Card bordered={false} className='document-container border'>
-                <div className='update-card'>
-                  <div className='party'>
-                    <h4>
-                      Updates{' '}
-                      <img
-                        src={PLUS}
-                        onClick={() => setAddCaseModall(true)}
-                        width={15}
-                        height={15}
-                      />
-                    </h4>
-                  </div>
-                  {caseData?.caseUpdates?.map((update) => {
-                    return (
-                      <Row className='pb-2'>
-                        <Col span={8}>
-                          {moment(caseData?.updateAt).format('MM DD YYYY')}
-                        </Col>
-                        <Col span={8}>{update.updates}</Col>
-                        <Col span={8}>
-                          <div className='text-end'>
-                            <a href=''>View</a>
-                            <a href='' className='b-left'></a>
-                            <a href=''>Request</a>
-                          </div>
-                        </Col>
-                      </Row>
-                    )
-                  })}
+            <Row gutter={[48, 16]} className='case-timeline'>
+              <Col span={12}>
+                <div className='update-section'>
+                  <Card bordered={false} className='document-container border'>
+                    <div className='update-card'>
+                      <div className='party'>
+                        <h4>
+                          Updates{' '}
+                          <img
+                            src={PLUS}
+                            onClick={() => setAddCaseModall(true)}
+                            width={15}
+                            height={15}
+                          />
+                        </h4>
+                      </div>
+                      {caseData?.caseUpdates?.map((update) => {
+                        return (
+                          <Row className='pb-2'>
+                            <Col span={8}>
+                              {moment(caseData?.updateAt).format('MM DD YYYY')}
+                            </Col>
+                            <Col span={8}>{update.updates}</Col>
+                            <Col span={8}>
+                              <div className='text-end'>
+                                <a href=''>View</a>
+                                <a href='' className='b-left'></a>
+                                <a href=''>Request</a>
+                              </div>
+                            </Col>
+                          </Row>
+                        )
+                      })}
+                    </div>
+                  </Card>
                 </div>
-              </Card>
-            </div>
-            <div className='update-section'>
-              <Card bordered={false} className='document-container border'>
-                <div className='update-card'>
-                  <div className='party'>
-                    <h4>
-                      Hearings{' '}
-                      <img
-                        src={PLUS}
-                        onClick={() => setHearingModal(true)}
-                        width={15}
-                        height={15}
-                      />
-                    </h4>
-                  </div>
-                  {caseData?.hearings?.map((hear) => {
-                    return (
-                      <Row className='pb-2'>
-                        <Col span={8}>
-                          {moment(hear?.updateAt).format('MM DD YYYY')}
-                        </Col>
-                        <Col span={4}>{caseData?.title}</Col>
-                        <Col span={4}>
-                          {moment(hear?.startDateTime).format('MM DD YYYY')}
-                        </Col>
-                        <Col span={8}>
-                          <div className='text-end'>
-                            <a href=''>View</a>
-                            <a href='' className='b-left'></a>
-                            <a href=''>Request</a>
-                          </div>
-                        </Col>
-                      </Row>
-                    )
-                  })}
+              </Col>
+              <Col span={12}>
+                <div className='update-section'>
+                  <Card bordered={false} className='document-container border'>
+                    <div className='update-card'>
+                      <div className='party'>
+                        <h4>
+                          Hearings{' '}
+                          <img
+                            src={PLUS}
+                            onClick={() => setHearingModal(true)}
+                            width={15}
+                            height={15}
+                          />
+                        </h4>
+                      </div>
+                      {caseData?.hearings?.map((hear) => {
+                        return (
+                          <Row className='pb-2'>
+                            <Col span={8}>
+                              {moment(hear?.updateAt).format('MM DD YYYY')}
+                            </Col>
+                            <Col span={4}>{caseData?.title}</Col>
+                            <Col span={4}>
+                              {moment(hear?.startDateTime).format('MM DD YYYY')}
+                            </Col>
+                            <Col span={8}>
+                              <div className='text-end'>
+                                <a href=''>View</a>
+                                <a href='' className='b-left'></a>
+                                <a href=''>Request</a>
+                              </div>
+                            </Col>
+                          </Row>
+                        )
+                      })}
+                    </div>
+                  </Card>
                 </div>
-              </Card>
-            </div>
+              </Col>
+            </Row>
+            <Row gutter={[48, 16]} className='case-timeline'>
+              <Col span={24}>
+                <div className='update-section'>
+                  <Card bordered={false} className='document-container border'>
+                    <div className='update-card'>
+                      <div className='party'>
+                        <h4>
+                          Documents{' '}
+                          <img
+                            src={PLUS}
+                            onClick={() => setHearingModal(true)}
+                            width={15}
+                            height={15}
+                          />
+                        </h4>
+                      </div>
+                      {caseData?.documents?.length > 0
+                        ? caseData?.documents?.map((hear) => {
+                            return (
+                              <Row className='pb-2'>
+                                <Col span={8}>
+                                  {moment(hear?.updateAt).format('MM DD YYYY')}
+                                </Col>
+                                <Col span={4}>{caseData?.title}</Col>
+                                <Col span={4}>
+                                  {moment(hear?.startDateTime).format(
+                                    'MM DD YYYY'
+                                  )}
+                                </Col>
+                                <Col span={8}>
+                                  <div className='text-end'>
+                                    <a href=''>View</a>
+                                    <a href='' className='b-left'></a>
+                                    <a href=''>Request</a>
+                                  </div>
+                                </Col>
+                              </Row>
+                            )
+                          })
+                        : 'No Documents Added'}
+                    </div>
+                  </Card>
+                </div>
+              </Col>
+            </Row>
           </div>
         </>
       ) : (
-        'loading...'
+        <ShimmerEffect />
       )}
     </MediatorDashboardLayout>
   )
