@@ -1,4 +1,4 @@
-import $http from '../../utils/api';
+import $http from "../../utils/api";
 import {
   FETCH_HEARINGS,
   FETCH_HEARING,
@@ -10,7 +10,7 @@ import {
   HEARINGS_SUCCESS,
   HEARING_SUCCESS,
   REQUEST_FAILURE,
-} from '../constants/hearings';
+} from "../constants/hearings";
 
 export const requestFailure = (error) => ({
   type: REQUEST_FAILURE,
@@ -31,7 +31,7 @@ export function fetchHearings() {
   return async (dispatch) => {
     dispatch({ type: FETCH_HEARINGS });
     try {
-      const response = $http({ url: '/hearings', method: 'GET' });
+      const response = $http({ url: "/hearings", method: "GET" });
       return dispatch(hearingsSuccess(response.data));
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -43,7 +43,7 @@ export function fetchHearing(payload) {
   return async (dispatch) => {
     dispatch({ type: FETCH_HEARING });
     try {
-      const response = $http({ url: `/hearings/${payload}`, method: 'GET' });
+      const response = $http({ url: `/hearings/${payload}`, method: "GET" });
       return dispatch(hearingSuccess(response.data));
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -58,7 +58,7 @@ export function createHearing(payload) {
       const response = $http({
         url: `/hearings`,
         data: payload,
-        method: 'POST',
+        method: "POST",
       });
       return dispatch(hearingSuccess(response.data));
     } catch (error) {
@@ -74,7 +74,7 @@ export function updateHearing(payload) {
       const response = $http({
         url: `/hearings/${payload._id}`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return dispatch(hearingSuccess(response.data));
     } catch (error) {
@@ -89,7 +89,7 @@ export function deleteHearing(payload) {
     try {
       const response = $http({
         url: `/hearings/${payload._id}`,
-        method: 'DELETE',
+        method: "DELETE",
       });
       return response;
     } catch (error) {
@@ -105,7 +105,7 @@ export function addDocument(payload) {
       const response = $http({
         url: `/hearings/${payload._id}/add-document`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return dispatch(hearingSuccess(response.data));
     } catch (error) {
@@ -121,7 +121,7 @@ export function removeDocument(payload) {
       const response = $http({
         url: `/hearings/${payload._id}/remove-document`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return dispatch(hearingSuccess(response.data));
     } catch (error) {

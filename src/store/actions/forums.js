@@ -1,4 +1,4 @@
-import $http from '../../utils/api';
+import $http from "../../utils/api";
 import {
   FETCH_MESSAGES,
   CREATE_MESSAGE,
@@ -6,7 +6,7 @@ import {
   DELETE_MESSAGE,
   REQUEST_SUCCESS,
   REQUEST_FAILURE,
-} from '../constants/forums';
+} from "../constants/forums";
 
 export const requestFailure = (error) => ({
   type: REQUEST_FAILURE,
@@ -24,7 +24,7 @@ export function fetchMessages(payload) {
     try {
       const response = await $http({
         url: `/forums/${payload._id}`,
-        method: 'GET',
+        method: "GET",
       });
       return dispatch(requestSuccess(response.data));
     } catch (error) {
@@ -38,9 +38,9 @@ export function createMessage(payload) {
     dispatch({ type: CREATE_MESSAGE });
     try {
       const response = await $http({
-        url: '/forums',
+        url: "/forums",
         data: payload,
-        method: 'POST',
+        method: "POST",
       });
       return dispatch(requestSuccess(response.data));
     } catch (error) {
@@ -56,7 +56,7 @@ export function updateMessage(payload) {
       const response = await $http({
         url: `/forums/${payload._id}`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return dispatch(requestSuccess(response.data));
     } catch (error) {
@@ -72,7 +72,7 @@ export function deleteMessage(payload) {
       const response = await $http({
         url: `/forums/${payload._id}`,
         data: payload,
-        method: 'DELETE',
+        method: "DELETE",
       });
       return dispatch(requestSuccess(response.data));
     } catch (error) {

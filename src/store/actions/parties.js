@@ -1,4 +1,4 @@
-import $http from '../../utils/api';
+import $http from "../../utils/api";
 import {
   FETCH_PARTIES,
   FETCH_PARTY,
@@ -6,7 +6,7 @@ import {
   UPDATE_PARTY,
   DELETE_PARTY,
   REQUEST_FAILURE,
-} from '../constants/parties';
+} from "../constants/parties";
 
 export const requestFailure = (error) => ({
   type: REQUEST_FAILURE,
@@ -17,7 +17,7 @@ export function fetchParties() {
   return async (dispatch) => {
     dispatch({ type: FETCH_PARTIES });
     try {
-      const response = $http({ url: '/parties', method: 'GET' });
+      const response = $http({ url: "/parties", method: "GET" });
       return response;
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -29,7 +29,7 @@ export function fetchParty(payload) {
   return async (dispatch) => {
     dispatch({ type: FETCH_PARTY });
     try {
-      const response = $http({ url: `/parties/${payload}`, method: 'GET' });
+      const response = $http({ url: `/parties/${payload}`, method: "GET" });
       return response;
     } catch (error) {
       return dispatch(requestFailure(error));
@@ -42,9 +42,9 @@ export function createParty(payload) {
     dispatch({ type: CREATE_PARTY });
     try {
       const response = $http({
-        url: '/parties',
+        url: "/parties",
         data: payload,
-        method: 'POST',
+        method: "POST",
       });
       return response;
     } catch (error) {
@@ -60,7 +60,7 @@ export function updateParty(payload) {
       const response = $http({
         url: `/parties/${payload._id}`,
         data: payload,
-        method: 'PUT',
+        method: "PUT",
       });
       return response;
     } catch (error) {
@@ -75,7 +75,7 @@ export function deleteParty(payload) {
     try {
       const response = $http({
         url: `/parties/${payload._id}`,
-        method: 'DELETE',
+        method: "DELETE",
       });
       return response;
     } catch (error) {

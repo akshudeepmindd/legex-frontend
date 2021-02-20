@@ -14,14 +14,15 @@ import {
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
-import { DashboardLayout } from "../../../layouts";
-import UserAvatar from "../../../assets/images/useravtar.png";
-import pencil from "../../../assets/images/Subtract.png";
+import { DashboardLayout } from "../../layouts";
+import UserAvatar from "../../assets/images/useravtar.png";
+import pencil from "../../assets/images/Subtract.png";
 import { connect } from "react-redux";
-import { editUser } from "../../../store/actions/user";
-import { resetPassword } from "../../../store/actions/auth";
-import UpdateDetails from "./UpdateDetails";
-import UpdatePassword from "./UpdatePassword";
+import { editUser } from "../../store/actions/user";
+import { resetPassword } from "../../store/actions/auth";
+import DetailsUpdateForm from "./DetailsUpdateForm";
+import PasswordUpdateForm from "./PasswordUpdateForm";
+import AdminDashboardLayout from "../../layouts/AdminDashboardLayout";
 
 const columns = [
   {
@@ -146,11 +147,13 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = ({ user, dispatch }) => {
-  const [form] = Form.useForm();
+const AdminSettings = ({ user, dispatch }) => {
+  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   const [disabled, setDisabled] = useState(true);
+  const [form] = Form.useForm();
 
   const onFinish = async (values) => {
+    console.log("values datail update>>>>>>>", values);
     await dispatch(
       editUser({
         ...values,
@@ -166,6 +169,7 @@ const RegistrationForm = ({ user, dispatch }) => {
         })
       );
     }
+    console.log("values password update>>>>>>>", values);
   };
 
   const prefixSelector = (
@@ -180,7 +184,6 @@ const RegistrationForm = ({ user, dispatch }) => {
       </Select>
     </Form.Item>
   );
-  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
 
   const onWebsiteChange = (value) => {
     if (!value) {
@@ -197,7 +200,7 @@ const RegistrationForm = ({ user, dispatch }) => {
     value: website,
   }));
   return (
-    <DashboardLayout>
+    <AdminDashboardLayout>
       <div className="settings">
         <Row>
           <Col span={6} className="userprofile">
@@ -213,81 +216,19 @@ const RegistrationForm = ({ user, dispatch }) => {
             </div>
           </Col>
         </Row>
-        <UpdateDetails
+        <DetailsUpdateForm
           className="form-input"
           onFinish={onFinish}
           user={user}
           disabled={disabled}
         />
-        <UpdatePassword
+        <PasswordUpdateForm
           className="form-input"
           onFinish={onFinishPassword}
           disabled={disabled}
         />
-        <div className="Notification">
-          <Card bordered={false} className="document-container">
-            <h5>Notifications</h5>
-            <p className="mb-2">Now you can customize your notifications</p>
-
-            <Row className="border-btm">
-              <Col span={12}>
-                <h5>Case Update</h5>
-                <p>Receive a notification for every update in your case</p>
-              </Col>
-              <Col span={12}>
-                <div className="text-end">
-                  <Checkbox></Checkbox> Email
-                </div>
-              </Col>
-            </Row>
-            <Row className="border-btm">
-              <Col span={12}>
-                <h5>Newsletter</h5>
-                <p>Receive a notification and a soft copy of our Newsletter</p>
-              </Col>
-              <Col span={12}>
-                <div className="text-end">
-                  <Checkbox></Checkbox> Email
-                </div>
-              </Col>
-            </Row>
-            <Row className="border-btm">
-              <Col span={12}>
-                <h5>Legal News</h5>
-                <p>
-                  Receive a notification and o soft copy of our weekly legal
-                  news analysis
-                </p>
-              </Col>
-              <Col span={12}>
-                <div className="text-end">
-                  <Checkbox></Checkbox> Email
-                </div>
-              </Col>
-            </Row>
-            <Row className="border-btm">
-              <Col span={12}>
-                <h5>Organisation Update</h5>
-                <p>
-                  Receive a notification for every update in your organisation
-                </p>
-              </Col>
-              <Col span={12}>
-                <div className="text-end">
-                  <Checkbox></Checkbox> Email
-                </div>
-              </Col>
-            </Row>
-            <div className="float-right">
-              {" "}
-              <Button type="primary" htmlType="submit" className="btn-reg">
-                Save and Update
-              </Button>
-            </div>
-          </Card>
-        </div>
       </div>
-    </DashboardLayout>
+    </AdminDashboardLayout>
   );
 };
 
@@ -302,4 +243,4 @@ const mapStateToProps = (state, ownProps) => ({
   hearings: state.hearings,
 });
 
-export default connect(mapStateToProps)(RegistrationForm);
+export default connect(mapStateToProps)(AdminSettings);

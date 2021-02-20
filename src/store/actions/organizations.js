@@ -20,8 +20,8 @@ const fetchOrganizationsSuccess = (organizations) => ({
 
 export const addOrganziation = (data) => ({
   type: ADD_ORGANIZATION,
-  payload: data
-})
+  payload: data,
+});
 
 export function fetchOrganizations() {
   return async (dispatch) => {

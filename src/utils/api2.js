@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const $http = () => {
+const $http2 = () => {
   const baseAxios = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
+    baseURL: process.env.REACT_APP_BASE_URL_ADMIN,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -16,4 +16,4 @@ const $http = () => {
   return baseAxios;
 };
 
-export default $http;
+export default $http2;

@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
-import { Layout, Row, Col, Dropdown, Menu, Button, Modal } from 'antd'
-import PropTypes from 'prop-types'
+import React, { useState } from "react";
+import { Layout, Row, Col, Dropdown, Menu, Button, Modal } from "antd";
+import PropTypes from "prop-types";
 //import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
-import { useMediaQuery } from '@react-hook/media-query'
-import Logo from '../assets/images/logo.png'
-import iconbar from '../assets/images/iconbar.png'
-import bell from '../assets/images/bell.png'
-import avtar from '../assets/images/avtar.png'
-import { Sidebar } from '../components'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { connect, useDispatch } from 'react-redux'
-import User from '../assets/images/useravtar.png'
-import User2 from '../assets/images/dropuser.png'
-import Dash from '../assets/images/dash.png'
-import { withRouter } from 'react-router-dom'
-import { respondInvite } from '../store/actions/invites'
+import { useMediaQuery } from "@react-hook/media-query";
+import Logo from "../assets/images/logo.png";
+import iconbar from "../assets/images/iconbar.png";
+import bell from "../assets/images/bell.png";
+import avtar from "../assets/images/avtar.png";
+import { Sidebar } from "../components";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { connect, useDispatch } from "react-redux";
+import User from "../assets/images/useravtar.png";
+import User2 from "../assets/images/dropuser.png";
+import Dash from "../assets/images/dash.png";
+import { withRouter } from "react-router-dom";
+import { respondInvite } from "../store/actions/invites";
 
 const {
   //Header,
@@ -22,20 +22,20 @@ const {
   Content,
   Footer,
   Header,
-} = Layout
+} = Layout;
 
 function DashboardLayout(props) {
-  const { children } = props
-  const [collapsed, setCollapsed] = useState(false)
-  const dispatch = useDispatch()
-  const [year] = useState(new Date().getFullYear())
-  const phoneView = useMediaQuery('only screen and (max-width: 768px)')
+  const { children } = props;
+  const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
+  const [year] = useState(new Date().getFullYear());
+  const phoneView = useMediaQuery("only screen and (max-width: 768px)");
   const orgInvite = props.user?.Sinvites?.filter(
-    (invite) => invite.invitationType == 'Organization'
-  )
+    (invite) => invite.invitationType == "Organization"
+  );
   const caseInvite = props.user?.Sinvites?.filter(
-    (invite) => invite.invitationType == 'Case'
-  )
+    (invite) => invite.invitationType == "Case"
+  );
 
   const acceptConfirmation = ({ invite, message }) =>
     Modal.confirm({
@@ -44,48 +44,49 @@ function DashboardLayout(props) {
           respondInvite({
             inviteId: invite._id,
             data: {
-              invitationType: 'Case',
-              response: 'Accepted',
+              invitationType: "Case",
+              response: "Accepted",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       async onCancel() {
         await dispatch(
           respondInvite({
             inviteId: invite._id,
             data: {
-              resp: 'Declined',
+              resp: "Declined",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       content: message,
-      cancelText: 'Decline',
-      okText: 'Accept',
-    })
+      cancelText: "Decline",
+      okText: "Accept",
+    });
 
   function toggle() {
-    setCollapsed(!collapsed)
+    setCollapsed(!collapsed);
   }
   function logout() {
-    localStorage.removeItem('access-token')
-    props.history.push('/login')
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("role");
+    props.history.push("/login");
   }
   const userDetail = (
     <Menu style={{ width: 250 }}>
       <Menu.Item style={{ width: 100 }}>
-        <div className='user-dropdown'>
+        <div className="user-dropdown">
           <img src={User} height={50} width={50} />
           <span>
             {props.user?.firstName}&nbsp;
             {props.user?.lastName}
           </span>
         </div>
-        <div className='logged-container'>
-          <div className='logged-in'>
+        <div className="logged-container">
+          <div className="logged-in">
             <p>Logged In as:</p>
             <p>
               <img src={User2} height={20} width={20} />
@@ -97,43 +98,43 @@ function DashboardLayout(props) {
             </p>
           </div>
           <div>
-            <Button className='logout-btn' onClick={() => logout()}>
+            <Button className="logout-btn" onClick={() => logout()}>
               Logout
             </Button>
           </div>
         </div>
       </Menu.Item>
     </Menu>
-  )
+  );
 
   const notification = (
     <Menu style={{ width: 350 }}>
       <Menu.Item style={{ width: 100 }}>
-        <div className='notification-dropdown'>
-          <img src={bell} alt='bar' className='bel' width={30} height={30} />
+        <div className="notification-dropdown">
+          <img src={bell} alt="bar" className="bel" width={30} height={30} />
           <span>Pending Invitations</span>
         </div>
-        <div className='invite-container'>
-          <div className='invitation'>
+        <div className="invite-container">
+          <div className="invitation">
             <p>Case Invitations</p>
             {caseInvite?.length > 0 ? (
               props.user?.Sinvites?.map((invite) => {
                 if (
-                  invite.invitationType == 'Case' &&
-                  invite.status === 'Waiting'
+                  invite.invitationType == "Case" &&
+                  invite.status === "Waiting"
                 ) {
                   return (
-                    <div className='invitation-list'>
+                    <div className="invitation-list">
                       <p>{invite.case}</p>
                       <div
                         style={{
-                          textAlign: 'end',
+                          textAlign: "end",
                           marginTop: 3,
                         }}
                       >
-                        {console.log(invite, 'invite')}
+                        {console.log(invite, "invite")}
                         <Button
-                          className='accept-btn'
+                          className="accept-btn"
                           onClick={() =>
                             acceptConfirmation({
                               invite,
@@ -143,10 +144,10 @@ function DashboardLayout(props) {
                         >
                           Accept
                         </Button>
-                        <Button className='cancel-btn'>Decline</Button>
+                        <Button className="cancel-btn">Decline</Button>
                       </div>
                     </div>
-                  )
+                  );
                 }
               })
             ) : (
@@ -154,28 +155,28 @@ function DashboardLayout(props) {
             )}
           </div>
           <div>
-            <div className='invitation'>
+            <div className="invitation">
               <p>Organisation Invitations</p>
               {orgInvite?.length > 0 ? (
                 props.user?.Sinvites?.map((invite) => {
                   if (
-                    invite.invitationType == 'Organization' &&
-                    invite.status === 'Waiting'
+                    invite.invitationType == "Organization" &&
+                    invite.status === "Waiting"
                   ) {
                     return (
-                      <div className='invitation-list'>
+                      <div className="invitation-list">
                         <p>{invite.case}</p>
                         <div
                           style={{
-                            textAlign: 'end',
+                            textAlign: "end",
                             marginTop: 3,
                           }}
                         >
-                          <Button className='accept-btn'>Accept</Button>
-                          <Button className='cancel-btn'>Decline</Button>
+                          <Button className="accept-btn">Accept</Button>
+                          <Button className="cancel-btn">Decline</Button>
                         </div>
                       </div>
-                    )
+                    );
                   }
                 })
               ) : (
@@ -187,25 +188,25 @@ function DashboardLayout(props) {
         </div>
       </Menu.Item>
     </Menu>
-  )
+  );
   return (
     <Layout>
       {phoneView && (
-        <Sider breakpoint='lg' collapsedWidth='0'>
-          <img src={Logo} alt='Legex' className='logo' />
+        <Sider breakpoint="lg" collapsedWidth="0">
+          <img src={Logo} alt="Legex" className="logo" />
           <Sidebar collapsed={collapsed} />
         </Sider>
       )}
       {!phoneView && (
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <img src={Logo} alt='Legex' className='logo' />
+          <img src={Logo} alt="Legex" className="logo" />
           <Sidebar collapsed={collapsed} />
         </Sider>
       )}
 
-      <Layout className='dashboard-layout'>
+      <Layout className="dashboard-layout">
         {!phoneView && (
-          <Header className='dashboard-layout-header'>
+          <Header className="dashboard-layout-header">
             {/* {React.createElement(
               collapsed ? <img src={iconbar} alt='bar' /> : MenuFoldOutlined,
               {
@@ -214,14 +215,14 @@ function DashboardLayout(props) {
             )} */}
             <Row>
               <Col span={8}>
-                <img src={iconbar} alt='bar' onClick={toggle} />
+                <img src={iconbar} alt="bar" onClick={toggle} />
               </Col>
-              <Col span={8} offset={8} className='iconContainer'>
-                <Dropdown overlay={notification} placement='bottomRight' arrow>
-                  <img src={bell} alt='bar' className='bel' />
+              <Col span={8} offset={8} className="iconContainer">
+                <Dropdown overlay={notification} placement="bottomRight" arrow>
+                  <img src={bell} alt="bar" className="bel" />
                 </Dropdown>
-                <Dropdown overlay={userDetail} placement='bottomLeft' arrow>
-                  <img src={avtar} alt='bar' className='avatar' />
+                <Dropdown overlay={userDetail} placement="bottomLeft" arrow>
+                  <img src={avtar} alt="bar" className="avatar" />
                 </Dropdown>
                 <span>
                   {props.user?.firstName} {props.user?.lastName}
@@ -230,24 +231,24 @@ function DashboardLayout(props) {
             </Row>
           </Header>
         )}
-        <Content className='dashboard-layout-content'>{children}</Content>
-        <Footer className='dashboard-layout-footer'>
+        <Content className="dashboard-layout-content">{children}</Content>
+        <Footer className="dashboard-layout-footer">
           <b>Legex ODR</b> &copy; {year} A &nbsp;
-          <a href='https://www.legex.in/'>Legex</a> product.
+          <a href="https://www.legex.in/">Legex</a> product.
         </Footer>
       </Layout>
     </Layout>
-  )
+  );
 }
 
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-  }
-}
+  };
+};
 
 DashboardLayout.propTypes = {
   children: PropTypes.any.isRequired,
-}
+};
 
-export default withRouter(connect(mapStateToProps)(DashboardLayout))
+export default withRouter(connect(mapStateToProps)(DashboardLayout));

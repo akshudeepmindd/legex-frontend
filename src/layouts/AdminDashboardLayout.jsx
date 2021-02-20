@@ -7,7 +7,9 @@ import Logo from "../assets/images/logo.png";
 import iconbar from "../assets/images/iconbar.png";
 import bell from "../assets/images/bell.png";
 import avtar from "../assets/images/avtar.png";
+import { Sidebar } from "../components";
 import { MediatorSidebar } from "../components";
+
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { connect, useDispatch } from "react-redux";
 import User from "../assets/images/useravtar.png";
@@ -24,13 +26,13 @@ const {
   Header,
 } = Layout;
 
-function MediatorDashboardLayout(props) {
+function AdminDashboardLayout(props) {
   const { children } = props;
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const [year] = useState(new Date().getFullYear());
   const phoneView = useMediaQuery("only screen and (max-width: 768px)");
-  const orgInvite = props.user?.invites?.filter(
+  const orgInvite = props.user?.Sinvites?.filter(
     (invite) => invite.invitationType == "Organization"
   );
   const caseInvite = props.user?.Sinvites?.filter(
@@ -72,7 +74,6 @@ function MediatorDashboardLayout(props) {
   }
   function logout() {
     localStorage.removeItem("access-token");
-    localStorage.removeItem("role");
     props.history.push("/login");
   }
   const userDetail = (
@@ -156,10 +157,9 @@ function MediatorDashboardLayout(props) {
           </div>
           <div>
             <div className="invitation">
-              {console.log(orgInvite, "inviteeee")}
               <p>Organisation Invitations</p>
               {orgInvite?.length > 0 ? (
-                props.user?.invites?.map((invite) => {
+                props.user?.Sinvites?.map((invite) => {
                   if (
                     invite.invitationType == "Organization" &&
                     invite.status === "Waiting"
@@ -248,8 +248,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-MediatorDashboardLayout.propTypes = {
+AdminDashboardLayout.propTypes = {
   children: PropTypes.any.isRequired,
 };
 
-export default withRouter(connect(mapStateToProps)(MediatorDashboardLayout));
+export default withRouter(connect(mapStateToProps)(AdminDashboardLayout));

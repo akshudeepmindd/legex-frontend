@@ -33,8 +33,8 @@ export function editUser(data) {
       //message.loading({ content: "fetching user details..", key: messageKey });
       const response = await $http()({
         url: `/users/${data.payload}`,
-        data : data,
-        method: "PUT",
+        data: data,
+        method: "PATCH",
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(fetchUserSuccess(response.data.data));

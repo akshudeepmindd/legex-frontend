@@ -1,21 +1,16 @@
-import { ADMIN_LOGIN_START } from '../constants/admin'
+import { ADMIN_LOGIN_START, LOGIN_ADMIN_SUCCESS } from "../constants/admin";
 
-export const initialState = null
+export const initialState = null;
 
 export default function adminReducer(state = initialState, action) {
   switch (action.type) {
     case ADMIN_LOGIN_START:
-      return state
+      return state;
 
-    // case LOGIN_USER_SUCCESS:
-    // case REGISTER_USER_SUCCESS:
-    //   return true
-
-    // case AUTH_FAILURE:
-    // case LOGOUT_USER:
-    //   return initialState
+    case LOGIN_ADMIN_SUCCESS:
+      return action.payload;
 
     default:
-      return state
+      return state;
   }
 }

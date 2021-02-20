@@ -48,7 +48,11 @@ function AuthLayout(props) {
         )}
         {!phoneView && (
           <span>
-            <a href="https://resolve.legex.in/"  target="_blank" rel="noopener noreferrer" >
+            <a
+              href="https://resolve.legex.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src={Logo} alt="Legex" className="logo" />
             </a>
           </span>
@@ -63,7 +67,11 @@ function AuthLayout(props) {
           visible={visible}
           key={"left"}
         >
-          <a href="https://resolve.legex.in/"  target="_blank" rel="noopener noreferrer" >
+          <a
+            href="https://resolve.legex.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src={Logo} alt="Legex" className="logo" />
           </a>
           <Menu
@@ -71,25 +79,6 @@ function AuthLayout(props) {
             defaultOpenKeys={["sub1"]}
             mode="inline"
           >
-            {/* <Menu.SubMenu
-              key="sub2"
-              icon={<SolutionOutlined />}
-              title="About us"
-            >
-              <Menu.Item key="/how-we-help-you">
-                <Link to="/how-we-help-you">How we help you</Link>
-              </Menu.Item>
-              <Menu.Item key="/our-services">
-                <Link to="/our-services">Our services</Link>
-              </Menu.Item>
-              <Menu.Item key="/our-people">
-                <Link to="/our-people">Our people</Link>
-              </Menu.Item>
-              <Menu.Item key="/our-clients">
-                <Link to="/our-clients">Our clients</Link>
-              </Menu.Item>
-            </Menu.SubMenu>*/}
-
             <Menu.SubMenu
               key="sub4"
               title={

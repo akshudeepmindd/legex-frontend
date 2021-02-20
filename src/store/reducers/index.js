@@ -1,18 +1,19 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux";
 
-import authReducer from './auth'
-import userReducers from './user'
-import casesReducers from './cases'
-import caseReducers from './case'
-import organizationReducers from './organization'
-import organizationsReducers from './organizations'
-import partyReducers from './parties'
-import documentReducers from './documents'
-import inviteReducers from './invites'
-import hearingReducers from './hearings'
-import caseTypeReducers from './caseTypes'
-import contractReducers from './contract'
-import adminReducer from './admin'
+import authReducer from "./auth";
+import userReducers from "./user";
+import casesReducers from "./cases";
+import caseReducers from "./case";
+import organizationReducers from "./organization";
+import organizationsReducers from "./organizations";
+import partyReducers from "./parties";
+import documentReducers from "./documents";
+import inviteReducers from "./invites";
+import hearingReducers from "./hearings";
+import caseTypeReducers from "./caseTypes";
+import contractReducers from "./contract";
+import adminReducer from "./admin";
+import adminCaseReducer from "./adminReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   caseTypes: caseTypeReducers,
   contractCase: contractReducers,
   admin: adminReducer,
-})
+  adminCaseDetail: adminCaseReducer,
+});
 
-export default rootReducer
+export default rootReducer;
