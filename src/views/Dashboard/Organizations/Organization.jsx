@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import Union from '../../../assets/images/Union.png'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import Union from "../../../assets/images/Union.png";
+import { Link } from "react-router-dom";
 import {
   Row,
   Col,
@@ -15,10 +15,10 @@ import {
   Popconfirm,
   Card,
   Select,
-} from 'antd'
-import { DownOutlined } from '@ant-design/icons'
-import { connect } from 'react-redux'
-import { DashboardLayout } from '../../../layouts'
+} from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import { connect } from "react-redux";
+import { DashboardLayout } from "../../../layouts";
 import {
   deleteOrganization,
   updateOrganization,
@@ -26,32 +26,32 @@ import {
   leaveOrganization,
   fetchOrganization,
   createCase,
-} from '../../../store/actions/organization'
-import MembersTable from '../../../components/Organization/MembersTable'
+} from "../../../store/actions/organization";
+import MembersTable from "../../../components/Organization/MembersTable";
 import {
   OrganizationForm,
   AddMemForm,
   CasesTable,
   CaseForm,
-} from '../../../components'
-import { useEffect } from 'react'
-import { respondInvite } from '../../../store/actions/invites'
+} from "../../../components";
+import { useEffect } from "react";
+import { respondInvite } from "../../../store/actions/invites";
 //CSS
-import 'antd/dist/antd.css'
-import './Organization.css'
-import DocumentsTable from '../../../components/Document/DocumentsTable'
-import UploadForm from '../../../components/Document/UploadForm'
-import { uploadDocument } from '../../../store/actions/documents'
-import PLUS from '../../../assets/images/plus.png'
-import Delete from '../../../assets/images/delete.png'
+import "antd/dist/antd.css";
+import "./Organization.css";
+import DocumentsTable from "../../../components/Document/DocumentsTable";
+import UploadForm from "../../../components/Document/UploadForm";
+import { uploadDocument } from "../../../store/actions/documents";
+import PLUS from "../../../assets/images/plus.png";
+import Delete from "../../../assets/images/delete.png";
 
-import { hearings, documents, updates } from '../../../utils/constants'
-import ShimmerEffect from '../../../components/shimmer'
+import { hearings, documents, updates } from "../../../utils/constants";
+import ShimmerEffect from "../../../components/shimmer";
 const styles = {
   text: {
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
-}
+};
 
 const Organization = ({
   dispatch,
@@ -64,51 +64,51 @@ const Organization = ({
   cases,
   hearings,
 }) => {
-  const [selectedOrg, setSelectedOrg] = useState('')
-  const [selectedCase, setSelectedCase] = useState('')
-  const [selectedHearing, setSelectedHearing] = useState('')
-  const [casesmenu, setCasesmenu] = useState([])
-  const [orgName, setOrgName] = useState('')
-  const [orgDomain, setOrgDomain] = useState('')
+  const [selectedOrg, setSelectedOrg] = useState("");
+  const [selectedCase, setSelectedCase] = useState("");
+  const [selectedHearing, setSelectedHearing] = useState("");
+  const [casesmenu, setCasesmenu] = useState([]);
+  const [orgName, setOrgName] = useState("");
+  const [orgDomain, setOrgDomain] = useState("");
 
   useEffect(() => {
-    dispatch(fetchOrganization(organizationId))
-  }, [organizationId, dispatch])
+    dispatch(fetchOrganization(organizationId));
+  }, [organizationId, dispatch]);
 
   const onChangeOrg = (value) => {
-    setSelectedOrg(value)
-  }
+    setSelectedOrg(value);
+  };
 
   const filterOrganization = organizations?.find(
     (item) => item._id === selectedOrg
-  )
+  );
   let pendingCases = filterOrganization?.cases?.filter(
-    (caseee) => caseee.status !== 'completion'
-  )
+    (caseee) => caseee.status !== "completion"
+  );
 
   let pendingCasess = organization?.cases?.filter(
-    (caseee) => caseee.status !== 'completion'
-  )
+    (caseee) => caseee.status !== "completion"
+  );
 
   let resolvedCases = filterOrganization?.cases?.filter(
-    (caseee) => caseee.status == 'completion'
-  )
+    (caseee) => caseee.status == "completion"
+  );
 
   let resolvedCasess = organization?.cases?.filter(
-    (caseee) => caseee.status == 'completion'
-  )
+    (caseee) => caseee.status == "completion"
+  );
   const filterCases = filterOrganization?.cases.find(
     (item) => item._id === selectedCase
-  )
+  );
 
   const onChangeCase = (value) => {
-    setSelectedCase(value)
-  }
+    setSelectedCase(value);
+  };
   const onChangeHearing = (value) => {
-    setSelectedHearing(value)
-  }
+    setSelectedHearing(value);
+  };
 
-  console.log(filterCases, 'filterOrganization')
+  console.log(filterCases, "filterOrganization");
 
   // const [invites, setInvites] = useState([])
 
@@ -118,8 +118,8 @@ const Organization = ({
 
   const handleDelete = async () => {
     if (await dispatch(deleteOrganization(organizationId)))
-      history.push('/dashboard/organizations')
-  }
+      history.push("/dashboard/organizations");
+  };
   const renderMembers = () => (
     <MembersTable
       members={organization.members}
@@ -127,63 +127,63 @@ const Organization = ({
       user={user._id}
       organizationId={organizationId}
     />
-  )
+  );
   const handleLeave = async () => {
     if (
       await dispatch(
         leaveOrganization({ organizationId, data: { uid: user._id } })
       )
     );
-    history.push('/dashboard/organizations')
-  }
+    history.push("/dashboard/organizations");
+  };
 
-  const renderCases = () => <CasesTable cases={organization.cases} />
+  const renderCases = () => <CasesTable cases={organization.cases} />;
 
-  const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false)
+  const [updateOrganizationModal, setUpdateOrganizationModal] = useState(false);
   const [inviteMemberModalVisibility, setInviteMemberModalVisibilty] = useState(
     false
-  )
+  );
   const [createCaseModalVisibility, setCreateCaseModalVisibilty] = useState(
     false
-  )
+  );
 
   const onUpdateFinish = async (values) => {
     if (filterOrganization) {
-      ;(await dispatch(
+      (await dispatch(
         updateOrganization({
           organizationId: filterOrganization._id,
           data: values,
         })
-      )) && setUpdateOrganizationModal(false)
+      )) && setUpdateOrganizationModal(false);
     } else {
-      ;(await dispatch(
+      (await dispatch(
         updateOrganization({
           organizationId,
           data: values,
         })
-      )) && setUpdateOrganizationModal(false)
+      )) && setUpdateOrganizationModal(false);
     }
-  }
+  };
 
   const onInviteMemberFinish = async (values) =>
     (await dispatch(
       inviteMember({
-        senderType: 'Organization',
+        senderType: "Organization",
         sender: organizationId,
-        receiverType: 'User',
-        invitationType: 'Organization',
+        receiverType: "User",
+        invitationType: "Organization",
         ...values,
       })
-    )) && setInviteMemberModalVisibilty(false)
+    )) && setInviteMemberModalVisibilty(false);
 
   const onCreateCaseFinish = async (values) =>
     (await dispatch(
       createCase({
-        createrType: 'Organization',
+        createrType: "Organization",
         creater: organization._id,
         ...values,
       })
-    )) && setCreateCaseModalVisibilty(false)
+    )) && setCreateCaseModalVisibilty(false);
 
   const acceptConfirmation = ({ invite, message }) =>
     Modal.confirm({
@@ -192,27 +192,27 @@ const Organization = ({
           respondInvite({
             inviteId: invite._id,
             data: {
-              response: 'Accepted',
+              response: "Accepted",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       async onCancel() {
         await dispatch(
           respondInvite({
             inviteId: invite._id,
             data: {
-              response: 'Declined',
+              response: "Declined",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       content: message,
-      cancelText: 'Decline',
-      okText: 'Accept',
-    })
+      cancelText: "Decline",
+      okText: "Accept",
+    });
 
   const pendingInvitationsMenu = ({ invites }) => {
     return (
@@ -226,23 +226,23 @@ const Organization = ({
                   acceptConfirmation({
                     invite,
                     message: `Do you want to accept ${
-                      invite.senderType === 'User'
+                      invite.senderType === "User"
                         ? `${invite.sender.firstName} ${invite.sender.lastName}`
                         : invite.sender.name
                     }`,
-                  })
+                  });
                 }}
               >
                 {invite.sender.name || invite.sender.email}
               </Menu.Item>
-            )
+            );
           })
         ) : (
           <Menu.Item>No Pending Invites</Menu.Item>
         )}
       </Menu>
-    )
-  }
+    );
+  };
 
   // const renderContentHeader = (column = 2) => (
   //   <Descriptions size="large" column={column}>
@@ -257,51 +257,51 @@ const Organization = ({
   //     </Descriptions.Item>
   //   </Descriptions>
   // );
-  const [uploadFormVisbility, setUploadFormVisibility] = useState(false)
+  const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
   const onDocumentUploadClick = async (formData) => {
     if (filterOrganization) {
-      console.log('hello')
-      formData.append('creater', filterOrganization._id)
+      console.log("hello");
+      formData.append("creater", filterOrganization._id);
     } else {
-      formData.append('creater', organization._id)
+      formData.append("creater", organization._id);
     }
-    formData.append('createrType', 'Organization')
-    ;(await dispatch(uploadDocument(formData))) &&
-      setUploadFormVisibility(false)
-  }
-  const textPopConfirm = 'Are you sure to delete this organization?'
+    formData.append("createrType", "Organization");
+    (await dispatch(uploadDocument(formData))) &&
+      setUploadFormVisibility(false);
+  };
+  const textPopConfirm = "Are you sure to delete this organization?";
   function Conditionally() {
     if (organization.owner._id === user._id) {
       return (
         <>
           <Popconfirm
-            placement='bottomLeft'
+            placement="bottomLeft"
             title={textPopConfirm}
             onConfirm={handleDelete}
-            okText='Yes'
-            cancelText='No'
+            okText="Yes"
+            cancelText="No"
           >
-            <Button key='2' type='danger'>
+            <Button key="2" type="danger">
               Delete
             </Button>
           </Popconfirm>
           <Button
-            key='1'
-            type='primary'
+            key="1"
+            type="primary"
             onClick={() => setUpdateOrganizationModal(true)}
           >
             Update
           </Button>
         </>
-      )
+      );
     }
     return (
       <>
-        <Button onClick={handleLeave} type='danger'>
+        <Button onClick={handleLeave} type="danger">
           Leave
         </Button>
       </>
-    )
+    );
   }
 
   function MemberTableButtons() {
@@ -309,16 +309,16 @@ const Organization = ({
       return (
         <>
           <Button
-            key='2'
+            key="2"
             onClick={() => setInviteMemberModalVisibilty(true)}
-            type='primary'
+            type="primary"
           >
             Invite Member
           </Button>
         </>
-      )
+      );
     }
-    return <></>
+    return <></>;
   }
 
   function CasesTableButtons() {
@@ -326,14 +326,14 @@ const Organization = ({
       return (
         <>
           <Dropdown
-            key='3'
+            key="3"
             overlay={pendingInvitationsMenu({
               invites: organization.invites,
             })}
-            trigger={['click']}
+            trigger={["click"]}
           >
             <Button>
-              <Space direction='horizontal'>
+              <Space direction="horizontal">
                 <Badge
                   count={organization.invites.length}
                   overflowCount={9}
@@ -345,16 +345,16 @@ const Organization = ({
             </Button>
           </Dropdown>
           <Button
-            key='2'
-            type='primary'
+            key="2"
+            type="primary"
             onClick={() => setCreateCaseModalVisibilty(true)}
           >
             New Case
           </Button>
         </>
-      )
+      );
     }
-    return <></>
+    return <></>;
   }
 
   // if (filterOrganization) {
@@ -375,7 +375,7 @@ const Organization = ({
       {organization && user ? (
         <DashboardLayout>
           <Modal
-            title='Organization Form'
+            title="Organization Form"
             visible={updateOrganizationModal}
             onCancel={() => setUpdateOrganizationModal(false)}
             destroyOnClose={true}
@@ -394,7 +394,7 @@ const Organization = ({
             />
           </Modal>
           <Modal
-            title='Add Member'
+            title="Add Member"
             visible={inviteMemberModalVisibility}
             onCancel={() => setInviteMemberModalVisibilty(false)}
             footer={null}
@@ -403,7 +403,7 @@ const Organization = ({
             <AddMemForm onFinish={onInviteMemberFinish} />
           </Modal>
           <Modal
-            title='Case Form'
+            title="Case Form"
             visible={createCaseModalVisibility}
             onFinish={onCreateCaseFinish}
             onCancel={() => setCreateCaseModalVisibilty(false)}
@@ -413,7 +413,7 @@ const Organization = ({
             <CaseForm onFinish={onCreateCaseFinish} caseTypes={caseTypes} />
           </Modal>
           <Modal
-            title='Upload Document'
+            title="Upload Document"
             visible={uploadFormVisbility}
             onCancel={() => setUploadFormVisibility(false)}
             footer={null}
@@ -422,10 +422,10 @@ const Organization = ({
             <UploadForm onUpload={onDocumentUploadClick} />
           </Modal>
           <Row>
-            <Col flex='1 1 400px'>
+            <Col flex="1 1 400px">
               <Select
                 style={{ width: 200 }}
-                placeholder='Select a Organization'
+                placeholder="Select a Organization"
                 onChange={onChangeOrg}
               >
                 {organizations?.length > 0
@@ -434,20 +434,20 @@ const Organization = ({
                         {item.name}
                       </Select.Option>
                     ))
-                  : 'null'}
+                  : "null"}
               </Select>
 
               <img
-                className='imgplus'
+                className="imgplus"
                 src={PLUS}
                 onClick={() => setUpdateOrganizationModal(true)}
               />
 
-              <div className='address'>
-                <div className='org-industry'>
+              <div className="address">
+                <div className="org-industry">
                   <label>Industry:</label>
                   <span style={styles.text}>
-                    {' '}
+                    {" "}
                     {filterOrganization
                       ? filterOrganization?.domain
                       : organization?.domain}
@@ -456,10 +456,10 @@ const Organization = ({
                 <div>
                   <label>Owner: </label>
                   <span style={styles.text}>
-                    {' '}
+                    {" "}
                     {filterOrganization
                       ? filterOrganization?.owner.firstName
-                      : organization?.owner.firstName}{' '}
+                      : organization?.owner.firstName}{" "}
                     {filterOrganization
                       ? filterOrganization?.owner.lastName
                       : organization?.owner.lastName}
@@ -467,14 +467,14 @@ const Organization = ({
                 </div>
                 <div>
                   <label>CIN: </label>
-                  <span className=''> U7012PTC2022IN123456</span>
+                  <span className=""> U7012PTC2022IN123456</span>
                 </div>
               </div>
             </Col>
-            <Col flex='1 1 600px'>
-              {' '}
-              <Row className='case-number-row case-row'>
-                <Col span={8} className='dispute'>
+            <Col flex="1 1 600px">
+              {" "}
+              <Row className="case-number-row case-row">
+                <Col span={8} className="dispute">
                   <p>NO. OF DISPUTES</p>
                   <p>
                     {filterOrganization
@@ -482,7 +482,7 @@ const Organization = ({
                       : organization?.cases.length}
                   </p>
                 </Col>
-                <Col span={8} className='resolve'>
+                <Col span={8} className="resolve">
                   <p>RESOLVED CASES</p>
                   <p>
                     {resolvedCases
@@ -490,7 +490,7 @@ const Organization = ({
                       : resolvedCasess?.length}
                   </p>
                 </Col>
-                <Col span={8} className='pending'>
+                <Col span={8} className="pending">
                   <p>PENDING CASES</p>
                   <p>
                     {pendingCases
@@ -501,54 +501,60 @@ const Organization = ({
               </Row>
             </Col>
           </Row>
-          <div className='listingcontainer'>
+          <div className="listingcontainer">
             <Row gutter={[48, 16]}>
-              <Col flex='1 1 400px'>
-                <Card bordered={false} className='document-container'>
+              <Col flex="1 1 400px">
+                <Card bordered={false} className="document-container">
                   <Row
-                    className='upcoming'
+                    className="upcoming"
                     onClick={() => setUploadFormVisibility(true)}
                   >
-                    <h4>Documents</h4>&nbsp;&nbsp;
-                    <img src={PLUS} alt='plus' />
-                    <Link to='#'>view all</Link>
+                    <h4>Documents</h4>
+                    <img src={PLUS} alt="plus" />
+                    <Link to="#">view all</Link>
                   </Row>
-                  {filterOrganization
-                    ? filterOrganization.documents.length > 0
-                      ? filterOrganization.documents.map((docs) => (
-                          <Row>
-                            <Col span={12} className='documentText'>
-                              {docs.name}
-                            </Col>
-                            <Col span={12} className='download'>
-                              <Link href={docs.url} download>
-                                Image <img src={Union} alt='download' />
-                              </Link>
-                            </Col>
-                          </Row>
-                        ))
-                      : 'No Documents Found'
-                    : organization.documents.length > 0
-                    ? organization.documents.map((docs) => (
+                  {filterOrganization ? (
+                    filterOrganization.documents.length > 0 ? (
+                      filterOrganization.documents.map((docs) => (
                         <Row>
-                          <Col span={12} className='documentText'>
+                          <Col span={12} className="documentText">
                             {docs.name}
                           </Col>
-                          <Col span={12} className='download'>
-                            Image <img src={Union} alt='download' />
+                          <Col span={12} className="download">
+                            <Link href={docs.url} download>
+                              Image <img src={Union} alt="download" />
+                            </Link>
                           </Col>
                         </Row>
                       ))
-                    : 'No Documents Found'}
+                    ) : (
+                      "No Documents Found"
+                    )
+                  ) : organization.documents.length > 0 ? (
+                    organization.documents.map((docs) => (
+                      <Row>
+                        <Col span={12} className="documentText">
+                          {docs.name}
+                        </Col>
+                        <Col span={12} className="download">
+                          <Link href={docs.url} download>
+                            Image <img src={Union} alt="download" />
+                          </Link>
+                        </Col>
+                      </Row>
+                    ))
+                  ) : (
+                    <Row>No member Found</Row>
+                  )}
                 </Card>
               </Col>
-              <Col flex='1 1 600px'>
-                <Card bordered={true} className='upcoming-container'>
-                  <Row className='upcoming'>
+              <Col flex="1 1 600px">
+                <Card bordered={true} className="upcoming-container">
+                  <Row className="upcoming">
                     <h4>Members</h4>&nbsp;&nbsp;
                     <img
                       src={PLUS}
-                      alt='plus'
+                      alt="plus"
                       onClick={() =>
                         setInviteMemberModalVisibilty(
                           !inviteMemberModalVisibility
@@ -557,58 +563,62 @@ const Organization = ({
                     />
                   </Row>
 
-                  {filterOrganization
-                    ? filterOrganization.members.length > 0
-                      ? filterOrganization.members.map((member) => (
-                          <Row>
-                            <Col span={5} className='documentText'>
-                              {member.firstName} {member.lastName}
-                            </Col>
-                            <Col span={8} className='council'>
-                              {member.name}
-                            </Col>
-                            <Col span={8} className='download mailadd'>
-                              <Link to='#'>{member.email}</Link>
-                            </Col>
-                            <Col span={3} className='delete'>
-                              <img src={Delete} alt='delete' />
-                            </Col>
-                          </Row>
-                        ))
-                      : 'No member Found'
-                    : organization.members.length > 0
-                    ? organization.members.map((member) => (
+                  {filterOrganization ? (
+                    filterOrganization.members.length > 0 ? (
+                      filterOrganization.members.map((member) => (
                         <Row>
-                          <Col span={5} className='documentText'>
+                          <Col span={5} className="documentText">
                             {member.firstName} {member.lastName}
                           </Col>
-                          <Col span={8} className='council'>
+                          <Col span={8} className="council">
                             {member.name}
                           </Col>
-                          <Col span={8} className='download mailadd'>
-                            <Link to='#'>{member.email}</Link>
+                          <Col span={8} className="download mailadd">
+                            <Link to="#">{member.email}</Link>
                           </Col>
-                          <Col span={3} className='delete'>
-                            <img src={Delete} alt='delete' />
+                          <Col span={3} className="delete">
+                            <img src={Delete} alt="delete" />
                           </Col>
                         </Row>
                       ))
-                    : 'No member Found'}
+                    ) : (
+                      "No member Found"
+                    )
+                  ) : organization.members.length > 0 ? (
+                    organization.members.map((member) => (
+                      <Row>
+                        <Col span={5} className="documentText">
+                          {member.firstName} {member.lastName}
+                        </Col>
+                        <Col span={8} className="council">
+                          {member.name}
+                        </Col>
+                        <Col span={8} className="download mailadd">
+                          <Link to="#">{member.email}</Link>
+                        </Col>
+                        <Col span={3} className="delete">
+                          <img src={Delete} alt="delete" />
+                        </Col>
+                      </Row>
+                    ))
+                  ) : (
+                    <Row>No member Found</Row>
+                  )}
 
-                  <a href='' className='view'>
+                  <a href="" className="view">
                     View All
                   </a>
                 </Card>
               </Col>
             </Row>
           </div>
-          <div className='listingcontainer'>
-            <div className='add-case'>
+          <div className="listingcontainer">
+            <div className="add-case">
               <h3>Cases</h3>
               <Select
                 style={{ width: 200 }}
                 showSearch
-                placeholder='Select a Case'
+                placeholder="Select a Case"
                 onChange={onChangeCase}
               >
                 {filterOrganization ? (
@@ -635,7 +645,7 @@ const Organization = ({
               <Select
                 style={{ width: 200 }}
                 showSearch
-                placeholder='Select a Hearing'
+                placeholder="Select a Hearing"
                 onChange={onChangeHearing}
               >
                 {hearings.hearings?.length > 0
@@ -644,35 +654,35 @@ const Organization = ({
                         {item.case.title}
                       </Select.Option>
                     ))
-                  : 'no hearings avalable'}
+                  : "no hearings avalable"}
               </Select>
             </div>
             <Row gutter={[48, 16]}>
               {filterCases ? (
                 <Col span={8}>
-                  <Card bordered={false} className='document-container'>
-                    <div className='review'>
-                      <div className='d-flex'>
+                  <Card bordered={false} className="document-container">
+                    <div className="review">
+                      <div className="d-flex">
                         {filterCases?.members.length > 0
                           ? filterCases?.members.map((item, index) => (
                               <div>
-                                {index ? ' Vs ' : ''} {item.firstName}{' '}
+                                {index ? " Vs " : ""} {item.firstName}{" "}
                                 {item.lastName}
                               </div>
                             ))
-                          : ''}
+                          : ""}
                         <Button
                           type={
-                            filterCases.status == 'invitations'
-                              ? 'default'
-                              : 'primary'
+                            filterCases.status == "invitations"
+                              ? "default"
+                              : "primary"
                           }
                           className={
-                            filterCases.status === 'invitations'
-                              ? 'invitation-btn'
-                              : filterCases.status === 'creation'
-                              ? 'creation-btn'
-                              : 'review-btn'
+                            filterCases.status === "invitations"
+                              ? "invitation-btn"
+                              : filterCases.status === "creation"
+                              ? "creation-btn"
+                              : "review-btn"
                           }
                           block
                         >
@@ -689,29 +699,29 @@ const Organization = ({
                 filterOrganization.cases.length > 0 ? (
                   filterOrganization.cases.map((item, index) => (
                     <Col span={8}>
-                      <Card bordered={false} className='document-container'>
-                        <div className='review'>
-                          <div className='d-flex'>
+                      <Card bordered={false} className="document-container">
+                        <div className="review">
+                          <div className="d-flex">
                             {item?.members.length > 0
                               ? item?.members.map((item, index) => (
                                   <div>
-                                    {index ? ' Vs ' : ''} {item.firstName}{' '}
+                                    {index ? " Vs " : ""} {item.firstName}{" "}
                                     {item.lastName}
                                   </div>
                                 ))
-                              : ''}
+                              : ""}
                             <Button
                               type={
-                                item.status == 'invitations'
-                                  ? 'default'
-                                  : 'primary'
+                                item.status == "invitations"
+                                  ? "default"
+                                  : "primary"
                               }
                               className={
-                                item.status === 'invitations'
-                                  ? 'invitation-btn'
-                                  : item.status === 'creation'
-                                  ? 'creation-btn'
-                                  : 'review-btn'
+                                item.status === "invitations"
+                                  ? "invitation-btn"
+                                  : item.status === "creation"
+                                  ? "creation-btn"
+                                  : "review-btn"
                               }
                               block
                             >
@@ -731,29 +741,29 @@ const Organization = ({
               ) : organization.cases.length > 0 ? (
                 organization.cases.map((item, index) => (
                   <Col span={8}>
-                    <Card bordered={false} className='document-container'>
-                      <div className='review'>
-                        <div className='d-flex'>
+                    <Card bordered={false} className="document-container">
+                      <div className="review">
+                        <div className="d-flex">
                           {item?.members.length > 0
                             ? item?.members.map((item, index) => (
                                 <span>
-                                  {index ? ' Vs ' : ''} {item.firstName}{' '}
+                                  {index ? " Vs " : ""} {item.firstName}{" "}
                                   {item.lastName}
                                 </span>
                               ))
-                            : ''}
+                            : ""}
                           <Button
                             type={
-                              item.status == 'invitations'
-                                ? 'default'
-                                : 'primary'
+                              item.status == "invitations"
+                                ? "default"
+                                : "primary"
                             }
                             className={
-                              item.status === 'invitations'
-                                ? 'invitation-btn'
-                                : item.status === 'creation'
-                                ? 'creation-btn'
-                                : 'review-btn'
+                              item.status === "invitations"
+                                ? "invitation-btn"
+                                : item.status === "creation"
+                                ? "creation-btn"
+                                : "review-btn"
                             }
                             block
                           >
@@ -802,14 +812,14 @@ const Organization = ({
               ))} */}
             </Row>
           </div>
-          <div className=''></div>
+          <div className=""></div>
         </DashboardLayout>
       ) : (
         <ShimmerEffect />
       )}
     </>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state, ownProps) => ({
   organization: state.organization,
@@ -820,6 +830,6 @@ const mapStateToProps = (state, ownProps) => ({
   organizations: state.organizations,
   cases: state.cases,
   hearings: state.hearings,
-})
+});
 
-export default connect(mapStateToProps)(Organization)
+export default connect(mapStateToProps)(Organization);

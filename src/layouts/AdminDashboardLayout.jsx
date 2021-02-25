@@ -8,14 +8,14 @@ import iconbar from "../assets/images/iconbar.png";
 import bell from "../assets/images/bell.png";
 import avtar from "../assets/images/avtar.png";
 import { Sidebar } from "../components";
-import { MediatorSidebar } from "../components";
+import { SidebarAdmin } from "../components";
 
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { connect, useDispatch } from "react-redux";
 import User from "../assets/images/useravtar.png";
 import User2 from "../assets/images/dropuser.png";
 import Dash from "../assets/images/dash.png";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { respondInvite } from "../store/actions/invites";
 
 const {
@@ -31,6 +31,7 @@ function AdminDashboardLayout(props) {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const [year] = useState(new Date().getFullYear());
+
   const phoneView = useMediaQuery("only screen and (max-width: 768px)");
   const orgInvite = props.user?.Sinvites?.filter(
     (invite) => invite.invitationType == "Organization"
@@ -74,7 +75,8 @@ function AdminDashboardLayout(props) {
   }
   function logout() {
     localStorage.removeItem("access-token");
-    props.history.push("/login");
+    localStorage.removeItem("isAdmin");
+    props.history.push("/admin");
   }
   const userDetail = (
     <Menu style={{ width: 250 }}>
@@ -195,13 +197,13 @@ function AdminDashboardLayout(props) {
       {phoneView && (
         <Sider breakpoint="lg" collapsedWidth="0">
           <img src={Logo} alt="Legex" className="logo" />
-          <MediatorSidebar collapsed={collapsed} />
+          <SidebarAdmin collapsed={collapsed} />
         </Sider>
       )}
       {!phoneView && (
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <img src={Logo} alt="Legex" className="logo" />
-          <MediatorSidebar collapsed={collapsed} />
+          <SidebarAdmin collapsed={collapsed} />
         </Sider>
       )}
 
@@ -235,7 +237,7 @@ function AdminDashboardLayout(props) {
         <Content className="dashboard-layout-content">{children}</Content>
         <Footer className="dashboard-layout-footer">
           <b>Legex ODR</b> &copy; {year} A &nbsp;
-          <a href="https://www.legex.in/">Legex</a> product.
+          <Link to="https://www.legex.in/">Legex</Link> product.
         </Footer>
       </Layout>
     </Layout>
@@ -244,7 +246,7 @@ function AdminDashboardLayout(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.admin,
   };
 };
 

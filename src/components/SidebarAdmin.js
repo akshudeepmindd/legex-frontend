@@ -15,7 +15,7 @@ import { logout } from "../store/actions/auth";
 
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { MenuItem } from "../utils/constants";
+import { AdminMenu } from "../utils/constants";
 
 function Sidebar(props) {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ function Sidebar(props) {
   return (
     <div className="sidebar">
       <Menu className="menu-ul" theme="dark" mode="inline">
-        {MenuItem.map((item) => (
+        {AdminMenu.map((item) => (
           <Menu.Item
             key={item.menuKey}
             className="menuItems"

@@ -76,22 +76,22 @@ export const addCaseAdmin = (data) => ({
   payload: data,
 });
 
-export function updateCaseAdmin(payload) {
-  return async (dispatch) => {
-    const messageKey = "Update case";
-    dispatch({ type: UPDATE_CASE_ADMIN });
-    try {
-      const response = await $http2()({
-        url: `/admin/cases/${payload._id}`,
-        data: payload,
-        method: "PATCH",
-      });
-      return response;
-    } catch (error) {
-      message.error({ content: error.message, key: messageKey });
-    }
-  };
-}
+// export function updateCaseAdmin(payload) {
+//   return async (dispatch) => {
+//     const messageKey = "Update case";
+//     dispatch({ type: UPDATE_CASE_ADMIN });
+//     try {
+//       const response = await $http2()({
+//         url: `/admin/cases/${payload._id}`,
+//         data: payload,
+//         method: "PATCH",
+//       });
+//       return response;
+//     } catch (error) {
+//       message.error({ content: error.message, key: messageKey });
+//     }
+//   };
+// }
 
 export function makeVerdictAdmin(payload) {
   console.log(payload, "payloadd");
@@ -185,3 +185,17 @@ export function quitCaseAdmin(payload) {
     }
   };
 }
+
+export const updateCseAdmin = (payload) => async (dispatch) => {
+  try {
+    const messageKey = "Update case";
+    const res = await $http2()({
+      url: `/admin/cases/updatecase`,
+      data: payload,
+      method: "PATCH",
+    });
+    return dispatch(caseSuccessAdmin(res.data));
+  } catch (err) {
+    message.error({ content: err.message, key: "Update case" });
+  }
+};

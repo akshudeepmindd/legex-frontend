@@ -13,7 +13,8 @@ import hearingReducers from "./hearings";
 import caseTypeReducers from "./caseTypes";
 import contractReducers from "./contract";
 import adminReducer from "./admin";
-import adminCaseReducer from "./adminReducer";
+import adminCaseReducers from "./adminReducer";
+import adminUserReducer from "./adminUserReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   caseTypes: caseTypeReducers,
   contractCase: contractReducers,
   admin: adminReducer,
-  adminCaseDetail: adminCaseReducer,
+  adminCaseDetail: adminCaseReducers,
+  adminUsers: adminUserReducer,
 });
 
 export default rootReducer;

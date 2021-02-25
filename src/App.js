@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./assets/scss/index.sass";
 import { fetchOrganizations } from "./store/actions/organizations";
-
+import { fetchUserList } from "./store/actions/adminUsers";
 import { fetchUser } from "./store/actions/user";
 import { fetchCaseTypes } from "./store/actions/caseTypes";
 import { fetchCases } from "./store/actions/cases";
@@ -53,6 +53,7 @@ function App({ dispatch, auth }) {
       ) {
         async function fetchDataAdmin() {
           await dispatch(fetchCasesAdmin());
+          await dispatch(fetchUserList());
         }
         fetchDataAdmin();
       } else if (
@@ -129,20 +130,16 @@ function App({ dispatch, auth }) {
 
         <Route path="/dashboard/settings" component={WithAuth(Settings)} />
         <Route path="/admin" exact component={AdminLogin} />
-        <Route
-          path="/admin/overview"
-          exact
-          component={withAdminAuth(AdminHome)}
-        />
+        <Route path="/admin/overview" exact component={WithAuth(AdminHome)} />
         <Route
           path="/admin/manageNeutral"
           exact
-          component={withAdminAuth(ManageNeutral)}
+          component={WithAuth(ManageNeutral)}
         />
         <Route
           path="/admin/settings"
           exact
-          component={withAdminAuth(AdminSettings)}
+          component={WithAuth(AdminSettings)}
         />
         <Route
           path="/mediator/overview"

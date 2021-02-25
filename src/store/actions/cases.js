@@ -22,6 +22,7 @@ const caseSuccess = (c) => ({
   type: "UPDATE_VERDICT",
   payload: c,
 });
+
 export function fetchCases() {
   return async (dispatch) => {
     const messageKey = "fetch cases";
@@ -105,14 +106,14 @@ export function makeVerdict(payload) {
 
 export const updateCse = (payload) => async (dispatch) => {
   try {
-    const messageKey = 'Update case'
+    const messageKey = "Update case";
     const res = await $http()({
       url: `/cases/updatecase`,
       data: payload,
-      method: 'PATCH',
-    })
-    return dispatch(caseSuccess(res.data))
+      method: "PATCH",
+    });
+    return dispatch(caseSuccess(res.data));
   } catch (err) {
-    message.error({ content: err.message, key: 'Update case' })
+    message.error({ content: err.message, key: "Update case" });
   }
-}
+};

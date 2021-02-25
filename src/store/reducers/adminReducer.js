@@ -12,7 +12,7 @@ import {
 
 export const initialState = null;
 
-export default function casesReducers(state = initialState, action) {
+export default function adminCaseReducers(state = initialState, action) {
   switch (action.type) {
     case FETCH_CASES_SUCCESS_ADMIN:
       return action.payload;

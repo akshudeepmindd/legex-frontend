@@ -7,8 +7,8 @@ const loginAdminSuccess = (userData) => ({
   type: LOGIN_ADMIN_SUCCESS,
   payload: userData,
 });
+
 export function loginUser(payload) {
-  console.log(payload, "payload in admin");
   return async (dispatch) => {
     const messageKey = "login user";
     dispatch({ type: ADMIN_LOGIN_START });
@@ -19,7 +19,7 @@ export function loginUser(payload) {
         data: payload,
         method: "POST",
       });
-      console.log(response, "response inn admin");
+
       if (!response.data.success) throw new Error(response.data.message);
       const { token } = response.data;
       const decodedToken = jwtdecode(token);

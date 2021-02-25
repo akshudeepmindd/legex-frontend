@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import { Redirect, useHistory } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
 
 // ant design components
 import {
@@ -18,34 +18,34 @@ import {
   Space,
   Input,
   Select,
-} from 'antd'
+} from "antd";
 import {
   AppstoreOutlined,
   DownOutlined,
   TableOutlined,
-} from '@ant-design/icons'
-import plus from '../../../assets/images/plus.png'
+} from "@ant-design/icons";
+import plus from "../../../assets/images/plus.png";
 
 // components
-import { DashboardLayout } from '../../../layouts'
-import { CaseCard, CasesTable, CaseForm } from '../../../components'
+import { DashboardLayout } from "../../../layouts";
+import { CaseCard, CasesTable, CaseForm } from "../../../components";
 
 // redux actions
-import { createCase } from '../../../store/actions/cases'
-import { respondInvite } from '../../../store/actions/invites'
+import { createCase } from "../../../store/actions/cases";
+import { respondInvite } from "../../../store/actions/invites";
 const menu = (
   <Menu>
-    <Menu.Item key='0'>
-      <a href='http://www.alipay.com/'>1st menu item</a>
+    <Menu.Item key="0">
+      <a href="http://www.alipay.com/">1st menu item</a>
     </Menu.Item>
-    <Menu.Item key='1'>
-      <a href='http://www.taobao.com/'>2nd menu item</a>
+    <Menu.Item key="1">
+      <a href="http://www.taobao.com/">2nd menu item</a>
     </Menu.Item>
     <Menu.Divider />
-    <Menu.Item key='3'>3rd menu item</Menu.Item>
+    <Menu.Item key="3">3rd menu item</Menu.Item>
   </Menu>
-)
-const { Text } = Typography
+);
+const { Text } = Typography;
 
 const CasesList = ({
   dispatch,
@@ -55,35 +55,35 @@ const CasesList = ({
   organizations,
   user,
 }) => {
-  const [view, setView] = useState(false)
-  const [modal, setModal] = useState(false)
-  const [invites, setInvites] = useState([])
-  const [selectedOrg, setSelectedOrg] = useState('')
-  const [addCaseModal, setAddCaseModall] = useState(false)
+  const [view, setView] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [invites, setInvites] = useState([]);
+  const [selectedOrg, setSelectedOrg] = useState("");
+  const [addCaseModal, setAddCaseModall] = useState(false);
   useEffect(() => {
     user &&
       setInvites(
         user.invites.filter(
-          (i) => i.invitationType === 'Case' && i.status === 'Waiting'
+          (i) => i.invitationType === "Case" && i.status === "Waiting"
         )
-      )
-  }, [user])
+      );
+  }, [user]);
   const onChangeOrg = (value) => {
-    setSelectedOrg(value)
-  }
-  const history = useHistory()
+    setSelectedOrg(value);
+  };
+  const history = useHistory();
   // useEffect(() => {
   //   const allCompletedCase = cases?.filter(
   //     (item) => item.status === "completion"
   //   );
   // }, [cases]);
   const showModal = () => {
-    setModal(true)
-  }
+    setModal(true);
+  };
 
   const toggleView = () => {
-    setView(!view)
-  }
+    setView(!view);
+  };
 
   const acceptConfirmation = ({ invite, message }) =>
     Modal.confirm({
@@ -92,28 +92,28 @@ const CasesList = ({
           respondInvite({
             inviteId: invite._id,
             data: {
-              invitationType: 'Case',
-              response: 'Accepted',
+              invitationType: "Case",
+              response: "Accepted",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       async onCancel() {
         await dispatch(
           respondInvite({
             inviteId: invite._id,
             data: {
-              resp: 'Declined',
+              resp: "Declined",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       content: message,
-      cancelText: 'Decline',
-      okText: 'Accept',
-    })
+      cancelText: "Decline",
+      okText: "Accept",
+    });
 
   const pendingInvitationsMenu = ({ invites }) => {
     return (
@@ -127,23 +127,23 @@ const CasesList = ({
                   acceptConfirmation({
                     invite,
                     message: `Do you want to accept ${
-                      invite.senderType === 'User'
+                      invite.senderType === "User"
                         ? `${invite.sender.firstName} ${invite.sender.lastName}`
                         : invite.sender.name
                     }'s invitation to case ${invite.case.title}?`,
-                  })
+                  });
                 }}
               >
                 {invite.sender.name || invite.sender.email}
               </Menu.Item>
-            )
+            );
           })
         ) : (
           <Menu.Item>No Pending Invites</Menu.Item>
         )}
       </Menu>
-    )
-  }
+    );
+  };
   const renderCases = () => {
     if (cases.length > 0) {
       if (view) {
@@ -160,63 +160,63 @@ const CasesList = ({
               </Col>
             ))}
           </Row>
-        )
+        );
       }
-      return <CasesTable cases={cases} loading={loading} />
+      return <CasesTable cases={cases} loading={loading} />;
     }
     return (
       <Card bordered={false}>
         <Empty description={<Text>No Cases Found</Text>} />
       </Card>
-    )
-  }
+    );
+  };
 
-  const allCase = () => {
-    if (cases?.length > 0) {
-      return (
-        <Row gutter={[48, 16]}>
-          {cases?.map((item, index) => (
-            <Col span={8} key={index}>
-              <Card bordered={false} className='document-container border-crd'>
-                <div className='review'>
-                  <div className='d-flex'>
-                    vs. Rohit Sharma
-                    <Button type='primary' className='review-btn' block>
-                      {item.status}
-                    </Button>
-                  </div>
+  // const allCase = () => {
+  //   if (cases?.length > 0) {
+  //     return (
+  //       <Row gutter={[48, 16]}>
+  //         {cases?.map((item, index) => (
+  //           <Col span={8} key={index}>
+  //             <Card bordered={false} className="document-container border-crd">
+  //               <div className="review">
+  //                 <div className="d-flex">
+  //                   vs. Rohit Sharma
+  //                   <Button type="primary" className="review-btn" block>
+  //                     {item.status}
+  //                   </Button>
+  //                 </div>
 
-                  <p>{item.caseType.name}</p>
-                  <p>Expected Date of Resolve : 8 Jan 2021</p>
-                </div>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )
-    }
-  }
+  //                 <p>{item.caseType.name}</p>
+  //                 <p>Expected Date of Resolve : 8 Jan 2021</p>
+  //               </div>
+  //             </Card>
+  //           </Col>
+  //         ))}
+  //       </Row>
+  //     );
+  //   }
+  // };
 
   const filterOrganization = organizations?.find(
     (item) => item._id === selectedOrg
-  )
+  );
 
   const onFinish = async (values) => {
     const response = await dispatch(
-      createCase({ createrType: 'User', creater: user._id, ...values })
-    )
-    setAddCaseModall(false)
-    history.push('/dashboard/cases')
-    return response
-  }
+      createCase({ createrType: "User", creater: user._id, ...values })
+    );
+    setAddCaseModall(false);
+    history.push("/dashboard/cases");
+    return response;
+  };
 
-  console.log(cases, 'cases in cases')
+  console.log(cases, "cases in cases");
   return (
     <DashboardLayout>
       {cases && caseTypes && organizations ? (
         <>
           <Modal
-            title='Organization Form'
+            title="Organization Form"
             visible={addCaseModal}
             onCancel={() => setAddCaseModall(false)}
             destroyOnClose={true}
@@ -224,36 +224,47 @@ const CasesList = ({
           >
             <CaseForm onFinish={onFinish} caseTypes={caseTypes} />
           </Modal>
-          <div className='all-case'>
-            <div className='case-sec'>
+          <div className="all-case">
+            <div className="case-sec">
               <Row gutter={[48, 16]}>
                 <Col flex={2}>
-                  <div className='flex'>
+                  <div className="flex">
                     <h4>All Cases</h4>
                     <h5>
                       <img
-                        className='imgplus'
+                        className="imgplus"
                         src={plus}
-                        onClick={() => history.push('/dashboard/caseForm')}
+                        onClick={() => history.push("/dashboard/caseForm")}
                       />
                       Add a case
                     </h5>
                   </div>
                 </Col>
-                <Col flex={3} className='flex-end'>
-                  <Select
-                    placeholder='Select a Organization'
-                    onChange={onChangeOrg}
-                  >
-                    {organizations?.length > 0
-                      ? organizations?.map((item, index) => (
-                          <Select.Option value={item._id} key={index}>
-                            {item.name}
-                          </Select.Option>
-                        ))
-                      : 'null'}
-                  </Select>
-                  <Input type='text' placeholder='Search' value='' />
+                <Col flex={8} className="flex-end">
+                  <Space>
+                    <Select
+                      placeholder="Select a Organization"
+                      onChange={onChangeOrg}
+                    >
+                      {organizations?.length > 0
+                        ? organizations?.map((item, index) => (
+                            <Select.Option value={item._id} key={index}>
+                              {item.name}
+                            </Select.Option>
+                          ))
+                        : "null"}
+                    </Select>
+                    <Select placeholder="Next Hearing" onChange={onChangeOrg}>
+                      {organizations?.length > 0
+                        ? organizations?.map((item, index) => (
+                            <Select.Option value={item._id} key={index}>
+                              {item.name}
+                            </Select.Option>
+                          ))
+                        : "null"}
+                    </Select>
+                    <Input type="text" placeholder="Search" value="" />
+                  </Space>
                 </Col>
               </Row>
             </div>
@@ -264,25 +275,25 @@ const CasesList = ({
                     <Col span={8} key={index}>
                       <Card
                         bordered={false}
-                        className='document-container border-crd'
+                        className="document-container border-crd"
+                        onClick={() =>
+                          history.push(`/dashboard/cases/${item._id}`)
+                        }
                       >
-                        <div className='review'>
-                          <div className='d-flex'>
+                        <div className="review">
+                          <div className="d-flex">
                             {item.members.map((item, index) => (
                               <span>
-                                {index ? ' Vs ' : ''} {item.firstName}{' '}
+                                {index ? " Vs " : ""} {item.firstName}{" "}
                                 {item.lastName}
                               </span>
                             ))}
                             <Button
-                              type='primary'
+                              type="primary"
                               className={
-                                item.status === 'completion'
-                                  ? 'complete-btn'
-                                  : 'review-btn'
-                              }
-                              onClick={() =>
-                                history.push(`/dashboard/cases/${item._id}`)
+                                item.status === "completion"
+                                  ? "complete-btn"
+                                  : "review-btn"
                               }
                               block
                             >
@@ -298,7 +309,7 @@ const CasesList = ({
                   ))}
                 </Row>
               ) : (
-                'no case avelable'
+                "no case avelable"
               )
             ) : cases?.length > 0 ? (
               <Row gutter={[48, 16]}>
@@ -306,27 +317,27 @@ const CasesList = ({
                   <Col span={8} key={index}>
                     <Card
                       bordered={false}
-                      className='document-container border-crd'
+                      className="document-container border-crd"
+                      onClick={() =>
+                        history.push(`/dashboard/cases/${item._id}`)
+                      }
                     >
-                      <div className='review'>
-                        <div className='d-flex'>
+                      <div className="review">
+                        <div className="d-flex">
                           <div>
                             {item?.members.map((item, index) => (
                               <span>
-                                {index ? ' Vs ' : ''} {item.firstName}{' '}
+                                {index ? " Vs " : ""} {item.firstName}{" "}
                                 {item.lastName}
                               </span>
                             ))}
                           </div>
                           <Button
-                            type='primary'
+                            type="primary"
                             className={
-                              item?.status === 'completion'
-                                ? 'complete-btn'
-                                : 'review-btn'
-                            }
-                            onClick={() =>
-                              history.push(`/dashboard/cases/${item?._id}`)
+                              item?.status === "completion"
+                                ? "complete-btn"
+                                : "review-btn"
                             }
                             block
                           >
@@ -342,20 +353,20 @@ const CasesList = ({
                 ))}
               </Row>
             ) : (
-              'no case avalable'
+              "no case avalable"
             )}
           </div>
         </>
       ) : null}
     </DashboardLayout>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => ({
   cases: state.cases,
   caseTypes: state.caseTypes.caseTypes,
   organizations: state.organizations,
   user: state.user,
-})
+});
 
-export default connect(mapStateToProps)(CasesList)
+export default connect(mapStateToProps)(CasesList);
