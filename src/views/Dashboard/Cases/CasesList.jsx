@@ -228,7 +228,7 @@ const CasesList = ({
             <div className="case-sec">
               <Row gutter={[48, 16]}>
                 <Col flex={2}>
-                  <div className="flex">
+                  <div className="flex text-size">
                     <h4>All Cases</h4>
                     <h5>
                       <img
@@ -263,7 +263,7 @@ const CasesList = ({
                           ))
                         : "null"}
                     </Select>
-                    <Input type="text" placeholder="Search" value="" />
+                    <Input type="text" placeholder="Search" value="" className="serachFiled"/>
                   </Space>
                 </Col>
               </Row>

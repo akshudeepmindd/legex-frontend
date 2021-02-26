@@ -292,7 +292,7 @@ const MediatorSettings = ({ user, dispatch }) => {
             </Form.Item>
           </Form.Item>
 
-          <Form.Item label='Password' style={{ marginBottom: 0 }} hasFeedback>
+          <Form.Item label='Password' style={{ marginBottom: 0 }} hasFeedback >
             <Form.Item
               name='password'
               style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}

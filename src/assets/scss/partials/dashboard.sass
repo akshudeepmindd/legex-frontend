@@ -12,6 +12,7 @@
     img
         height: 30px
         width: 30px
+        cursor: pointer
     p
         padding-left: 20px
         font-size: 15px
@@ -26,7 +27,7 @@
     margin-top: 20px
     margin-left: 20px
     border-bottom: .5px solid #C4C4C4
-    
+
     .dispute
         &::after
             @include underline('blue')
@@ -36,8 +37,7 @@
     .pending
         &::after
             @include underline('resolve')
-    
-    
+
     p
         font-size: 16px
         color: #000000
@@ -46,6 +46,9 @@
     .upcoming-container,
     .document-container
         border: 1px solid #5B666D
+
+    .d-contain
+        height: 200px
     .documents,
     .upcoming
         h3
@@ -58,8 +61,12 @@
             padding-left: 5px
         img
             margin-top: 5px
-            height: 15px
-            width: 15px
+            height: 16px
+            width: 16px
+            margin-right: .6rem
+            cursor: pointer
+        h4
+            margin-right: .6rem
     .documentText
         color: #000
         margin-bottom: 8px
@@ -75,5 +82,22 @@
         img
             width: 10px
             height: 12px
+            cursor: pointer
     .download2
         text-align: end
+.upcoming
+
+    a
+        font-size: 12px
+        padding-top: 2px
+        text-decoration: underline
+        padding-left: 5px
+    img
+        margin-top: 5px
+        height: 16px
+        width: 16px
+        margin-left: .6rem
+    h4
+        margin-right: .6rem
+.text-end
+    text-align: end

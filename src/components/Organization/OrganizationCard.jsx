@@ -76,7 +76,7 @@ const OrganizationCard = ({ organization }) => {
           </Text>
           <Badge
             count={organization.members.length}
-            style={{ backgroundColor: "#1F40E6" }}
+            style={{ backgroundColor: '#1F40E6' }}
             showZero
           />
         </List.Item>

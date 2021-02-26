@@ -230,11 +230,11 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
                       Parties{" "}
                       <img src={PLUS} onClick={() => setAddCaseModall(true)} />
                     </h5>
-                    <Row gutter={[55, 10]}>
+                    <Row gutter={[40, 10]}>
                       {caseData &&
                         caseData.members &&
                         caseData.members.map((item, index) => (
-                          <Col span={24}>
+                          <Col span={24} className="bg-grey">
                             <div className="name">
                               {`${item.firstName} ${item.lastName}`}
                             </div>
@@ -270,19 +270,23 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
                 <Card bordered={false} className="document-container border">
                   <div className="party">
                     <h5>Case Details</h5>
-                    <Row gutter={[55, 10]}>
+                    <Row gutter={[40, 10]} className="bg-grey">
                       <Col span={12}>
                         <div className="name">Type:</div>
                       </Col>
                       <Col span={12}>
                         <div className="parties">{caseData.caseType.name}</div>
                       </Col>
+                    </Row>
+                    <Row gutter={[40, 10]}>
                       <Col span={12}>
                         <div className="name">Description:</div>
                       </Col>
                       <Col span={12}>
                         <div className="parties">{caseData.description}</div>
                       </Col>
+                    </Row>
+                    <Row gutter={[40, 10]} className="bg-grey">
                       <Col span={12}>
                         <div className="name">Status:</div>
                       </Col>
@@ -300,8 +304,10 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
                   {/* <div className="update-card"> */}
                   <Space>
                     <Row className="upcoming">
-                      <h4>Documents</h4>
-                      <img src={Plus} alt="plus" />
+                      <h4>
+                        Documents <img src={Plus} alt="plus" />
+                      </h4>
+
                       <Link to="#">view all</Link>
                     </Row>
                   </Space>
@@ -339,7 +345,7 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
                 <Card bordered={false} className="document-container border">
                   <div className="update-card">
                     <h4>Updates</h4>
-                    <Row className="pb-2">
+                    <Row className="pb-2 bg-grey">
                       <Col span={8}>Dec 21, 2020, 21:27</Col>
                       <Col span={8}>Mediator Sunanda Rao assigned</Col>
                       <Col span={8}>
@@ -361,7 +367,7 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
                         </div>
                       </Col>
                     </Row>
-                    <Row className="pb-2">
+                    <Row className="pb-2 bg-grey">
                       <Col span={8}>Dec 21, 2020, 21:27</Col>
                       <Col span={8}>Mediator Sunanda Rao assigned</Col>
                       <Col span={8}>

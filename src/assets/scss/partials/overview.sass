@@ -5,6 +5,8 @@
                 height: 147px !important
                 margin-top: 5rem
 .user-dropdown
+    padding: 20px
+    padding-bottom: 0
     span
         padding-left: 10px
 .notification-dropdown
@@ -14,9 +16,10 @@
         font-size: 1rem
 .logged-container
     background: #F4F4F4
-    width: 238px
+    width: 250px
     .logged-in
         margin-top: 1rem
+        padding-left: 20px
         p
             color: #8C8A8A
         p
@@ -30,9 +33,12 @@
                     font-size: .8rem
 .invite-container
     background: #F4F4F4
-    width: 330px
+    width: 350px
+    height: 200px
+
     .invitation
         padding-top: 1rem
+        padding-left: 16px
         p
             font-size: .8rem
         .invitation-list
@@ -50,6 +56,8 @@
             height: 1rem
             font-size: .6rem
             color: #fff
+.notification-dropdown
+    padding: 20px
 .logout-btn
     background-color: #1F40E6
     color: #fff
@@ -60,7 +68,7 @@
     margin-left: .8rem
     width: 100px
 .upload
-     .upload-btn
+    .upload-btn
         background-color: #1F40E6
         color: #fff
         border-radius: 0
@@ -87,8 +95,9 @@
         color: #8C8A8A
         font-size: 13px
 .imgplus
-    width: 40px
+    width: 30px
     margin-left: 8px
+    cursor: pointer
 .delete
     text-align: end
 .case-row
@@ -137,3 +146,7 @@
     margin-top: 2rem
     img
         max-width: 130px
+.ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover
+    background: none!important
+.ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title
+    padding: 0!important

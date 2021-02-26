@@ -46,7 +46,7 @@ const Listing = ({ dispatch, caseData, hearings }) => {
     <div className="listingcontainer">
       <Row gutter={[48, 16]}>
         <Col span={12}>
-          <Card bordered={true} className="upcoming-container">
+          <Card bordered={true} className="upcoming-container d-contain">
             <Row className="upcoming">
               <h4>Upcoming hearings</h4>
               <Link to="#">view all</Link>
@@ -69,7 +69,7 @@ const Listing = ({ dispatch, caseData, hearings }) => {
           </Card>
         </Col>
         <Col span={12}>
-          <Card bordered={false} className="document-container">
+          <Card bordered={false} className="document-container d-contain">
             <Row className="upcoming">
               <h4>Documents</h4>
               <img src={Plus} alt="plus" />

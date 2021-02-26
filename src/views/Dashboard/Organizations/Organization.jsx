@@ -15,6 +15,7 @@ import {
   Popconfirm,
   Card,
   Select,
+  Input,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
@@ -504,7 +505,7 @@ const Organization = ({
           <div className="listingcontainer">
             <Row gutter={[48, 16]}>
               <Col flex="1 1 400px">
-                <Card bordered={false} className="document-container">
+                <Card bordered={false} className="document-container d-contain">
                   <Row
                     className="upcoming"
                     onClick={() => setUploadFormVisibility(true)}
@@ -549,7 +550,7 @@ const Organization = ({
                 </Card>
               </Col>
               <Col flex="1 1 600px">
-                <Card bordered={true} className="upcoming-container">
+                <Card bordered={true} className="upcoming-container d-contain">
                   <Row className="upcoming">
                     <h4>Members</h4>&nbsp;&nbsp;
                     <img
@@ -613,49 +614,58 @@ const Organization = ({
             </Row>
           </div>
           <div className="listingcontainer">
-            <div className="add-case">
-              <h3>Cases</h3>
-              <Select
-                style={{ width: 200 }}
-                showSearch
-                placeholder="Select a Case"
-                onChange={onChangeCase}
-              >
-                {filterOrganization ? (
-                  filterOrganization.cases.length > 0 ? (
-                    filterOrganization.cases.map((item, index) => (
+            <div className="flexDiv">
+              <div className="add-case">
+                <h3>
+                  Cases <img src={PLUS} alt="plus" style={{ width: 20 }} />
+                </h3>
+
+                <Select
+                  style={{ width: 200 }}
+                  showSearch
+                  placeholder="Select a Case"
+                  onChange={onChangeCase}
+                >
+                  {filterOrganization ? (
+                    filterOrganization.cases.length > 0 ? (
+                      filterOrganization.cases.map((item, index) => (
+                        <Select.Option value={item._id} key={index}>
+                          {item.title}
+                        </Select.Option>
+                      ))
+                    ) : (
+                      <Select.Option>No Case</Select.Option>
+                    )
+                  ) : organization.cases.length > 0 ? (
+                    organization.cases.map((item, index) => (
                       <Select.Option value={item._id} key={index}>
                         {item.title}
                       </Select.Option>
                     ))
                   ) : (
                     <Select.Option>No Case</Select.Option>
-                  )
-                ) : organization.cases.length > 0 ? (
-                  organization.cases.map((item, index) => (
-                    <Select.Option value={item._id} key={index}>
-                      {item.title}
-                    </Select.Option>
-                  ))
-                ) : (
-                  <Select.Option>No Case</Select.Option>
-                )}
-              </Select>
+                  )}
+                </Select>
 
-              <Select
-                style={{ width: 200 }}
-                showSearch
-                placeholder="Select a Hearing"
-                onChange={onChangeHearing}
-              >
-                {hearings.hearings?.length > 0
-                  ? hearings.hearings?.map((item, index) => (
-                      <Select.Option value={item._id} key={index}>
-                        {item.case.title}
-                      </Select.Option>
-                    ))
-                  : "no hearings avalable"}
-              </Select>
+                <Select
+                  style={{ width: 200 }}
+                  showSearch
+                  placeholder="Select a Hearing"
+                  onChange={onChangeHearing}
+                >
+                  {hearings.hearings?.length > 0
+                    ? hearings.hearings?.map((item, index) => (
+                        <Select.Option value={item._id} key={index}>
+                          {item.case.title}
+                        </Select.Option>
+                      ))
+                    : "no hearings avalable"}
+                </Select>
+              </div>
+
+              <div className="searchInput">
+                <Input type="text" placeholder="Search" value="" />
+              </div>
             </div>
             <Row gutter={[48, 16]}>
               {filterCases ? (
@@ -743,7 +753,7 @@ const Organization = ({
                   <Col span={8}>
                     <Card bordered={false} className="document-container">
                       <div className="review">
-                        <div className="d-flex">
+                        <div className="d-flex flex-end">
                           {item?.members.length > 0
                             ? item?.members.map((item, index) => (
                                 <span>

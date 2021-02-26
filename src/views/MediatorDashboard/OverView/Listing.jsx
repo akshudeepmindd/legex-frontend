@@ -115,7 +115,7 @@ const Listing = ({
                 <Col span={8}>
                   <Card bordered={false} className='document-container'>
                     <div className='review'>
-                      <div className='d-flex'>
+                      <div className='d-flex '>
                         {item?.title}
                         <Button
                           type={

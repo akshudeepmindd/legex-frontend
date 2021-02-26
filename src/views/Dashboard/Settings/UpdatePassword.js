@@ -47,7 +47,7 @@ function UpdatePassword(props) {
   return (
     <Form
       className="form-input"
-      {...formItemLayout}
+      // {...formItemLayout}
       //   form={form}
       name="UpdatePassword"
       onFinish={onFinish}
@@ -57,37 +57,35 @@ function UpdatePassword(props) {
       }}
       scrollToFirstError
     >
-      <Form.Item label="Password" style={{ marginBottom: 0 }} hasFeedback>
-        <Form.Item
-          name="password"
-          style={{ display: "inline-block", width: "calc(50% - 8px)" }}
-        >
-          <Input.Password
-            type="password"
-            placeholder="Enter password"
-            disabled={disabled}
-          />
-        </Form.Item>
-        <Form.Item
-          name="password2"
-          style={{ display: "inline-block", width: "calc(50% - 8px)" }}
-        >
-          <Input.Password
-            type="password"
-            placeholder="Enter password"
-            disabled={disabled}
-          />
-        </Form.Item>
-      </Form.Item>
+      <div className="update-pwd">
+        <Row>
+          <Col span={4}>
+            <Form.Item label="Password" style={{ marginBottom: 0 }} hasFeedback>
+              {" "}
+            </Form.Item>
+          </Col>
 
-      <Form.Item style={{ marginBottom: 0 }}>
-        <Form.Item
-          style={{
-            display: "inline-block",
-            width: "calc(30% - 8px)",
-            margin: "0 8px",
-          }}
-        >
+          <Col span={6}>
+            <Form.Item name="password" className="btn-pword">
+              <Input.Password
+                type="password"
+                placeholder="Enter password"
+                disabled={disabled}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item name="password2">
+              <Input.Password
+                type="password"
+                placeholder="Enter password"
+                disabled={disabled}
+                style={{ marginLeft: "1rem" }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <div className="btn-flex">
           <Button
             type="primary"
             htmlType="submit"
@@ -96,8 +94,8 @@ function UpdatePassword(props) {
           >
             Update Password
           </Button>
-        </Form.Item>
-      </Form.Item>
+        </div>
+      </div>
     </Form>
   );
 }
