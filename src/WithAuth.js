@@ -9,9 +9,9 @@ export const WithAuth = (Component) => {
   const role = localStorage.getItem("role"); // Handle return user context if authenticated or null if not
   const isAdmin = localStorage.getItem("isAdmin");
 
-  if (user && isAdmin === true) {
+  if (user && isAdmin === 'true') {
     return Component;
-  } else if ((user && role == undefined) || role == "User") {
+  } else if ((user && role == 'undefined') || role == "User") {
     return Component;
   } else {
     return Failure;

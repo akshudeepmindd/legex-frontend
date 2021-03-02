@@ -15,7 +15,7 @@ const { Title } = Typography;
 
 const AdminLogin = ({ auth, dispatch }) => {
   const onFinish = (values) => dispatch(loginUser(values));
-
+  console.log(auth);
   return (
     <>
       {!auth ? (
