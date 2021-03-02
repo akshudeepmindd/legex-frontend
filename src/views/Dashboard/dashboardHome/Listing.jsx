@@ -97,7 +97,7 @@ const Listing = ({ dispatch, caseData, hearings }) => {
             {caseData?.map((docs) => (
               <Row key={docs?._id}>
                 <Col span={5} className="documentText">
-                  {docs?.updatedAt}
+                  {moment(docs?.updatedAt).format("DD-MM-YYYY, HH:mm a")}
                 </Col>
                 <Col span={5}>
                   {docs?.organizations.length > 0
