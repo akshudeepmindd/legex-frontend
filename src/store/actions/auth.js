@@ -68,9 +68,9 @@ export function registerUser(payload) {
     try {
       //message.loading({ content: "registering user..", key: messageKey });
       const response = await $http()({
-        url: "/auth/register",
+        url: "admin/auth/register",
         data: payload,
-        method: "PATCH",
+        method: "POST",
       });
       const { token } = response.data;
       localStorage.setItem("access-token", token);
