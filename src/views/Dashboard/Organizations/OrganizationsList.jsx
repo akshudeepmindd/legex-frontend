@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import {
   Row,
@@ -14,25 +14,25 @@ import {
   Menu,
   Badge,
   Space,
-} from 'antd'
+} from "antd";
 import {
   AppstoreOutlined,
   DownOutlined,
   TableOutlined,
-} from '@ant-design/icons'
+} from "@ant-design/icons";
 
-import { DashboardLayout } from '../../../layouts'
+import { DashboardLayout } from "../../../layouts";
 import {
   OrganizationCard,
   OrganizationsTable,
   OrganizationForm,
-} from '../../../components'
+} from "../../../components";
 
-import { createOrganization } from '../../../store/actions/organizations'
-import { respondInvite } from '../../../store/actions/invites'
-import ShimmerEffect from '../../../components/shimmer'
+import { createOrganization } from "../../../store/actions/organizations";
+import { respondInvite } from "../../../store/actions/invites";
+import ShimmerEffect from "../../../components/shimmer";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const OrganizationsList = ({
   dispatch,
@@ -41,63 +41,63 @@ const OrganizationsList = ({
   user,
   history,
 }) => {
-  const [showGridView, setGridView] = useState(false)
-  const [selectedOrg, setSelectedOrg] = useState('')
-  const [selectedCase, setSelectedCase] = useState('')
+  const [showGridView, setGridView] = useState(false);
+  const [selectedOrg, setSelectedOrg] = useState("");
+  const [selectedCase, setSelectedCase] = useState("");
   const [
     createOrganizationModalVisibility,
     setCreateOrganizationModalVisibility,
-  ] = useState(false)
-  const [invites, setInvites] = useState([])
+  ] = useState(false);
+  const [invites, setInvites] = useState([]);
 
   //update cases when user is fetched
   useEffect(() => {
     user &&
       setInvites(
         user.invites.filter(
-          (i) => i.invitationType === 'Organization' && i.status === 'Waiting'
+          (i) => i.invitationType === "Organization" && i.status === "Waiting"
         )
-      )
-  }, [user])
+      );
+  }, [user]);
   const onChangeOrg = (value) => {
-    setSelectedOrg(value)
-  }
+    setSelectedOrg(value);
+  };
   const filterOrganization = organizations?.find(
     (item) => item._id === selectedOrg
-  )
+  );
   let pendingCases = filterOrganization?.cases?.filter(
-    (caseee) => caseee.status !== 'completion'
-  )
+    (caseee) => caseee.status !== "completion"
+  );
 
   let pendingCasess = organization?.cases?.filter(
-    (caseee) => caseee.status !== 'completion'
-  )
+    (caseee) => caseee.status !== "completion"
+  );
 
   let resolvedCases = filterOrganization?.cases?.filter(
-    (caseee) => caseee.status == 'completion'
-  )
+    (caseee) => caseee.status == "completion"
+  );
 
   let resolvedCasess = organization?.cases?.filter(
-    (caseee) => caseee.status == 'completion'
-  )
+    (caseee) => caseee.status == "completion"
+  );
   const filterCases = filterOrganization?.cases.find(
     (item) => item._id === selectedCase
-  )
+  );
   const showCreateOrganizationModal = () =>
-    setCreateOrganizationModalVisibility(true)
+    setCreateOrganizationModalVisibility(true);
 
   const closeCreateOrganizationModal = () =>
-    setCreateOrganizationModalVisibility(false)
+    setCreateOrganizationModalVisibility(false);
 
-  const toggleGridView = () => setGridView(!showGridView)
+  const toggleGridView = () => setGridView(!showGridView);
 
   const onCreateOrganizationFormFinish = async (values) => {
-    const res = await dispatch(createOrganization(values))
+    const res = await dispatch(createOrganization(values));
     if (res) {
-      setCreateOrganizationModalVisibility(false)
+      setCreateOrganizationModalVisibility(false);
     }
-    return res
-  }
+    return res;
+  };
 
   const renderOrganizations = () => {
     if (organizations.length > 0) {
@@ -115,18 +115,18 @@ const OrganizationsList = ({
               </Col>
             ))}
           </Row>
-        )
+        );
       }
       return (
         <OrganizationsTable organizations={organizations} user={user._id} />
-      )
+      );
     }
     return (
       <Card bordered={false}>
         <Empty description={<Text>No Organizations Found</Text>} />
       </Card>
-    )
-  }
+    );
+  };
   const acceptConfirmation = ({ invite, message }) =>
     Modal.confirm({
       async onOk() {
@@ -134,27 +134,27 @@ const OrganizationsList = ({
           respondInvite({
             inviteId: invite._id,
             data: {
-              response: 'Accepted',
+              response: "Accepted",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       async onCancel() {
         await dispatch(
           respondInvite({
             inviteId: invite._id,
             data: {
-              response: 'Declined',
+              response: "Declined",
               invite: invite._id,
             },
           })
-        )
+        );
       },
       content: message,
-      cancelText: 'Decline',
-      okText: 'Accept',
-    })
+      cancelText: "Decline",
+      okText: "Accept",
+    });
   const pendingInvitationsMenu = ({ invites }) => {
     return (
       <Menu>
@@ -167,19 +167,19 @@ const OrganizationsList = ({
                   acceptConfirmation({
                     invite,
                     message: `Do you want to accept ${invite.sender.name}'s invitation ?`,
-                  })
+                  });
                 }}
               >
                 {invite.sender.name}
               </Menu.Item>
-            )
+            );
           })
         ) : (
           <Menu.Item>No Pending Invites</Menu.Item>
         )}
       </Menu>
-    )
-  }
+    );
+  };
 
   return (
     <DashboardLayout>
@@ -194,8 +194,8 @@ const OrganizationsList = ({
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <PageHeader
                 ghost={false}
-                onBack={() => history.push('/dashboard/overview')}
-                title='Organizations'
+                onBack={() => history.push("/dashboard/overview")}
+                title="Organizations"
                 extra={[
                   <Row
                     gutter={[
@@ -205,7 +205,7 @@ const OrganizationsList = ({
                   >
                     <Col>
                       <Button
-                        key='1'
+                        key="1"
                         icon={
                           showGridView ? (
                             <TableOutlined />
@@ -218,9 +218,9 @@ const OrganizationsList = ({
                     </Col>
                     <Col>
                       <Button
-                        className='dashboard-btn-primary dashboard-layout-btn'
-                        key='2'
-                        type='primary'
+                        className="dashboard-btn-primary dashboard-layout-btn"
+                        key="2"
+                        type="primary"
                         onClick={showCreateOrganizationModal}
                       >
                         Create a new organization
@@ -228,14 +228,14 @@ const OrganizationsList = ({
                     </Col>
                     <Col>
                       <Dropdown
-                        key='3'
+                        key="3"
                         overlay={pendingInvitationsMenu({
                           invites,
                         })}
-                        trigger={['click']}
+                        trigger={["click"]}
                       >
                         <Button>
-                          <Space direction='horizontal'>
+                          <Space direction="horizontal">
                             <Badge
                               count={invites.length}
                               overflowCount={9}
@@ -254,7 +254,7 @@ const OrganizationsList = ({
           </Row>
           <Card>{renderOrganizations()}</Card>
           <Modal
-            title='Organization Form'
+            title="Organization Form"
             visible={createOrganizationModalVisibility}
             footer={null}
             destroyOnClose={true}
@@ -267,14 +267,14 @@ const OrganizationsList = ({
         <ShimmerEffect />
       )}
     </DashboardLayout>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state, ownProps) => ({
   organizations: state.organizations,
   organization: state.organization,
   user: state.user,
   history: ownProps.history,
-})
+});
 
-export default connect(mapStateToProps)(OrganizationsList)
+export default connect(mapStateToProps)(OrganizationsList);

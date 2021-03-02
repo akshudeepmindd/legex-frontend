@@ -50,6 +50,17 @@ const DocumentsList = ({
     (item) => item._id === selectedOrg
   );
 
+  const download = (data) => {
+    setTimeout(() => {
+      const response = {
+        file: data,
+      };
+      // now, let's download:
+      window.open(response.file);
+      // you could also do:
+      // window.location.href = response.file;
+    }, 100);
+  };
   console.log(filterOrganization, "filterOrganization");
 
   return (
@@ -147,7 +158,11 @@ const DocumentsList = ({
               ? filterOrganization.documents.length > 0
                 ? filterOrganization.documents.map((docs) => (
                     <Col span={3}>
-                      <Link to={docs.url} target="_blank" download>
+                      <Link
+                        to={docs.url}
+                        target="_blank"
+                        onClick={() => download(docs.url)}
+                      >
                         <img src={PDF} />
                       </Link>
                     </Col>
@@ -156,7 +171,11 @@ const DocumentsList = ({
               : organization?.documents.length > 0
               ? organization?.documents.map((docs) => (
                   <Col span={3}>
-                    <Link to={docs.url} target="_blank" download>
+                    <Link
+                      to={docs.url}
+                      target="_blank"
+                      onClick={() => download(docs.url)}
+                    >
                       <img src={PDF} />
                     </Link>
                   </Col>
