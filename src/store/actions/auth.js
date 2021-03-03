@@ -15,7 +15,9 @@ import {
   FACEBOOK_OAUTH,
   AUTH_FAILURE,
   LOGOUT_USER,
+  DELETE_NEUTRAL,
 } from "../constants/auth";
+import $http2 from "../../utils/api2";
 
 const authSuccess = (user) => ({
   type: "AUTH_SUCCESS",
@@ -67,7 +69,7 @@ export function registerUser(payload) {
     dispatch({ type: REGISTER_USER_START });
     try {
       //message.loading({ content: "registering user..", key: messageKey });
-      const response = await $http()({
+      const response = await $http2()({
         url: "admin/auth/register",
         data: payload,
         method: "POST",
@@ -82,6 +84,23 @@ export function registerUser(payload) {
       return false;
     }
   };
+}
+
+export function deleteNeutral(payload) {
+  return async (dispatch) => {
+    const messageKey = "delete neutral";
+    dispatch({ type: DELETE_NEUTRAL });
+    try{
+      const response = await $http2()({
+        url: `admin/admins/neutral/${payload.id}`,
+        method: 'DELETE'
+      });
+      console.log(response);
+    }catch(error){
+      message.error({ content: error.message, key: messageKey });
+      return false;
+    }
+  }
 }
 
 export function googleOAuth() {

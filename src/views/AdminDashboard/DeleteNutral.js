@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import PropTypes, { object } from "prop-types";
-import { Form, Input, Button, Select } from "antd";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import PropTypes, { object } from 'prop-types';
+import { Form, Input, Button, Select } from 'antd';
+import { connect } from 'react-redux';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -10,7 +10,7 @@ const DeleteNutral = ({ onFinish, users }) => {
   const [loading, setLoading] = useState(false);
   const renderMediators = () => {
     return users
-      ?.filter((i) => i.role === "Mediator")
+      ?.filter((i) => i.role === 'Mediator' || i.role === 'neutral')
       .map((ct, index) => (
         <Option key={index} value={ct._id}>
           {ct.email}
@@ -19,6 +19,7 @@ const DeleteNutral = ({ onFinish, users }) => {
   };
 
   const onSubmitClick = async (values) => {
+    console.log('submit clicked: '+values );
     setLoading(true);
     await onFinish(values);
     setLoading(false);
@@ -27,10 +28,12 @@ const DeleteNutral = ({ onFinish, users }) => {
   return (
     <Form name="DeleteNutral" onFinish={onSubmitClick}>
       <Form.Item
-        role="mediator"
-        rules={[{ required: true, message: "Please input the case type!" }]}
+        name="id"
+        rules={[{ required: true, message: 'Please input the case type!' }]}
       >
-        <Select placeholder="Select Mediator">{renderMediators()}</Select>
+        <Select placeholder="Select Mediator" id="deleteUser">
+          {renderMediators()}
+        </Select>
       </Form.Item>
       <Form.Item>
         {/* <Button type="primary" htmlType="submit" block className="adamin">
@@ -43,7 +46,7 @@ const DeleteNutral = ({ onFinish, users }) => {
           loading={loading}
           className="adamin"
         >
-          {loading ? "Removeing" : "Remove"}
+          {loading ? 'Removeing' : 'Remove'}
         </Button>
       </Form.Item>
     </Form>
@@ -60,10 +63,10 @@ DeleteNutral.propTypes = {
 };
 
 DeleteNutral.defaultProps = {
-  title: "",
-  description: "",
-  caseType: "",
-  organization: "",
+  title: '',
+  description: '',
+  caseType: '',
+  organization: '',
 };
 
 const mapStateToProps = (state) => ({

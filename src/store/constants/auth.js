@@ -8,3 +8,4 @@ export const GOOGLE_OAUTH = "GOOGLE_OAUTH";
 export const FACEBOOK_OAUTH = "FACEBOOK_OAUTH";
 export const AUTH_FAILURE = "AUTH_FAILURE";
 export const LOGOUT_USER = "LOGOUT_USER";
+export const DELETE_NEUTRAL = "DELETE_NEUTRAL";

@@ -2,6 +2,7 @@ import { ADMIN_LOGIN_START, LOGIN_ADMIN_SUCCESS } from "../constants/admin";
 import { message } from "antd";
 import $http2 from "../../utils/api2";
 import jwtdecode from "jwt-decode";
+import { Redirect } from "react-router-dom";
 
 const loginAdminSuccess = (userData) => ({
   type: LOGIN_ADMIN_SUCCESS,
