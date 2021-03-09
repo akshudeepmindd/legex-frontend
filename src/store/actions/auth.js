@@ -53,7 +53,12 @@ export function loginUser(payload) {
       if (!response.data.success) throw new Error(response.data.message);
       const { token } = response.data;
       const decodedToken = jwtdecode(token);
-      localStorage.setItem("role", decodedToken.user.role);
+      if (decodedToken.user.role) {
+        localStorage.setItem("role", decodedToken.user.role);
+      } else if (decodedToken.user.isAdmin) {
+        localStorage.setItem("isAdmin", decodedToken.user.isAdmin);
+      }
+
       localStorage.setItem("access-token", token);
       dispatch(loginUserSuccess(response.data.data));
       //message.success({ content: "logged in", key: messageKey });
@@ -90,17 +95,17 @@ export function deleteNeutral(payload) {
   return async (dispatch) => {
     const messageKey = "delete neutral";
     dispatch({ type: DELETE_NEUTRAL });
-    try{
+    try {
       const response = await $http2()({
         url: `admin/admins/neutral/${payload.id}`,
-        method: 'DELETE'
+        method: "DELETE",
       });
       console.log(response);
-    }catch(error){
+    } catch (error) {
       message.error({ content: error.message, key: messageKey });
       return false;
     }
-  }
+  };
 }
 
 export function googleOAuth() {
