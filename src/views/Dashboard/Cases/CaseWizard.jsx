@@ -1,92 +1,92 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Row, Col, Card, Dropdown, Menu, Steps, Button, message } from 'antd'
-import { DashboardLayout } from '../../../layouts'
-import { DownOutlined } from '@ant-design/icons'
-import PLUS from '../../../assets/images/plus.png'
-import Union from '../../../assets/images/Union.png'
-import Back from '../../../assets/images/back.png'
+import React from "react";
+import { Link } from "react-router-dom";
+import { Row, Col, Card, Dropdown, Menu, Steps, Button, message } from "antd";
+import { DashboardLayout } from "../../../layouts";
+import { DownOutlined } from "@ant-design/icons";
+import PLUS from "../../../assets/images/plus.png";
+import Union from "../../../assets/images/Union.png";
+import Back from "../../../assets/images/back.png";
 
-import { unsecured } from '../../../utils/constants'
+import { unsecured } from "../../../utils/constants";
 const menu = (
   <Menu>
-    <Menu.Item key='0'>
-      <a href='http://www.alipay.com/'>1st menu item</a>
+    <Menu.Item key="0">
+      <a href="http://www.alipay.com/">1st menu item</a>
     </Menu.Item>
-    <Menu.Item key='1'>
-      <a href='http://www.taobao.com/'>2nd menu item</a>
+    <Menu.Item key="1">
+      <a href="http://www.taobao.com/">2nd menu item</a>
     </Menu.Item>
     <Menu.Divider />
-    <Menu.Item key='3'>3rd menu item</Menu.Item>
+    <Menu.Item key="3">3rd menu item</Menu.Item>
   </Menu>
-)
-const { Step } = Steps
+);
+const { Step } = Steps;
 
 const steps = [
   {
-    title: 'First',
-    content: 'First-content',
+    title: "First",
+    content: "First-content",
   },
   {
-    title: 'Second',
-    content: 'Second-content',
+    title: "Second",
+    content: "Second-content",
   },
   {
-    title: 'Last',
-    content: 'Last-content',
+    title: "Last",
+    content: "Last-content",
   },
-]
+];
 
 const CaseForm = () => {
-  const [current, setCurrent] = React.useState(0)
+  const [current, setCurrent] = React.useState(0);
 
   const next = () => {
-    setCurrent(current + 1)
-  }
+    setCurrent(current + 1);
+  };
 
   const prev = () => {
-    setCurrent(current - 1)
-  }
+    setCurrent(current - 1);
+  };
 
   return (
     <>
       <DashboardLayout>
-        <div className='secure-contract'>
-          <div className='address'>
-            <div className='name'>
+        <div className="secure-contract">
+          <div className="address">
+            <div className="name">
               <p>
                 <img src={Back} /> Gurmeet Kaur vs HDFC Bank
               </p>
             </div>
-            <div className=''>
+            <div className="">
               <label>Start Date:</label>
-              <span className=''>15 November 2020</span>
+              <span className="">15 November 2020</span>
               <br></br>
               <label>Estimated End Date:</label>
-              <span className=''>22 December 2020</span>
+              <span className="">22 December 2020</span>
             </div>
           </div>
           <Row gutter={[48, 16]}>
             <Col span={14}>
-              <Card bordered={false} className='document-container card-border'>
+              <Card bordered={false} className="document-container card-border">
                 <Steps current={current}>
                   {steps.map((item) => (
                     <Step key={item.title} title={item.title} />
                   ))}
                 </Steps>
-                <div className='steps-content'>
-                  {' '}
-                  <Row className='mt-2'>
+                <div className="steps-content">
+                  {" "}
+                  <Row className="mt-2">
                     <Col span={8}>Contract Type:</Col>
                     <Col span={16}>
-                      {' '}
+                      {" "}
                       <Dropdown
                         overlay={menu}
-                        trigger={['click']}
-                        className='dropdown-organize'
+                        trigger={["click"]}
+                        className="dropdown-organize"
                       >
                         <a
-                          className='ant-dropdown-link'
+                          className="ant-dropdown-link"
                           onClick={(e) => e.preventDefault()}
                         >
                           Arohan Infra Private Limited <DownOutlined />
@@ -111,7 +111,7 @@ const CaseForm = () => {
                     <Col span={16}> Upload</Col>
                   </Row> */}
                 </div>
-                <div className='steps-action'>
+                <div className="steps-action">
                   {/* {current < steps.length - 1 && (
                 <Button type='primary' onClick={() => next()}>
                   Next
@@ -119,45 +119,45 @@ const CaseForm = () => {
               )} */}
                   {current === steps.length - 1 && (
                     <Button
-                      type='primary'
-                      onClick={() => message.success('Processing complete!')}
+                      type="primary"
+                      onClick={() => message.success("Processing complete!")}
                     >
                       Done
                     </Button>
                   )}
                   {current > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                    <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
                       Previous
                     </Button>
                   )}
                 </div>
               </Card>
             </Col>
-            <Col span={10} style={{ justifyContent: 'flex-end' }}>
-              <Card bordered={false} className='document-container card-border'>
+            <Col span={10} style={{ justifyContent: "flex-end" }}>
+              <Card bordered={false} className="document-container card-border">
                 <h3>Summary:</h3>
-                <div className='steps-content'>
-                  {' '}
-                  <Row className='mt-2'>
-                    <Col span={8}>Contract Type:</Col>
+                <div className="steps-content">
+                  {" "}
+                  <Row className="mt-2">
+                    <Col span={8}>Case Type:</Col>
                     <Col span={16}> Franchise Agreement</Col>
                   </Row>
-                  <Row className='mt-2'>
+                  <Row className="mt-2">
                     <Col span={8}>Description:</Col>
                     <Col span={16}>
-                      {' '}
+                      {" "}
                       Mediator Sunanda Rao assigned Mediator Su Rao assigned
-                      Mediator Sunanda Raassigned Mediator Sunanda{' '}
+                      Mediator Sunanda Raassigned Mediator Sunanda{" "}
                     </Col>
                   </Row>
-                  <Row className='mt-2'>
+                  <Row className="mt-2">
                     <Col span={8}>Contract Value:</Col>
                     <Col span={16}>
-                      {' '}
+                      {" "}
                       ins-health-hdfc.pdf, accident-leg.jpg, bill-hos.png
                     </Col>
                   </Row>
-                  <Row className='mt-2'>
+                  <Row className="mt-2">
                     <Col span={8}>Other Party:</Col>
                     <Col span={16}> Mediator Sunanda Rao assigned</Col>
                   </Row>
@@ -166,7 +166,7 @@ const CaseForm = () => {
                     <Col span={16}> Upload</Col>
                   </Row> */}
                 </div>
-                <div className='steps-action'>
+                <div className="steps-action">
                   {/* {current < steps.length - 1 && (
                 <Button type='primary' onClick={() => next()}>
                   Next
@@ -174,14 +174,14 @@ const CaseForm = () => {
               )} */}
                   {current === steps.length - 1 && (
                     <Button
-                      type='primary'
-                      onClick={() => message.success('Processing complete!')}
+                      type="primary"
+                      onClick={() => message.success("Processing complete!")}
                     >
                       Done
                     </Button>
                   )}
                   {current > 0 && (
-                    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                    <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
                       Previous
                     </Button>
                   )}
@@ -192,7 +192,7 @@ const CaseForm = () => {
         </div>
       </DashboardLayout>
     </>
-  )
-}
+  );
+};
 
-export default CaseForm
+export default CaseForm;
