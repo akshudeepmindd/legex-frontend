@@ -1,45 +1,46 @@
-import React from 'react'
-import { Input, Col, Row, Select } from 'antd'
-import { connect } from 'react-redux'
-import { cstatus } from '../../../utils/constants'
+import React from "react";
+import { Input, Col, Row, Select, Checkbox } from "antd";
+import { connect } from "react-redux";
+import { cstatus } from "../../../utils/constants";
 const OtherDetails = ({
   caseTypes,
   value,
   handleChange,
+  handleCheck,
   statuscontract,
   handleSelectCaseType,
 }) => {
   return (
     <Col>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Name:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='name'
+            name="name"
             value={value.name}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Email:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='email'
+            name="email"
             value={value.email}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Case Type:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Select
-            name='caseType'
-            placeholder='Select a caseType'
+            name="caseType"
+            placeholder="Select a caseType"
             onChange={handleSelectCaseType}
             value={statuscontract}
           >
@@ -49,52 +50,58 @@ const OtherDetails = ({
                     {item.title}
                   </Select.Option>
                 ))
-              : 'null'}
+              : "null"}
           </Select>
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Phone:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='mobile'
+            name="mobile"
             value={value.mobile}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Insure Value:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='insureValue'
+            name="insureValue"
             value={value.insureValue}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Contract Value:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='contractValue'
+            name="contractValue"
             value={value.contractValue}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
+      <Row className="mt-2">
+        <Col span={8}>Secured:</Col>
+        <Col span={16}>
+          <Checkbox onChange={(e) => handleCheck(e.target.checked)} />
+        </Col>
+      </Row>
     </Col>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => ({
   cases: state.cases,
   caseTypes: state.caseTypes.caseTypes,
   organizations: state.organizations,
   user: state.user,
-})
+});
 
-export default connect(mapStateToProps)(OtherDetails)
+export default connect(mapStateToProps)(OtherDetails);

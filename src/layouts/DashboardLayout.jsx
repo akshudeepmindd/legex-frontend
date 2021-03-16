@@ -73,6 +73,7 @@ function DashboardLayout(props) {
   function logout() {
     localStorage.removeItem("access-token");
     localStorage.removeItem("role");
+    localStorage.removeItem("isAdmin");
     props.history.push("/login");
   }
   const userDetail = (

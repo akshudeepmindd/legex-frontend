@@ -33,6 +33,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
   const [caseType, setCaseType] = React.useState();
   const [provider, setProvider] = React.useState();
   const [status, setStatus] = React.useState();
+  const history = useHistory;
 
   const [value, setValue] = React.useState({
     referenceNo: "",
@@ -79,12 +80,13 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
     };
     console.log(params, "params");
     const response = await dispatch(createCase(params));
-    // console.log(response, "response");
+    console.log(response, "response");
+    // if (response) {
+    //   history.push("");
+    // }
     return response;
   };
 
-  const history = useHistory();
-  console.log(history);
   const steps = [
     {
       title: "Case Type",
@@ -153,7 +155,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
                 <div>{steps[current].content}</div>
 
                 <div className="steps-action">
-                  {current > 0 && (
+                  {current < steps.length - 1 && (
                     <Button
                       type="primary"
                       className="next-btn"

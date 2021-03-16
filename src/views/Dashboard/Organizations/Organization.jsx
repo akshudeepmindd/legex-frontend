@@ -71,6 +71,7 @@ const Organization = ({
   const [casesmenu, setCasesmenu] = useState([]);
   const [orgName, setOrgName] = useState("");
   const [orgDomain, setOrgDomain] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     dispatch(fetchOrganization(organizationId));
@@ -147,6 +148,19 @@ const Organization = ({
   const [createCaseModalVisibility, setCreateCaseModalVisibilty] = useState(
     false
   );
+
+  const download = (data) => {
+    console.log(image);
+    setTimeout(() => {
+      const response = {
+        file: data,
+      };
+      // now, let's download:
+      window.open(response.file);
+      // you could also do:
+      // window.location.href = response.file;
+    }, 100);
+  };
 
   const onUpdateFinish = async (values) => {
     if (filterOrganization) {
@@ -522,7 +536,10 @@ const Organization = ({
                             {docs.name}
                           </Col>
                           <Col span={12} className="download">
-                            <Link href={docs.url} download>
+                            <Link
+                              href={docs.url}
+                              onClick={() => download(docs.url)}
+                            >
                               Image <img src={Union} alt="download" />
                             </Link>
                           </Col>

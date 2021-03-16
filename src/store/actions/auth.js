@@ -15,7 +15,9 @@ import {
   FACEBOOK_OAUTH,
   AUTH_FAILURE,
   LOGOUT_USER,
+  DELETE_NEUTRAL,
 } from "../constants/auth";
+import $http2 from "../../utils/api2";
 
 const authSuccess = (user) => ({
   type: "AUTH_SUCCESS",
@@ -51,7 +53,12 @@ export function loginUser(payload) {
       if (!response.data.success) throw new Error(response.data.message);
       const { token } = response.data;
       const decodedToken = jwtdecode(token);
-      localStorage.setItem("role", decodedToken.user.role);
+      if (decodedToken.user.role) {
+        localStorage.setItem("role", decodedToken.user.role);
+      } else if (decodedToken.user.isAdmin) {
+        localStorage.setItem("isAdmin", decodedToken.user.isAdmin);
+      }
+
       localStorage.setItem("access-token", token);
       dispatch(loginUserSuccess(response.data.data));
       //message.success({ content: "logged in", key: messageKey });
@@ -67,16 +74,33 @@ export function registerUser(payload) {
     dispatch({ type: REGISTER_USER_START });
     try {
       //message.loading({ content: "registering user..", key: messageKey });
-      const response = await $http()({
-        url: "/auth/register",
+      const response = await $http2()({
+        url: "admin/auth/register",
         data: payload,
-        method: "PATCH",
+        method: "POST",
       });
       const { token } = response.data;
       localStorage.setItem("access-token", token);
       dispatch(registerUserSuccess(response.data.data));
       //message.success({ content: "register user", key: messageKey });
       return true;
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+      return false;
+    }
+  };
+}
+
+export function deleteNeutral(payload) {
+  return async (dispatch) => {
+    const messageKey = "delete neutral";
+    dispatch({ type: DELETE_NEUTRAL });
+    try {
+      const response = await $http2()({
+        url: `admin/admins/neutral/${payload.id}`,
+        method: "DELETE",
+      });
+      console.log(response);
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
       return false;
