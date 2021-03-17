@@ -11,12 +11,12 @@ import { fetchHearings } from "../../../store/actions/hearings";
 
 import { hearings2, documents, updates } from "../../../utils/constants";
 const Listing = ({ dispatch, caseData, hearings }) => {
-  // useEffect(() => {
-  //   dispatch(fetchHearings());
-  // }, [dispatch]);
+  const [hearing,sethearings] = useState(false)
+
   const userUpcomingHearing = () => {
     return caseData?.map((item) => {
       if (item?.hearings.length > 0) {
+        sethearings(true)
         return item.hearings?.map((item) => {
           if (
             moment(item.startDateTime).format("MMMM Do YYYY, h:mm:ss a") >=
@@ -39,8 +39,6 @@ const Listing = ({ dispatch, caseData, hearings }) => {
     });
   };
 
-  console.log(caseData, "caseData");
-  // console.log(userUpcomingHearing(), "hearings");
 
   return (
     <div className="listingcontainer">
@@ -51,21 +49,7 @@ const Listing = ({ dispatch, caseData, hearings }) => {
               <h4>Upcoming hearings</h4>
               <Link to="#">view all</Link>
             </Row>
-            {userUpcomingHearing()}
-            {/* {hearings2.map((hear) => (
-              <>
-                <p className="month">{hear.month}</p>
-                <Row>
-                  <Col span={8} className="documentText">
-                    {hear.time}
-                  </Col>
-                  <Col span={8}>{hear.name}</Col>
-                  <Col span={8} className="download">
-                    <Link to="#">{hear.join}</Link>
-                  </Col>
-                </Row>
-              </>
-            ))} */}
+            {hearing ? userUpcomingHearing() :"No data found"}
           </Card>
         </Col>
         <Col span={12}>
@@ -97,7 +81,7 @@ const Listing = ({ dispatch, caseData, hearings }) => {
             {caseData?.map((docs) => (
               <Row key={docs?._id}>
                 <Col span={5} className="documentText">
-                  {moment(docs?.updatedAt).format("DD-MM-YYYY, HH:mm a")}
+                  {docs?.updatedAt}
                 </Col>
                 <Col span={5}>
                   {docs?.organizations.length > 0

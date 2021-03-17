@@ -48,6 +48,9 @@ import Delete from "../../../assets/images/delete.png";
 
 import { hearings, documents, updates } from "../../../utils/constants";
 import ShimmerEffect from "../../../components/shimmer";
+import { removeMember } from "../../../store/actions/organization";
+
+
 const styles = {
   text: {
     textTransform: "capitalize",
@@ -150,7 +153,6 @@ const Organization = ({
   );
 
   const download = (data) => {
-    console.log(image);
     setTimeout(() => {
       const response = {
         file: data,
@@ -161,6 +163,9 @@ const Organization = ({
       // window.location.href = response.file;
     }, 100);
   };
+
+  const handleMemberDelete = (member) =>
+  dispatch(removeMember({ organizationId, data: { member } }));
 
   const onUpdateFinish = async (values) => {
     if (filterOrganization) {
@@ -555,7 +560,7 @@ const Organization = ({
                           {docs.name}
                         </Col>
                         <Col span={12} className="download">
-                          <Link href={docs.url} download>
+                          <Link href={docs.url}  onClick={() => download(docs.url)}>
                             Image <img src={Union} alt="download" />
                           </Link>
                         </Col>
@@ -595,12 +600,12 @@ const Organization = ({
                             <Link to="#">{member.email}</Link>
                           </Col>
                           <Col span={3} className="delete">
-                            <img src={Delete} alt="delete" />
+                            <img src={Delete} alt="delete" onClick={() => handleMemberDelete(member._id)}/>
                           </Col>
                         </Row>
                       ))
                     ) : (
-                      "No member Found"
+                      <Row>No member Found</Row>
                     )
                   ) : organization.members.length > 0 ? (
                     organization.members.map((member) => (
@@ -615,7 +620,7 @@ const Organization = ({
                           <Link to="#">{member.email}</Link>
                         </Col>
                         <Col span={3} className="delete">
-                          <img src={Delete} alt="delete" />
+                          <img src={Delete} alt="delete" onClick={() => handleMemberDelete(member._id)}/>
                         </Col>
                       </Row>
                     ))

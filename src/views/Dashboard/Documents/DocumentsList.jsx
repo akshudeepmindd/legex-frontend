@@ -159,11 +159,11 @@ const DocumentsList = ({
                 ? filterOrganization.documents.map((docs) => (
                     <Col span={3}>
                       <Link
-                        to={docs.url}
+                        to="#"
                         target="_blank"
-                        onClick={() => download(docs.url)}
+                        // onClick={() => download(docs.url)}
                       >
-                        <img src={PDF} />
+                        <img src={PDF}  onClick={() => console.log(docs.url)} />
                       </Link>
                     </Col>
                   ))
@@ -172,11 +172,11 @@ const DocumentsList = ({
               ? organization?.documents.map((docs) => (
                   <Col span={3}>
                     <Link
-                      to={docs.url}
+                      to="#"
                       target="_blank"
-                      onClick={() => download(docs.url)}
+                      // onClick={() => download(docs.url)}
                     >
-                      <img src={PDF} />
+                      <img src={PDF}   onClick={() =>  console.log(docs.url)}/>
                     </Link>
                   </Col>
                 ))
