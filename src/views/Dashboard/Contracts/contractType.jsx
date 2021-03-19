@@ -16,15 +16,18 @@ import {
 import { UploadOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { contracttype } from '../../../utils/constants'
-
+import { uploadDocument } from '../../../store/actions/documents'
 const CaseTypeForm = ({
   caseTypes,
+  dispatch,
   value,
   handleSelect,
   handleChange,
   updateFileList,
   fileList,
   contractType,
+  setUpdatedUrl,
+  userId,
 }) => {
   const onRemove = (file) => {
     const index = fileList.indexOf(file)
@@ -33,7 +36,13 @@ const CaseTypeForm = ({
     updateFileList(newFileList)
   }
   const [expiryCheck, setexpiryCheck] = useState(false)
-  const beforeUpload = (file) => {
+  const beforeUpload = async (file) => {
+    // console.log(organization, 'orgggg')
+    const formData = new FormData()
+    formData.append('files', file)
+    formData.append('creater', userId)
+    const res = await dispatch(uploadDocument(formData))
+    setUpdatedUrl(res[0].url)
     updateFileList([...fileList, file])
     return false
   }
@@ -114,6 +123,7 @@ const CaseTypeForm = ({
 
 const mapStateToProps = (state) => ({
   cases: state.cases,
+  organization: state.organization,
   caseTypes: state.caseTypes.caseTypes,
   organizations: state.organizations,
   user: state.user,

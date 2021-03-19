@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Input, Col, Row, Select } from 'antd'
+import { Input, Col, Row, Select, Upload, Button } from 'antd'
 import { connect } from 'react-redux'
 import { type, status } from '../../../utils/constants'
-
+import { uploadDocument } from '../../../store/actions/documents'
+import { UploadOutlined } from '@ant-design/icons'
 const CaseDetailForm = ({
   caseTypes,
   value,
@@ -10,7 +11,29 @@ const CaseDetailForm = ({
   handleSelectType,
   handleSelectProvider,
   handleSelectStatus,
+  setDocumentUrl,
+  userId,
+  updateFileList,
+  fileList,
+  dispatch,
 }) => {
+  const onRemove = (file) => {
+    const index = fileList.indexOf(file)
+    const newFileList = fileList.slice()
+    newFileList.splice(index, 1)
+    updateFileList(newFileList)
+  }
+  const [expiryCheck, setexpiryCheck] = useState(false)
+  const beforeUpload = async (file) => {
+    // console.log(organization, 'orgggg')
+    const formData = new FormData()
+    formData.append('files', file)
+    formData.append('creater', userId)
+    const res = await dispatch(uploadDocument(formData))
+    setDocumentUrl(res[0].url)
+    updateFileList([...fileList, file])
+    return false
+  }
   return (
     <Col>
       <Row className='mt-2'>
@@ -95,14 +118,19 @@ const CaseDetailForm = ({
         </Col>
       </Row>
       <Row className='mt-2'>
-        <Col span={8}>Supporting Documents:</Col>
+        <Col span={8}>SupportingDocuments</Col>
         <Col span={16}>
-          {' '}
-          <Input
-            name='supportingDocuments'
-            value={value.supportingDocuments}
-            onChange={(e) => handleChange(e)}
-          />
+          <Upload
+            onRemove={onRemove}
+            beforeUpload={beforeUpload}
+            fileList={fileList}
+            accept='.jpeg, .jpg, .png, .pdf'
+            className='upload'
+          >
+            <Button className='upload-btn' icon={<UploadOutlined />}>
+              Select File
+            </Button>
+          </Upload>
         </Col>
       </Row>
     </Col>
