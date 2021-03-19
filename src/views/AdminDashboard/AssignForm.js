@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { notification } from "antd";
+import { SmileFilled } from "@ant-design/icons";
 import PropTypes, { object } from "prop-types";
 import { Form, Input, Button, Select } from "antd";
 import { connect } from "react-redux";
@@ -21,6 +23,11 @@ const AssignForm = ({ onFinish, users }) => {
   const onSubmitClick = async (values) => {
     setLoading(true);
     await onFinish(values);
+    notification.open({
+      message: "Success",
+      description: "Netural Assigned SuccessFully",
+      icon: <SmileFilled style={{ color: "#108ee9" }} />,
+    });
     setLoading(false);
   };
 

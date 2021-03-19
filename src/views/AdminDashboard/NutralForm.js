@@ -10,17 +10,21 @@ import AdminDashboardLayout from "../../layouts/AdminDashboardLayout";
 import { registerUser } from "../../store/actions/auth";
 import DeleteNutral from "./DeleteNutral";
 
-const NutralForm = ({ onFinish }) => {
+const NutralForm = ({ onFinish, setData, data }) => {
   const dispatch = useDispatch();
 
-  //   const onSubmitClick = async (values) => {
-  //     setLoading(true);
-  //     await onFinish(values);
-  //     setLoading(false);
-  //   };
+  // const onSubmitClick = async (values) => {
+  //   setLoading(true);
+  //   await onFinish(values);
+  //   setLoading(false);
+  // };
 
   return (
-    <Form name="RegisterForm" className="form-group" onFinish={onFinish}>
+    <Form
+      name="RegisterForm"
+      className="form-group"
+      onFinish={() => onFinish()}
+    >
       <Row>
         <Col span={6}>
           {" "}
@@ -29,7 +33,11 @@ const NutralForm = ({ onFinish }) => {
 
         <Col span={12}>
           <Form.Item name="firstName">
-            <Input placeholder="first name" className="text-feild" />
+            <Input
+              placeholder="first name"
+              className="text-feild"
+              onChange={(e) => setData({ ...data, firstName: e.target.value })}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -41,7 +49,11 @@ const NutralForm = ({ onFinish }) => {
 
         <Col span={12}>
           <Form.Item name="lastName">
-            <Input placeholder="last name" className="text-feild" />
+            <Input
+              placeholder="last name"
+              className="text-feild"
+              onChange={(e) => setData({ ...data, lastName: e.target.value })}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -53,7 +65,11 @@ const NutralForm = ({ onFinish }) => {
 
         <Col span={12}>
           <Form.Item name="phone">
-            <Input placeholder="phone" className="text-feild" />
+            <Input
+              placeholder="phone"
+              className="text-feild"
+              onChange={(e) => setData({ ...data, phone: e.target.value })}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -65,7 +81,12 @@ const NutralForm = ({ onFinish }) => {
 
         <Col span={12}>
           <Form.Item name="email">
-            <Input type="email" placeholder="Email" className="text-feild" />
+            <Input
+              type="email"
+              placeholder="Email"
+              className="text-feild"
+              onChange={(e) => setData({ ...data, email: e.target.value })}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -77,7 +98,11 @@ const NutralForm = ({ onFinish }) => {
 
         <Col span={12}>
           <Form.Item name="password">
-            <Input.Password placeholder="Password" className="text-feild" />
+            <Input.Password
+              placeholder="Password"
+              className="text-feild"
+              onChange={(e) => setData({ ...data, password: e.target.value })}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -89,12 +114,16 @@ const NutralForm = ({ onFinish }) => {
 
         <Col span={12}>
           <Form.Item name="role">
-            <Input placeholder="role" className="text-feild" />
+            <Input
+              placeholder="role"
+              className="text-feild"
+              onChange={(e) => setData({ ...data, role: e.target.value })}
+            />
           </Form.Item>
         </Col>
       </Row>
       <Button type="primary" htmlType="submit" block className="adamin">
-        Create Admin
+        Create Netural
       </Button>
     </Form>
   );
