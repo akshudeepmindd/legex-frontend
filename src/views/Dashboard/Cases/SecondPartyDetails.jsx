@@ -2,7 +2,7 @@ import React from "react";
 import { Input, Col, Row, Select } from "antd";
 import { connect } from "react-redux";
 
-const SecondPartyDetails = ({ caseTypes, value, handleChange }) => {
+const SecondPartyDetails = ({ caseTypes, value, handleChange, validator }) => {
   return (
     <Col>
       <Row className="mt-2">
@@ -25,6 +25,11 @@ const SecondPartyDetails = ({ caseTypes, value, handleChange }) => {
             value={value.secondPartyEmail}
             onChange={(e) => handleChange(e)}
           />
+          {validator.current.message(
+            "secondPartyEmail",
+            value.secondPartyEmail,
+            "required|email"
+          )}
         </Col>
       </Row>
       <Row className="mt-2">
@@ -36,6 +41,11 @@ const SecondPartyDetails = ({ caseTypes, value, handleChange }) => {
             value={value.secondPartyPhone}
             onChange={(e) => handleChange(e)}
           />
+          {validator.current.message(
+            "secondPartyPhone",
+            value.secondPartyPhone,
+            "phone|numeric|min:10"
+          )}
         </Col>
       </Row>
     </Col>

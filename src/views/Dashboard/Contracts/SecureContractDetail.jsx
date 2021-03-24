@@ -9,6 +9,7 @@ const OtherDetails = ({
   handleCheck,
   statuscontract,
   handleSelectCaseType,
+  validator,
 }) => {
   return (
     <Col>
@@ -32,6 +33,7 @@ const OtherDetails = ({
             value={value.email}
             onChange={(e) => handleChange(e)}
           />
+          {validator.current.message("email", value?.email, "required|email")}
         </Col>
       </Row>
       <Row className="mt-2">
@@ -61,8 +63,14 @@ const OtherDetails = ({
           <Input
             name="mobile"
             value={value.mobile}
+            type="number"
             onChange={(e) => handleChange(e)}
           />
+          {validator.current.message(
+            "mobile",
+            value?.mobile,
+            "phone|numeric|min:10"
+          )}
         </Col>
       </Row>
       <Row className="mt-2">

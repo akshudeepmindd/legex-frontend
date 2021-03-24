@@ -54,7 +54,7 @@ const OrganizationsList = ({
   useEffect(() => {
     user &&
       setInvites(
-        user.invites.filter(
+        user?.invites?.filter(
           (i) => i.invitationType === "Organization" && i.status === "Waiting"
         )
       );
@@ -158,8 +158,8 @@ const OrganizationsList = ({
   const pendingInvitationsMenu = ({ invites }) => {
     return (
       <Menu>
-        {invites.length > 0 ? (
-          invites.map((invite) => {
+        {invites?.length > 0 ? (
+          invites?.map((invite) => {
             return (
               <Menu.Item
                 key={invite._id}
@@ -237,12 +237,12 @@ const OrganizationsList = ({
                         <Button>
                           <Space direction="horizontal">
                             <Badge
-                              count={invites.length}
+                              count={invites?.length}
                               overflowCount={9}
                               showZero={false}
                             />
                             Pending Invitations
-                            {invites.length > 0 && <DownOutlined />}
+                            {invites?.length > 0 && <DownOutlined />}
                           </Space>
                         </Button>
                       </Dropdown>

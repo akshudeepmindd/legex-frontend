@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { Input, Col, Row, Select, Upload, Button } from 'antd'
-import { connect } from 'react-redux'
-import { type, status } from '../../../utils/constants'
-import { uploadDocument } from '../../../store/actions/documents'
-import { UploadOutlined } from '@ant-design/icons'
+import React, { useState } from "react";
+import { Input, Col, Row, Select, Upload, Button } from "antd";
+import { connect } from "react-redux";
+import { type, status } from "../../../utils/constants";
+import { uploadDocument } from "../../../store/actions/documents";
+import { UploadOutlined } from "@ant-design/icons";
 const CaseDetailForm = ({
   caseTypes,
   value,
@@ -16,34 +16,35 @@ const CaseDetailForm = ({
   updateFileList,
   fileList,
   dispatch,
+  validator,
 }) => {
   const onRemove = (file) => {
-    const index = fileList.indexOf(file)
-    const newFileList = fileList.slice()
-    newFileList.splice(index, 1)
-    updateFileList(newFileList)
-  }
-  const [expiryCheck, setexpiryCheck] = useState(false)
+    const index = fileList.indexOf(file);
+    const newFileList = fileList.slice();
+    newFileList.splice(index, 1);
+    updateFileList(newFileList);
+  };
+  const [expiryCheck, setexpiryCheck] = useState(false);
   const beforeUpload = async (file) => {
     // console.log(organization, 'orgggg')
-    const formData = new FormData()
-    formData.append('files', file)
-    formData.append('creater', userId)
-    const res = await dispatch(uploadDocument(formData))
-    setDocumentUrl(res[0].url)
-    updateFileList([...fileList, file])
-    return false
-  }
+    const formData = new FormData();
+    formData.append("files", file);
+    formData.append("creater", userId);
+    const res = await dispatch(uploadDocument(formData));
+    setDocumentUrl(res[0].url);
+    updateFileList([...fileList, file]);
+    return false;
+  };
   return (
     <Col>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Type:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Select
-            placeholder='Select a caseType'
+            placeholder="Select a caseType"
             onChange={handleSelectType}
-            name='type'
+            name="type"
           >
             {type?.length > 0
               ? type?.map((item, index) => (
@@ -51,50 +52,50 @@ const CaseDetailForm = ({
                     {item.title}
                   </Select.Option>
                 ))
-              : 'null'}
+              : "null"}
           </Select>
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Provider:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='Provider'
+            name="Provider"
             value={value.provider}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Reference No:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='referenceNo'
+            name="referenceNo"
             value={value.referenceNo}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Claim Amount:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='claimAmount'
+            name="claimAmount"
             value={value.claimAmount}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>status:</Col>
         <Col span={16}>
           <Select
-            placeholder='Select a Status'
+            placeholder="Select a Status"
             onChange={handleSelectStatus}
-            name='status'
+            name="status"
           >
             {status?.length > 0
               ? status?.map((item, index) => (
@@ -102,46 +103,46 @@ const CaseDetailForm = ({
                     {item.title}
                   </Select.Option>
                 ))
-              : 'null'}
+              : "null"}
           </Select>
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>Additional Details:</Col>
         <Col span={16}>
-          {' '}
+          {" "}
           <Input
-            name='additionalDetails'
+            name="additionalDetails"
             value={value.additionalDetails}
             onChange={(e) => handleChange(e)}
           />
         </Col>
       </Row>
-      <Row className='mt-2'>
+      <Row className="mt-2">
         <Col span={8}>SupportingDocuments</Col>
         <Col span={16}>
           <Upload
             onRemove={onRemove}
             beforeUpload={beforeUpload}
             fileList={fileList}
-            accept='.jpeg, .jpg, .png, .pdf'
-            className='upload'
+            accept=".jpeg, .jpg, .png, .pdf"
+            className="upload"
           >
-            <Button className='upload-btn' icon={<UploadOutlined />}>
+            <Button className="upload-btn" icon={<UploadOutlined />}>
               Select File
             </Button>
           </Upload>
         </Col>
       </Row>
     </Col>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => ({
   cases: state.cases,
   caseTypes: state.caseTypes.caseTypes,
   organizations: state.organizations,
   user: state.user,
-})
+});
 
-export default connect(mapStateToProps)(CaseDetailForm)
+export default connect(mapStateToProps)(CaseDetailForm);

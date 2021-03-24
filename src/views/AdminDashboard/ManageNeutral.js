@@ -18,7 +18,7 @@ import { SmileFilled } from "@ant-design/icons";
 // import { CaseCard, CasesTable, CaseForm } from "../../../components";
 import { useHistory } from "react-router-dom";
 import AdminDashboardLayout from "../../layouts/AdminDashboardLayout";
-import { registerUser, deleteNeutral } from "../../store/actions/auth";
+import { createMediator, deleteNeutral } from "../../store/actions/auth";
 import DeleteNutral from "./DeleteNutral";
 import NutralForm from "./NutralForm";
 import Axios from "axios";
@@ -31,7 +31,7 @@ const Manage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const onFinish = async () => {
-    const res = await dispatch(registerUser(data));
+    const res = await dispatch(createMediator(data));
     if (res === true) {
       notification.open({
         message: "Success",

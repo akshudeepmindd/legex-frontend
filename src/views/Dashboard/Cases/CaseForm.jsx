@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Row,
@@ -25,12 +25,14 @@ import SecondPartyDetails from "./SecondPartyDetails";
 import { createCase } from "../../../store/actions/cases";
 
 import { unsecured } from "../../../utils/constants";
+import SimpleReactValidator from "simple-react-validator";
 
 const { Step } = Steps;
 
 const CaseForm = ({ dispatch, caseTypes, user }) => {
   const [current, setCurrent] = React.useState(0);
   const [fileList, updateFileList] = useState([]);
+  const validator = useRef(new SimpleReactValidator());
   const [type, setType] = React.useState();
   const [caseType, setCaseType] = React.useState();
   const [provider, setProvider] = React.useState();
@@ -68,32 +70,35 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
 
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
+    validator.current.showMessageFor(e.target.name);
   };
 
   const onFinish = async () => {
-    const params = {
-      createrType: "User",
-      creater: user._id,
-      type,
-      status,
-      provider,
-      title: "XYZ",
-      caseType: caseType,
-      document: url,
-      ...value,
-    };
-    console.log(params, "params");
-    const response = await dispatch(createCase(params));
-    console.log(response, "response");
-    if (response._id) {
-      notification.open({
-        message: "Success",
-        description: "Case is created SuccessFully",
-        icon: <SmileFilled />,
-      });
-      history.push(`/dashboard/cases/${response._id}`);
+    if (validator.current.allValid()) {
+      const params = {
+        createrType: "User",
+        creater: user._id,
+        type,
+        status,
+        provider,
+        title: "XYZ",
+        caseType: caseType,
+        document: url,
+        ...value,
+      };
+      console.log(params, "params");
+      const response = await dispatch(createCase(params));
+      console.log(response, "response");
+      if (response._id) {
+        notification.open({
+          message: "Success",
+          description: "Case is created SuccessFully",
+          icon: <SmileFilled />,
+        });
+        history.push(`/dashboard/cases/${response._id}`);
+      }
+      return response;
     }
-    return response;
   };
 
   const steps = [
@@ -106,6 +111,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
       content: (
         <CaseDetailForm
           value={value}
+          validator={validator}
           handleSelectProvider={handleSelectProvider}
           handleSelectStatus={handleSelectStatus}
           handleChange={handleChange}
@@ -119,7 +125,13 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
     },
     {
       title: "Second Party Details",
-      content: <SecondPartyDetails value={value} handleChange={handleChange} />,
+      content: (
+        <SecondPartyDetails
+          value={value}
+          handleChange={handleChange}
+          validator={validator}
+        />
+      ),
     },
     // {
     //   title: "Invite Other Party",

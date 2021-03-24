@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Row,
@@ -23,6 +23,7 @@ import SecureDetail from "./SecureContractDetail";
 import { unsecured } from "../../../utils/constants";
 import { createContractCase } from "../../../store/actions/contract";
 import { useDispatch, useSelector } from "react-redux";
+import SimpleReactValidator from "simple-react-validator";
 
 const menu = (
   <Menu>
@@ -40,6 +41,7 @@ const { Step } = Steps;
 
 const Secure = () => {
   const [current, setCurrent] = React.useState(0);
+  const validator = useRef(new SimpleReactValidator());
   const [fileList, updateFileList] = useState([]);
   const history = useHistory();
   const user = useSelector((state) => state.user);
@@ -52,6 +54,7 @@ const Secure = () => {
     expiry: "",
     insureValue: "",
   });
+
   const dispatch = useDispatch();
   const [contractType, setContractType] = useState("Select a Contract Value");
   const [statuscontract, setstatus] = useState("Select a Status");
@@ -62,41 +65,44 @@ const Secure = () => {
   };
   const handleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
+    validator.current.showMessageFor(e.target.name);
   };
   const handleSelect = (value) => {
     console.log(value);
     setContractType(value);
   };
   const onFinish = async () => {
-    const params = {
-      createrType: "User",
-      creater: user._id,
-      contractdetails: {
-        type: contractType,
-        expiry: value.expiry,
-      },
-      document: updateUrl,
-      InsuredValue: value.insureValue,
-      contractValue: value.contractValue,
-      otherDetails: {
-        name: value.name,
-        email: value.email,
-        mobile: value.mobile,
-      },
-      isSecursd: secured,
-      ...value,
-    };
-    console.log(params, "paramsmsm");
-    const res = await dispatch(createContractCase(params));
-    if (res === true) {
-      notification.open({
-        message: "Success",
-        description: "Contract is created SuccessFully",
-        icon: <SmileFilled />,
-      });
-      history.push("/dashboard/contracts");
+    if (validator.current.allValid()) {
+      const params = {
+        createrType: "User",
+        creater: user._id,
+        contractdetails: {
+          type: contractType,
+          expiry: value.expiry,
+        },
+        document: updateUrl,
+        InsuredValue: value.insureValue,
+        contractValue: value.contractValue,
+        otherDetails: {
+          name: value.name,
+          email: value.email,
+          mobile: value.mobile,
+        },
+        isSecursd: secured,
+        ...value,
+      };
+      console.log(params, "paramsmsm");
+      const res = await dispatch(createContractCase(params));
+      if (res === true) {
+        notification.open({
+          message: "Success",
+          description: "Contract is created SuccessFully",
+          icon: <SmileFilled />,
+        });
+        history.push("/dashboard/contracts");
+      }
+      console.log(res, "ressss");
     }
-    console.log(res, "ressss");
   };
   const handleSelectCaseType = (value) => {
     setstatus(value);
@@ -114,6 +120,7 @@ const Secure = () => {
           handleSelect={handleSelect}
           setUpdatedUrl={setUpdatedUrl}
           userId={user?._id}
+          validator={validator}
         />
       ),
     },
@@ -127,6 +134,7 @@ const Secure = () => {
           handleSelect={handleSelect}
           statuscontract={statuscontract}
           handleSelectCaseType={handleSelectCaseType}
+          validator={validator}
         />
       ),
     },

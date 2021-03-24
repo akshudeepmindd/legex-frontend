@@ -19,7 +19,7 @@ import HearingsTable from "../../../components/Hearing/HearingTable";
 import CasePartiesTable from "../../../components/Case/CasePartiesTable";
 
 import { fetchCase, inviteParty } from "../../../store/actions/case";
-import { fetchUser } from "../../../store/actions/user";
+import { fetchUser, fetchUsers } from "../../../store/actions/user";
 import { fetchOrganizations } from "../../../store/actions/organizations";
 import UploadForm from "../../../components/Document/UploadForm";
 import $http from "../../../utils/api";
@@ -36,6 +36,7 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
   const [documentModal, setDocumentModal] = useState(false);
   const [verdictModal, setVerdictModal] = useState(false);
   const [addCaseModal, setAddCaseModall] = useState(false);
+  const [item, setItem] = useState("Select Item");
   //store details about how the case is being accessed by the user
   const [access, updateAccess] = useState(null);
   const { caseId } = useParams();
@@ -43,6 +44,7 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
   //initial data fetch
   useEffect(() => {
     dispatch(fetchCase(caseId));
+    dispatch(fetchUsers());
     dispatch(fetchUser());
     dispatch(fetchOrganizations());
   }, [dispatch, caseId]);
@@ -137,8 +139,13 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
       </Col>
     </>
   );
-
+  const handleChange = async (value) => {
+    console.log(value, "valueee");
+    // setItem(inputValue);
+    // return inputValue;
+  };
   const onInvitationFormSubmit = async (values) => {
+    console.log(access, "access");
     const res = await dispatch(
       inviteParty({
         senderType: access.type,
@@ -162,7 +169,7 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
     else return 5;
   };
 
-  console.log(caseData, "case in case");
+  console.log(user, "case in case");
   return (
     <DashboardLayout>
       {caseData ? (
@@ -174,7 +181,12 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
             destroyOnClose={true}
             footer={null}
           >
-            <InviteForm onFinish={onInvitationFormSubmit} />
+            <InviteForm
+              onFinish={onInvitationFormSubmit}
+              item={item}
+              handleChange={handleChange}
+              users={user?.allusers}
+            />
           </Modal>
           <div className="case-section">
             <div className="address">

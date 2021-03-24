@@ -80,10 +80,32 @@ export function registerUser(payload) {
         method: "POST",
       });
       const { token } = response.data;
+
       localStorage.setItem("access-token", token);
       dispatch(registerUserSuccess(response.data.data));
       //message.success({ content: "register user", key: messageKey });
       return true;
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+      return false;
+    }
+  };
+}
+
+export function createMediator(payload) {
+  return async (dispatch) => {
+    const messageKey = "register mediator";
+    try {
+      //message.loading({ content: "registering user..", key: messageKey });
+      const response = await $http2()({
+        url: "admin/auth/mediator",
+        data: payload,
+        method: "POST",
+      });
+
+      dispatch(registerUserSuccess(response.data.data));
+      //message.success({ content: "register user", key: messageKey });
+      return response.data;
     } catch (error) {
       message.error({ content: error.message, key: messageKey });
       return false;

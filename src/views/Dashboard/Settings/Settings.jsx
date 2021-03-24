@@ -202,7 +202,14 @@ const RegistrationForm = ({ user, dispatch }) => {
         <Row>
           <Col span={6} className="userprofile">
             <div className="flex">
-              <img src={UserAvatar} alt="avatar" />
+              <div class="image-upload">
+                <label for="file-input">
+                  <img src={UserAvatar} alt="avatar" />
+                </label>
+
+                <input id="file-input" type="file" />
+              </div>
+
               <div className="">
                 <p>{`${user?.firstName} ${user?.lastName}`}</p>
                 <span className="pencil-image">

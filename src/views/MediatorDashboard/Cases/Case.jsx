@@ -124,6 +124,7 @@ const MediatorCase = ({
     setHearingModal(false) && setInviteModal(false) && setDocumentModal(false);
 
   const updateHearing = async (id, values) => {
+    console.log(id, "idddd");
     const res = await dispatch(
       createHearing({
         case: match.params.caseId,

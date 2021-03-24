@@ -52,7 +52,7 @@ const MediatorCasesList = ({
   useEffect(() => {
     user &&
       setInvites(
-        user.invites.filter(
+        user?.invites?.filter(
           (i) => i.invitationType === "Case" && i.status === "Waiting"
         )
       );
@@ -281,9 +281,9 @@ const MediatorCasesList = ({
               ) : (
                 "no case avelable"
               )
-            ) : user?.cases?.length > 0 ? (
+            ) : cases?.length > 0 ? (
               <Row gutter={[48, 16]}>
-                {user?.cases?.map((item, index) => (
+                {cases?.map((item, index) => (
                   <Col span={8} key={index}>
                     <Card
                       bordered={false}
