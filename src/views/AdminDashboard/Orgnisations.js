@@ -21,20 +21,20 @@ import {
   TableOutlined,
 } from "@ant-design/icons";
 
-import { DashboardLayout } from "../../../layouts";
+import { AdminDashboardLayout } from "../../layouts";
 import {
   OrganizationCard,
   OrganizationsTable,
   OrganizationForm,
-} from "../../../components";
+} from "../../components";
 
-import { createOrganization } from "../../../store/actions/organizations";
-import { respondInvite } from "../../../store/actions/invites";
-import ShimmerEffect from "../../../components/shimmer";
+import { createAdminOrganization } from "../../store/actions/organizations";
+import { respondInvite } from "../../store/actions/invites";
+import ShimmerEffect from "../../components/shimmer";
 
 const { Text } = Typography;
 
-const OrganizationsList = ({
+const AdminOrganizationsList = ({
   dispatch,
   organizations,
   organization,
@@ -92,7 +92,7 @@ const OrganizationsList = ({
   const toggleGridView = () => setGridView(!showGridView);
 
   const onCreateOrganizationFormFinish = async (values) => {
-    const res = await dispatch(createOrganization(values));
+    const res = await dispatch(createAdminOrganization(values));
     if (res) {
       setCreateOrganizationModalVisibility(false);
     }
@@ -100,7 +100,6 @@ const OrganizationsList = ({
   };
 
   const renderOrganizations = () => {
-    console.log(organizations, "orgggg");
     if (organizations.length > 0) {
       if (showGridView) {
         return (
@@ -119,7 +118,7 @@ const OrganizationsList = ({
         );
       }
       return (
-        <OrganizationsTable organizations={organizations} user={user._id} />
+        <OrganizationsTable organizations={organizations} user={user?._id} />
       );
     }
     return (
@@ -183,8 +182,8 @@ const OrganizationsList = ({
   };
 
   return (
-    <DashboardLayout>
-      {organizations && user ? (
+    <AdminDashboardLayout>
+      {organizations ? (
         <>
           <Row
             gutter={[
@@ -267,7 +266,7 @@ const OrganizationsList = ({
       ) : (
         <ShimmerEffect />
       )}
-    </DashboardLayout>
+    </AdminDashboardLayout>
   );
 };
 
@@ -278,4 +277,4 @@ const mapStateToProps = (state, ownProps) => ({
   history: ownProps.history,
 });
 
-export default connect(mapStateToProps)(OrganizationsList);
+export default connect(mapStateToProps)(AdminOrganizationsList);

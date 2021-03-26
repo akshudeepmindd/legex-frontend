@@ -1,5 +1,6 @@
 import { message } from "antd";
 import $http from "../../utils/api";
+import $http2 from "../../utils/api2";
 import {
   FETCH_CASE_START,
   FETCH_CASE_SUCCESS,
@@ -42,7 +43,24 @@ export function fetchCase(payload) {
     }
   };
 }
-
+export function fetchAdminCase(payload) {
+  return async (dispatch) => {
+    const messageKey = "fetch case";
+    dispatch({ type: FETCH_CASE_START });
+    try {
+      //message.loading({ content: "loading case..", key: messageKey })
+      const response = await $http2()({
+        url: `admin/cases/${payload}`,
+        method: "GET",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(fetchCaseSuccess(response.data.data));
+      //message.success({ content: "loaded case", key: messageKey })
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
 export function inviteParty(payload) {
   return async (dispatch) => {
     dispatch({ type: INVITE_PARTY_START });
@@ -83,5 +101,3 @@ export function quitCase(payload) {
     }
   };
 }
-
-

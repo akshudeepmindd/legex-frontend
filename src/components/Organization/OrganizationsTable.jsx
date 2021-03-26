@@ -40,7 +40,13 @@ function OrganizationsTable({ organizations, user, dispatch }) {
       key: "name",
       //dataIndex:'name',
       render: (organization) => (
-        <Link to={`/dashboard/organizations/${organization._id}`}>
+        <Link
+          to={
+            localStorage.getItem("isAdmin") === "true"
+              ? `/admin/organizations/${organization._id}`
+              : `/dashboard/organizations/${organization._id}`
+          }
+        >
           {organization.name}
         </Link>
       ),

@@ -1,5 +1,6 @@
 import { message } from "antd";
 import $http from "../../utils/api";
+import $http2 from "../../utils/api2";
 import {
   FETCH_CONTRACTCASES,
   FETCH_CONTRACTCASE,
@@ -39,7 +40,24 @@ export function fetchContractCases() {
     }
   };
 }
-
+export function fetchAdminContractCases() {
+  return async (dispatch) => {
+    const messageKey = "fetch cases";
+    dispatch({ type: FETCH_CONTRACTCASES });
+    try {
+      //message.loading({ content: "loading cases..", key: messageKey });
+      const response = await $http2()({
+        url: "admin/contracts",
+        method: "GET",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(fetchContractCasesSuccess(response.data.data));
+      //message.success({ content: "loaded cases", key: messageKey });
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
 export function createContractCase(payload) {
   return async (dispatch) => {
     const messageKey = "create Contract";

@@ -1,4 +1,5 @@
 import $http from "../../utils/api";
+import $http2 from "../../utils/api2";
 import { message } from "antd";
 import {
   INVITE_MEMBER_START,
@@ -77,6 +78,30 @@ export function fetchOrganization(payload) {
   };
 }
 
+export function fetchAdminOrganization(payload) {
+  return async (dispatch) => {
+    const messageKey = "fetch";
+    dispatch({ type: FETCH_ORGANIZATION_START });
+    try {
+      // message.loading({
+      //   content: "fetching organization....",
+      //   key: messageKey,
+      // });
+      const response = await $http2()({
+        url: `admin/orgs/${payload}`,
+        method: "GET",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(fetchOrganizationSuccess(response.data.data));
+      // message.success({
+      //   content: "successfully fetched organization",
+      //   key: messageKey,
+      // });
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
 export function createCase(payload) {
   return async (dispatch) => {
     const messageKey = "create case";

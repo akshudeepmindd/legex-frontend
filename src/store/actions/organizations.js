@@ -1,5 +1,6 @@
 import { message } from "antd";
 import $http from "../../utils/api";
+import $http2 from "../../utils/api2";
 import {
   FETCH_ORGANIZATIONS_START,
   FETCH_ORGANIZATIONS_SUCCESS,
@@ -49,6 +50,26 @@ export function createOrganization(payload) {
     try {
       const response = await $http()({
         url: "/organizations",
+        data: payload,
+        method: "POST",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(createOrganizationSuccess(response.data.data));
+      return true;
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+      return false;
+    }
+  };
+}
+
+export function createAdminOrganization(payload) {
+  return async (dispatch) => {
+    const messageKey = "create organization";
+    dispatch({ type: CREATE_ORGANIZATION_START });
+    try {
+      const response = await $http2()({
+        url: "admin/orgs",
         data: payload,
         method: "POST",
       });

@@ -32,7 +32,8 @@ const Manage = () => {
   const history = useHistory();
   const onFinish = async () => {
     const res = await dispatch(createMediator(data));
-    if (res === true) {
+    console.log(res, "Resss");
+    if (res?.success === true) {
       notification.open({
         message: "Success",
         description: "Netural Created SuccessFully",

@@ -8,6 +8,7 @@ import {
   DELETE_ORGANIZATION_START,
   ADD_ORGANIZATION,
 } from "../constants/organizations";
+import { FETCH_ALL_ORGNIZATIONS_SUCCESS } from "../constants/adminConstant";
 import {
   // ADD_MEMBER_SUCCESS,
   REMOVE_MEMBER_SUCCESS,
@@ -22,7 +23,8 @@ export default function organizationsReducers(state = initialState, action) {
   switch (action.type) {
     case FETCH_ORGANIZATIONS_SUCCESS:
       return action.payload;
-
+    case FETCH_ALL_ORGNIZATIONS_SUCCESS:
+      return action.payload;
     case ADD_ORGANIZATION:
     case CREATE_ORGANIZATION_SUCCESS:
       return [...state, action.payload];

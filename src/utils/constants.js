@@ -90,6 +90,24 @@ export const AdminMenu = [
     menuIconClass: dispute,
   },
   {
+    menuName: "Organizations",
+    menuKey: "/admin/organizations",
+    menuLink: "/admin/organizations",
+    menuIconClass: org,
+  },
+  {
+    menuName: "Contracts",
+    menuKey: "/admin/securecontracts",
+    menuLink: "/admin/securecontracts",
+    menuIconClass: org,
+  },
+  {
+    menuName: "Documents",
+    menuKey: "/admin/documents",
+    menuLink: "/admin/documents",
+    menuIconClass: org,
+  },
+  {
     menuName: "Settings",
     menuKey: "/admin/settings",
     menuLink: "/admin/settings",

@@ -7,7 +7,10 @@ import { fetchUserList } from "./store/actions/adminUsers";
 import { fetchUser } from "./store/actions/user";
 import { fetchCaseTypes } from "./store/actions/caseTypes";
 import { fetchCases } from "./store/actions/cases";
-import { fetchCasesAdmin } from "./store/actions/adminAction";
+import {
+  fetchCasesAdmin,
+  fetchAllOrganisations,
+} from "./store/actions/adminAction";
 import { WithAuth } from "./WithAuth";
 import { withAdminAuth } from "./withAdminAuth";
 import { WithMediatorAuth } from "./withMediatorAuth";
@@ -41,6 +44,11 @@ import {
   MediatorCases,
   MediatorCase,
   MediatorSettings,
+  AdminOrganizationsList,
+  AdminOrganization,
+  AdminCase,
+  AdminDocumentsList,
+  AdminContracts,
 } from "./views";
 
 function App({ dispatch, auth }) {
@@ -53,6 +61,7 @@ function App({ dispatch, auth }) {
       ) {
         async function fetchDataAdmin() {
           await dispatch(fetchCasesAdmin());
+          await dispatch(fetchAllOrganisations());
           await dispatch(fetchUserList());
         }
         fetchDataAdmin();
@@ -140,6 +149,29 @@ function App({ dispatch, auth }) {
           path="/admin/settings"
           exact
           component={WithAuth(AdminSettings)}
+        />
+        <Route
+          path="/admin/organizations"
+          exact
+          component={WithAuth(AdminOrganizationsList)}
+        />
+        <Route
+          path="/admin/organizations/:organizationId"
+          component={WithAuth(AdminOrganization)}
+        />
+        <Route
+          path="/admin/cases/:caseId"
+          component={WithAuth(AdminCase)}
+          exact
+        />
+        <Route
+          path="/admin/documents"
+          component={WithAuth(AdminDocumentsList)}
+          exact
+        />
+        <Route
+          path="/admin/securecontracts"
+          component={WithAuth(AdminContracts)}
         />
         <Route
           path="/mediator/overview"

@@ -6,7 +6,7 @@ import Plus from "../../assets/images/plus.png";
 import { updateCseAdmin } from "../../store/actions/adminAction";
 import { fetchUserList } from "../../store/actions/adminUsers";
 // import { CaseCard, CasesTable, CaseForm } from "../../../components";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AdminDashboardLayout from "../../layouts/AdminDashboardLayout";
 import AssignForm from "./AssignForm";
 
@@ -58,12 +58,12 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
             </Row>
           </Col>
         </Row>
-
+        <br />
         <Row gutter={[48, 16]}>
           <Col flex={8}>
             <Row>
               {" "}
-              <h3>Cases</h3>
+              <h3 style={{ paddingTop: ".2rem" }}>Cases</h3>&nbsp;&nbsp;
               <Select placeholder="Select Case Status" onChange={onChangeOrg}>
                 {statusMenue?.length > 0
                   ? statusMenue?.map((item, index) => (
@@ -147,12 +147,14 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
                   <div className="review">
                     <div className="d-flex">
                       <div>
-                        {item?.members.map((item, index) => (
-                          <span>
-                            {index ? " Vs " : ""} {item.firstName}{" "}
-                            {item.lastName}
-                          </span>
-                        ))}
+                        <Link to={`/admin/cases/${item._id}`}>
+                          {item?.members.map((item, index) => (
+                            <span>
+                              {index ? " Vs " : ""} {item.firstName}{" "}
+                              {item.lastName}
+                            </span>
+                          ))}
+                        </Link>
                       </div>
                       {item.mediator ? (
                         <Button

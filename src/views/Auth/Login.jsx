@@ -41,7 +41,7 @@ const Login = ({ auth, dispatch }) => {
       ) : (
         <Redirect
           to={
-            localStorage.getItem("isAdmin") === true
+            localStorage.getItem("isAdmin") === 'true'
               ? "/admin/overview"
               : localStorage.getItem("role") == "Mediator"
               ? "/mediator/overview"

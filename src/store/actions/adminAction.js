@@ -13,10 +13,16 @@ import {
   INVITE_PARTY_SUCCESS_ADMIN,
   QUIT_CASE_START_ADMIN,
   QUIT_CASE_SUCCESS_ADMIN,
+  FETCH_ALL_ORGNIZATIONS,
+  FETCH_ALL_ORGNIZATIONS_SUCCESS,
 } from "../constants/adminConstant";
 
 const fetchCasesSuccessAdmin = (cases) => ({
   type: FETCH_CASES_SUCCESS_ADMIN,
+  payload: cases,
+});
+const fetchOrgsSuccessAdmin = (cases) => ({
+  type: FETCH_ALL_ORGNIZATIONS_SUCCESS,
   payload: cases,
 });
 
@@ -138,6 +144,25 @@ export function fetchCaseAdmin(payload) {
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(fetchCaseSuccessAdmin(response.data.data));
+      //message.success({ content: "loaded case", key: messageKey })
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
+
+export function fetchAllOrganisations() {
+  return async (dispatch) => {
+    const messageKey = "fetch case";
+    dispatch({ type: FETCH_ALL_ORGNIZATIONS });
+    try {
+      //message.loading({ content: "loading case..", key: messageKey })
+      const response = await $http2()({
+        url: `/admin/orgs`,
+        method: "GET",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(fetchOrgsSuccessAdmin(response.data.data));
       //message.success({ content: "loaded case", key: messageKey })
     } catch (error) {
       message.error({ content: error.message, key: messageKey });

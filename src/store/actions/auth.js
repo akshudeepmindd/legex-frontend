@@ -74,13 +74,14 @@ export function registerUser(payload) {
     dispatch({ type: REGISTER_USER_START });
     try {
       //message.loading({ content: "registering user..", key: messageKey });
-      const response = await $http2()({
-        url: "admin/auth/register",
+      const response = await $http()({
+        url: "auth/register",
         data: payload,
         method: "POST",
       });
       const { token } = response.data;
-
+      const decodedToken = jwtdecode(token);
+      localStorage.setItem("role", decodedToken.user.role);
       localStorage.setItem("access-token", token);
       dispatch(registerUserSuccess(response.data.data));
       //message.success({ content: "register user", key: messageKey });

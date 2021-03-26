@@ -49,7 +49,7 @@ const RegisterForm = ({ onFinish, googleLogin, facebookLogin }) => {
       >
         <Input.Password placeholder="Password" />
       </Form.Item>
-
+      
       <Form.Item>
         <Button type="primary" htmlType="submit" block>
           Register

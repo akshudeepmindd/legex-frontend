@@ -8,12 +8,14 @@ import {
   FETCH_CASE_SUCCESS_ADMIN,
   QUIT_CASE_START_ADMIN,
   QUIT_CASE_SUCCESS_ADMIN,
+  FETCH_ALL_ORGNIZATIONS_SUCCESS,
 } from "../constants/adminConstant";
 
 export const initialState = null;
 
 export default function adminCaseReducers(state = initialState, action) {
   switch (action.type) {
+    
     case FETCH_CASES_SUCCESS_ADMIN:
       return action.payload;
 
