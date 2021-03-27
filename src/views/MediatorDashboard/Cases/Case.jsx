@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button, Card, Steps, Modal, message } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import {
+  Row,
+  Col,
+  Button,
+  Card,
+  Steps,
+  Modal,
+  message,
+  notification,
+} from "antd";
+import { EditOutlined, SmileFilled } from "@ant-design/icons";
+import Union from "../../../assets/images/Union.png";
 import { connect } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 
@@ -24,6 +34,7 @@ import {
 import { fetchUser } from "../../../store/actions/user";
 import { fetchOrganizations } from "../../../store/actions/organizations";
 import UploadForm from "../../../components/Document/UploadForm";
+
 import $http from "../../../utils/api";
 import Back from "../../../assets/images/back.png";
 import PLUS from "../../../assets/images/plus.png";
@@ -50,6 +61,7 @@ const MediatorCase = ({
   const [verdictModal, setVerdictModal] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [addCaseModal, setAddCaseModall] = useState(false);
+  const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
   const [hearingId, sethearingId] = useState(false);
   //store details about how the case is being accessed by the user
   const [access, updateAccess] = useState(null);
@@ -159,7 +171,38 @@ const MediatorCase = ({
     }
     return res;
   };
-
+  const onDocumentUploadClick = (fd) => {
+    fd.append("creater", user._id);
+    fd.append("createrType", "Mediator");
+    $http()({
+      url: "documents/upload",
+      method: "post",
+      processData: false,
+      data: fd,
+    })
+      .then((res) => {
+        //message.success("upload successfully.");
+        console.log(res.data.data[0].url, "ressss");
+        dispatch(
+          updateCse({
+            _id: match.params.caseId,
+            $push: { supportingDocuments: res.data.data[0].url },
+          })
+        );
+        setUploadFormVisibility(false);
+        notification.open({
+          message: "Success",
+          description: "Document Uploaded SuccessFully",
+          icon: <SmileFilled style={{ color: "#108ee9" }} />,
+        });
+        return true;
+      })
+      .catch((e) => {
+        console.log(e, "eeeee");
+        message.error("upload failed.");
+        return false;
+      });
+  };
   const checkCurrent = () => {
     if (caseData.status === "creation") return 1;
     else if (caseData.status === "invitations") return 2;
@@ -167,7 +210,17 @@ const MediatorCase = ({
     else if (caseData.status === "hearings") return 4;
     else return 5;
   };
-
+  const download = (data) => {
+    setTimeout(() => {
+      const response = {
+        file: data,
+      };
+      // now, let's download:
+      window.open(response.file);
+      // you could also do:
+      // window.location.href = response.file;
+    }, 100);
+  };
   console.log(match.params.caseId, "case in case");
   return (
     <MediatorDashboardLayout>
@@ -203,6 +256,15 @@ const MediatorCase = ({
               uploading={uploading}
               setUploading={setUploading}
             />
+          </Modal>
+          <Modal
+            title="Upload Document"
+            visible={uploadFormVisbility}
+            onCancel={() => setUploadFormVisibility(false)}
+            footer={null}
+            destroyOnClose={true}
+          >
+            <UploadForm onUpload={onDocumentUploadClick} />
           </Modal>
           <div className="case-section">
             <div className="address">
@@ -415,31 +477,31 @@ const MediatorCase = ({
                           Documents{" "}
                           <img
                             src={PLUS}
-                            onClick={() => setHearingModal(true)}
+                            onClick={() => setUploadFormVisibility(true)}
                             width={15}
                             height={15}
                           />
                         </h4>
                       </div>
-                      {caseData?.documents?.length > 0
-                        ? caseData?.documents?.map((hear) => {
+                      {caseData?.supportingDocuments?.length > 0
+                        ? caseData?.supportingDocuments?.map((hear) => {
                             return (
-                              <Row className="pb-2">
-                                <Col span={8}>
-                                  {moment(hear?.updateAt).format("MM DD YYYY")}
+                              <Row>
+                                <Col span={10} className="documentText">
+                                  <img src={hear} height="50px" width="50px" />
                                 </Col>
-                                <Col span={4}>{caseData?.title}</Col>
-                                <Col span={4}>
-                                  {moment(hear?.startDateTime).format(
-                                    "MM DD YYYY"
-                                  )}
-                                </Col>
-                                <Col span={8}>
-                                  <div className="text-end">
-                                    <a href="">View</a>
-                                    <a href="" className="b-left"></a>
-                                    <a href="">Request</a>
-                                  </div>
+                                <Col
+                                  span={12}
+                                  className="download"
+                                  style={{ textAlign: "end", marginTop: 5 }}
+                                >
+                                  <img
+                                    src={Union}
+                                    alt="download"
+                                    height="15px"
+                                    width="10px"
+                                    onClick={() => download(hear)}
+                                  />
                                 </Col>
                               </Row>
                             );
