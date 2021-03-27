@@ -10,11 +10,11 @@ import { fetchCases } from "../../../store/actions/cases";
 import { fetchHearings } from "../../../store/actions/hearings";
 
 import { hearings2, documents, updates } from "../../../utils/constants";
-const Listing = ({ dispatch, caseData, hearings }) => {
+const Listing = ({ dispatch, caseData, user, hearings }) => {
   const [hearing, sethearings] = useState(false);
   console.log(caseData, "datatat");
   const userUpcomingHearing = () => {
-    return caseData?.map((item) => {
+    return user?.cases?.map((item) => {
       console.log(item, "hearingss");
       if (item?.hearings.length > 0) {
         sethearings(true);

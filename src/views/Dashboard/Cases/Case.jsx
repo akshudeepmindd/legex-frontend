@@ -8,7 +8,8 @@ import { connect } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 
 import { DashboardLayout } from "../../../layouts";
-
+import UploadForm from "../../../components/Document/UploadForm";
+import { uploadDocument } from "../../../store/actions/documents";
 import {
   CaseHeader,
   // InviteForm,
@@ -19,9 +20,10 @@ import HearingsTable from "../../../components/Hearing/HearingTable";
 import CasePartiesTable from "../../../components/Case/CasePartiesTable";
 
 import { fetchCase, inviteParty } from "../../../store/actions/case";
+import { updateCse } from "../../../store/actions/cases";
 import { fetchUser, fetchUsers } from "../../../store/actions/user";
 import { fetchOrganizations } from "../../../store/actions/organizations";
-import UploadForm from "../../../components/Document/UploadForm";
+// import UploadForm from "../../../components/Document/UploadForm";
 import $http from "../../../utils/api";
 import Back from "../../../assets/images/back.png";
 import PLUS from "../../../assets/images/plus.png";
@@ -30,17 +32,26 @@ import ShimmerEffect from "../../../components/shimmer";
 
 const { Step } = Steps;
 
-const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
+const Case = ({
+  dispatch,
+  caseData,
+  user,
+  organizations,
+  casesData,
+  match,
+}) => {
   const [hearingModal, setHearingModal] = useState(false);
   const [inviteModal, setInviteModal] = useState(false);
   const [documentModal, setDocumentModal] = useState(false);
   const [verdictModal, setVerdictModal] = useState(false);
   const [addCaseModal, setAddCaseModall] = useState(false);
+  const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
   const [item, setItem] = useState("Select Item");
   //store details about how the case is being accessed by the user
   const [access, updateAccess] = useState(null);
   const { caseId } = useParams();
   const history = useHistory();
+  console.log(match.params, "paransnns");
   //initial data fetch
   useEffect(() => {
     dispatch(fetchCase(caseId));
@@ -81,7 +92,17 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
       updateAccess({ type, id, access });
     }
   }, [user, caseData]);
-
+  const download = (data) => {
+    setTimeout(() => {
+      const response = {
+        file: data,
+      };
+      // now, let's download:
+      window.open(response.file);
+      // you could also do:
+      // window.location.href = response.file;
+    }, 100);
+  };
   const showInviteModal = () => setInviteModal(true);
 
   const showVerdictModal = () => setVerdictModal(true);
@@ -103,9 +124,18 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
     })
       .then((res) => {
         //message.success("upload successfully.");
+        console.log(res.data.data[0].url, "ressss");
+        dispatch(
+          updateCse({
+            _id: match.params.caseId,
+            $push: { supportingDocuments: res.data.data[0].url },
+          })
+        );
+
         return true;
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e, "eeeee");
         message.error("upload failed.");
         return false;
       });
@@ -187,6 +217,15 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
               handleChange={handleChange}
               users={user?.allusers}
             />
+          </Modal>
+          <Modal
+            title="Upload Document"
+            visible={uploadFormVisbility}
+            onCancel={() => setUploadFormVisibility(false)}
+            footer={null}
+            destroyOnClose={true}
+          >
+            <UploadForm onUpload={onDocumentUploadClick} />
           </Modal>
           <div className="case-section">
             <div className="address">
@@ -316,20 +355,34 @@ const Case = ({ dispatch, caseData, user, organizations, casesData }) => {
                   {/* <div className="update-card"> */}
                   <Space>
                     <Row className="upcoming">
-                      <h4>
+                      <h4
+                        onClick={() =>
+                          setUploadFormVisibility(!uploadFormVisbility)
+                        }
+                      >
                         Documents <img src={Plus} alt="plus" />
                       </h4>
 
                       <Link to="#">view all</Link>
                     </Row>
                   </Space>
-                  {caseData?.documents?.map((docs) => (
+                  {caseData?.supportingDocuments?.map((docs) => (
                     <Row>
-                      <Col span={12} className="documentText">
-                        {docs.name}
+                      <Col span={10} className="documentText">
+                        <img src={docs} height="50px" width="50px" />
                       </Col>
-                      <Col span={12} className="download">
-                        Image <img src={Union} alt="download" />
+                      <Col
+                        span={12}
+                        className="download"
+                        style={{ textAlign: "end", marginTop: 5 }}
+                      >
+                        <img
+                          src={Union}
+                          alt="download"
+                          height="15px"
+                          width="10px"
+                          onClick={() => download(docs)}
+                        />
                       </Col>
                     </Row>
                   ))}

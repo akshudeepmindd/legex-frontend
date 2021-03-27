@@ -48,6 +48,7 @@ const MediatorCase = ({
   const [inviteModal, setInviteModal] = useState(false);
   const [documentModal, setDocumentModal] = useState(false);
   const [verdictModal, setVerdictModal] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [addCaseModal, setAddCaseModall] = useState(false);
   const [hearingId, sethearingId] = useState(false);
   //store details about how the case is being accessed by the user
@@ -196,7 +197,11 @@ const MediatorCase = ({
             destroyOnClose={true}
             footer={null}
           >
-            <HearingForm onFinish={updateHearing} />
+            <HearingForm
+              onFinish={updateHearing}
+              uploading={uploading}
+              setUploading={setUploading}
+            />
           </Modal>
           <div className="case-section">
             <div className="address">

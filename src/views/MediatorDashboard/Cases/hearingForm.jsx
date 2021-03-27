@@ -6,7 +6,7 @@ import UploadForm from "../../../components/Document/UploadForm";
 import $http from "../../../utils/api";
 import { connect } from "react-redux";
 const { Dragger } = Upload;
-const HearingForm = ({ onFinish, user }) => {
+const HearingForm = ({ onFinish, user, uploading, setUploading }) => {
   const [loading, setLoading] = useState(false);
   const [documentId, setdocumentId] = useState("");
   const [fileList, updateFileList] = useState([]);
@@ -23,6 +23,7 @@ const HearingForm = ({ onFinish, user }) => {
     fd.append("files", file);
     fd.append("creater", user._id);
     fd.append("createrType", "User");
+    setUploading(true);
     $http()({
       url: "documents/upload",
       method: "post",
@@ -32,6 +33,7 @@ const HearingForm = ({ onFinish, user }) => {
       .then((res) => {
         console.log(res?.data?.data[0]?._id, "resss");
         setdocumentId(res?.data?.data[0]?._id);
+        setUploading(false);
         return true;
       })
       .catch(() => {
@@ -64,7 +66,11 @@ const HearingForm = ({ onFinish, user }) => {
             accept=".jpeg, .jpg, .png, .pdf"
             className="upload"
           >
-            <Button className="upload-btn" icon={<UploadOutlined />}>
+            <Button
+              className="upload-btn"
+              icon={<UploadOutlined />}
+              loading={uploading}
+            >
               Select File
             </Button>
           </Upload>
