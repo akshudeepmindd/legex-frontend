@@ -26,16 +26,16 @@ const Appointments = ({ caseData }) => {
   const [caseDetail, setCaseDetail] = useState({});
   const [hearDetails, setHearDetails] = useState({});
   const [modal, setModal] = useState(false);
-  const casehearing = caseData?.filter((cas) => cas.hearings.length !== 0);
+  const casehearing = caseData?.filter((cas) => cas?.hearings?.length !== 0);
   let obj = [];
   for (let j = 0; j < casehearing?.length; j++) {
-    for (let i = 0; i < casehearing[j].hearings.length; i++) {
+    for (let i = 0; i < casehearing[j]?.hearings?.length; i++) {
       obj.push({
         case: casehearing[j],
         hearingId: casehearing[j]?.hearings[i]?._id,
-        title: casehearing[j].hearings[i].case?.secondPartyDetails?.name,
-        start: new Date(casehearing[j].hearings[i].startDateTime),
-        end: new Date(casehearing[j].hearings[i].startDateTime),
+        title: casehearing[j]?.hearings[i].case?.secondPartyDetails?.name,
+        start: new Date(casehearing[j]?.hearings[i].startDateTime),
+        end: new Date(casehearing[j]?.hearings[i]?.startDateTime),
       });
     }
   }
