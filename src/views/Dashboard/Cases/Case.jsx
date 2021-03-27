@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Button, Card, Steps, Modal, message, Space } from "antd";
+import {
+  Row,
+  Col,
+  Button,
+  Card,
+  Steps,
+  Modal,
+  message,
+  Space,
+  notification,
+} from "antd";
 import { Link } from "react-router-dom";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, SmileFilled } from "@ant-design/icons";
 import Plus from "../../../assets/images/plus.png";
 import Union from "../../../assets/images/Union.png";
 import { connect } from "react-redux";
@@ -131,7 +141,12 @@ const Case = ({
             $push: { supportingDocuments: res.data.data[0].url },
           })
         );
-
+        setUploadFormVisibility(false);
+        notification.open({
+          message: "Success",
+          description: "Document Uploaded SuccessFully",
+          icon: <SmileFilled style={{ color: "#108ee9" }} />,
+        });
         return true;
       })
       .catch((e) => {

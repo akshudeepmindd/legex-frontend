@@ -139,6 +139,7 @@ const MediatorCase = ({
       _id: match.params.caseId,
       $push: { document: id },
       $push: { hearings: res?._id },
+      status: "hearings",
     };
     await dispatch(updateCse(body));
   };

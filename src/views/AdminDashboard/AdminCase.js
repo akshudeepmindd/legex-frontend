@@ -6,7 +6,7 @@ import Plus from "../../assets/images/plus.png";
 import Union from "../../assets/images/Union.png";
 import { connect } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-
+import moment from "moment";
 import { AdminDashboardLayout } from "../../layouts";
 
 import {
@@ -315,9 +315,7 @@ const AdminCase = ({ dispatch, caseData, user, organizations, casesData }) => {
                   {/* <div className="update-card"> */}
                   <Space>
                     <Row className="upcoming">
-                      <h4>
-                        Documents <img src={Plus} alt="plus" />
-                      </h4>
+                      <h4>Documents</h4>
 
                       <Link to="#">view all</Link>
                     </Row>
@@ -356,50 +354,25 @@ const AdminCase = ({ dispatch, caseData, user, organizations, casesData }) => {
                 <Card bordered={false} className="document-container border">
                   <div className="update-card">
                     <h4>Updates</h4>
-                    <Row className="pb-2 bg-grey">
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row className="pb-2">
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row className="pb-2 bg-grey">
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
+                    {caseData?.caseUpdates.length > 0
+                      ? caseData?.caseUpdates.map((update) => (
+                          <Row className="pb-2 bg-grey">
+                            <Col span={8}>
+                              {moment(caseData.updatedAt).format(
+                                "ddd MMM YYYY"
+                              )}
+                            </Col>
+                            <Col span={8}>{update}</Col>
+                            {/* <Col span={8}>
+                          <div className="text-end">
+                            <a href="">View</a>
+                            <a href="" className="b-left"></a>
+                            <a href="">Request</a>
+                          </div>
+                        </Col> */}
+                          </Row>
+                        ))
+                      : "No Updates"}
                   </div>
                 </Card>
               </Col>

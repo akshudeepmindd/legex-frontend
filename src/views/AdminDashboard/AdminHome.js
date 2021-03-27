@@ -32,7 +32,9 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
     (await dispatch(
       updateCseAdmin({
         _id: selectCase,
+        status: "assignment",
         ...values,
+        $push: { caseUpdates: "Mediator is Assigned" },
       })
     )) && setModal(false);
 
