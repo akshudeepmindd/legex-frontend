@@ -39,7 +39,7 @@ const InviteMember = ({ onFinish, users, handleChange }) => {
         </Select>
       </Form.Item>
       <Form.Item
-        name="role"
+        name="receiverType"
         rules={[
           { required: true, message: "Please input the Member Designation!" },
         ]}

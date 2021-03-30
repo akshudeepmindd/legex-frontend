@@ -30,10 +30,10 @@ function DashboardLayout(props) {
   const dispatch = useDispatch();
   const [year] = useState(new Date().getFullYear());
   const phoneView = useMediaQuery("only screen and (max-width: 768px)");
-  const orgInvite = props.user?.Sinvites?.filter(
+  const orgInvite = props.user?.invites?.filter(
     (invite) => invite.invitationType == "Organization"
   );
-  const caseInvite = props.user?.Sinvites?.filter(
+  const caseInvite = props.user?.invites?.filter(
     (invite) => invite.invitationType == "Case"
   );
 
@@ -119,14 +119,14 @@ function DashboardLayout(props) {
           <div className="invitation">
             <p>Case Invitations</p>
             {caseInvite?.length > 0 ? (
-              props.user?.Sinvites?.map((invite) => {
+              props.user?.invites?.map((invite) => {
                 if (
                   invite.invitationType == "Case" &&
                   invite.status === "Waiting"
                 ) {
                   return (
                     <div className="invitation-list">
-                      <p>{invite.case}</p>
+                      <p>{invite.case.title}</p>
                       <div
                         style={{
                           textAlign: "end",
