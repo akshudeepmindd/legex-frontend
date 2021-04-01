@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Row, Col, Modal } from "antd";
+import { Row, Col, Modal, Card } from "antd";
+import { Link } from "react-router-dom";
+
+import moment from "moment";
 import { connect } from "react-redux";
 import UserAvatar from "../../../assets/images/useravtar.png";
 import Plus from "../../../assets/images/plus.png";
@@ -28,7 +31,38 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
   const pendingCases = caseData?.filter(
     (item) => item?.status !== "completion"
   );
-
+  const userUpcomingHearing = () => {
+    return (
+      <div style={{
+        height: 164,
+        overflowY: "scroll"}}>
+        {caseData?.map((item) => {
+          if (item?.hearings?.length > 0) {
+            return item.hearings?.map((item) => {
+              if (
+                moment(item.startDateTime).format("MMMM Do YYYY, h:mm:ss a") >=
+                moment().format("MMMM Do YYYY, h:mm:ss a")
+              ) {
+                return (
+                  <Row key={item.id}>
+                    <Col span={12} className="documentText">
+                      {moment(item.startDateTime).format(
+                        "MMMM Do YYYY, h:mm:ss a"
+                      )}
+                    </Col>
+                    <Col span={8}>{item?.case?.title}</Col>
+                    {/* <Col span={8} className="download">
+                  <Link to="#">{hear.join}</Link>
+                </Col> */}
+                  </Row>
+                );
+              }
+            });
+          }
+        })}
+      </div>
+    );
+  };
   return (
     <>
       <Row>
@@ -49,18 +83,44 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
           </Row>
         </Col> */}
       </Row>
-      <Row className="case-number-row">
-        <Col span={8} className="dispute">
-          <p>NO. OF DISPUTES</p>
-          <p>{caseData?.length > 0 ? caseData?.length : "0"}</p>
+      <Row className="case-number-row case-Row">
+        <Col span={10}>
+          <Col span={10} className="dispute">
+            <p>NO. OF DISPUTES</p>
+            <p>{caseData?.length > 0 ? caseData?.length : "0"}</p>
+          </Col>
+          <Col span={10} className="resolve">
+            <p>RESOLVED CASES</p>
+            <p>{resolvedCases ? resolvedCases.length : "0"}</p>
+          </Col>
+          <Col span={10} className="pending">
+            <p>PENDING CASES</p>
+            <p>{pendingCases ? pendingCases.length : "0"}</p>
+          </Col>
         </Col>
-        <Col span={8} className="resolve">
-          <p>RESOLVED CASES</p>
-          <p>{resolvedCases ? resolvedCases.length : "0"}</p>
-        </Col>
-        <Col span={8} className="pending">
-          <p>PENDING CASES</p>
-          <p>{pendingCases ? pendingCases.length : "0"}</p>
+        <Col span={12}>
+          {" "}
+          <Card bordered={true} className="upcoming-container">
+            <Row className="upcoming">
+              <h4>Upcoming hearings</h4>
+              <Link to="#">view all</Link>
+            </Row>
+            {userUpcomingHearing()}
+            {/* {hearings2.map((hear) => (
+              <>
+                <p className="month">{hear.month}</p>
+                <Row>
+                  <Col span={8} className="documentText">
+                    {hear.time}
+                  </Col>
+                  <Col span={8}>{hear.name}</Col>
+                  <Col span={8} className="download">
+                    <Link to="#">{hear.join}</Link>
+                  </Col>
+                </Row>
+              </>
+            ))} */}
+          </Card>
         </Col>
       </Row>
     </>

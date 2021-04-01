@@ -118,6 +118,7 @@ const CaseDetailForm = ({
           />
         </Col>
       </Row>
+     
       <Row className="mt-2">
         <Col span={8}>SupportingDocuments</Col>
         <Col span={16}>

@@ -50,7 +50,7 @@ function DetailsUpdateForm(props) {
 
   return (
     <Form
-      className="form-input"
+      className="form-input formFeiled"
       {...formItemLayout}
       //   form={form}
       name="register"

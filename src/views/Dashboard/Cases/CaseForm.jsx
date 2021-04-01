@@ -168,7 +168,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
               <span className="">22 December 2020</span>
             </div>
           </div>
-          <Row gutter={[48, 16]}>
+          <Row gutter={[48, 16]} className="step-form">
             <Col span={14}>
               <Card bordered={false} className="document-container card-border">
                 <Steps current={current}>
@@ -204,14 +204,14 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
                       className="prev-btn"
                       onClick={() => next()}
                     >
-                      Next
+                      Proceed
                     </Button>
                   )}
                 </div>
               </Card>
             </Col>
             <Col span={10} style={{ justifyContent: "flex-end" }}>
-              <Card bordered={false} className="document-container card-border">
+              <Card bordered={false} className="document-container card-border p-0">
                 <h3>Summary:</h3>
                 <div className="steps-content">
                   {" "}

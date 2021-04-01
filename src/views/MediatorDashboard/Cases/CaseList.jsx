@@ -219,22 +219,22 @@ const MediatorCasesList = ({
                 <Col flex={2}>
                   <div className="flex">
                     <h4>All Cases</h4>
+                    <div className="flex">
+                      <Select
+                        placeholder="Select a Organization"
+                        onChange={onChangeOrg}
+                      >
+                        {organizations?.length > 0
+                          ? organizations?.map((item, index) => (
+                              <Select.Option value={item._id} key={index}>
+                                {item.name}
+                              </Select.Option>
+                            ))
+                          : "null"}
+                      </Select>
+                      <Input type="text" placeholder="Search" value="" className="searchFeled"/>
+                    </div>
                   </div>
-                </Col>
-                <Col flex={3} className="flex-end">
-                  <Select
-                    placeholder="Select a Organization"
-                    onChange={onChangeOrg}
-                  >
-                    {organizations?.length > 0
-                      ? organizations?.map((item, index) => (
-                          <Select.Option value={item._id} key={index}>
-                            {item.name}
-                          </Select.Option>
-                        ))
-                      : "null"}
-                  </Select>
-                  <Input type="text" placeholder="Search" value="" />
                 </Col>
               </Row>
             </div>

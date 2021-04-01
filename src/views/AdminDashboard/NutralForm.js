@@ -22,7 +22,7 @@ const NutralForm = ({ onFinish, setData, data }) => {
   return (
     <Form
       name="RegisterForm"
-      className="form-group"
+      className="form-group form-register"
       onFinish={() => onFinish()}
     >
       <Row>
@@ -31,7 +31,7 @@ const NutralForm = ({ onFinish, setData, data }) => {
           <label className="">First Name</label>
         </Col>
 
-        <Col span={12}>
+        <Col span={18}>
           <Form.Item name="firstName">
             <Input
               placeholder="first name"
@@ -47,7 +47,7 @@ const NutralForm = ({ onFinish, setData, data }) => {
           <label className="">Last Name</label>
         </Col>
 
-        <Col span={12}>
+        <Col span={18}>
           <Form.Item name="lastName">
             <Input
               placeholder="last name"
@@ -63,7 +63,7 @@ const NutralForm = ({ onFinish, setData, data }) => {
           <label className="">Phone</label>
         </Col>
 
-        <Col span={12}>
+        <Col span={18}>
           <Form.Item name="phone">
             <Input
               placeholder="phone"
@@ -79,7 +79,7 @@ const NutralForm = ({ onFinish, setData, data }) => {
           <label className="">Email Id</label>
         </Col>
 
-        <Col span={12}>
+        <Col span={18}>
           <Form.Item name="email">
             <Input
               type="email"
@@ -96,7 +96,7 @@ const NutralForm = ({ onFinish, setData, data }) => {
           <label className="">Password</label>
         </Col>
 
-        <Col span={12}>
+        <Col span={18}>
           <Form.Item name="password">
             <Input.Password
               placeholder="Password"
@@ -112,7 +112,7 @@ const NutralForm = ({ onFinish, setData, data }) => {
           <label className="">Role</label>
         </Col>
 
-        <Col span={12}>
+        <Col span={18}>
           <Form.Item name="role">
             <Input
               placeholder="role"
@@ -122,9 +122,11 @@ const NutralForm = ({ onFinish, setData, data }) => {
           </Form.Item>
         </Col>
       </Row>
-      <Button type="primary" htmlType="submit" block className="adamin">
-        Create Netural
-      </Button>
+      <div className="button-div">
+        <Button type="primary" htmlType="submit" block className="adamin">
+          Create Netural
+        </Button>
+      </div>
     </Form>
   );
 };
