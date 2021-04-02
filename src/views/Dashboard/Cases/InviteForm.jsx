@@ -3,6 +3,13 @@ import PropTypes from "prop-types";
 import { Form, Input, Button, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../../store/actions/user";
+import {
+  Typeahead,
+  Highlighter,
+  Menu,
+  MenuItem,
+} from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const InviteMember = ({ onFinish, users, handleChange }) => {
   const [loading, setLoading] = useState(false);
@@ -21,23 +28,29 @@ const InviteMember = ({ onFinish, users, handleChange }) => {
       >
         <Input type="text" placeholder="Name" />
       </Form.Item>
-      <Form.Item
+      {/* <Form.Item
         name="email"
         rules={[{ required: true, message: "Please input the Member Email!" }]}
-      >
-        <Select
-          style={{ width: "100%" }}
-          placeholder="select one country"
-          defaultValue={["china"]}
-          onChange={handleChange}
-          optionLabelProp="label"
-        >
-          {users &&
-            users?.map((u) => (
-              <Select.Option value={u.email}>{u.firstName}</Select.Option>
+      > */}
+      <Typeahead
+        id="pagination-example"
+        maxResults={10}
+        options={users}
+        paginate={false}
+        onInputChange={handleChange}
+        filterBy={["firstName"]}
+        placeholder="Pick a number..."
+        renderMenu={(results, menuProps) => (
+          <Menu {...menuProps}>
+            {results.map((result, index) => (
+              <MenuItem option={result.email} position={result._id}>
+                {result.firstName}
+              </MenuItem>
             ))}
-        </Select>
-      </Form.Item>
+          </Menu>
+        )}
+      />
+      {/* </Form.Item> */}
       <Form.Item
         name="receiverType"
         rules={[
