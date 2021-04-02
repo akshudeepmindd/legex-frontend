@@ -59,13 +59,13 @@ const Manage = () => {
   });
   return (
     <AdminDashboardLayout>
-      <Row gutter={[50, 20]}>
+      <Row gutter={[50, 20]} className="neutral-form">
         <Col span={10}>
-          <h3>Add a Neutral</h3>
+          <h1>Add a Neutral</h1>
           <NutralForm onFinish={onFinish} setData={setData} data={data} />
         </Col>
         <Col span={8}>
-          <h3>Delete a Neutral</h3>
+          <h1>Delete a Neutral</h1>
           <DeleteNutral onFinish={onRemoveFinish} />
         </Col>
       </Row>

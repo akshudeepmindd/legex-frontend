@@ -82,7 +82,8 @@ const Listing = ({
 
   return (
     <div className="listingcontainer">
-      <Row gutter={[48, 16]}>
+      <h2>Cases</h2>
+      {/* <Row gutter={[48, 16]}>
         <Col span={12}>
           <Card bordered={true} className="upcoming-container">
             <Row className="upcoming">
@@ -90,23 +91,10 @@ const Listing = ({
               <Link to="#">view all</Link>
             </Row>
             {userUpcomingHearing()}
-            {/* {hearings2.map((hear) => (
-              <>
-                <p className="month">{hear.month}</p>
-                <Row>
-                  <Col span={8} className="documentText">
-                    {hear.time}
-                  </Col>
-                  <Col span={8}>{hear.name}</Col>
-                  <Col span={8} className="download">
-                    <Link to="#">{hear.join}</Link>
-                  </Col>
-                </Row>
-              </>
-            ))} */}
+            
           </Card>
         </Col>
-      </Row>
+      </Row> */}
       <Row>
         <Col span={24}>
           <Row gutter={[48, 16]}>
@@ -122,7 +110,7 @@ const Listing = ({
                             item.status == "invitations" ? "default" : "primary"
                           }
                           className={
-                            item.status === "invitations"
+                            item?.status === "invitations"
                               ? "invitation-btn"
                               : item.status === "creation"
                               ? "creation-btn"
@@ -130,10 +118,10 @@ const Listing = ({
                           }
                           block
                           onClick={() =>
-                            history.push(`/mediator/cases/${item._id}`)
+                            history.push(`/mediator/cases/${item?._id}`)
                           }
                         >
-                          {item.status}
+                          {item?.status}
                         </Button>
                       </div>
 

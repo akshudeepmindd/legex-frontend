@@ -134,8 +134,9 @@ const CaseForm = () => {
               </Card>
             </Col>
             <Col span={10} style={{ justifyContent: "flex-end" }}>
+              <h3>Summary:</h3>
+
               <Card bordered={false} className="document-container card-border">
-                <h3>Summary:</h3>
                 <div className="steps-content">
                   {" "}
                   <Row className="mt-2">

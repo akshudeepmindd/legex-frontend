@@ -59,16 +59,19 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
               <img src={Plus} alt="plus" />
               <Link to="#">view all</Link>
             </Row>
-            {documents.map((docs) => (
-              <Row>
-                <Col span={12} className="documentText">
-                  {docs.name}
-                </Col>
-                <Col span={12} className="download">
-                  Image <img src={Union} alt="download" />
-                </Col>
-              </Row>
-            ))}
+            {documents.map((docs, index) => {
+              let classname = index % 2 == 0 ? "bg-grey" : "non-bg-grey";
+              return (
+                <Row className={classname}>
+                  <Col span={12} className="documentText mt-2">
+                    {docs.name}
+                  </Col>
+                  <Col span={12} className="download">
+                    Image <img src={Union} alt="download" className="space3" />
+                  </Col>
+                </Row>
+              );
+            })}
           </Card>
         </Col>
       </Row>
@@ -78,35 +81,38 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
             <Row className="upcoming">
               <h3>Updates</h3>
             </Row>
-            {caseData?.map((docs) => (
-              <Row key={docs?._id}>
-                <Col span={5} className="documentText">
-                  {moment(docs?.updatedAt).format("MMMM Do YYYY, h:mm:ss a")}
-                </Col>
-                <Col span={5}>
-                  {docs?.organizations.length > 0
-                    ? docs?.organizations[0].name
-                    : "-"}
-                </Col>
-                <Col span={8}>
-                  <Row>
-                    {docs?.members.length > 0
-                      ? docs?.members.map((item, index) => (
-                          <Col key={index}>
-                            {(index ? " Vs " : "") +
-                              item.firstName +
-                              " " +
-                              item.lastName}
-                          </Col>
-                        ))
-                      : "null"}
-                  </Row>
-                </Col>
-                <Col span={6} className="download2">
-                  {docs?.caseType.name}
-                </Col>
-              </Row>
-            ))}
+            {caseData?.map((docs, index) => {
+              let classname = index % 2 == 0 ? "bg-grey" : "non-bg-grey";
+              return (
+                <Row key={docs?._id} className={classname}>
+                  <Col span={5} className="documentText">
+                    {moment(docs?.updatedAt).format("MMMM Do YYYY, h:mm:ss a")}
+                  </Col>
+                  <Col span={5}>
+                    {docs?.organizations.length > 0
+                      ? docs?.organizations[0].name
+                      : "-"}
+                  </Col>
+                  <Col span={8}>
+                    <Row>
+                      {docs?.members.length > 0
+                        ? docs?.members.map((item, index) => (
+                            <Col key={index}>
+                              {(index ? " Vs " : "") +
+                                item.firstName +
+                                " " +
+                                item.lastName}
+                            </Col>
+                          ))
+                        : "null"}
+                    </Row>
+                  </Col>
+                  <Col span={6} className="download2">
+                    {docs?.caseType.name}
+                  </Col>
+                </Row>
+              );
+            })}
           </Card>
         </Col>
       </Row>

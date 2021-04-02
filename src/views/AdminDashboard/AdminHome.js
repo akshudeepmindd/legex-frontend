@@ -55,17 +55,18 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
       <AdminDashboardLayout>
         <Row>
           <Col span={12} className="userprofile">
-            <Row>
+            <Row className="use-profile">
               <img src={UserAvatar} alt="avatar" />
+              <p>Welcome, case Manager</p>
             </Row>
           </Col>
         </Row>
         <br />
-        <Row gutter={[48, 16]}>
+        <Row gutter={[48, 16]} className="column-div">
           <Col flex={8}>
             <Row>
               {" "}
-              <h3 style={{ paddingTop: ".2rem" }}>Cases</h3>&nbsp;&nbsp;
+              <h3 style={{ paddingTop: ".2rem",marginRight: 20 }}>Cases</h3>&nbsp;&nbsp;
               <Select placeholder="Select Case Status" onChange={onChangeOrg}>
                 {statusMenue?.length > 0
                   ? statusMenue?.map((item, index) => (
@@ -79,7 +80,7 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
           </Col>
           <Col>
             {" "}
-            <Input type="text" placeholder="Search" value="" />
+            <Input type="text" placeholder="Search" value="" className="InputField"/>
           </Col>
         </Row>
         {selectCaseStatus ? (

@@ -48,6 +48,17 @@ const SecondPartyDetails = ({ caseTypes, value, handleChange, validator }) => {
           )}
         </Col>
       </Row>
+      <Row className="mt-2">
+        <Col span={8}>Description:</Col>
+        <Col span={16}>
+          {" "}
+          <Input
+            name="additionalDetails"
+            value={value.additionalDetails}
+            onChange={(e) => handleChange(e)}
+          />
+        </Col>
+      </Row>
     </Col>
   );
 };

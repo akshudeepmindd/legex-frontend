@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import PropTypes, { object } from 'prop-types';
-import { Form, Input, Button, Select } from 'antd';
-import { connect } from 'react-redux';
+import React, { useState } from "react";
+import PropTypes, { object } from "prop-types";
+import { Form, Input, Button, Select } from "antd";
+import { connect } from "react-redux";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -10,7 +10,7 @@ const DeleteNutral = ({ onFinish, users }) => {
   const [loading, setLoading] = useState(false);
   const renderMediators = () => {
     return users
-      ?.filter((i) => i.role === 'Mediator' || i.role === 'neutral')
+      ?.filter((i) => i.role === "Mediator" || i.role === "neutral")
       .map((ct, index) => (
         <Option key={index} value={ct._id}>
           {ct.email}
@@ -19,17 +19,21 @@ const DeleteNutral = ({ onFinish, users }) => {
   };
 
   const onSubmitClick = async (values) => {
-    console.log('submit clicked: '+values );
+    console.log("submit clicked: " + values);
     setLoading(true);
     await onFinish(values);
     setLoading(false);
   };
 
   return (
-    <Form name="DeleteNutral" onFinish={onSubmitClick}>
+    <Form
+      name="DeleteNutral"
+      onFinish={onSubmitClick}
+      className="form-register"
+    >
       <Form.Item
         name="id"
-        rules={[{ required: true, message: 'Please input the case type!' }]}
+        rules={[{ required: true, message: "Please input the case type!" }]}
       >
         <Select placeholder="Select Mediator" id="deleteUser">
           {renderMediators()}
@@ -39,15 +43,17 @@ const DeleteNutral = ({ onFinish, users }) => {
         {/* <Button type="primary" htmlType="submit" block className="adamin">
                 Remove
               </Button> */}
-        <Button
-          type="primary"
-          htmlType="submit"
-          disabled={loading}
-          loading={loading}
-          className="adamin"
-        >
-          {loading ? 'Removeing' : 'Remove'}
-        </Button>
+        <div className="button-div">
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={loading}
+            loading={loading}
+            className="adamin"
+          >
+            {loading ? "Removeing" : "Remove"}
+          </Button>
+        </div>
       </Form.Item>
     </Form>
   );
@@ -63,10 +69,10 @@ DeleteNutral.propTypes = {
 };
 
 DeleteNutral.defaultProps = {
-  title: '',
-  description: '',
-  caseType: '',
-  organization: '',
+  title: "",
+  description: "",
+  caseType: "",
+  organization: "",
 };
 
 const mapStateToProps = (state) => ({

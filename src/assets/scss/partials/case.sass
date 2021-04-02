@@ -113,6 +113,7 @@
     display: flex
     justify-content: space-between
     align-items: center
+    margin-bottom: 1rem
     .searchInput
         border: 1px solid #ccc
         background: #ffffff
@@ -149,3 +150,69 @@
     background: #F6F7F8
 .flex-end
     justify-content: flex-end!important
+.case-Row
+    width: 100%
+    border-bottom: 0
+    .dispute, .resolve, .pending
+        display: flex
+        margin-bottom: 1.3rem
+        p
+            margin-right: 12px
+.case-sec
+    .ant-select-arrow
+        top: 42%
+.neutral-form
+    padding: 4rem
+    h1
+        font-size: 20px
+        margin-bottom: 2rem
+
+    .form-register
+        input[type="text"]
+            border: 1px solid #ccc
+            background: #fff
+            color: #000!important
+        #RegisterForm_password
+            background: #fff
+            height: 30px
+        #RegisterForm_email
+            background: #ffffff
+            border: 1px solid #ccc
+        .button-div
+            display: flex
+            float: right
+            .adamin
+                border-radius: 0
+.use-profile
+    display: flex
+    justify-content: center
+    align-items: center
+    width: 60%
+.InputField
+    border: 1px solid #ccc
+    height: 34px
+.column-div
+    margin-top: 1rem!important
+    margin-bottom: 2rem!important
+.searchWidth
+    .ant-select-focused.ant-select-single:not(.ant-select-customize-input) .ant-select-selector
+        max-width: 200px !important
+#UpdateDetails
+    input[type="text"]
+        background: #fff
+        &:disabled
+            background: #f4f4f4
+
+    #UpdateDetails_email, #UpdatePassword_password
+        background: #fff
+        &:disabled
+            background: #f4f4f4
+.update-pwd
+    #UpdatePassword_password, #UpdatePassword_password2
+        background: #fff
+        &:disabled
+            background: #f4f4f4
+.update-pwd .ant-input-password.ant-input-affix-wrapper
+    background: #fff
+    &:disabled
+        background: #f4f4f4
