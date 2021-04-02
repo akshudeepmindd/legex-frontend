@@ -3,13 +3,15 @@ import { Row, Col, Modal, Card, Select, Button, Input } from "antd";
 import { connect } from "react-redux";
 import UserAvatar from "../../assets/images/useravtar.png";
 import Plus from "../../assets/images/plus.png";
-import { updateCseAdmin } from "../../store/actions/adminAction";
+import {
+  updateCseAdmin,
+  fetchCasesAdmin,
+} from "../../store/actions/adminAction";
 import { fetchUserList } from "../../store/actions/adminUsers";
 // import { CaseCard, CasesTable, CaseForm } from "../../../components";
 import { Link, useHistory } from "react-router-dom";
 import AdminDashboardLayout from "../../layouts/AdminDashboardLayout";
 import AssignForm from "./AssignForm";
-
 const statusMenue = [
   { id: 1, statusName: "completion" },
   { id: 2, statusName: "creation" },
@@ -36,7 +38,9 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
         ...values,
         $push: { caseUpdates: "Mediator is Assigned" },
       })
-    )) && setModal(false);
+    )) &&
+    setModal(false) &&
+    (await dispatch(fetchCasesAdmin()));
 
   const filterCase = cases?.filter((item) => item.status === selectCaseStatus);
 
@@ -66,7 +70,8 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
           <Col flex={8}>
             <Row>
               {" "}
-              <h3 style={{ paddingTop: ".2rem",marginRight: 20 }}>Cases</h3>&nbsp;&nbsp;
+              <h3 style={{ paddingTop: ".2rem", marginRight: 20 }}>Cases</h3>
+              &nbsp;&nbsp;
               <Select placeholder="Select Case Status" onChange={onChangeOrg}>
                 {statusMenue?.length > 0
                   ? statusMenue?.map((item, index) => (
@@ -80,7 +85,12 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
           </Col>
           <Col>
             {" "}
-            <Input type="text" placeholder="Search" value="" className="InputField"/>
+            <Input
+              type="text"
+              placeholder="Search"
+              value=""
+              className="InputField"
+            />
           </Col>
         </Row>
         {selectCaseStatus ? (

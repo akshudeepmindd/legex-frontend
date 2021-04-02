@@ -203,9 +203,12 @@ const Case = ({
         ...values,
       })
     );
-    if (res) {
-      setInviteModal(false);
-    }
+    notification.open({
+      message: "Success",
+      description: "Invitation Sent SuccessFully",
+      icon: <SmileFilled />,
+    });
+    setAddCaseModall(false);
     return res;
   };
 

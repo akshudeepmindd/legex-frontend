@@ -60,6 +60,7 @@ const CasesList = ({
   const [invites, setInvites] = useState([]);
   const [selectedOrg, setSelectedOrg] = useState("");
   const [addCaseModal, setAddCaseModall] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
     user &&
       setInvites(
@@ -200,7 +201,21 @@ const CasesList = ({
   const filterOrganization = organizations?.find(
     (item) => item._id === selectedOrg
   );
+  function cleanString(s) {
+    const value = s || "";
+    return value.trim().toLowerCase();
+  }
 
+  function compareNames(name) {
+    return cleanString(name).startsWith(cleanString(searchValue));
+  }
+
+  const SearchFilterChange = () => {
+    console.log(cases, "casess");
+    return searchValue
+      ? cases.filter((c) => c !== null && compareNames(c.title))
+      : cases;
+  };
   const onFinish = async (values) => {
     const response = await dispatch(
       createCase({ createrType: "User", creater: user._id, ...values })
@@ -210,7 +225,6 @@ const CasesList = ({
     return response;
   };
 
-  console.log(cases, "cases in cases");
   return (
     <DashboardLayout>
       {cases && caseTypes && organizations ? (
@@ -254,7 +268,7 @@ const CasesList = ({
                           ))
                         : "null"}
                     </Select>
-                    <Select placeholder="Next Hearing" onChange={onChangeOrg}>
+                    {/* <Select placeholder="Next Hearing" onChange={onChangeOrg}>
                       {organizations?.length > 0
                         ? organizations?.map((item, index) => (
                             <Select.Option value={item._id} key={index}>
@@ -262,13 +276,59 @@ const CasesList = ({
                             </Select.Option>
                           ))
                         : "null"}
-                    </Select>
-                    <Input type="text" placeholder="Search" value="" className="serachFiled"/>
+                    </Select> */}
+                    <Input
+                      type="text"
+                      placeholder="Search"
+                      className="serachFiled"
+                      onChange={(e) => setSearchValue(e.target.value)}
+                    />
                   </Space>
                 </Col>
               </Row>
             </div>
-            {filterOrganization ? (
+            {searchValue !== "" ? (
+              <Row gutter={[48, 16]}>
+                {SearchFilterChange().map((org, index) => (
+                  <Col span={8} key={index}>
+                    <Card
+                      bordered={false}
+                      className="document-container border-crd"
+                      onClick={() =>
+                        history.push(`/dashboard/cases/${org._id}`)
+                      }
+                    >
+                      <div className="review">
+                        <div className="d-flex">
+                          <div>
+                            {org?.members.map((item, index) => (
+                              <span>
+                                {index ? " Vs " : ""} {item.firstName}{" "}
+                                {item.lastName}
+                              </span>
+                            ))}
+                          </div>
+                          <Button
+                            type="primary"
+                            className={
+                              org?.status === "completion"
+                                ? "complete-btn"
+                                : "review-btn"
+                            }
+                            block
+                          >
+                            {org?.status}
+                          </Button>
+                        </div>
+
+                        <p>{org?.caseType.name}</p>
+                        <p>Expected Date of Resolve : 8 Jan 2021</p>
+                      </div>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            ) : filterOrganization ? (
               filterOrganization.cases.length > 0 ? (
                 <Row gutter={[48, 16]}>
                   {filterOrganization?.cases.map((item, index) => (
