@@ -66,8 +66,13 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
           <Col flex={8}>
             <Row>
               {" "}
-              <h3 style={{ paddingTop: ".2rem",marginRight: 20 }}>Cases</h3>&nbsp;&nbsp;
-              <Select placeholder="Select Case Status" onChange={onChangeOrg}>
+              <h3 style={{ paddingTop: ".2rem", marginRight: 20 }}>Cases</h3>
+              &nbsp;&nbsp;
+              <Select
+                placeholder="Select Case Status"
+                onChange={onChangeOrg}
+                style={{ width: 180 }}
+              >
                 {statusMenue?.length > 0
                   ? statusMenue?.map((item, index) => (
                       <Select.Option value={item.statusName} key={index}>
@@ -80,7 +85,13 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
           </Col>
           <Col>
             {" "}
-            <Input type="text" placeholder="Search" value="" className="InputField"/>
+            <Input
+              type="text"
+              placeholder="Search"
+              value=""
+              className="InputField"
+              style={{ width: 200 }}
+            />
           </Col>
         </Row>
         {selectCaseStatus ? (
@@ -137,7 +148,7 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
               ))}
             </Row>
           ) : (
-            "no case avelable"
+            "no case available"
           )
         ) : cases?.length > 0 ? (
           <Row gutter={[48, 16]}>

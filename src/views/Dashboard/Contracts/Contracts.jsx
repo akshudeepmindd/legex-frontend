@@ -61,7 +61,11 @@ const Contracts = ({
     <>
       <DashboardLayout>
         <div className="contracts">
-          <Select placeholder="Select a Organization" onChange={onChangeOrg} style={{ width: 200 }}>
+          <Select
+            placeholder="Select a Organization"
+            onChange={onChangeOrg}
+            style={{ width: 200 }}
+          >
             {organizations?.length > 0
               ? organizations?.map((item, index) => (
                   <Select.Option value={item._id} key={index}>
@@ -94,38 +98,40 @@ const Contracts = ({
             <Col span={24}>
               <Card bordered={false} className="document-container card-border">
                 <Row className="upcoming">
-                  <h3>Unsecured contracts</h3>
+                  <h3 className="MarginB">Unsecured contracts</h3>
                 </Row>
-                {unsecuredContract?.map((docs, index) => {
-                  let classname = index % 2 == 0 ? "bg-grey" : "non-bg-grey";
-                  return (
-                    <Row className={classname}>
-                      <Col span={5} className="documentText">
-                        {moment(docs.createdAt).format("DD MM YYYY HH:SS")}
-                      </Col>
-                      <Col span={5}>{docs.contractdetails.type}</Col>
-                      <Col span={3}>{docs.otherDetails.name}</Col>
-                      <Col span={4} className="download2">
-                        {docs.status}
-                      </Col>
-                      <Col span={4} className="download2">
-                        Unsecured
-                      </Col>
-                      <Col
-                        span={3}
-                        className="download2"
-                        onClick={() =>
-                          download(
-                            docs?.SupportingDocuments.length > 0 &&
-                              docs?.SupportingDocuments[0]
-                          )
-                        }
-                      >
-                        <img src={Union} />
-                      </Col>
-                    </Row>
-                  );
-                })}
+                <div style={{ overflowY: "scroll", height: 140 }}>
+                  {unsecuredContract?.map((docs, index) => {
+                    let classname = index % 2 == 0 ? "bg-grey" : "non-bg-grey";
+                    return (
+                      <Row className={classname}>
+                        <Col span={5} className="documentText">
+                          {moment(docs.createdAt).format("DD MM YYYY HH:SS")}
+                        </Col>
+                        <Col span={5}>{docs.contractdetails.type}</Col>
+                        <Col span={3}>{docs.otherDetails.name}</Col>
+                        <Col span={4} className="download2">
+                          {docs.status}
+                        </Col>
+                        <Col span={4} className="download2">
+                          Unsecured
+                        </Col>
+                        <Col
+                          span={3}
+                          className="download2"
+                          onClick={() =>
+                            download(
+                              docs?.SupportingDocuments.length > 0 &&
+                                docs?.SupportingDocuments[0]
+                            )
+                          }
+                        >
+                          <img src={Union} />
+                        </Col>
+                      </Row>
+                    );
+                  })}
+                </div>
               </Card>
             </Col>
           </Row>

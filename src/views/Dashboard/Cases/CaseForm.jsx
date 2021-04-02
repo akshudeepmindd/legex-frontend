@@ -156,7 +156,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
           <div className="address">
             <div className="name">
               <p>
-                <img src={Back} onClick={() => history.goBack} /> File And
+                <img src={Back} onClick={() => history.goBack} className="back-arrow" /> File And
                 Resolve Dispute
               </p>
             </div>

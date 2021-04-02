@@ -77,9 +77,11 @@
     width: 100%
 .all-case
     .case-sec
+        margin-top: 1rem
         .flex
             display: flex
             justify-content: space-between
+            align-items: center
             img
                 width: 18px
                 height: 18px
@@ -126,10 +128,7 @@
         width: 140px
         border-radius: 0
 
-// .btn-pword
-//     border: 0
-// #UpdatePassword_password
-//     border: 0
+
 .update-pwd
     input[type="password"]
         border: 0!important
@@ -160,7 +159,7 @@
             margin-right: 12px
 .case-sec
     .ant-select-arrow
-        top: 42%
+        top: 52%
 .neutral-form
     padding: 4rem
     h1
@@ -205,14 +204,18 @@
 
     #UpdateDetails_email, #UpdatePassword_password
         background: #fff
+        border: 1px solid #ccc
         &:disabled
             background: #f4f4f4
 .update-pwd
     #UpdatePassword_password, #UpdatePassword_password2
         background: #fff
+        height: 32px
         &:disabled
             background: #f4f4f4
 .update-pwd .ant-input-password.ant-input-affix-wrapper
     background: #fff
     &:disabled
         background: #f4f4f4
+.caseDetail, .MarginB
+    margin-bottom: 14px

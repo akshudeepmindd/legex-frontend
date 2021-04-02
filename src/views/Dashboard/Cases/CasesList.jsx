@@ -245,6 +245,7 @@ const CasesList = ({
                     <Select
                       placeholder="Select a Organization"
                       onChange={onChangeOrg}
+                      style={{ width: 200, marginRight: 10 }}
                     >
                       {organizations?.length > 0
                         ? organizations?.map((item, index) => (
@@ -254,7 +255,11 @@ const CasesList = ({
                           ))
                         : "null"}
                     </Select>
-                    <Select placeholder="Next Hearing" onChange={onChangeOrg}>
+                    <Select
+                      placeholder="Next Hearing"
+                      onChange={onChangeOrg}
+                      style={{ width: 200, marginRight: 10 }}
+                    >
                       {organizations?.length > 0
                         ? organizations?.map((item, index) => (
                             <Select.Option value={item._id} key={index}>
@@ -263,7 +268,13 @@ const CasesList = ({
                           ))
                         : "null"}
                     </Select>
-                    <Input type="text" placeholder="Search" value="" className="serachFiled"/>
+                    <Input
+                      type="text"
+                      placeholder="Search"
+                      value=""
+                      className="serachFiled"
+                      style={{ width: 200 }}
+                    />
                   </Space>
                 </Col>
               </Row>

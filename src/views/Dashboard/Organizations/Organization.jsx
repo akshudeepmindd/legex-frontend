@@ -657,7 +657,7 @@ const Organization = ({
                     <img
                       src={PLUS}
                       alt="plus"
-                      style={{ width: 20, height: 20, margin: 3 }}
+                      style={{ width: 20, height: 20, marginLeft: 12 }}
                     />
                   </Link>
                 </h3>
@@ -671,7 +671,11 @@ const Organization = ({
                   {filterOrganization ? (
                     filterOrganization.cases.length > 0 ? (
                       filterOrganization.cases.map((item, index) => (
-                        <Select.Option value={item._id} key={index}>
+                        <Select.Option
+                          value={item._id}
+                          key={index}
+                          style={{ width: 100 }}
+                        >
                           {item.title}
                         </Select.Option>
                       ))
@@ -680,7 +684,11 @@ const Organization = ({
                     )
                   ) : organization.cases.length > 0 ? (
                     organization.cases.map((item, index) => (
-                      <Select.Option value={item._id} key={index}>
+                      <Select.Option
+                        value={item._id}
+                        key={index}
+                        style={{ width: 100 }}
+                      >
                         {item.title}
                       </Select.Option>
                     ))
@@ -706,7 +714,12 @@ const Organization = ({
               </div>
 
               <div className="searchInput">
-                <Input type="text" placeholder="Search" value="" />
+                <Input
+                  type="text"
+                  placeholder="Search"
+                  value=""
+                  style={{ width: 200, height: 30 }}
+                />
               </div>
             </div>
             <Row gutter={[48, 16]}>
@@ -832,36 +845,6 @@ const Organization = ({
               ) : (
                 <Col span={8}>no case avelable</Col>
               )}
-
-              {/* {organization.cases.map((c) => (
-                <Col span={8}>
-                  <Card bordered={false} className="document-container">
-                    <div className="review">
-                      <div className="d-flex">
-                        vs. Rohit Sharma
-                        <Button
-                          type={
-                            c.status == "invitations" ? "default" : "primary"
-                          }
-                          className={
-                            c.status === "invitations"
-                              ? "invitation-btn"
-                              : c.status === "creation"
-                              ? "creation-btn"
-                              : "review-btn"
-                          }
-                          block
-                        >
-                          {c.status}
-                        </Button>
-                      </div>
-
-                      <p>{c.caseType.name}</p>
-                      <p>Expected Date of Resolve : 8 Jan 2021</p>
-                    </div>
-                  </Card>
-                </Col>
-              ))} */}
             </Row>
           </div>
           <div className=""></div>

@@ -300,34 +300,12 @@ const Case = ({
                       {caseData &&
                         caseData.members &&
                         caseData.members.map((item, index) => (
-                          <Col span={24} className="bg-grey">
+                          <Col span={24} className="">
                             <div className="name">
                               {`${item.firstName} ${item.lastName}`}
                             </div>
                           </Col>
                         ))}
-
-                      {/* <Col span={12}>
-                        <div className="parties">Accused</div>
-                      </Col>
-                      <Col span={12}>
-                        <div className="name">Arohan Infra Priv...</div>
-                      </Col>
-                      <Col span={12}>
-                        <div className="parties">Reference Party</div>
-                      </Col>
-                      <Col span={12}>
-                        <div className="name">HDFC Bank</div>
-                      </Col>
-                      <Col span={12}>
-                        <div className="parties">Member</div>
-                      </Col>
-                      <Col span={12}>
-                        <div className="name">Prashant Anvi</div>
-                      </Col>
-                      <Col span={12}>
-                        <div className="parties">Witness</div>
-                      </Col> */}
                     </Row>
                   </div>
                 </Card>
@@ -335,8 +313,8 @@ const Case = ({
               <Col span={8}>
                 <Card bordered={false} className="document-container border">
                   <div className="party">
-                    <h5>Case Details</h5>
-                    <Row gutter={[40, 10]} className="bg-grey">
+                    <h5 className="caseDetail">Case Details</h5>
+                    <Row gutter={[22, 10]} className="bg-grey">
                       <Col span={12}>
                         <div className="name">Type:</div>
                       </Col>
@@ -344,7 +322,7 @@ const Case = ({
                         <div className="parties">{caseData.caseType.name}</div>
                       </Col>
                     </Row>
-                    <Row gutter={[40, 10]}>
+                    <Row gutter={[22, 10]}>
                       <Col span={12}>
                         <div className="name">Description:</div>
                       </Col>
@@ -352,7 +330,7 @@ const Case = ({
                         <div className="parties">{caseData.description}</div>
                       </Col>
                     </Row>
-                    <Row gutter={[40, 10]} className="bg-grey">
+                    <Row gutter={[22, 10]} className="bg-grey">
                       <Col span={12}>
                         <div className="name">Status:</div>
                       </Col>
@@ -375,7 +353,7 @@ const Case = ({
                           setUploadFormVisibility(!uploadFormVisbility)
                         }
                       >
-                        Documents <img src={Plus} alt="plus" />
+                        Case Documents <img src={Plus} alt="plus" />
                       </h4>
 
                       <Link to="#">view all</Link>
@@ -403,23 +381,6 @@ const Case = ({
                   ))}
                   {/* </div> */}
                 </Card>
-                {/* <Card bordered={false} className="document-container">
-                  <Row className="upcoming">
-                    <h4>Documents</h4>
-                    <img src={Plus} alt="plus" />
-                    <Link to="#">view all</Link>
-                  </Row>
-                  {caseData?.documents?.map((docs) => (
-                    <Row>
-                      <Col span={12} className="documentText">
-                        {docs.name}
-                      </Col>
-                      <Col span={12} className="download">
-                        Image <img src={Union} alt="download" />
-                      </Col>
-                    </Row>
-                  ))}
-                </Card> */}
               </Col>
               <Col span={12}>
                 <Card bordered={false} className="document-container border">

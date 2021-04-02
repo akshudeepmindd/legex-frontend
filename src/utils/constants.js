@@ -4,51 +4,52 @@ import dispute from "../assets/images/dispute.png";
 import docs from "../assets/images/docs.png";
 import org from "../assets/images/org.png";
 import home from "../assets/images/home1.png";
+import gear from "../assets/images/setung.png";
 
 export const MenuItems = [
-  {
-    menuName: "Home",
-    menuKey: "/dashboard/overview",
-    menuLink: "/dashboard/overview",
-    menuIconClass: home,
-  },
-  {
-    menuName: "Calendar",
-    menuKey: "/dashboard/appointments",
-    menuLink: "/dashboard/appointments",
-    menuIconClass: calendar,
-  },
-  {
-    menuName: "Contracts",
-    menuKey: "/dashboard/contracts",
-    menuLink: "/dashboard/contracts",
-    menuIconClass: contracts,
-  },
-  {
-    menuName: "Disputes",
-    menuKey: "/dashboard/cases",
-    menuLink: "/dashboard/cases",
-    menuIconClass: dispute,
-  },
-  {
-    menuName: "Organisation",
-    menuKey: "/dashboard/organizations",
-    menuLink: "/dashboard/organizations",
-    menuIconClass: docs,
-  },
-  {
-    menuName: "Documents",
-    menuKey: "/dashboard/documents",
-    menuLink: "/dashboard/documents",
-    menuIconClass: org,
-  },
-  {
-    menuName: "Settings",
-    menuKey: "/dashboard/settings",
-    menuLink: "/dashboard/settings",
-    menuIconClass: org,
-  },
-];
+         {
+           menuName: "Home",
+           menuKey: "/dashboard/overview",
+           menuLink: "/dashboard/overview",
+           menuIconClass: home,
+         },
+         {
+           menuName: "Calendar",
+           menuKey: "/dashboard/appointments",
+           menuLink: "/dashboard/appointments",
+           menuIconClass: calendar,
+         },
+         {
+           menuName: "Contracts",
+           menuKey: "/dashboard/contracts",
+           menuLink: "/dashboard/contracts",
+           menuIconClass: contracts,
+         },
+         {
+           menuName: "Disputes",
+           menuKey: "/dashboard/cases",
+           menuLink: "/dashboard/cases",
+           menuIconClass: dispute,
+         },
+         {
+           menuName: "Organisation",
+           menuKey: "/dashboard/organizations",
+           menuLink: "/dashboard/organizations",
+           menuIconClass: org,
+         },
+         {
+           menuName: "Documents",
+           menuKey: "/dashboard/documents",
+           menuLink: "/dashboard/documents",
+           menuIconClass: docs,
+         },
+         {
+           menuName: "Settings",
+           menuKey: "/dashboard/settings",
+           menuLink: "/dashboard/settings",
+           menuIconClass: gear,
+         },
+       ];
 export const MediatorMenu = [
   {
     menuName: "Home",
