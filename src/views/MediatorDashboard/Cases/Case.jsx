@@ -114,6 +114,7 @@ const MediatorCase = ({
       verdict: value.verdict,
     };
     const res = await dispatch(makeVerdict(params));
+    dispatch(fetchCase(caseId));
     setVerdictModal(false);
   };
 
@@ -124,6 +125,7 @@ const MediatorCase = ({
     };
     console.log(params);
     await dispatch(updateCase(params));
+    dispatch(fetchCase(caseId));
     setAddCaseModall(false);
   };
   const showInviteModal = () => setInviteModal(true);
@@ -154,6 +156,7 @@ const MediatorCase = ({
       status: "hearings",
     };
     await dispatch(updateCse(body));
+    dispatch(fetchCase(caseId));
   };
 
   const onInvitationFormSubmit = async (values) => {
@@ -195,6 +198,7 @@ const MediatorCase = ({
           description: "Document Uploaded SuccessFully",
           icon: <SmileFilled style={{ color: "#108ee9" }} />,
         });
+        dispatch(fetchCase(caseId));
         return true;
       })
       .catch((e) => {

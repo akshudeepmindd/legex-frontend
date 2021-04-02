@@ -57,6 +57,7 @@ const Case = ({
   const [addCaseModal, setAddCaseModall] = useState(false);
   const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
   const [item, setItem] = useState("Select Item");
+  const [reciver, setReciver] = useState("");
   //store details about how the case is being accessed by the user
   const [access, updateAccess] = useState(null);
   const { caseId } = useParams();
@@ -186,6 +187,7 @@ const Case = ({
   );
   const handleChange = async (value) => {
     console.log(value, "valueee");
+    setReciver(value);
     // setItem(inputValue);
     // return inputValue;
   };
@@ -197,12 +199,16 @@ const Case = ({
         sender: access.id,
         invitationType: "Case",
         case: caseId,
+        email: reciver,
         ...values,
       })
     );
-    if (res) {
-      setInviteModal(false);
-    }
+    notification.open({
+      message: "Success",
+      description: "Invitation Sent SuccessFully",
+      icon: <SmileFilled />,
+    });
+    setAddCaseModall(false);
     return res;
   };
 

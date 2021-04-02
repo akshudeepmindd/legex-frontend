@@ -8,6 +8,7 @@ import iconbar from "../assets/images/iconbar.png";
 import bell from "../assets/images/bell.png";
 import avtar from "../assets/images/avtar.png";
 import { Sidebar } from "../components";
+import { fetchUser } from "../store/actions/user";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { connect, useDispatch } from "react-redux";
 import User from "../assets/images/useravtar.png";
@@ -15,6 +16,7 @@ import User2 from "../assets/images/dropuser.png";
 import Dash from "../assets/images/dash.png";
 import { withRouter } from "react-router-dom";
 import { respondInvite } from "../store/actions/invites";
+import { fetchCases } from "../store/actions/cases";
 
 const {
   //Header,
@@ -37,8 +39,8 @@ function DashboardLayout(props) {
     (invite) => invite.invitationType == "Case"
   );
 
-  const acceptConfirmation = ({ invite, message }) =>
-    Modal.confirm({
+  const acceptConfirmation = ({ invite, message }) => {
+    return Modal.confirm({
       async onOk() {
         await dispatch(
           respondInvite({
@@ -50,6 +52,8 @@ function DashboardLayout(props) {
             },
           })
         );
+        await dispatch(fetchUser());
+        await dispatch(fetchCases());
       },
       async onCancel() {
         await dispatch(
@@ -61,11 +65,14 @@ function DashboardLayout(props) {
             },
           })
         );
+        await dispatch(fetchUser());
+        await dispatch(fetchCases());
       },
       content: message,
       cancelText: "Decline",
       okText: "Accept",
     });
+  };
 
   function toggle() {
     setCollapsed(!collapsed);
@@ -159,21 +166,31 @@ function DashboardLayout(props) {
             <div className="invitation">
               <p>Organisation Invitations</p>
               {orgInvite?.length > 0 ? (
-                props.user?.Sinvites?.map((invite) => {
+                props.user?.invites?.map((invite) => {
                   if (
                     invite.invitationType == "Organization" &&
                     invite.status === "Waiting"
                   ) {
                     return (
                       <div className="invitation-list">
-                        <p>{invite.case}</p>
+                        <p>{invite.sender.name}</p>
                         <div
                           style={{
                             textAlign: "end",
                             marginTop: 3,
                           }}
                         >
-                          <Button className="accept-btn">Accept</Button>
+                          <Button
+                            className="accept-btn"
+                            onClick={() =>
+                              acceptConfirmation({
+                                invite,
+                                message: `Do you want to accept invitation to case ?`,
+                              })
+                            }
+                          >
+                            Accept
+                          </Button>
                           <Button className="cancel-btn">Decline</Button>
                         </div>
                       </div>
