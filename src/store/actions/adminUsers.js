@@ -26,3 +26,24 @@ export function fetchUserList() {
     }
   };
 }
+
+export function UpdateProfile(data) {
+  return async (dispatch) => {
+    const messageKey = "fetch users";
+    dispatch({ type: ADMIN_USER_LIST });
+    try {
+      //message.loading({ content: "loading cases..", key: messageKey });
+      const response = await $http2()({
+        url: "/admin/users/profile",
+        data: data,
+        method: "PATCH",
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(fetchUserListSuccess(response.data.data));
+      return true;
+      //message.success({ content: "loaded cases", key: messageKey });
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}

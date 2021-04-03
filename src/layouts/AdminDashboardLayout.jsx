@@ -82,7 +82,11 @@ function AdminDashboardLayout(props) {
     <Menu style={{ width: 250 }}>
       <Menu.Item style={{ width: 100 }}>
         <div className="user-dropdown">
-          <img src={User} height={50} width={50} />
+          <img
+            src={props.user?.profilePic ? props.user?.profilePic : User}
+            height={50}
+            width={50}
+          />
           <span>
             {props.user?.firstName}&nbsp;
             {props.user?.lastName}
@@ -121,7 +125,7 @@ function AdminDashboardLayout(props) {
           <div className="invitation">
             <p>Case Invitations</p>
             {caseInvite?.length > 0 ? (
-              props.user?.Sinvites?.map((invite) => {
+              props.user?.invites?.map((invite) => {
                 if (
                   invite.invitationType == "Case" &&
                   invite.status === "Waiting"
@@ -161,7 +165,7 @@ function AdminDashboardLayout(props) {
             <div className="invitation">
               <p>Organisation Invitations</p>
               {orgInvite?.length > 0 ? (
-                props.user?.Sinvites?.map((invite) => {
+                props.user?.invites?.map((invite) => {
                   if (
                     invite.invitationType == "Organization" &&
                     invite.status === "Waiting"
@@ -246,7 +250,7 @@ function AdminDashboardLayout(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.admin,
+    user: state.user,
   };
 };
 

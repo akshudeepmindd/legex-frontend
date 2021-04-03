@@ -79,8 +79,16 @@ function MediatorDashboardLayout(props) {
     <Menu style={{ width: 250 }}>
       <Menu.Item style={{ width: 100 }}>
         <div className="user-dropdown">
-          <img src={User} height={50} width={50} />
-          <span>
+          <img
+            src={props.user?.profilePic ? props.user?.profilePic : User}
+            height={50}
+            width={50}
+          />
+          <span
+            style={{
+              textTransform: "capitalize",
+            }}
+          >
             {props.user?.firstName}&nbsp;
             {props.user?.lastName}
           </span>

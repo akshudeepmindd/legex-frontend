@@ -21,6 +21,10 @@ const fetchCasesSuccessAdmin = (cases) => ({
   type: FETCH_CASES_SUCCESS_ADMIN,
   payload: cases,
 });
+const fetchSuccessAdmin = (cases) => ({
+  type: FETCH_CASES_SUCCESS_ADMIN,
+  payload: cases,
+});
 const fetchOrgsSuccessAdmin = (cases) => ({
   type: FETCH_ALL_ORGNIZATIONS_SUCCESS,
   payload: cases,
@@ -51,6 +55,7 @@ export function fetchCasesAdmin() {
     }
   };
 }
+
 
 export function createCaseAdmin(payload) {
   return async (dispatch) => {

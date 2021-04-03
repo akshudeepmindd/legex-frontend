@@ -25,15 +25,24 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
     setModal(false);
     return response;
   };
-  const pendingCases = caseData?.filter((item) => item?.status !== "completion");
+  const pendingCases = caseData?.filter(
+    (item) => item?.status !== "completion"
+  );
 
   return (
     <>
       <Row>
         <Col span={12} className="userprofile">
           <Row>
-            <img src={UserAvatar} alt="avatar" />
-            <p>{`Welcome, ${user.firstName} ${user.lastName}`}</p>
+            <img
+              src={user?.profilePic ? user?.profilePic : UserAvatar}
+              alt="avatar"
+            />
+            <p
+              style={{
+                textTransform: "capitalize",
+              }}
+            >{`Welcome, ${user.firstName} ${user.lastName}`}</p>
           </Row>
         </Col>
         <Col span={12} className="pluscase">

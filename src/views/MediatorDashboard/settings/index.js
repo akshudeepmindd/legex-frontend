@@ -11,14 +11,19 @@ import {
   Button,
   AutoComplete,
   Card,
+  notification,
 } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { QuestionCircleOutlined, SmileFilled } from "@ant-design/icons";
 
 import { MediatorDashboardLayout } from "../../../layouts";
 import UserAvatar from "../../../assets/images/useravtar.png";
 import pencil from "../../../assets/images/Subtract.png";
 import { connect } from "react-redux";
-import { editUser } from "../../../store/actions/user";
+import {
+  editUser,
+  updateProfilePic,
+  fetchUser,
+} from "../../../store/actions/user";
 import { resetPassword } from "../../../store/actions/auth";
 import DetailsUpdateForm from "./DetailsUpdateForm";
 import PasswordUpdateForm from "./PasswordUpdateForm";
@@ -160,7 +165,27 @@ const MediatorSettings = ({ user, dispatch }) => {
       })
     );
   };
-
+  const updateProfilePhoto = async (target) => {
+    let file = target.files[0];
+    let formData = new FormData();
+    formData.append("_id", user._id);
+    formData.append("profilePic", file);
+    const res = await dispatch(updateProfilePic(formData));
+    if (res == true) {
+      notification.open({
+        message: "Success",
+        description: "Profile Photo Updated SuccessFully",
+        icon: <SmileFilled />,
+      });
+      await dispatch(fetchUser());
+    } else {
+      notification.open({
+        message: "Failure",
+        description: "Profile Photo Update Failed",
+        // icon: <SmileFilled />,
+      });
+    }
+  };
   const onFinishPassword = async (values) => {
     if (values.password && values.password2) {
       await dispatch(
@@ -205,7 +230,20 @@ const MediatorSettings = ({ user, dispatch }) => {
         <Row>
           <Col span={6} className="userprofile">
             <div className="flex">
-              <img src={UserAvatar} alt="avatar" />
+              <div class="image-upload">
+                <label for="file-input">
+                  <img
+                    src={user?.profilePic ? user?.profilePic : UserAvatar}
+                    alt="avatar"
+                  />
+                </label>
+
+                <input
+                  id="file-input"
+                  type="file"
+                  onChange={(e) => updateProfilePhoto(e.target)}
+                />
+              </div>
               <div className="">
                 <p>{`${user?.firstName} ${user?.lastName}`}</p>
                 <span className="pencil-image">

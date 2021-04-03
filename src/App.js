@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./assets/scss/index.sass";
 import { fetchOrganizations } from "./store/actions/organizations";
 import { fetchUserList } from "./store/actions/adminUsers";
-import { fetchUser } from "./store/actions/user";
+import { fetchUser, fetchAdminUser } from "./store/actions/user";
 import { fetchCaseTypes } from "./store/actions/caseTypes";
 import { fetchCases } from "./store/actions/cases";
 import {
@@ -49,6 +49,7 @@ import {
   AdminCase,
   AdminDocumentsList,
   AdminContracts,
+  Appointment,
 } from "./views";
 
 function App({ dispatch, auth }) {
@@ -60,6 +61,7 @@ function App({ dispatch, auth }) {
         localStorage.getItem("isAdmin") == "true"
       ) {
         async function fetchDataAdmin() {
+          await dispatch(fetchAdminUser());
           await dispatch(fetchCasesAdmin());
           await dispatch(fetchAllOrganisations());
           await dispatch(fetchUserList());
@@ -190,6 +192,11 @@ function App({ dispatch, auth }) {
         <Route
           path="/mediator/settings"
           component={WithMediatorAuth(MediatorSettings)}
+          exact
+        />
+        <Route
+          path="/mediator/calendar"
+          component={WithMediatorAuth(Appointment)}
           exact
         />
       </Switch>

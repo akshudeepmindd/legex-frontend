@@ -18,6 +18,7 @@ import { useState } from "react";
 import Modal from "antd/lib/modal/Modal";
 import { uploadDocument } from "../../../store/actions/documents";
 import { DownOutlined } from "@ant-design/icons";
+import { fetchUser } from "../../../store/actions/user";
 import PDF from "../../../assets/images/Document upload icon.png";
 
 const styles = {
@@ -40,6 +41,7 @@ const DocumentsList = ({
     formData.append("createrType", "User");
     const res = await dispatch(uploadDocument(formData));
     setUploadFormVisibility(!res);
+    dispatch(fetchUser());
     return res;
   };
   const onChangeOrg = (value) => {
@@ -99,6 +101,7 @@ const DocumentsList = ({
             <DocumentsTable documents={user.documents} />
           </Card>
 
+          */}
           <Modal
             title="Upload Document"
             visible={uploadFormVisbility}
@@ -107,7 +110,7 @@ const DocumentsList = ({
             destroyOnClose={true}
           >
             <UploadForm onUpload={onDocumentUploadClick} />
-          </Modal> */}
+          </Modal>
           <Row>
             <Col flex="1 1 400px">
               <Select
@@ -153,17 +156,42 @@ const DocumentsList = ({
               </div>
             </Col>
           </Row>
+          {console.log(user, "userr")}
           <Row className="pdf-image">
-            {filterOrganization
+            {selectedOrg === ""
+              ? user?.documents.map((docs) => (
+                  <Col
+                    span={3}
+                    style={{
+                      marginRight: "2rem",
+                      marginTop: "2rem",
+                    }}
+                  >
+                    <Link
+                      to="#"
+                      target="_blank"
+                      // onClick={() => download(docs.url)}
+                    >
+                      <img src={PDF} onClick={() => download(docs.url)} />
+                    </Link>
+                  </Col>
+                ))
+              : filterOrganization
               ? filterOrganization.documents.length > 0
                 ? filterOrganization.documents.map((docs) => (
-                    <Col span={3}>
+                    <Col
+                      span={3}
+                      style={{
+                        marginRight: "2rem",
+                        marginTop: "2rem",
+                      }}
+                    >
                       <Link
                         to="#"
                         target="_blank"
                         // onClick={() => download(docs.url)}
                       >
-                        <img src={PDF}  onClick={() => console.log(docs.url)} />
+                        <img src={PDF} onClick={() => download(docs.url)} />
                       </Link>
                     </Col>
                   ))
@@ -176,7 +204,7 @@ const DocumentsList = ({
                       target="_blank"
                       // onClick={() => download(docs.url)}
                     >
-                      <img src={PDF}   onClick={() =>  console.log(docs.url)}/>
+                      <img src={PDF} onClick={() => download(docs.url)} />
                     </Link>
                   </Col>
                 ))
@@ -186,6 +214,25 @@ const DocumentsList = ({
       ) : (
         "loading"
       )}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 50,
+        }}
+      >
+        <Button
+          style={{
+            width: 256,
+            height: 44,
+            borderRadius: 0,
+            background: "#1F40E6",
+            color: "#fff",
+          }}
+          onClick={() => setUploadFormVisibility(true)}
+        >
+          Document Upload
+        </Button>
+      </div>
     </DashboardLayout>
   );
 };

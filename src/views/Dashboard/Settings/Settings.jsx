@@ -11,14 +11,19 @@ import {
   Button,
   AutoComplete,
   Card,
+  notification,
 } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { QuestionCircleOutlined, SmileFilled } from "@ant-design/icons";
 
 import { DashboardLayout } from "../../../layouts";
 import UserAvatar from "../../../assets/images/useravtar.png";
 import pencil from "../../../assets/images/Subtract.png";
 import { connect } from "react-redux";
-import { editUser } from "../../../store/actions/user";
+import {
+  editUser,
+  updateProfilePic,
+  fetchUser,
+} from "../../../store/actions/user";
 import { resetPassword } from "../../../store/actions/auth";
 import UpdateDetails from "./UpdateDetails";
 import UpdatePassword from "./UpdatePassword";
@@ -149,6 +154,7 @@ const tailFormItemLayout = {
 const RegistrationForm = ({ user, dispatch }) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState(true);
+  const [imageFile, setimageFile] = useState(null);
 
   const onFinish = async (values) => {
     await dispatch(
@@ -156,6 +162,28 @@ const RegistrationForm = ({ user, dispatch }) => {
         ...values,
       })
     );
+  };
+
+  const updateProfilePhoto = async (target) => {
+    let file = target.files[0];
+    let formData = new FormData();
+    formData.append("_id", user._id);
+    formData.append("profilePic", file);
+    const res = await dispatch(updateProfilePic(formData));
+    if (res == true) {
+      notification.open({
+        message: "Success",
+        description: "Profile Photo Updated SuccessFully",
+        icon: <SmileFilled />,
+      });
+      await dispatch(fetchUser());
+    } else {
+      notification.open({
+        message: "Failure",
+        description: "Profile Photo Update Failed",
+        // icon: <SmileFilled />,
+      });
+    }
   };
 
   const onFinishPassword = async (values) => {
@@ -204,10 +232,17 @@ const RegistrationForm = ({ user, dispatch }) => {
             <div className="flex">
               <div class="image-upload">
                 <label for="file-input">
-                  <img src={UserAvatar} alt="avatar" />
+                  <img
+                    src={user?.profilePic ? user?.profilePic : UserAvatar}
+                    alt="avatar"
+                  />
                 </label>
 
-                <input id="file-input" type="file" />
+                <input
+                  id="file-input"
+                  type="file"
+                  onChange={(e) => updateProfilePhoto(e.target)}
+                />
               </div>
 
               <div className="">

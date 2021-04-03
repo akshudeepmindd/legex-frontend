@@ -28,6 +28,7 @@ import MediatorOverview from "./MediatorDashboard/OverView";
 import MediatorCases from "./MediatorDashboard/Cases/CaseList";
 import MediatorCase from "./MediatorDashboard/Cases/Case";
 import MediatorSettings from "./MediatorDashboard/settings";
+import Appointment from "./MediatorDashboard/Appointment";
 import AdminOrganizationsList from "./AdminDashboard/Orgnisations";
 import AdminOrganization from "./AdminDashboard/orgnization";
 import AdminCase from "./AdminDashboard/AdminCase";
@@ -65,4 +66,5 @@ export {
   AdminCase,
   AdminDocumentsList,
   AdminContracts,
+  Appointment,
 };

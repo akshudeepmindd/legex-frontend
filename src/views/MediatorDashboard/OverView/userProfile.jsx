@@ -33,9 +33,12 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
   );
   const userUpcomingHearing = () => {
     return (
-      <div style={{
-        height: 164,
-        overflowY: "scroll"}}>
+      <div
+        style={{
+          height: 164,
+          overflowY: "scroll",
+        }}
+      >
         {caseData?.map((item) => {
           if (item?.hearings?.length > 0) {
             return item.hearings?.map((item) => {
@@ -68,7 +71,10 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
       <Row>
         <Col span={12} className="userprofile">
           <Row>
-            <img src={UserAvatar} alt="avatar" />
+            <img
+              src={user?.profilePic ? user?.profilePic : UserAvatar}
+              alt="avatar"
+            />
             <p>{`Welcome, ${user.firstName} ${user.lastName}`}</p>
           </Row>
         </Col>

@@ -107,12 +107,12 @@ const Listing = ({
                         {item?.title}
                         <Button
                           type={
-                            item.status == "invitations" ? "default" : "primary"
+                            item?.status == "invitations" ? "default" : "primary"
                           }
                           className={
                             item?.status === "invitations"
                               ? "invitation-btn"
-                              : item.status === "creation"
+                              : item?.status === "creation"
                               ? "creation-btn"
                               : "review-btn"
                           }
