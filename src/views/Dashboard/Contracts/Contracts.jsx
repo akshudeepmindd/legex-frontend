@@ -35,6 +35,7 @@ const Contracts = ({
   contract,
 }) => {
   const [selectedOrg, setSelectedOrg] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const onChangeOrg = (value) => {
     setSelectedOrg(value);
   };
@@ -44,6 +45,24 @@ const Contracts = ({
     }
     fetchContracts();
   }, []);
+  function cleanString(s) {
+    const value = s || "";
+    return value.trim().toLowerCase();
+  }
+  const securedContract = contract?.filter((con) => con.isSecursd == true);
+  const unsecuredContract = contract?.filter((con) => con.isSecursd == false);
+  function compareNames(name) {
+    return cleanString(name).startsWith(cleanString(searchValue));
+  }
+
+  const SearchFilterChange = () => {
+    console.log(cases, "casess");
+    return searchValue
+      ? securedContract?.filter(
+          (c) => c !== null && compareNames(c?.otherDetails?.name)
+        )
+      : securedContract;
+  };
   const download = (data) => {
     setTimeout(() => {
       const response = {
@@ -55,8 +74,7 @@ const Contracts = ({
       // window.location.href = response.file;
     }, 100);
   };
-  const securedContract = contract?.filter((con) => con.isSecursd == true);
-  const unsecuredContract = contract?.filter((con) => con.isSecursd == false);
+
   return (
     <>
       <DashboardLayout>
@@ -139,16 +157,21 @@ const Contracts = ({
             <div className="flexDiv">
               <h3>Secured Contracts</h3>
               <div className="searchInput">
-                <Input type="text" placeholder="Search" value="" />
+                <Input
+                  type="text"
+                  placeholder="Search"
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
               </div>
             </div>
 
             <Row gutter={[48, 16]} className="secure-contract">
-              {securedContract?.map((cont) => (
+              {SearchFilterChange()?.map((cont) => (
                 <Col span={8}>
                   <Card bordered={false} className="document-container">
                     <div className="review">
                       <div className="d-flex">
+                        <p>{cont.otherDetails.name}</p>
                         {cont.contractdetails.type}
                         <Button type="primary" className="sent-btn" block>
                           Secured

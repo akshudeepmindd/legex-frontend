@@ -47,7 +47,9 @@ const DocumentsList = ({
   const onChangeOrg = (value) => {
     setSelectedOrg(value);
   };
-
+  function checkURL(url) {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  }
   const filterOrganization = organizations?.find(
     (item) => item._id === selectedOrg
   );
@@ -167,13 +169,17 @@ const DocumentsList = ({
                       marginTop: "2rem",
                     }}
                   >
-                    <Link
+                    {/* <Link
                       to="#"
                       target="_blank"
-                      // onClick={() => download(docs.url)}
-                    >
+                      onClick={() => download(docs.url)}
+                    > */}
+                    {checkURL(docs.url) ? (
+                      <img src={docs.url} onClick={() => download(docs.url)} />
+                    ) : (
                       <img src={PDF} onClick={() => download(docs.url)} />
-                    </Link>
+                    )}
+                    {/* </Link> */}
                   </Col>
                 ))
               : filterOrganization
@@ -186,26 +192,38 @@ const DocumentsList = ({
                         marginTop: "2rem",
                       }}
                     >
-                      <Link
+                      {/* <Link
                         to="#"
                         target="_blank"
-                        // onClick={() => download(docs.url)}
-                      >
+                        onClick={() => download(docs.url)}
+                      > */}
+                      {checkURL(docs.url) ? (
+                        <img
+                          src={docs.url}
+                          onClick={() => download(docs.url)}
+                        />
+                      ) : (
                         <img src={PDF} onClick={() => download(docs.url)} />
-                      </Link>
+                      )}
+                      {/* </Link> */}
                     </Col>
                   ))
                 : "No Documents Found"
               : organization?.documents.length > 0
               ? organization?.documents.map((docs) => (
                   <Col span={3}>
-                    <Link
+                    {/* <Link
                       to="#"
                       target="_blank"
-                      // onClick={() => download(docs.url)}
-                    >
+                      onClick={() => download(docs.url)}
+                    > */}
+                    {checkURL(docs.url) ? (
+                      <img src={docs.url} onClick={() => download(docs.url)} />
+                    ) : (
                       <img src={PDF} onClick={() => download(docs.url)} />
-                    </Link>
+                    )}
+
+                    {/* </Link> */}
                   </Col>
                 ))
               : "No Documents Found"}

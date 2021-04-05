@@ -39,6 +39,7 @@ import Back from "../../../assets/images/back.png";
 import PLUS from "../../../assets/images/plus.png";
 import InviteForm from "./InviteForm";
 import ShimmerEffect from "../../../components/shimmer";
+import moment from "moment";
 
 const { Step } = Steps;
 
@@ -392,50 +393,25 @@ const Case = ({
                 <Card bordered={false} className="document-container border">
                   <div className="update-card">
                     <h4>Updates</h4>
-                    <Row className="pb-2 bg-grey">
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row className="pb-2">
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row className="pb-2 bg-grey">
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={8}>Dec 21, 2020, 21:27</Col>
-                      <Col span={8}>Mediator Sunanda Rao assigned</Col>
-                      <Col span={8}>
-                        <div className="text-end">
-                          <a href="">View</a>
-                          <a href="" className="b-left"></a>
-                          <a href="">Request</a>
-                        </div>
-                      </Col>
-                    </Row>
+                    {caseData?.caseUpdates?.length > 0
+                      ? caseData?.caseUpdates.map((update) => (
+                          <Row className="pb-2 bg-grey">
+                            <Col span={8}>
+                              {moment(caseData.updatedAt).format(
+                                "ddd MMM, DD, yyyy"
+                              )}
+                            </Col>
+                            <Col span={8}>{update}</Col>
+                            <Col span={8}>
+                              <div className="text-end">
+                                <a href="">View</a>
+                                <a href="" className="b-left"></a>
+                                <a href="">Request</a>
+                              </div>
+                            </Col>
+                          </Row>
+                        ))
+                      : "No Updates Available"}
                   </div>
                 </Card>
               </Col>

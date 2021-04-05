@@ -42,8 +42,7 @@ function UpdateDetails(props) {
           width: 70,
         }}
       >
-        <Select.Option value="86">+86</Select.Option>
-        <Select.Option value="87">+87</Select.Option>
+        <Select.Option value="91">+91</Select.Option>
       </Select>
     </Form.Item>
   );
@@ -56,8 +55,8 @@ function UpdateDetails(props) {
       name="UpdateDetails"
       onFinish={onFinish}
       initialValues={{
-        residence: ["zhejiang", "hangzhou", "xihu"],
-        prefix: "86",
+        residence: ["chandigarh"],
+        prefix: "+91",
       }}
       scrollToFirstError
     >

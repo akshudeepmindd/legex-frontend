@@ -53,6 +53,7 @@ const Secure = () => {
     contractValue: "",
     expiry: "",
     insureValue: "",
+    description: "",
   });
 
   const dispatch = useDispatch();

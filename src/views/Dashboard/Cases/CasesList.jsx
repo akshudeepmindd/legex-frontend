@@ -31,7 +31,7 @@ import { DashboardLayout } from "../../../layouts";
 import { CaseCard, CasesTable, CaseForm } from "../../../components";
 
 // redux actions
-import { createCase } from "../../../store/actions/cases";
+import { createCase, fetchCases } from "../../../store/actions/cases";
 import { respondInvite } from "../../../store/actions/invites";
 const menu = (
   <Menu>
@@ -256,6 +256,14 @@ const CasesList = ({
                 </Col>
                 <Col flex={8} className="flex-end">
                   <Space>
+                    <Button
+                      onClick={async () => {
+                        await dispatch(fetchCases());
+                        onChangeOrg("");
+                      }}
+                    >
+                      Reset Filter
+                    </Button>
                     <Select
                       placeholder="Select a Organization"
                       onChange={onChangeOrg}
@@ -269,7 +277,7 @@ const CasesList = ({
                           ))
                         : "null"}
                     </Select>
-                    <Select
+                    {/* <Select
                       placeholder="Next Hearing"
                       onChange={onChangeOrg}
                       style={{ width: 200, marginRight: 10 }}
@@ -281,13 +289,13 @@ const CasesList = ({
                             </Select.Option>
                           ))
                         : "null"}
-                    </Select>
+                    </Select> */}
                     <Input
                       type="text"
                       placeholder="Search"
-                      value=""
                       className="serachFiled"
                       style={{ width: 200 }}
+                      onChange={(e) => setSearchValue(e.target.value)}
                     />
                   </Space>
                 </Col>

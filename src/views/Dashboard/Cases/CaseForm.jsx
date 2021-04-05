@@ -39,7 +39,6 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
   const [status, setStatus] = React.useState();
   const [url, setDocumentUrl] = React.useState("");
   const history = useHistory();
-
   const [value, setValue] = React.useState({
     referenceNo: "",
     claimAmount: "",
@@ -48,6 +47,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
     secondPartyName: "",
     secondPartyEmail: "",
     secondPartyPhone: "",
+    description: "",
   });
 
   const handleSelectCaseType = (e) => {
@@ -148,7 +148,14 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
   // const onChangeCaseType = (value) => {
   //   setCaseType(value);
   // };
+  const step1style = {
+    height: "40rem",
+  };
 
+  const step2Style = {
+    height: "50rem",
+  };
+  console.log(current, "current");
   return (
     <>
       <DashboardLayout>
@@ -156,8 +163,12 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
           <div className="address">
             <div className="name">
               <p>
-                <img src={Back} onClick={() => history.goBack} className="back-arrow" /> File And
-                Resolve Dispute
+                <img
+                  src={Back}
+                  onClick={() => history.goBack}
+                  className="back-arrow"
+                />{" "}
+                File And Resolve Dispute
               </p>
             </div>
             <div className="">
@@ -170,7 +181,11 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
           </div>
           <Row gutter={[48, 16]} className="step-form">
             <Col span={14}>
-              <Card bordered={false} className="document-container card-border">
+              <Card
+                bordered={false}
+                className="document-container card-border"
+                style={current === 0 || current == 2 ? step1style : step2Style}
+              >
                 <Steps current={current}>
                   {steps.map((item) => (
                     <Step key={item.title} title={item.title} />
@@ -211,7 +226,10 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
               </Card>
             </Col>
             <Col span={10} style={{ justifyContent: "flex-end" }}>
-              <Card bordered={false} className="document-container card-border p-0">
+              <Card
+                bordered={false}
+                className="document-container card-border p-0"
+              >
                 <h3>Summary:</h3>
                 <div className="steps-content">
                   {" "}
@@ -221,11 +239,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
                   </Row>
                   <Row className="mt-2">
                     <Col span={8}>Description:</Col>
-                    <Col span={16}>
-                      {" "}
-                      Mediator Sunanda Rao assigned Mediator Su Rao assigned
-                      Mediator Sunanda Raassigned Mediator Sunanda{" "}
-                    </Col>
+                    <Col span={16}> {value.description}</Col>
                   </Row>
                   <Row className="mt-2">
                     <Col span={8}>Contract Value: </Col>

@@ -57,6 +57,17 @@ const CaseDetailForm = ({
         </Col>
       </Row>
       <Row className="mt-2">
+        <Col span={8}>Description:</Col>
+        <Col span={16}>
+          {" "}
+          <Input
+            name="description"
+            value={value.description}
+            onChange={(e) => handleChange(e)}
+          />
+        </Col>
+      </Row>
+      <Row className="mt-2">
         <Col span={8}>Provider:</Col>
         <Col span={16}>
           {" "}
@@ -118,7 +129,7 @@ const CaseDetailForm = ({
           />
         </Col>
       </Row>
-     
+
       <Row className="mt-2">
         <Col span={8}>SupportingDocuments</Col>
         <Col span={16}>

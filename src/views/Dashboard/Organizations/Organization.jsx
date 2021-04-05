@@ -66,6 +66,7 @@ const Organization = ({
   organizations,
   cases,
   hearings,
+  match,
 }) => {
   const [selectedOrg, setSelectedOrg] = useState("");
   const [selectedCase, setSelectedCase] = useState("");
@@ -447,6 +448,7 @@ const Organization = ({
                 placeholder="Select a Organization"
                 onChange={onChangeOrg}
               >
+                {}
                 {organizations?.length > 0
                   ? organizations?.map((item, index) => (
                       <Select.Option value={item._id} key={index}>

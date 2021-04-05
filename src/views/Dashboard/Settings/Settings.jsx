@@ -162,6 +162,13 @@ const RegistrationForm = ({ user, dispatch }) => {
         ...values,
       })
     );
+    notification.open({
+      message: "Success",
+      description: "Profile  Updated SuccessFully",
+      icon: <SmileFilled />,
+    });
+    setDisabled(true);
+    // form.resetFields();
   };
 
   const updateProfilePhoto = async (target) => {
@@ -193,6 +200,12 @@ const RegistrationForm = ({ user, dispatch }) => {
           ...values,
         })
       );
+      notification.open({
+        message: "Success",
+        description: "Password Updated SuccessFully",
+        icon: <SmileFilled />,
+      });
+      // form.resetFields();
     }
   };
 

@@ -227,7 +227,7 @@ const OrganizationsList = ({
                         Create a new organization
                       </Button>
                     </Col>
-                    <Col>
+                    {/* <Col>
                       <Dropdown
                         key="3"
                         overlay={pendingInvitationsMenu({
@@ -247,7 +247,7 @@ const OrganizationsList = ({
                           </Space>
                         </Button>
                       </Dropdown>
-                    </Col>
+                    </Col> */}
                   </Row>,
                 ]}
               />

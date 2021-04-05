@@ -39,7 +39,17 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
       }
     });
   };
-
+  const download = (data) => {
+    setTimeout(() => {
+      const response = {
+        file: data,
+      };
+      // now, let's download:
+      window.open(response.file);
+      // you could also do:
+      // window.location.href = response.file;
+    }, 100);
+  };
   return (
     <div className="listingcontainer">
       <Row gutter={[48, 16]}>
@@ -47,31 +57,44 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
           <Card bordered={true} className="upcoming-container d-contain">
             <Row className="upcoming">
               <h4>Upcoming hearings</h4>
-              <Link to="#">view all</Link>
+              <Link to="/dashboard/appointments">view all</Link>
             </Row>
             {hearing ? userUpcomingHearing() : "No data found"}
           </Card>
         </Col>
         <Col span={12}>
           <Card bordered={false} className="document-container d-contain">
-            <Row className="upcoming">
-              <h4>Documents</h4>
-              <img src={Plus} alt="plus" />
-              <Link to="#">view all</Link>
-            </Row>
-            {documents.map((docs, index) => {
-              let classname = index % 2 == 0 ? "bg-grey" : "non-bg-grey";
-              return (
-                <Row className={classname}>
-                  <Col span={12} className="documentText mt-2">
-                    {docs.name}
-                  </Col>
-                  <Col span={12} className="download">
-                    Image <img src={Union} alt="download" className="space3" />
-                  </Col>
-                </Row>
-              );
-            })}
+            <div
+              style={{
+                height: "180px",
+                overflowY: "scroll",
+              }}
+            >
+              <Row className="upcoming">
+                <h4>Documents</h4>
+                <img src={Plus} alt="plus" />
+                <Link to="/dashboard/documents">view all</Link>
+              </Row>
+              {user?.documents.map((docs, index) => {
+                let classname = index % 2 == 0 ? "bg-grey" : "non-bg-grey";
+                return (
+                  <Row className={classname}>
+                    <Col span={12} className="documentText mt-2">
+                      {docs.name}
+                    </Col>
+                    <Col span={12} className="download">
+                      <img src={docs.url} height="100" width="100" />
+                      <img
+                        src={Union}
+                        alt="download"
+                        className="space3"
+                        onClick={() => download(docs.url)}
+                      />
+                    </Col>
+                  </Row>
+                );
+              })}
+            </div>
           </Card>
         </Col>
       </Row>

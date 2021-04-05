@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 import { Form, Input, Button, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../../store/actions/user";
-import {
-  Typeahead,
-  Highlighter,
-  Menu,
-  MenuItem,
-} from "react-bootstrap-typeahead";
+import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const InviteMember = ({ onFinish, users, handleChange }) => {
@@ -34,18 +29,29 @@ const InviteMember = ({ onFinish, users, handleChange }) => {
       > */}
       <Typeahead
         id="pagination-example"
+        style={{
+          width: "100%",
+        }}
         maxResults={10}
         options={users}
         paginate={false}
-        onInputChange={handleChange}
-        filterBy={["firstName"]}
-        placeholder="Pick a number..."
+        className="type-header-inpute"
+        onChange={handleChange}
+        filterBy={["email"]}
+        placeholder="Enter Email ID"
         renderMenu={(results, menuProps) => (
-          <Menu {...menuProps}>
+          <Menu {...menuProps} style={{ background: "#fff", height: "auto" }}>
             {results.map((result, index) => (
-              <MenuItem option={result.email} position={result._id}>
-                {result.firstName}
-              </MenuItem>
+              <>
+                <MenuItem
+                  option={result.email}
+                  position={result._id}
+                  style={{ color: "inherit" }}
+                >
+                  {result.email}
+                </MenuItem>
+                <br />
+              </>
             ))}
           </Menu>
         )}

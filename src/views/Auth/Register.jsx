@@ -15,7 +15,6 @@ const { Title } = Typography;
 
 const Register = ({ auth, dispatch }) => {
   const onFinish = async (values) => await dispatch(registerUser(values));
-
   const googleLogin = () => {
     dispatch(googleOAuth());
   };

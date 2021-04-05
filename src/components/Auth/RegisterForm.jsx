@@ -33,7 +33,7 @@ const RegisterForm = ({ onFinish, googleLogin, facebookLogin }) => {
         name="phone"
         rules={[{ required: true, message: "Please input your phone!" }]}
       >
-        <Input placeholder="Phone" />
+        <Input placeholder="Phone" maxLength="10" />
       </Form.Item>
 
       <Form.Item
@@ -49,7 +49,7 @@ const RegisterForm = ({ onFinish, googleLogin, facebookLogin }) => {
       >
         <Input.Password placeholder="Password" />
       </Form.Item>
-      
+
       <Form.Item>
         <Button type="primary" htmlType="submit" block>
           Register
