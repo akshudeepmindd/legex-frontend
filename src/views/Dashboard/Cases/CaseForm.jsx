@@ -165,7 +165,7 @@ const CaseForm = ({ dispatch, caseTypes, user }) => {
               <p>
                 <img
                   src={Back}
-                  onClick={() => history.goBack}
+                  onClick={() => history.goBack()}
                   className="back-arrow"
                 />{" "}
                 File And Resolve Dispute

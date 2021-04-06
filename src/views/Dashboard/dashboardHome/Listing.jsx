@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, Modal } from "antd";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import moment from "moment";
 import Plus from "../../../assets/images/plus.png";
 import Union from "../../../assets/images/Union.png";
+
+// import Modal from "antd/lib/modal/Modal";
 import { fetchCases } from "../../../store/actions/cases";
 import { fetchHearings } from "../../../store/actions/hearings";
+import { fetchUser } from "../../../store/actions/user";
+import { uploadDocument } from "../../../store/actions/documents";
+import UploadForm from "../../../components/Document/UploadForm";
 
 import { hearings2, documents, updates } from "../../../utils/constants";
 const Listing = ({ dispatch, caseData, user, hearings }) => {
   const [hearing, sethearings] = useState(false);
+  const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
+
   console.log(caseData, "datatat");
+  const onDocumentUploadClick = async (formData) => {
+    formData.append("creater", user._id);
+    formData.append("createrType", "User");
+    const res = await dispatch(uploadDocument(formData));
+    setUploadFormVisibility(!res);
+    dispatch(fetchUser());
+    return res;
+  };
   const userUpcomingHearing = () => {
     return user?.cases?.map((item) => {
       console.log(item, "hearingss");
@@ -52,6 +67,15 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
   };
   return (
     <div className="listingcontainer">
+      <Modal
+        title="Upload Document"
+        visible={uploadFormVisbility}
+        onCancel={() => setUploadFormVisibility(false)}
+        footer={null}
+        destroyOnClose={true}
+      >
+        <UploadForm onUpload={onDocumentUploadClick} />
+      </Modal>
       <Row gutter={[48, 16]}>
         <Col span={12}>
           <Card bordered={true} className="upcoming-container d-contain">
@@ -72,7 +96,11 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
             >
               <Row className="upcoming">
                 <h4>Documents</h4>
-                <img src={Plus} alt="plus" />
+                <img
+                  src={Plus}
+                  alt="plus"
+                  onClick={() => setUploadFormVisibility(true)}
+                />
                 <Link to="/dashboard/documents">view all</Link>
               </Row>
               {user?.documents.map((docs, index) => {
