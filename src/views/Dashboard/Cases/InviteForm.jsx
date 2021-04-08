@@ -36,7 +36,7 @@ const InviteMember = ({ onFinish, users, handleChange }) => {
         options={users}
         paginate={false}
         className="type-header-inpute"
-        onChange={handleChange}
+        onInputChange={handleChange}
         filterBy={["email"]}
         placeholder="Enter Email ID"
         renderMenu={(results, menuProps) => (
