@@ -18,7 +18,7 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
     setModal(true);
   };
 
-  const resolvedCases = caseData?.filter(
+  const resolvedCases = user?.cases?.filter(
     (item) => item?.status === "completion"
   );
   const onFinish = async (values) => {
@@ -28,7 +28,7 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
     setModal(false);
     return response;
   };
-  const pendingCases = caseData?.filter(
+  const pendingCases = user?.cases?.filter(
     (item) => item?.status !== "completion"
   );
   const userUpcomingHearing = () => {
@@ -39,9 +39,9 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
           overflowY: "scroll",
         }}
       >
-        {caseData?.map((item) => {
-          if (item?.hearings?.length > 0) {
-            return item.hearings?.map((item) => {
+        {user?.cases?.map((item1) => {
+          if (item1?.hearings?.length > 0) {
+            return item1.hearings?.map((item) => {
               if (
                 moment(item.startDateTime).format("MMMM Do YYYY, h:mm:ss a") >=
                 moment().format("MMMM Do YYYY, h:mm:ss a")
@@ -53,10 +53,12 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
                         "MMMM Do YYYY, h:mm:ss a"
                       )}
                     </Col>
-                    <Col span={8}>{item?.case?.title}</Col>
-                    {/* <Col span={8} className="download">
-                  <Link to="#">{hear.join}</Link>
-                </Col> */}
+                    <Col span={8}>{item?.remark}</Col>
+                    <Col span={4} className="download">
+                      <a href={item1?.meetingUrl} target="_blank">
+                        Join
+                      </a>
+                    </Col>
                   </Row>
                 );
               }
@@ -93,7 +95,7 @@ const UserProfile = ({ dispatch, caseData, user, caseTypes }) => {
         <Col span={10}>
           <Col span={10} className="dispute">
             <p>NO. OF DISPUTES</p>
-            <p>{caseData?.length > 0 ? caseData?.length : "0"}</p>
+            <p>{user?.cases?.length > 0 ? user?.cases?.length : "0"}</p>
           </Col>
           <Col span={10} className="resolve">
             <p>RESOLVED CASES</p>

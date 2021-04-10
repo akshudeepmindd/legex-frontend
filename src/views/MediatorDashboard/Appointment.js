@@ -8,7 +8,7 @@ import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { connect, useSelector } from "react-redux";
-import { Modal } from "antd";
+import { Modal, Col } from "antd";
 import moment from "moment";
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -89,23 +89,24 @@ const Appointments = ({ caseData }) => {
           </p>
           <p className="lastUpdate">
             Description:&nbsp;&nbsp;
-            <span>
-              Anandi has filed against HDFC, claiming that the property
-              valuation was underpriced and her loan approval should be
-              consistent.
-            </span>
+            <span>{caseDetail?.case?.description}</span>
           </p>
           <p className="lastUpdate">
             Last Update:&nbsp;&nbsp;
             <span>
-              Initial evidence recording was done on Dec 16. Both parties have
-              put their statements on record band cross questioning will be done
-              in next meet.
+              {caseDetail?.case?.caseUpdates.length > 0 &&
+                caseDetail?.case?.caseUpdates[
+                  caseDetail?.case?.caseUpdates.length - 1
+                ]}
             </span>
           </p>
           <h3>All Updates</h3>
           {caseDetail?.case?.caseUpdates.length > 0
-            ? ""
+            ? caseDetail?.case?.caseUpdates.map((upd) => (
+                <Col>
+                  <p>{upd}</p>
+                </Col>
+              ))
             : "No Updates for this case"}
         </div>
       </Modal>

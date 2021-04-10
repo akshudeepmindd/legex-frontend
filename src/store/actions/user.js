@@ -16,6 +16,10 @@ const fetchUsersSuccess = (user) => ({
   type: FETCH_USERS_SUCCESS,
   payload: user,
 });
+const UpdateUsersSuccess = (user) => ({
+  type: "UPDATE_USERS_SUCCESS",
+  payload: user,
+});
 export function fetchUser(payload) {
   return async (dispatch) => {
     const messageKey = "fetch user";
@@ -42,11 +46,31 @@ export function fetchAdminUser(payload) {
     try {
       //message.loading({ content: "fetching user details..", key: messageKey });
       const response = await $http2()({
-        url: `/admin/users//adminuser/${payload}`,
+        url: `/admin/users/adminuser/${payload}`,
         method: "GET",
       });
       if (!response.data.success) throw new Error(response.data.message);
       dispatch(fetchUserSuccess(response.data.data));
+      //message.success({ content: "loaded user", key: messageKey });
+      return response.data.data;
+    } catch (error) {
+      message.error({ content: error.message, key: messageKey });
+    }
+  };
+}
+export function UpdateUser(payload) {
+  return async (dispatch) => {
+    const messageKey = "update user";
+    dispatch({ type: "UPDATE_USER_SATRT" });
+    try {
+      //message.loading({ content: "fetching user details..", key: messageKey });
+      const response = await $http2()({
+        url: `/admin/auth/updateUser`,
+        method: "PATCH",
+        data: payload,
+      });
+      if (!response.data.success) throw new Error(response.data.message);
+      dispatch(UpdateUsersSuccess(response.data.data));
       //message.success({ content: "loaded user", key: messageKey });
       return response.data.data;
     } catch (error) {

@@ -27,7 +27,6 @@ export default function authReducer(state = initialState, action) {
     case AUTH_FAILURE:
     case LOGOUT_USER:
       return initialState;
-
     default:
       return state;
   }

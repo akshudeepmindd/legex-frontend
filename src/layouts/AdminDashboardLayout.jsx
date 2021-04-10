@@ -17,6 +17,7 @@ import User2 from "../assets/images/dropuser.png";
 import Dash from "../assets/images/dash.png";
 import { withRouter, Link } from "react-router-dom";
 import { respondInvite } from "../store/actions/invites";
+import { userlogout } from "../store/actions/auth";
 
 const {
   //Header,
@@ -74,6 +75,7 @@ function AdminDashboardLayout(props) {
     setCollapsed(!collapsed);
   }
   function logout() {
+    dispatch(userlogout());
     localStorage.removeItem("access-token");
     localStorage.removeItem("isAdmin");
     props.history.push("/admin");

@@ -189,19 +189,8 @@ export function resetPassword(payload) {
   };
 }
 
-export function logout(payload) {
+export function userlogout() {
   return async (dispatch) => {
     dispatch({ type: LOGOUT_USER });
-    try {
-      const response = await $http()({
-        url: "auth/logout",
-        method: "GET",
-      });
-      dispatch(authSuccess(response.data));
-      return response.data;
-    } catch (error) {
-      dispatch(authFailure(error));
-      return error;
-    }
   };
 }

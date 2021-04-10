@@ -89,11 +89,7 @@ const Appointments = ({ caseData }) => {
           </p>
           <p className="lastUpdate">
             Description:&nbsp;&nbsp;
-            <span>
-              Anandi has filed against HDFC, claiming that the property
-              valuation was underpriced and her loan approval should be
-              consistent.
-            </span>
+            <span>{caseDetail?.case?.description}</span>
           </p>
           <p className="lastUpdate">
             Last Update:&nbsp;&nbsp;

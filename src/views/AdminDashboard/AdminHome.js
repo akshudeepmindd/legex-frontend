@@ -3,6 +3,7 @@ import { Row, Col, Modal, Card, Select, Button, Input } from "antd";
 import { connect } from "react-redux";
 import UserAvatar from "../../assets/images/useravtar.png";
 import Plus from "../../assets/images/plus.png";
+import { UpdateUser } from "../../store/actions/user";
 import {
   updateCseAdmin,
   fetchCasesAdmin,
@@ -39,8 +40,14 @@ const UserProfile = ({ dispatch, cases, users, selectId }) => {
         $push: { caseUpdates: "Mediator is Assigned" },
       })
     )) &&
-    setModal(false) &&
-    (await dispatch(fetchCasesAdmin()));
+    (await dispatch(
+      UpdateUser({
+        _id: values.mediator,
+        $push: { cases: selectCase },
+      })
+    )) &&
+    (await dispatch(fetchCasesAdmin())) &&
+    setModal(false);
 
   const filterCase = cases?.filter((item) => item.status === selectCaseStatus);
 

@@ -6,7 +6,7 @@ import { fetchUsers } from "../../../store/actions/user";
 import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 
-const InviteMember = ({ onFinish, users, handleChange }) => {
+const InviteMember = ({ onFinish, users, handleChange, setReciverType }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -64,7 +64,10 @@ const InviteMember = ({ onFinish, users, handleChange }) => {
           { required: true, message: "Please input the Member Designation!" },
         ]}
       >
-        <Input type="text" placeholder="Role" />
+        <Select onChange={setReciverType}>
+          <Select.Option value="User">User</Select.Option>
+          <Select.Option value="Organization">Organization</Select.Option>
+        </Select>
       </Form.Item>
 
       <Form.Item

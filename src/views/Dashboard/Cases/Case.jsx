@@ -59,6 +59,7 @@ const Case = ({
   const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
   const [item, setItem] = useState("Select Item");
   const [reciver, setReciver] = useState("");
+  const [reciverType, setReciverType] = useState("Select Role");
   //store details about how the case is being accessed by the user
   const [access, updateAccess] = useState(null);
   const { caseId } = useParams();
@@ -201,6 +202,7 @@ const Case = ({
         invitationType: "Case",
         case: caseId,
         email: reciver,
+        receiverType: reciverType,
         ...values,
       })
     );
@@ -238,6 +240,7 @@ const Case = ({
               item={item}
               handleChange={handleChange}
               users={user?.allusers}
+              setReciverType={setReciverType}
             />
           </Modal>
           <Modal

@@ -20,11 +20,11 @@ import { MediatorMenu } from '../utils/constants'
 function Sidebar(props) {
   const dispatch = useDispatch()
 
-  const Logout = async () => {
-    localStorage.removeItem('access-token')
-    localStorage.removeItem('user-id')
-    dispatch(logout())
-  }
+  // const Logout = async () => {
+  //   localStorage.removeItem('access-token')
+  //   localStorage.removeItem('user-id')
+  //   dispatch(logout())
+  // }
   const collapseSide = {
     marginRight: 20,
     padding: 10,

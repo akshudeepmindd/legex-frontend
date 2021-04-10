@@ -1,5 +1,5 @@
-import React from 'react'
-import { Menu } from 'antd'
+import React from "react";
+import { Menu } from "antd";
 import {
   HomeOutlined,
   ApartmentOutlined,
@@ -9,34 +9,34 @@ import {
   //InfoCircleOutlined,
   //CalendarOutlined,
   LogoutOutlined,
-} from '@ant-design/icons'
+} from "@ant-design/icons";
 
-import { logout } from '../store/actions/auth'
+import { logout } from "../store/actions/auth";
 
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { MenuItems } from '../utils/constants'
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { MenuItems } from "../utils/constants";
 
 function Sidebar(props) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const Logout = async () => {
-    localStorage.removeItem('access-token')
-    localStorage.removeItem('user-id')
-    dispatch(logout())
-  }
+  // const Logout = async () => {
+  //   localStorage.removeItem('access-token')
+  //   localStorage.removeItem('user-id')
+  //   dispatch(logout())
+  // }
   const collapseSide = {
     marginRight: 20,
     padding: 10,
     height: 60,
-  }
+  };
   return (
-    <div className='sidebar'>
-      <Menu className='menu-ul' theme='dark' mode='inline'>
+    <div className="sidebar">
+      <Menu className="menu-ul" theme="dark" mode="inline">
         {MenuItems.map((item) => (
           <Menu.Item
             key={item.menuKey}
-            className='menuItems'
+            className="menuItems"
             icon={
               <img
                 src={item.menuIconClass}
@@ -51,7 +51,7 @@ function Sidebar(props) {
         ))}
       </Menu>
     </div>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

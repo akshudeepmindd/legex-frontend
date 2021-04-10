@@ -17,6 +17,7 @@ import Dash from "../assets/images/dash.png";
 import { withRouter } from "react-router-dom";
 import { respondInvite } from "../store/actions/invites";
 import { fetchCases } from "../store/actions/cases";
+import { userlogout } from "../store/actions/auth";
 
 const {
   //Header,
@@ -78,10 +79,18 @@ function DashboardLayout(props) {
     setCollapsed(!collapsed);
   }
   function logout() {
+    dispatch(userlogout());
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("role");
+    props.history.push("/");
+  }
+
+  function adminlogout() {
+    dispatch(userlogout());
     localStorage.removeItem("access-token");
     localStorage.removeItem("role");
     localStorage.removeItem("isAdmin");
-    props.history.push("/login");
+    props.history.push("/");
   }
   const userDetail = (
     <Menu style={{ width: 250 }}>
@@ -110,7 +119,14 @@ function DashboardLayout(props) {
             </p>
           </div>
           <div>
-            <Button className="logout-btn" onClick={() => logout()}>
+            <Button
+              className="logout-btn"
+              onClick={() =>
+                localStorage.getItem("isAdmin") === "true"
+                  ? adminlogout()
+                  : logout()
+              }
+            >
               Logout
             </Button>
           </div>

@@ -15,6 +15,7 @@ import User2 from "../assets/images/dropuser.png";
 import Dash from "../assets/images/dash.png";
 import { withRouter } from "react-router-dom";
 import { respondInvite } from "../store/actions/invites";
+import {userlogout} from '../store/actions/auth'
 
 const {
   //Header,
@@ -71,9 +72,10 @@ function MediatorDashboardLayout(props) {
     setCollapsed(!collapsed);
   }
   function logout() {
+    dispatch(userlogout());
     localStorage.removeItem("access-token");
     localStorage.removeItem("role");
-    props.history.push("/login");
+    props.history.push("/");
   }
   const userDetail = (
     <Menu style={{ width: 250 }}>

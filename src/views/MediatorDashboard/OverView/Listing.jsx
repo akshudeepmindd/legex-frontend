@@ -98,8 +98,8 @@ const Listing = ({
       <Row>
         <Col span={24}>
           <Row gutter={[48, 16]}>
-            {caseData?.length > 0 ? (
-              caseData?.map((item, index) => (
+            {user?.cases?.length > 0 ? (
+              user?.cases?.map((item, index) => (
                 <Col span={8}>
                   <Card bordered={false} className="document-container">
                     <div className="review">
@@ -107,7 +107,9 @@ const Listing = ({
                         {item?.title}
                         <Button
                           type={
-                            item?.status == "invitations" ? "default" : "primary"
+                            item?.status == "invitations"
+                              ? "default"
+                              : "primary"
                           }
                           className={
                             item?.status === "invitations"
