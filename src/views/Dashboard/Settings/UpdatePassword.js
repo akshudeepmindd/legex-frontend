@@ -69,7 +69,7 @@ function UpdatePassword(props) {
             <Form.Item name="password" className="btn-pword">
               <Input.Password
                 type="password"
-                placeholder="Enter password"
+                placeholder="Enter Current password"
                 disabled={disabled}
               />
             </Form.Item>
@@ -78,7 +78,7 @@ function UpdatePassword(props) {
             <Form.Item name="password2">
               <Input.Password
                 type="password"
-                placeholder="Enter password"
+                placeholder="Enter New password"
                 disabled={disabled}
                 style={{ marginLeft: "1rem" }}
               />

@@ -13,9 +13,11 @@ import { fetchHearings } from "../../../store/actions/hearings";
 import { fetchUser } from "../../../store/actions/user";
 import { uploadDocument } from "../../../store/actions/documents";
 import UploadForm from "../../../components/Document/UploadForm";
+import PDF from "../../../assets/images/Document upload icon.png";
 
 import { hearings2, documents, updates } from "../../../utils/constants";
 const Listing = ({ dispatch, caseData, user, hearings }) => {
+  const [spliceInex, setSpliceIndex] = useState(6);
   const [hearing, sethearings] = useState(false);
   const [uploadFormVisbility, setUploadFormVisibility] = useState(false);
 
@@ -28,6 +30,9 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
     dispatch(fetchUser());
     return res;
   };
+  function checkURL(url) {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  }
   const userUpcomingHearing = () => {
     return user?.cases?.map((item) => {
       console.log(item, "hearingss");
@@ -101,7 +106,7 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
                   alt="plus"
                   onClick={() => setUploadFormVisibility(true)}
                 />
-                <Link to="/dashboard/documents">view all</Link>
+                {/* <Link to="/dashboard/documents">view all</Link> */}
               </Row>
               {user?.documents.map((docs, index) => {
                 let classname = index % 2 == 0 ? "bg-grey" : "non-bg-grey";
@@ -111,7 +116,12 @@ const Listing = ({ dispatch, caseData, user, hearings }) => {
                       {docs.name}
                     </Col>
                     <Col span={12} className="download">
-                      <img src={docs.url} height="100" width="100" />
+                      {checkURL(docs.url) ? (
+                        <img src={docs.url} height="100" width="100" />
+                      ) : (
+                        <img src={PDF} />
+                      )}
+
                       <img
                         src={Union}
                         alt="download"

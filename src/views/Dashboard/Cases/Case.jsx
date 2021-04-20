@@ -40,6 +40,7 @@ import PLUS from "../../../assets/images/plus.png";
 import InviteForm from "./InviteForm";
 import ShimmerEffect from "../../../components/shimmer";
 import moment from "moment";
+import PDF from "../../../assets/images/Document upload icon.png";
 
 const { Step } = Steps;
 
@@ -64,6 +65,7 @@ const Case = ({
   const [access, updateAccess] = useState(null);
   const { caseId } = useParams();
   const history = useHistory();
+
   console.log(match.params, "paransnns");
   //initial data fetch
   useEffect(() => {
@@ -125,7 +127,9 @@ const Case = ({
 
   const handleCancel = (e) =>
     setHearingModal(false) && setInviteModal(false) && setDocumentModal(false);
-
+  function checkURL(url) {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  }
   const onDocumentUploadClick = (fd) => {
     fd.append("creater", user._id);
     fd.append("createrType", "User");
@@ -270,7 +274,7 @@ const Case = ({
                     </Space>
                   </p>
                   <span className="">
-                    <a href="">Hearing link</a>
+                    <a href={caseData?.meetingUrl}>Hearing link</a>
                   </span>
                 </div>
               </Space>
@@ -366,29 +370,36 @@ const Case = ({
                         Case Documents <img src={Plus} alt="plus" />
                       </h4>
 
-                      <Link to="#">view all</Link>
+                      {/* <Link to="#">view all</Link> */}
                     </Row>
                   </Space>
-                  {caseData?.supportingDocuments?.map((docs) => (
-                    <Row>
-                      <Col span={10} className="documentText">
-                        <img src={docs} height="50px" width="50px" />
-                      </Col>
-                      <Col
-                        span={12}
-                        className="download"
-                        style={{ textAlign: "end", marginTop: 5 }}
-                      >
-                        <img
-                          src={Union}
-                          alt="download"
-                          height="15px"
-                          width="10px"
-                          onClick={() => download(docs)}
-                        />
-                      </Col>
-                    </Row>
-                  ))}
+                  {caseData?.supportingDocuments?.map(
+                    (docs) =>
+                      docs !== "" && (
+                        <Row>
+                          <Col span={10} className="documentText">
+                            {checkURL(docs) ? (
+                              <img src={docs} height="50px" width="50px" />
+                            ) : (
+                              <img src={PDF} height="50px" width="50px" />
+                            )}
+                          </Col>
+                          <Col
+                            span={12}
+                            className="download"
+                            style={{ textAlign: "end", marginTop: 5 }}
+                          >
+                            <img
+                              src={Union}
+                              alt="download"
+                              height="15px"
+                              width="10px"
+                              onClick={() => download(docs)}
+                            />
+                          </Col>
+                        </Row>
+                      )
+                  )}
                   {/* </div> */}
                 </Card>
               </Col>
