@@ -175,9 +175,23 @@ const DocumentsList = ({
                       onClick={() => download(docs.url)}
                     > */}
                     {checkURL(docs.url) ? (
-                      <img src={docs.url} onClick={() => download(docs.url)} />
+                      <>
+                        <img
+                          src={docs.url}
+                          onClick={() => download(docs.url)}
+                        />
+                        <p style={{ width: 50, paddingTop: 10 }}>
+                          {docs.name.split(".")[0]}
+                        </p>
+                      </>
                     ) : (
-                      <img src={PDF} onClick={() => download(docs.url)} />
+                      <>
+                        <img src={PDF} onClick={() => download(docs.url)} />
+                        {console.log(docs.name)}
+                        <p style={{ width: 50, paddingTop: 10 }}>
+                          {docs.name.split(".")[0]}
+                        </p>
+                      </>
                     )}
                     {/* </Link> */}
                   </Col>
@@ -198,13 +212,25 @@ const DocumentsList = ({
                         onClick={() => download(docs.url)}
                       > */}
                       {checkURL(docs.url) ? (
-                        <img
-                          src={docs.url}
-                          onClick={() => download(docs.url)}
-                        />
+                        <>
+                          <img
+                            src={docs.url}
+                            onClick={() => download(docs.url)}
+                          />
+                          <p style={{ width: 50, paddingTop: 10 }}>
+                            {docs.name.split(".")[0]}
+                          </p>
+                        </>
                       ) : (
-                        <img src={PDF} onClick={() => download(docs.url)} />
+                        <>
+                          <img src={PDF} onClick={() => download(docs.url)} />
+                          <p style={{ width: 50, paddingTop: 10 }}>
+                            {docs.name.split(".")[0]}
+                          </p>
+                        </>
                       )}
+                      {docs.name}
+
                       {/* </Link> */}
                     </Col>
                   ))
@@ -218,12 +244,26 @@ const DocumentsList = ({
                       onClick={() => download(docs.url)}
                     > */}
                     {checkURL(docs.url) ? (
-                      <img src={docs.url} onClick={() => download(docs.url)} />
+                      <>
+                        <img
+                          src={docs.url}
+                          onClick={() => download(docs.url)}
+                        />
+                        <p style={{ width: 50, paddingTop: 10 }}>
+                          {docs.name.split(".")[0]}
+                        </p>
+                      </>
                     ) : (
-                      <img src={PDF} onClick={() => download(docs.url)} />
+                      <>
+                        <img src={PDF} onClick={() => download(docs.url)} />
+                        <p style={{ width: 50, paddingTop: 10 }}>
+                          {docs.name.split(".")[0]}
+                        </p>
+                      </>
                     )}
 
                     {/* </Link> */}
+                    {docs.name}
                   </Col>
                 ))
               : "No Documents Found"}
@@ -234,8 +274,7 @@ const DocumentsList = ({
       )}
       <div
         style={{
-          position: "absolute",
-          bottom: 50,
+          marginTop: 20,
         }}
       >
         <Button

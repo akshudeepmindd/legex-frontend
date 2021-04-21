@@ -49,7 +49,9 @@ const AdminDocumentsList = ({
   const filterOrganization = organizations?.find(
     (item) => item._id === selectedOrg
   );
-
+  function checkURL(url) {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+  }
   const download = (data) => {
     setTimeout(() => {
       const response = {
@@ -154,7 +156,43 @@ const AdminDocumentsList = ({
             </Col>
           </Row>
           <Row className="pdf-image">
-            {filterOrganization
+            {selectedOrg === ""
+              ? user?.documents.map((docs) => (
+                  <Col
+                    span={3}
+                    style={{
+                      marginRight: "2rem",
+                      marginTop: "2rem",
+                    }}
+                  >
+                    {/* <Link
+                      to="#"
+                      target="_blank"
+                      onClick={() => download(docs.url)}
+                    > */}
+                    {checkURL(docs.url) ? (
+                      <>
+                        <img
+                          src={docs.url}
+                          onClick={() => download(docs.url)}
+                        />
+                        <p style={{ width: 50, paddingTop: 10 }}>
+                          {docs.name.split(".")[0]}
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <img src={PDF} onClick={() => download(docs.url)} />
+                        {console.log(docs.name)}
+                        <p style={{ width: 50, paddingTop: 10 }}>
+                          {docs.name.split(".")[0]}
+                        </p>
+                      </>
+                    )}
+                    {/* </Link> */}
+                  </Col>
+                ))
+              : filterOrganization
               ? filterOrganization.documents.length > 0
                 ? filterOrganization.documents.map((docs) => (
                     <Col span={3}>
@@ -163,7 +201,25 @@ const AdminDocumentsList = ({
                         target="_blank"
                         // onClick={() => download(docs.url)}
                       >
-                        <img src={PDF} onClick={() => download(docs.url)} />
+                        {checkURL(docs.url) ? (
+                          <>
+                            <img
+                              src={docs.url}
+                              onClick={() => download(docs.url)}
+                            />
+                            <p style={{ width: 50, paddingTop: 10 }}>
+                              {docs.name.split(".")[0]}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <img src={PDF} onClick={() => download(docs.url)} />
+                            {console.log(docs.name)}
+                            <p style={{ width: 50, paddingTop: 10 }}>
+                              {docs.name.split(".")[0]}
+                            </p>
+                          </>
+                        )}
                       </Link>
                     </Col>
                   ))
@@ -176,7 +232,25 @@ const AdminDocumentsList = ({
                       target="_blank"
                       // onClick={() => download(docs.url)}
                     >
-                      <img src={PDF} onClick={() => download(docs.url)} />
+                      {checkURL(docs.url) ? (
+                        <>
+                          <img
+                            src={docs.url}
+                            onClick={() => download(docs.url)}
+                          />
+                          <p style={{ width: 50, paddingTop: 10 }}>
+                            {docs.name.split(".")[0]}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <img src={PDF} onClick={() => download(docs.url)} />
+                          {console.log(docs.name)}
+                          <p style={{ width: 50, paddingTop: 10 }}>
+                            {docs.name.split(".")[0]}
+                          </p>
+                        </>
+                      )}
                     </Link>
                   </Col>
                 ))
